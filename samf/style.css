@@ -1,0 +1,327 @@
+/* MedlemsDB2
+ * ITK, Studentersamfundet i Trondhjem 2008
+ */
+html,body {
+    height:100%;
+	font-family: arial,helvetica,clean,sans-serif;
+	padding: 0;
+	margin: 0;
+}
+h1 {
+	font-size: xx-large;
+	font-weight: bold;
+	margin: 0.5em;
+}
+h2 {
+	font-size: x-large;
+	font-weight: bold;
+}
+h3 {
+	font-size: large;
+	font-weight: bold;
+}
+h1,h2 {
+	margin-bottom: 0.5em;
+	font-weight: bold;
+}
+h1,h2,h3 {
+	margin-left: -0.5em;
+}
+p, table, ul, ol {
+	margin-bottom: 1em;
+}
+p {
+  max-width: 60ch;
+}
+dd {
+	margin-left: 0.7em;
+	margin-bottom: 0.3em;
+}
+table {
+	border-right: 0;
+	border-collapse: collapse;
+	text-align: left;
+}
+caption {
+	text-align:left;
+}
+th, td {
+	border: 1px solid #babdb6;
+	padding: 0.2em;
+}
+th {
+	background: rgb(230,230,230);
+	font-weight: bold;
+}
+th a {
+	text-decoration: underline;
+}
+
+table.list tr.odd {
+	background: #EEEEEC;
+}
+table.list tr:hover {
+	background: rgb(255,255,200);
+}
+td.shrink {
+	width: 1px;
+}
+
+.collapse-indicator {
+	font-weight: bold;
+	padding-right: 4px;
+	cursor: pointer;
+}
+
+a {
+	color: #204a87;
+	text-decoration: underline;
+}
+a:hover {
+	text-decoration: none;
+}
+
+hr {
+	background: #ececec;
+	border: 0;
+	height: 1px;
+	margin: 1em 0;
+}
+
+select {
+	background: #FFF;
+}
+input {
+	margin-right: 0.2em;
+}
+option.optgroup {
+	color: #000;
+}
+
+.required {
+	color: #CC0000;
+}
+
+.number {
+	text-align: right;
+	padding-left: 1em;
+	padding-right: 0.5em;
+}
+.disabled {
+	text-decoration: line-through;
+}
+
+.secondary {
+  font-style: italic;
+}
+
+.disabled-secondary {
+  font-style: italic;
+	text-decoration: line-through;
+}
+
+.outdated {
+	color: gray;
+}
+.group-nav-box, .nokkelstatistikk {
+	margin: 0.5em;
+	padding: 0.5em;
+	width: auto;
+	max-width: 40%;
+	border: 1px dotted #babdb6;
+	float: right;
+	text-align: center;
+	background: #F9F9F9;
+}
+.nokkelstatistikk table td {
+  text-align: right;
+  padding-left: 30px;
+}
+.nokkelstatistikk table th {
+  padding-right: 20px;
+}
+.error {
+	color: rgb(220,0,0);
+}
+.applied {
+	color: rgb(0,180,0);
+}
+.ballot-success {
+	border: 1px solid black;
+	background: rgb(33,147,41);
+	padding: 0.5em;
+}
+
+ul.error, ol.error, ul.notice, ol.notice, ul.success, ol.success {
+	list-style-position: inside;
+}
+
+td.error {
+	background: inherit;
+	border: 1px solid #babdb6;
+	color: rgb(220,0,0);
+}
+td.error a {
+	color: rgb(220,0,0);
+	text-decoration: underline;
+}
+#container{
+    min-height:100%;
+	margin: 3em;
+	padding: 0;
+	margin: 0;
+}
+#header {
+	background: #932822 url(keez.png) repeat-x scroll center top;
+	padding: 15px 1em 4px;
+	text-align: right;
+}
+
+#header>img {
+  max-width: 100%;
+}
+#vote_link{
+	font-size: large;
+	font-weight: bold;
+}
+
+#content {
+  margin-left: 2em;
+  margin-right: 2em;
+	padding: 1em;
+	padding-bottom: 3em;
+  overflow: auto;
+}
+
+@media only screen and (max-width: 600px) {
+  #content {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+#footer {
+	clear: both;
+	background: #d3d7cf;
+	color: black;
+	margin-top: -3em;
+	height: 3em;
+	padding: 0 1em 0 1em;
+	border-top: 1px solid rgb(160,160,160);
+}
+#footer #ssso {
+	float: right;
+	padding-left: 2px;
+}
+#footer .username {
+	float: right;
+	margin-top: 0em;
+}
+#footer .help {
+	padding-left: 0.5em;
+}
+
+#menu {
+	background: #EEEEEC;
+	padding: 0.2em 0;
+	border-bottom: 1px solid #D3D7CF;
+}
+#menu .odd {
+	background: #D3D7CF;
+}
+#menu span {
+	padding: 0.2em 0.5em;
+}
+
+#warning{
+	margin: 1em;
+	padding: 1em;
+	border: 1px solid #babdb6;
+	background: #e6e6e6;
+}
+.left {
+	float: left;
+	margin-right: 0.5em;
+}
+.right {
+	float: right;
+	margin-left: 0.5em;
+}
+
+.safe_key {
+  background: #9f6;
+}
+.lost_key {
+background: #f55;
+}
+.broken_key {
+  background: #ccc;
+}
+option.singlecampus {
+	font-weight: bolder;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+form.slim {
+    width: 40%;
+}
+
+form.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 80ch;
+}
+
+form.grid>label {
+  margin-top: 0.5em;
+  font-size: 1.5em;
+}
+
+form.grid>input, form.grid>select, form.grid>p {
+  margin-bottom: 0.5em;
+  font-size: 1.5em;
+}
+
+form.grid>input[type=submit] {
+  margin-top: 0.5em;
+}
+
+div.flex{
+  display:flex;
+  flex-flow: column nowrap;
+}
+
+div.flex>a{
+  font-size: 1.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.successBox {
+  background: green;
+  color: white;
+  font-size: 2em;
+  padding: 2em;
+  transition: all 5s cubic-bezier(0.55, 0.06, 0.68, 0.19);
+}
+
+.successBox.hide {
+  background: transparent;
+  color: transparent;
+}
+
+.errorBox {
+  background: red;
+  color: white;
+  font-size: 2em;
+  padding: 2em;
+  transition: all 5s cubic-bezier(0.55, 0.06, 0.68, 0.19);
+}
+
+.errorBox.hide {
+  background: transparent;
+  color: transparent;
+}
