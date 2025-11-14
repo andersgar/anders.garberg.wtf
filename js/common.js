@@ -208,6 +208,16 @@ function updateLanguage(lang) {
     }
   });
 
+  // Update CV download link based on language
+  const cvLink = document.querySelector('a[data-translate="downloadCV"]');
+  if (cvLink) {
+    if (lang === "no") {
+      cvLink.href = "content/CV_no.pdf";
+    } else {
+      cvLink.href = "content/CV_en.pdf";
+    }
+  }
+
   // Update placeholders
   const nameInput = document.getElementById("name");
   const emailInput = document.getElementById("email");
