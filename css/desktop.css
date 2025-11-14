@@ -1,0 +1,222 @@
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in oklab, var(--bg) 85%, transparent 15%);
+  backdrop-filter: saturate(180%) blur(10px);
+  border-bottom: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 64px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.brand-badge {
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: 10px;
+  background: radial-gradient(
+      120px 90px at 10% 20%,
+      var(--brand) 0 35%,
+      transparent 36%
+    ),
+    radial-gradient(120px 90px at 80% 0%, var(--brand-2) 0 40%, transparent 41%),
+    linear-gradient(
+      135deg,
+      color-mix(in oklab, var(--panel) 70%, transparent) 0%,
+      var(--panel) 100%
+    );
+  display: grid;
+  place-items: center;
+  color: white;
+  font-weight: 900;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.nav-links a {
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+}
+.nav-links a:hover {
+  background: color-mix(in oklab, var(--text) 8%, transparent);
+}
+
+header.hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-wrap {
+  padding: 64px 0 40px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.gradient {
+  position: absolute;
+  inset: auto -20% 0 -20%;
+  block-size: 560px;
+  z-index: -1;
+  background: radial-gradient(
+      40% 45% at 16% 40%,
+      color-mix(in oklab, var(--brand) 60%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      50% 45% at 85% 50%,
+      color-mix(in oklab, var(--brand-2) 50%, transparent),
+      transparent 70%
+    );
+}
+
+.hero h1 {
+  font-size: clamp(34px, 5vw, 52px);
+  line-height: 1.05;
+  margin: 0.2rem 0;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.hero-card {
+  display: grid;
+  gap: 10px;
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.5rem;
+}
+
+.pill {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  border: 1px dashed color-mix(in oklab, var(--text) 18%, transparent);
+  padding: 0.5rem 0.7rem;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+h2.section-title {
+  font-size: clamp(22px, 3vw, 30px);
+  margin: 10px 0 4px;
+}
+
+section {
+  padding: 26px 0;
+}
+
+.projects .item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.projects .thumb {
+  inline-size: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--brand) 35%, transparent),
+    color-mix(in oklab, var(--brand-2) 35%, transparent)
+  );
+  display: grid;
+  place-items: center;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.timeline {
+  position: relative;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 10px;
+  width: 2px;
+  background: color-mix(in oklab, var(--text) 12%, transparent);
+}
+
+.timeline .step {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 12px;
+}
+
+.timeline .dot {
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--brand), var(--brand-2));
+  margin-top: 3px;
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand) 30%, transparent);
+}
+
+footer {
+  padding: 30px 0 60px;
+  color: var(--muted);
+  border-top: 1px solid color-mix(in oklab, var(--text) 10%, transparent);
+}
+
+.icons {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.icon-btn {
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--text) 14%, transparent);
+  display: grid;
+  place-items: center;
+  background: var(--panel);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+@media (max-width: 930px) {
+  .hero-wrap {
+    grid-template-columns: 1fr;
+  }
+  .grid.cols-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .grid.cols-2 {
+    grid-template-columns: 1fr;
+  }
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
