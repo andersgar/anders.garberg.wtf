@@ -151,13 +151,42 @@ const translations = {
   },
 };
 
-// Language functionality
-let currentLang = localStorage.getItem("language") || "no";
+// Language functionality with URL parameter support
+function getLanguageFromURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const langParam = urlParams.get("lang");
+
+  // Check for valid language codes
+  if (langParam === "en" || langParam === "no") {
+    return langParam;
+  }
+
+  // Also support 'nb' for Norwegian Bokmål
+  if (langParam === "nb") {
+    return "no";
+  }
+
+  return null;
+}
+
+function setLanguageInURL(lang) {
+  const url = new URL(window.location);
+  url.searchParams.set("lang", lang);
+
+  // Update URL without reloading the page
+  window.history.replaceState({}, "", url);
+}
+
+let currentLang =
+  getLanguageFromURL() || localStorage.getItem("language") || "no";
 
 function updateLanguage(lang) {
   currentLang = lang;
   localStorage.setItem("language", lang);
   document.documentElement.lang = lang;
+
+  // Update URL parameter
+  setLanguageInURL(lang);
 
   // Update title and meta description
   if (lang === "no") {
@@ -225,6 +254,14 @@ function updateScrollPadding() {
 // Initialize theme and language
 document.addEventListener("DOMContentLoaded", function () {
   applyTheme(userPref || (systemDark ? "dark" : "light"));
+
+  // Initialize language (URL parameter takes precedence)
+  const urlLang = getLanguageFromURL();
+  if (urlLang && urlLang !== currentLang) {
+    currentLang = urlLang;
+    localStorage.setItem("language", urlLang);
+  }
+
   updateLanguage(currentLang);
   updateScrollPadding();
 
