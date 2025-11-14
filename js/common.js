@@ -213,24 +213,24 @@ function applyTheme(mode) {
 
 // Update scroll padding based on actual header heights
 function updateScrollPadding() {
-  const nav = document.querySelector('nav');
-  const devBanner = document.querySelector('.dev-banner');
+  const nav = document.querySelector("nav");
+  const devBanner = document.querySelector(".dev-banner");
   const navHeight = nav ? nav.offsetHeight : 64;
   const bannerHeight = devBanner ? devBanner.offsetHeight : 0;
   const totalOffset = navHeight + bannerHeight;
-  
+
   document.documentElement.style.scrollPaddingTop = `${totalOffset}px`;
 }
 
 // Initialize theme and language
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function () {
   applyTheme(userPref || (systemDark ? "dark" : "light"));
   updateLanguage(currentLang);
   updateScrollPadding();
-  
+
   // Update on resize in case banner height changes
-  window.addEventListener('resize', updateScrollPadding);
-  
+  window.addEventListener("resize", updateScrollPadding);
+
   // Set year
   const yearElement = document.getElementById("year");
   if (yearElement) {
