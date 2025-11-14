@@ -26,6 +26,7 @@
 }
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(64px + 40px); /* nav height + dev banner height */
 }
 body {
   margin: 0;
@@ -150,6 +151,8 @@ a {
   padding: 8px 20px;
   font-size: 0.875rem;
   font-weight: 500;
+  position: relative;
+  z-index: 40;
 }
 :root.light .dev-banner {
   background: #fee2e2;

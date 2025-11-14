@@ -30,14 +30,14 @@
 
 .mobile-menu {
   position: fixed;
-  top: 64px;
+  top: calc(64px + 40px); /* nav height + dev banner height */
   right: -100%;
   width: 280px;
-  height: calc(100vh - 64px);
+  height: calc(100vh - 64px - 40px); /* subtract both nav and banner */
   background: var(--panel);
   border-left: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
   transition: right 0.3s ease;
-  z-index: 1000;
+  z-index: 1001;
   padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -64,19 +64,26 @@
 
 .mobile-overlay {
   position: fixed;
-  top: 64px;
+  top: calc(64px + 40px); /* nav height + dev banner height */
   left: 0;
   width: 100%;
-  height: calc(100vh - 64px);
+  height: calc(100vh - 64px - 40px); /* subtract both nav and banner */
   background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
-  z-index: 999;
+  z-index: 1000;
 }
 .mobile-overlay.active {
   opacity: 1;
   visibility: visible;
+}
+
+/* Prevent body scroll when mobile menu is open */
+body.mobile-menu-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -171,6 +178,23 @@
     padding: 6px 16px;
     font-size: 0.8rem;
   }
+
+  /* Stack contact buttons vertically on mobile */
+  .contact-grid .row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .contact-grid .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Center hero card buttons on mobile */
+  .hero-card .row {
+    justify-content: center;
+  }
 }
 
 @media (max-width: 480px) {
@@ -192,5 +216,24 @@
   .mobile-menu {
     width: 100%;
     right: -100%;
+  }
+  
+  /* Ensure buttons are full width on very small screens */
+  .contact-grid .btn {
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+  }
+  
+  /* Stack hero card buttons vertically on very small screens */
+  .hero-card .row {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .hero-card .btn {
+    width: 100%;
+    max-width: 200px;
+    justify-content: center;
   }
 }
