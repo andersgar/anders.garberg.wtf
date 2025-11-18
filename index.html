@@ -612,8 +612,30 @@
     </footer>
 
     <!-- JavaScript Files -->
+    <script type="module" src="js/analytics.js"></script>
     <script src="js/common.js"></script>
     <script src="js/desktop.js"></script>
     <script src="js/mobile.js"></script>
+
+    <script type="module">
+      // Track page visit on load
+      if (window.analytics) {
+        await window.analytics.trackVisit();
+      }
+
+      // Track CV downloads
+      document.addEventListener("DOMContentLoaded", () => {
+        const cvLinks = document.querySelectorAll(
+          'a[data-translate="downloadCV"]'
+        );
+        cvLinks.forEach((link) => {
+          link.addEventListener("click", async () => {
+            if (window.analytics) {
+              await window.analytics.trackCVDownload();
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>

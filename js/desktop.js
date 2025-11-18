@@ -23,6 +23,12 @@ document.addEventListener("DOMContentLoaded", function () {
   if (form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
+
+      // Track contact form submission
+      if (window.analytics) {
+        window.analytics.trackContact();
+      }
+
       const name = encodeURIComponent(form.name.value.trim());
       const email = encodeURIComponent(form.email.value.trim());
       const message = encodeURIComponent(form.message.value.trim());
