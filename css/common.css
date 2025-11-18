@@ -303,3 +303,64 @@ form .field {
   flex-direction: column;
   gap: 0.75rem;
 }
+
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--brand);
+  transition: width 0.2s;
+}
+
+.nav-links a:hover {
+  color: var(--brand);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Style nav buttons to match nav links */
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  padding: 0;
+  position: relative;
+}
+
+.nav-btn::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--brand);
+  transition: width 0.2s;
+}
+
+.nav-btn:hover {
+  color: var(--brand);
+}
+
+.nav-btn:hover::after {
+  width: 100%;
+}

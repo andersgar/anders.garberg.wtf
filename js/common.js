@@ -269,160 +269,117 @@ function updateScrollPadding() {
   document.documentElement.style.scrollPaddingTop = `${totalOffset}px`;
 }
 
-// Initialize theme and language
-document.addEventListener("DOMContentLoaded", function () {
-  applyTheme(userPref || (systemDark ? "dark" : "light"));
+// Track current view mode (admin or public)
+let viewMode = localStorage.getItem("viewMode") || "admin"; // 'admin' or 'public'
 
-  // Initialize language (URL parameter takes precedence)
-  const urlLang = getLanguageFromURL();
-  if (urlLang && urlLang !== currentLang) {
-    currentLang = urlLang;
-    localStorage.setItem("language", urlLang);
+// Update admin navigation buttons visibility
+function updateAdminNavButtons() {
+  // Desktop nav links
+  const navProjects = document.getElementById("navProjects");
+  const navExperience = document.getElementById("navExperience");
+  const navAbout = document.getElementById("navAbout");
+  const navContact = document.getElementById("navContact");
+
+  // Mobile nav links
+  const navProjectsMobile = document.getElementById("navProjectsMobile");
+  const navExperienceMobile = document.getElementById("navExperienceMobile");
+  const navAboutMobile = document.getElementById("navAboutMobile");
+  const navContactMobile = document.getElementById("navContactMobile");
+
+  // Admin buttons
+  const viewPublicBtn = document.getElementById("viewPublicBtn");
+  const dashboardNavBtn = document.getElementById("dashboardNavBtn");
+  const showQrBtn = document.getElementById("showQrBtn");
+
+  const viewPublicBtnMobile = document.getElementById("viewPublicBtnMobile");
+  const dashboardNavBtnMobile = document.getElementById(
+    "dashboardNavBtnMobile"
+  );
+  const showQrBtnMobile = document.getElementById("showQrBtnMobile");
+
+  if (viewMode === "admin") {
+    // Hide public nav links
+    if (navProjects) navProjects.style.display = "none";
+    if (navExperience) navExperience.style.display = "none";
+    if (navAbout) navAbout.style.display = "none";
+    if (navContact) navContact.style.display = "none";
+
+    if (navProjectsMobile) navProjectsMobile.style.display = "none";
+    if (navExperienceMobile) navExperienceMobile.style.display = "none";
+    if (navAboutMobile) navAboutMobile.style.display = "none";
+    if (navContactMobile) navContactMobile.style.display = "none";
+
+    // Show admin nav buttons
+    if (viewPublicBtn) viewPublicBtn.style.display = "inline-block";
+    if (dashboardNavBtn) dashboardNavBtn.style.display = "inline-block";
+    if (showQrBtn) showQrBtn.style.display = "inline-block";
+
+    if (viewPublicBtnMobile) viewPublicBtnMobile.style.display = "block";
+    if (dashboardNavBtnMobile) dashboardNavBtnMobile.style.display = "block";
+    if (showQrBtnMobile) showQrBtnMobile.style.display = "block";
+  } else {
+    // Show public nav links
+    if (navProjects) navProjects.style.display = "inline-block";
+    if (navExperience) navExperience.style.display = "inline-block";
+    if (navAbout) navAbout.style.display = "inline-block";
+    if (navContact) navContact.style.display = "inline-block";
+
+    if (navProjectsMobile) navProjectsMobile.style.display = "block";
+    if (navExperienceMobile) navExperienceMobile.style.display = "block";
+    if (navAboutMobile) navAboutMobile.style.display = "block";
+    if (navContactMobile) navContactMobile.style.display = "block";
+
+    // Hide admin nav buttons
+    if (viewPublicBtn) viewPublicBtn.style.display = "none";
+    if (dashboardNavBtn) dashboardNavBtn.style.display = "none";
+    if (showQrBtn) showQrBtn.style.display = "none";
+
+    if (viewPublicBtnMobile) viewPublicBtnMobile.style.display = "none";
+    if (dashboardNavBtnMobile) dashboardNavBtnMobile.style.display = "none";
+    if (showQrBtnMobile) showQrBtnMobile.style.display = "none";
   }
+}
 
-  updateLanguage(currentLang);
-  updateScrollPadding();
+// Toggle between admin and public view
+function toggleView() {
+  viewMode = viewMode === "admin" ? "public" : "admin";
+  localStorage.setItem("viewMode", viewMode);
+  updateViewDisplay();
+  updateAdminNavButtons();
+  closeUserPopup();
 
-  // Update on resize in case banner height changes
-  window.addEventListener("resize", updateScrollPadding);
+  // Close mobile menu if open
+  const mobileMenu = document.getElementById("mobileMenu");
+  const mobileOverlay = document.getElementById("mobileOverlay");
+  const hamburger = document.getElementById("hamburger");
 
-  // Set year
-  const yearElement = document.getElementById("year");
-  if (yearElement) {
-    yearElement.textContent = new Date().getFullYear();
+  if (mobileMenu && mobileMenu.classList.contains("active")) {
+    mobileMenu.classList.remove("active");
+    if (mobileOverlay) mobileOverlay.classList.remove("active");
+    if (hamburger) hamburger.classList.remove("active");
+    document.body.classList.remove("mobile-menu-open");
   }
+}
 
-  // Wait a bit then check login status
-  setTimeout(() => {
-    updateLoginStatus();
-  }, 500);
-});
+// Update display based on view mode
+function updateViewDisplay() {
+  const publicContent = document.getElementById("publicContent");
+  const publicSections = document.getElementById("publicSections");
+  const loggedInContent = document.getElementById("loggedInContent");
+  const toggleBtn = document.getElementById("toggleViewBtn");
 
-// Check and update login status
-async function updateLoginStatus() {
-  console.log("Checking login status...");
-
-  // Wait for auth module to load
-  let attempts = 0;
-  while (!window.auth && attempts < 100) {
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    attempts++;
-  }
-
-  if (!window.auth) {
-    console.log("Auth module not loaded");
-    return;
-  }
-
-  try {
-    const isLoggedIn = await window.auth.isAuthenticated();
-    console.log("Is logged in:", isLoggedIn);
-
-    // Toggle content visibility based on login status
-    const publicContent = document.getElementById("publicContent");
-    const publicSections = document.getElementById("publicSections");
-    const loggedInContent = document.getElementById("loggedInContent");
-
-    if (isLoggedIn) {
-      // Hide public content
-      if (publicContent) {
-        publicContent.style.display = "none";
-        console.log("Hiding public content");
-      }
-      if (publicSections) {
-        publicSections.style.display = "none";
-        console.log("Hiding public sections");
-      }
-
-      // Show logged in content
-      if (loggedInContent) {
-        loggedInContent.style.display = "block";
-        console.log("Showing logged in content");
-      }
-    } else {
-      // Show public content
-      if (publicContent) {
-        publicContent.style.display = "grid";
-        console.log("Showing public content");
-      }
-      if (publicSections) {
-        publicSections.style.display = "block";
-        console.log("Showing public sections");
-      }
-
-      // Hide logged in content
-      if (loggedInContent) {
-        loggedInContent.style.display = "none";
-        console.log("Hiding logged in content");
-      }
-    }
-
-    // Update desktop buttons
-    const loginToggle = document.getElementById("loginToggle");
-    const loginBtn = document.getElementById("loginBtn");
-
-    if (loginToggle) {
-      if (isLoggedIn) {
-        // Show user icon when logged in
-        loginToggle.style.display = "inline-flex";
-        loginToggle.textContent = "👤";
-        loginToggle.title = "View profile";
-        loginToggle.style.color = "var(--brand)";
-
-        // Hide login button when logged in
-        if (loginBtn) {
-          loginBtn.style.display = "none";
-        }
-      } else {
-        // Hide lock icon when logged out
-        loginToggle.style.display = "none";
-
-        // Show login button when logged out
-        if (loginBtn) {
-          loginBtn.style.display = "inline-flex";
-        }
-      }
-    }
-
-    // Update mobile buttons
-    const loginToggleMobile = document.getElementById("loginToggleMobile");
-    const loginBtnMobile = document.getElementById("loginBtnMobile");
-
-    if (loginToggleMobile) {
-      if (isLoggedIn) {
-        // Show user icon when logged in
-        loginToggleMobile.style.display = "inline-flex";
-        loginToggleMobile.textContent = "👤";
-        loginToggleMobile.title = "View profile";
-        loginToggleMobile.style.color = "var(--brand)";
-
-        // Hide mobile login button when logged in
-        if (loginBtnMobile) {
-          loginBtnMobile.style.display = "none";
-        }
-      } else {
-        // Hide lock icon when logged out
-        loginToggleMobile.style.display = "none";
-
-        // Show mobile login button when logged out
-        if (loginBtnMobile) {
-          loginBtnMobile.style.display = "block";
-        }
-      }
-    }
-
-    // Setup logout button on main page
-    const logoutBtnMain = document.getElementById("logoutBtnMain");
-    if (logoutBtnMain && isLoggedIn) {
-      logoutBtnMain.onclick = async () => {
-        if (window.auth) {
-          await window.auth.logout();
-          window.location.reload();
-        }
-      };
-    }
-  } catch (error) {
-    console.error("Error checking login status:", error);
+  if (viewMode === "public") {
+    // Show public view
+    if (publicContent) publicContent.style.display = "grid";
+    if (publicSections) publicSections.style.display = "block";
+    if (loggedInContent) loggedInContent.style.display = "none";
+    if (toggleBtn) toggleBtn.innerHTML = "🔐 View as Admin";
+  } else {
+    // Show admin view
+    if (publicContent) publicContent.style.display = "none";
+    if (publicSections) publicSections.style.display = "none";
+    if (loggedInContent) loggedInContent.style.display = "block";
+    if (toggleBtn) toggleBtn.innerHTML = "👁️ View as Public";
   }
 }
 
@@ -439,6 +396,9 @@ async function showUserPopup() {
       userEmailEl.textContent = user.email;
     }
   }
+
+  // Update toggle button text
+  updateViewDisplay();
 
   popup.style.display = "flex";
 
@@ -466,10 +426,161 @@ function closeUserPopup() {
   }
 }
 
-// Export for use in other files
-window.updateLoginStatus = updateLoginStatus;
+// Show QR code popup
+function showQrPopup() {
+  const popup = document.getElementById("qrPopup");
+  if (!popup) return;
+
+  // Generate QR code
+  const qrContainer = document.getElementById("qrCodeContainer");
+  if (qrContainer) {
+    // Clear existing QR code
+    qrContainer.innerHTML = "";
+
+    // Create QR code using a simple library (we'll use qrcode.js via CDN)
+    const qr = document.createElement("div");
+    qr.id = "qrcode";
+    qrContainer.appendChild(qr);
+
+    // Generate QR code (using qrcodejs library loaded from CDN)
+    if (window.QRCode) {
+      new QRCode(qr, {
+        text: "https://garberg.wtf",
+        width: 256,
+        height: 256,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+    } else {
+      qrContainer.innerHTML = "<p>Loading QR code...</p>";
+    }
+  }
+
+  popup.style.display = "flex";
+
+  // Add escape key listener
+  const escapeHandler = (e) => {
+    if (e.key === "Escape") {
+      closeQrPopup();
+      document.removeEventListener("keydown", escapeHandler);
+    }
+  };
+  document.addEventListener("keydown", escapeHandler);
+
+  // Close on overlay click
+  popup.onclick = (e) => {
+    if (e.target === popup) {
+      closeQrPopup();
+    }
+  };
+}
+
+function closeQrPopup() {
+  const popup = document.getElementById("qrPopup");
+  if (popup) {
+    popup.style.display = "none";
+  }
+}
+
+// Check and update login status
+async function updateLoginStatus() {
+  console.log("Checking login status...");
+
+  // Wait for auth module to load
+  let attempts = 0;
+  while (!window.auth && attempts < 100) {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    attempts++;
+  }
+
+  if (!window.auth) {
+    console.log("Auth module not loaded");
+    return;
+  }
+
+  try {
+    const isLoggedIn = await window.auth.isAuthenticated();
+    console.log("Is logged in:", isLoggedIn);
+
+    if (isLoggedIn) {
+      // User is logged in - respect their view mode
+      updateViewDisplay();
+      updateAdminNavButtons();
+    } else {
+      // User is logged out - always show public view
+      viewMode = "public";
+      localStorage.removeItem("viewMode");
+
+      const publicContent = document.getElementById("publicContent");
+      const publicSections = document.getElementById("publicSections");
+      const loggedInContent = document.getElementById("loggedInContent");
+
+      if (publicContent) publicContent.style.display = "grid";
+      if (publicSections) publicSections.style.display = "block";
+      if (loggedInContent) loggedInContent.style.display = "none";
+    }
+
+    // Update desktop buttons
+    const loginToggle = document.getElementById("loginToggle");
+    const loginBtn = document.getElementById("loginBtn");
+
+    if (loginToggle) {
+      if (isLoggedIn) {
+        loginToggle.style.display = "inline-flex";
+        loginToggle.textContent = "👤";
+        loginToggle.title = "View profile";
+        loginToggle.style.color = "var(--brand)";
+
+        if (loginBtn) loginBtn.style.display = "none";
+      } else {
+        loginToggle.style.display = "none";
+
+        if (loginBtn) loginBtn.style.display = "inline-flex";
+      }
+    }
+
+    // Update mobile buttons
+    const loginToggleMobile = document.getElementById("loginToggleMobile");
+    const loginBtnMobile = document.getElementById("loginBtnMobile");
+
+    if (loginToggleMobile) {
+      if (isLoggedIn) {
+        loginToggleMobile.style.display = "inline-flex";
+        loginToggleMobile.textContent = "👤";
+        loginToggleMobile.title = "View profile";
+        loginToggleMobile.style.color = "var(--brand)";
+
+        if (loginBtnMobile) loginBtnMobile.style.display = "none";
+      } else {
+        loginToggleMobile.style.display = "none";
+
+        if (loginBtnMobile) loginBtnMobile.style.display = "block";
+      }
+    }
+
+    // Setup logout button on main page
+    const logoutBtnMain = document.getElementById("logoutBtnMain");
+    if (logoutBtnMain && isLoggedIn) {
+      logoutBtnMain.onclick = async () => {
+        if (window.auth) {
+          await window.auth.logout();
+          localStorage.removeItem("viewMode");
+          window.location.reload();
+        }
+      };
+    }
+  } catch (error) {
+    console.error("Error checking login status:", error);
+  }
+}
+
+// Export functions
 window.showUserPopup = showUserPopup;
 window.closeUserPopup = closeUserPopup;
+window.toggleView = toggleView;
+window.showQrPopup = showQrPopup;
+window.closeQrPopup = closeQrPopup;
 
 // Initialize theme and language
 document.addEventListener("DOMContentLoaded", function () {
@@ -515,5 +626,41 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.reload();
       }
     });
+  }
+
+  // Setup view toggle button
+  const toggleViewBtn = document.getElementById("toggleViewBtn");
+  if (toggleViewBtn) {
+    toggleViewBtn.addEventListener("click", toggleView);
+  }
+
+  // Setup QR popup close button
+  const closeQrBtn = document.getElementById("closeQrPopup");
+  if (closeQrBtn) {
+    closeQrBtn.addEventListener("click", closeQrPopup);
+  }
+
+  // Setup view public button (desktop)
+  const viewPublicBtn = document.getElementById("viewPublicBtn");
+  if (viewPublicBtn) {
+    viewPublicBtn.addEventListener("click", toggleView);
+  }
+
+  // Setup view public button (mobile)
+  const viewPublicBtnMobile = document.getElementById("viewPublicBtnMobile");
+  if (viewPublicBtnMobile) {
+    viewPublicBtnMobile.addEventListener("click", toggleView);
+  }
+
+  // Setup QR button (desktop)
+  const showQrBtn = document.getElementById("showQrBtn");
+  if (showQrBtn) {
+    showQrBtn.addEventListener("click", showQrPopup);
+  }
+
+  // Setup QR button (mobile)
+  const showQrBtnMobile = document.getElementById("showQrBtnMobile");
+  if (showQrBtnMobile) {
+    showQrBtnMobile.addEventListener("click", showQrPopup);
   }
 });

@@ -68,6 +68,9 @@
     <link rel="stylesheet" href="css/common.css" />
     <link rel="stylesheet" href="css/desktop.css" />
     <link rel="stylesheet" href="css/mobile.css" />
+
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   </head>
   <body>
     <div class="dev-banner">
@@ -88,10 +91,19 @@
 
         <!-- Desktop Navigation -->
         <div class="nav-links" role="list">
-          <a href="#projects" data-translate="projects">Prosjekter</a>
-          <a href="#experience" data-translate="experience">Erfaring</a>
-          <a href="#about" data-translate="about">Om meg</a>
-          <a href="#contact" data-translate="contact">Kontakt</a>
+          <!-- Public nav links (hidden in admin mode) -->
+          <a href="#projects" id="navProjects" data-translate="projects"
+            >Prosjekter</a
+          >
+          <a href="#experience" id="navExperience" data-translate="experience"
+            >Erfaring</a
+          >
+          <a href="#about" id="navAbout" data-translate="about">Om meg</a>
+          <a href="#contact" id="navContact" data-translate="contact"
+            >Kontakt</a
+          >
+
+          <!-- Logged out button -->
           <a
             href="login.html"
             id="loginBtn"
@@ -100,6 +112,18 @@
             data-translate="login"
             >Logg inn</a
           >
+
+          <!-- Admin view buttons (styled as nav links) -->
+          <button id="viewPublicBtn" class="nav-btn" style="display: none">
+            Public
+          </button>
+          <a href="admin.html" id="dashboardNavBtn" style="display: none">
+            Dashboard
+          </a>
+          <button id="showQrBtn" class="nav-btn" style="display: none">
+            QR
+          </button>
+
           <button
             class="theme-toggle"
             id="themeToggle"
@@ -140,10 +164,19 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-      <a href="#projects" data-translate="projects">Prosjekter</a>
-      <a href="#experience" data-translate="experience">Erfaring</a>
-      <a href="#about" data-translate="about">Om meg</a>
-      <a href="#contact" data-translate="contact">Kontakt</a>
+      <!-- Public nav links (hidden in admin mode) -->
+      <a href="#projects" id="navProjectsMobile" data-translate="projects"
+        >Prosjekter</a
+      >
+      <a href="#experience" id="navExperienceMobile" data-translate="experience"
+        >Erfaring</a
+      >
+      <a href="#about" id="navAboutMobile" data-translate="about">Om meg</a>
+      <a href="#contact" id="navContactMobile" data-translate="contact"
+        >Kontakt</a
+      >
+
+      <!-- Logged out -->
       <a
         href="login.html"
         id="loginBtnMobile"
@@ -151,6 +184,15 @@
         data-translate="login"
         >Logg inn</a
       >
+
+      <!-- Admin view buttons -->
+      <button id="viewPublicBtnMobile" style="display: none">
+        View as Public
+      </button>
+      <a href="admin.html" id="dashboardNavBtnMobile" style="display: none">
+        Dashboard
+      </a>
+      <button id="showQrBtnMobile" style="display: none">Show QR Code</button>
 
       <div class="mobile-buttons">
         <button
@@ -196,12 +238,39 @@
           </div>
         </div>
         <div class="user-popup-actions">
+          <button id="toggleViewBtn" class="btn ghost" style="width: 100%">
+            👁️ View as Public
+          </button>
           <a href="admin.html" class="btn" style="width: 100%"
             >📊 Admin Dashboard</a
           >
           <button id="logoutBtnPopup" class="btn ghost" style="width: 100%">
             Logout
           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- QR Code Popup (initially hidden) -->
+    <div id="qrPopup" class="user-popup" style="display: none">
+      <div class="user-popup-content">
+        <button class="user-popup-close" id="closeQrPopup" aria-label="Close">
+          ×
+        </button>
+        <div
+          class="user-popup-header"
+          style="flex-direction: column; text-align: center"
+        >
+          <h3 style="margin: 0 0 1rem 0">garberg.wtf</h3>
+          <div
+            id="qrCodeContainer"
+            style="background: white; padding: 1rem; border-radius: 10px"
+          >
+            <!-- QR code will be inserted here -->
+          </div>
+          <p class="small" style="margin: 1rem 0 0; color: var(--muted)">
+            Scan to visit the site
+          </p>
         </div>
       </div>
     </div>

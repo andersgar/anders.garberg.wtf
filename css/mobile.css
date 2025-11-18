@@ -47,14 +47,40 @@
   right: 0;
 }
 .mobile-menu a {
-  padding: 1rem 0;
+  display: block;
+  padding: 1rem;
+  color: var(--text);
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+  font-size: 1rem;
   border-bottom: 1px solid color-mix(in oklab, var(--text) 8%, transparent);
-  font-weight: 500;
-  transition: color 0.2s;
 }
 .mobile-menu a:hover {
+  background: color-mix(in oklab, var(--brand) 8%, transparent);
   color: var(--brand);
 }
+
+/* Mobile admin navigation buttons - match menu link style */
+.mobile-menu > button:not(.theme-toggle) {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid color-mix(in oklab, var(--text) 8%, transparent);
+  color: var(--text);
+  text-align: left;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.mobile-menu > button:not(.theme-toggle):hover {
+  background: color-mix(in oklab, var(--brand) 8%, transparent);
+  color: var(--brand);
+}
+
 .mobile-menu .mobile-buttons {
   margin-top: auto;
   display: flex;
