@@ -318,7 +318,7 @@ function updateAdminNavButtons() {
     if (dashboardNavBtnMobile) dashboardNavBtnMobile.style.display = "block";
     if (showQrBtnMobile) showQrBtnMobile.style.display = "block";
   } else {
-    // Show public nav links
+    // Show public nav links (if they exist)
     if (navProjects) navProjects.style.display = "inline-block";
     if (navExperience) navExperience.style.display = "inline-block";
     if (navAbout) navAbout.style.display = "inline-block";
