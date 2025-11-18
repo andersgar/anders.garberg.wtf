@@ -292,75 +292,228 @@ document.addEventListener("DOMContentLoaded", function () {
     yearElement.textContent = new Date().getFullYear();
   }
 
-  // Check login status and update icon
-  updateLoginStatus();
+  // Wait a bit then check login status
+  setTimeout(() => {
+    updateLoginStatus();
+  }, 500);
 });
 
 // Check and update login status
 async function updateLoginStatus() {
+  console.log("Checking login status...");
+
   // Wait for auth module to load
   let attempts = 0;
-  while (!window.auth && attempts < 50) {
+  while (!window.auth && attempts < 100) {
     await new Promise((resolve) => setTimeout(resolve, 100));
     attempts++;
   }
 
-  if (window.auth) {
-    const isLoggedIn = await window.auth.isAuthenticated();
+  if (!window.auth) {
+    console.log("Auth module not loaded");
+    return;
+  }
 
-    // Update desktop login icon
+  try {
+    const isLoggedIn = await window.auth.isAuthenticated();
+    console.log("Is logged in:", isLoggedIn);
+
+    // Toggle content visibility based on login status
+    const publicContent = document.getElementById("publicContent");
+    const publicSections = document.getElementById("publicSections");
+    const loggedInContent = document.getElementById("loggedInContent");
+
+    if (isLoggedIn) {
+      // Hide public content
+      if (publicContent) {
+        publicContent.style.display = "none";
+        console.log("Hiding public content");
+      }
+      if (publicSections) {
+        publicSections.style.display = "none";
+        console.log("Hiding public sections");
+      }
+
+      // Show logged in content
+      if (loggedInContent) {
+        loggedInContent.style.display = "block";
+        console.log("Showing logged in content");
+      }
+    } else {
+      // Show public content
+      if (publicContent) {
+        publicContent.style.display = "grid";
+        console.log("Showing public content");
+      }
+      if (publicSections) {
+        publicSections.style.display = "block";
+        console.log("Showing public sections");
+      }
+
+      // Hide logged in content
+      if (loggedInContent) {
+        loggedInContent.style.display = "none";
+        console.log("Hiding logged in content");
+      }
+    }
+
+    // Update desktop buttons
     const loginToggle = document.getElementById("loginToggle");
-    const dashboardBtn = document.getElementById("dashboardBtn");
+    const loginBtn = document.getElementById("loginBtn");
 
     if (loginToggle) {
       if (isLoggedIn) {
+        // Show user icon when logged in
+        loginToggle.style.display = "inline-flex";
         loginToggle.textContent = "👤";
-        loginToggle.title = "Go to admin dashboard";
-        loginToggle.style.color = "var(--accent)";
+        loginToggle.title = "View profile";
+        loginToggle.style.color = "var(--brand)";
 
-        // Show dashboard button
-        if (dashboardBtn) {
-          dashboardBtn.style.display = "inline-flex";
+        // Hide login button when logged in
+        if (loginBtn) {
+          loginBtn.style.display = "none";
         }
       } else {
-        loginToggle.textContent = "🔒";
-        loginToggle.title = "Click to login";
-        loginToggle.style.color = "";
+        // Hide lock icon when logged out
+        loginToggle.style.display = "none";
 
-        // Hide dashboard button
-        if (dashboardBtn) {
-          dashboardBtn.style.display = "none";
+        // Show login button when logged out
+        if (loginBtn) {
+          loginBtn.style.display = "inline-flex";
         }
       }
     }
 
-    // Update mobile login icon and dashboard button
+    // Update mobile buttons
     const loginToggleMobile = document.getElementById("loginToggleMobile");
-    const dashboardBtnMobile = document.getElementById("dashboardBtnMobile");
+    const loginBtnMobile = document.getElementById("loginBtnMobile");
 
     if (loginToggleMobile) {
       if (isLoggedIn) {
+        // Show user icon when logged in
+        loginToggleMobile.style.display = "inline-flex";
         loginToggleMobile.textContent = "👤";
-        loginToggleMobile.title = "Go to admin dashboard";
-        loginToggleMobile.style.color = "var(--accent)";
+        loginToggleMobile.title = "View profile";
+        loginToggleMobile.style.color = "var(--brand)";
 
-        // Show mobile dashboard button
-        if (dashboardBtnMobile) {
-          dashboardBtnMobile.style.display = "block";
+        // Hide mobile login button when logged in
+        if (loginBtnMobile) {
+          loginBtnMobile.style.display = "none";
         }
       } else {
-        loginToggleMobile.textContent = "🔒";
-        loginToggleMobile.title = "Click to login";
-        loginToggleMobile.style.color = "";
+        // Hide lock icon when logged out
+        loginToggleMobile.style.display = "none";
 
-        // Hide mobile dashboard button
-        if (dashboardBtnMobile) {
-          dashboardBtnMobile.style.display = "none";
+        // Show mobile login button when logged out
+        if (loginBtnMobile) {
+          loginBtnMobile.style.display = "block";
         }
       }
     }
+
+    // Setup logout button on main page
+    const logoutBtnMain = document.getElementById("logoutBtnMain");
+    if (logoutBtnMain && isLoggedIn) {
+      logoutBtnMain.onclick = async () => {
+        if (window.auth) {
+          await window.auth.logout();
+          window.location.reload();
+        }
+      };
+    }
+  } catch (error) {
+    console.error("Error checking login status:", error);
+  }
+}
+
+// Show user popup
+async function showUserPopup() {
+  const popup = document.getElementById("userPopup");
+  if (!popup) return;
+
+  // Get user info
+  if (window.auth) {
+    const user = await window.auth.getCurrentUser();
+    const userEmailEl = document.getElementById("userEmail");
+    if (userEmailEl && user && user.email) {
+      userEmailEl.textContent = user.email;
+    }
+  }
+
+  popup.style.display = "flex";
+
+  // Add escape key listener
+  const escapeHandler = (e) => {
+    if (e.key === "Escape") {
+      closeUserPopup();
+      document.removeEventListener("keydown", escapeHandler);
+    }
+  };
+  document.addEventListener("keydown", escapeHandler);
+
+  // Close on overlay click
+  popup.onclick = (e) => {
+    if (e.target === popup) {
+      closeUserPopup();
+    }
+  };
+}
+
+function closeUserPopup() {
+  const popup = document.getElementById("userPopup");
+  if (popup) {
+    popup.style.display = "none";
   }
 }
 
 // Export for use in other files
 window.updateLoginStatus = updateLoginStatus;
+window.showUserPopup = showUserPopup;
+window.closeUserPopup = closeUserPopup;
+
+// Initialize theme and language
+document.addEventListener("DOMContentLoaded", function () {
+  applyTheme(userPref || (systemDark ? "dark" : "light"));
+
+  // Initialize language (URL parameter takes precedence)
+  const urlLang = getLanguageFromURL();
+  if (urlLang && urlLang !== currentLang) {
+    currentLang = urlLang;
+    localStorage.setItem("language", urlLang);
+  }
+
+  updateLanguage(currentLang);
+  updateScrollPadding();
+
+  // Update on resize in case banner height changes
+  window.addEventListener("resize", updateScrollPadding);
+
+  // Set year
+  const yearElement = document.getElementById("year");
+  if (yearElement) {
+    yearElement.textContent = new Date().getFullYear();
+  }
+
+  // Wait a bit then check login status
+  setTimeout(() => {
+    updateLoginStatus();
+  }, 500);
+
+  // Setup popup close button
+  const closeBtn = document.getElementById("closeUserPopup");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closeUserPopup);
+  }
+
+  // Setup popup logout button
+  const logoutBtnPopup = document.getElementById("logoutBtnPopup");
+  if (logoutBtnPopup) {
+    logoutBtnPopup.addEventListener("click", async () => {
+      if (window.auth) {
+        await window.auth.logout();
+        closeUserPopup();
+        window.location.reload();
+      }
+    });
+  }
+});

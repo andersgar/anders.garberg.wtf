@@ -32,8 +32,10 @@ document.addEventListener("DOMContentLoaded", function () {
       if (window.auth) {
         const isLoggedIn = await window.auth.isAuthenticated();
         if (isLoggedIn) {
-          // If logged in, go to admin dashboard
-          window.location.href = "admin.html";
+          // If logged in, show user popup
+          if (window.showUserPopup) {
+            window.showUserPopup();
+          }
         } else {
           // If not logged in, go to login page
           window.location.href = "login.html";

@@ -93,12 +93,12 @@
           <a href="#about" data-translate="about">Om meg</a>
           <a href="#contact" data-translate="contact">Kontakt</a>
           <a
-            href="admin.html"
-            id="dashboardBtn"
+            href="login.html"
+            id="loginBtn"
             class="btn"
             style="display: none"
-            data-translate="dashboard"
-            >Dashboard</a
+            data-translate="login"
+            >Logg inn</a
           >
           <button
             class="theme-toggle"
@@ -145,11 +145,11 @@
       <a href="#about" data-translate="about">Om meg</a>
       <a href="#contact" data-translate="contact">Kontakt</a>
       <a
-        href="admin.html"
-        id="dashboardBtnMobile"
+        href="login.html"
+        id="loginBtnMobile"
         style="display: none; color: var(--brand); font-weight: 600"
-        data-translate="dashboard"
-        >Dashboard</a
+        data-translate="login"
+        >Logg inn</a
       >
 
       <div class="mobile-buttons">
@@ -180,9 +180,35 @@
       </div>
     </div>
 
+    <!-- User Info Popup (initially hidden) -->
+    <div id="userPopup" class="user-popup" style="display: none">
+      <div class="user-popup-content">
+        <button class="user-popup-close" id="closeUserPopup" aria-label="Close">
+          ×
+        </button>
+        <div class="user-popup-header">
+          <div class="user-avatar">👤</div>
+          <div>
+            <h3 id="userEmail" style="margin: 0">Loading...</h3>
+            <p class="small" style="margin: 0.25rem 0 0; color: var(--muted)">
+              Administrator
+            </p>
+          </div>
+        </div>
+        <div class="user-popup-actions">
+          <a href="admin.html" class="btn" style="width: 100%"
+            >📊 Admin Dashboard</a
+          >
+          <button id="logoutBtnPopup" class="btn ghost" style="width: 100%">
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+
     <header id="home" class="hero">
       <div class="gradient" aria-hidden="true"></div>
-      <div class="container hero-wrap">
+      <div class="container hero-wrap" id="publicContent">
         <div class="hero-left">
           <p class="pill">
             🎓
@@ -276,348 +302,461 @@
     </header>
 
     <main id="main" class="container" aria-live="polite">
-      <section id="projects" class="projects">
-        <h2 class="section-title" data-translate="featuredProjects">
-          Utvalgte prosjekter
-        </h2>
-        <p class="subtitle" data-translate="projectsSubtitle">
-          Noen ting jeg har jobbet med nylig.
-        </p>
-        <div class="grid cols-3">
-          <article class="card pad item">
-            <div class="thumb" data-translate="Lorem">Lorem</div>
-            <h3 data-translate="Lorem, ipsum.">Lorem, ipsum.</h3>
-            <p class="small" data-translate="Lorem ipsum dolor sit amet.">
-              Lorem ipsum dolor sit amet.
-            </p>
-            <div class="row">
-              <span class="tag">C++</span><span class="tag">PID</span
-              ><span class="tag">Arduino</span>
-            </div>
-            <div class="row">
-              <a
-                class="btn ghost"
-                href="https://blank"
-                target="_blank"
-                rel="noreferrer"
-                data-translate="repo"
-                >Repo</a
-              >
-            </div>
-          </article>
-          <article class="card pad item">
-            <div class="thumb" data-translate="Lorem">Lorem</div>
-            <h3 data-translate="Lorem, ipsum.">Lorem, ipsum.</h3>
-            <p class="small" data-translate="Lorem ipsum dolor sit amet.">
-              Lorem ipsum dolor sit amet.
-            </p>
-            <div class="row">
-              <span class="tag">C++</span><span class="tag">PID</span
-              ><span class="tag">Arduino</span>
-            </div>
-            <div class="row">
-              <a
-                class="btn ghost"
-                href="https://blank"
-                target="_blank"
-                rel="noreferrer"
-                data-translate="repo"
-                >Repo</a
-              >
-            </div>
-          </article>
-          <article class="card pad item">
-            <div class="thumb" data-translate="Lorem">Lorem</div>
-            <h3 data-translate="Lorem, ipsum.">Lorem, ipsum.</h3>
-            <p class="small" data-translate="Lorem ipsum dolor sit amet.">
-              Lorem ipsum dolor sit amet.
-            </p>
-            <div class="row">
-              <span class="tag">C++</span><span class="tag">PID</span
-              ><span class="tag">Arduino</span>
-            </div>
-            <div class="row">
-              <a
-                class="btn ghost"
-                href="https://blank"
-                target="_blank"
-                rel="noreferrer"
-                data-translate="repo"
-                >Repo</a
-              >
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section id="experience">
-        <h2 class="section-title" data-translate="experience">Erfaring</h2>
-        <div class="card pad">
-          <div class="timeline">
-            <div class="step">
-              <div class="dot" aria-hidden="true"></div>
-              <div>
-                <h3 data-translate="financialManager">Økonomiansvarlig</h3>
-                <span class="tag" data-translate="voluntaryWork"
-                  >Frivillig arbeid</span
+      <!-- Public content wrapper -->
+      <div id="publicSections">
+        <section id="projects" class="projects">
+          <h2 class="section-title" data-translate="featuredProjects">
+            Utvalgte prosjekter
+          </h2>
+          <p class="subtitle" data-translate="projectsSubtitle">
+            Noen ting jeg har jobbet med nylig.
+          </p>
+          <div class="grid cols-3">
+            <article class="card pad item">
+              <div class="thumb" data-translate="Lorem">Lorem</div>
+              <h3 data-translate="Lorem, ipsum.">Lorem, ipsum.</h3>
+              <p class="small" data-translate="Lorem ipsum dolor sit amet.">
+                Lorem ipsum dolor sit amet.
+              </p>
+              <div class="row">
+                <span class="tag">C++</span><span class="tag">PID</span
+                ><span class="tag">Arduino</span>
+              </div>
+              <div class="row">
+                <a
+                  class="btn ghost"
+                  href="https://blank"
+                  target="_blank"
+                  rel="noreferrer"
+                  data-translate="repo"
+                  >Repo</a
                 >
-                <p class="small">
-                  Linjeforeningen Elektra · 2024 —
-                  <span data-translate="present">Nåværende</span>
-                </p>
-                <p class="small" data-translate="financialManagerDesc">
-                  Hadde ansvaret for budsjettering, regnskap og finansiell
-                  planlegging for studentorganisasjonen som representerer
-                  elektrostudenter på NTNU. Introduserte strukturerte
-                  finansielle prosedyrer som forbedret transparens, nøyaktighet
-                  og kontroll av organisasjonens finansielle drift.
-                </p>
               </div>
-            </div>
-            <div class="step">
-              <div class="dot" aria-hidden="true"></div>
-              <div>
-                <h3 data-translate="shiftLeader">Skiftleder</h3>
-                <span class="tag" data-translate="partTime">Deltid</span>
-                <p class="small">
-                  Trondheim Kino · 2021 —
-                  <span data-translate="present">Nåværende</span>
-                </p>
-                <p class="small" data-translate="shiftLeaderDesc">
-                  Ansvarlig for opplæring, drift og kundeservice i et tempofylt
-                  miljø. Bidro til forbedrede prosedyrer som økte effektiviteten
-                  i billett- og kiosksalg samtidig som den totale
-                  kundeopplevelsen ble forbedret.
-                </p>
+            </article>
+            <article class="card pad item">
+              <div class="thumb" data-translate="Lorem">Lorem</div>
+              <h3 data-translate="Lorem, ipsum.">Lorem, ipsum.</h3>
+              <p class="small" data-translate="Lorem ipsum dolor sit amet.">
+                Lorem ipsum dolor sit amet.
+              </p>
+              <div class="row">
+                <span class="tag">C++</span><span class="tag">PID</span
+                ><span class="tag">Arduino</span>
               </div>
-            </div>
-            <br />
-            <div class="step">
-              <div class="dot" aria-hidden="true"></div>
-              <div>
-                <h3 data-translate="teachingAssistant">
-                  Undervisningsassistent
-                </h3>
-                <span class="tag" data-translate="partTime">Deltid</span>
-                <p class="small">
-                  NTNU · 2024 — <span data-translate="present">Nåværende</span>
-                </p>
-                <p class="small" data-translate="teachingAssistantDesc">
-                  Støtter undervisning og studentveiledning på NTNU. Gir
-                  akademisk assistanse, hjelper med øvinger og legger til rette
-                  for dypere forståelse av fagstoffet.
-                </p>
-              </div>
-            </div>
-            <br />
-            <div class="step">
-              <div class="dot" aria-hidden="true"></div>
-              <div>
-                <h3 data-translate="communicationsOperator">
-                  Sambandsoperatør - Luftvern
-                </h3>
-                <span class="tag" data-translate="fullTime">Fulltid</span>
-                <p class="small" data-translate="norwegianArmedForces">
-                  Forsvaret
-                </p>
-                <p class="small" data-translate="communicationsOperatorDesc">
-                  Operativ erfaring med sambandssystemer i Luftvernbataljonen.
-                  Tjenestegjorde som del av NATO Response Force, som krevde
-                  presisjon, lagarbeid og beredskap. Bidro til sikker og
-                  effektiv kommunikasjon under krevende forhold.
-                </p>
-              </div>
-            </div>
-            <br />
-            <div class="step">
-              <div class="dot" aria-hidden="true"></div>
-              <div>
-                <h3 data-translate="bartender">Bartender</h3>
-                <span class="tag" data-translate="voluntaryWork"
-                  >Frivillig arbeid</span
+              <div class="row">
+                <a
+                  class="btn ghost"
+                  href="https://blank"
+                  target="_blank"
+                  rel="noreferrer"
+                  data-translate="repo"
+                  >Repo</a
                 >
-                <p class="small">UKA · 2023</p>
-                <p class="small" data-translate="bartenderDesc">
-                  Jobbet under UKA-studentfestivalen på Samfundet i Trondheim,
-                  en av Norges største studentfestivaler. Opererte i et
-                  høytempobart miljø og utviklet sterke ferdigheter innen
-                  service, lagarbeid og stresshåndtering under krevende forhold.
-                </p>
               </div>
-            </div>
-            <br />
-            <div class="step">
-              <div class="dot" aria-hidden="true"></div>
-              <div>
-                <h3 data-translate="managerAndTreasurer">Leder og kasserer</h3>
-                <span class="tag" data-translate="voluntaryWork"
-                  >Frivillig arbeid</span
+            </article>
+            <article class="card pad item">
+              <div class="thumb" data-translate="Lorem">Lorem</div>
+              <h3 data-translate="Lorem, ipsum.">Lorem, ipsum.</h3>
+              <p class="small" data-translate="Lorem ipsum dolor sit amet.">
+                Lorem ipsum dolor sit amet.
+              </p>
+              <div class="row">
+                <span class="tag">C++</span><span class="tag">PID</span
+                ><span class="tag">Arduino</span>
+              </div>
+              <div class="row">
+                <a
+                  class="btn ghost"
+                  href="https://blank"
+                  target="_blank"
+                  rel="noreferrer"
+                  data-translate="repo"
+                  >Repo</a
                 >
-                <p class="small">Stormrevyen · 2021-2022</p>
-                <p class="small" data-translate="managerAndTreasurerDesc">
-                  Ledet en årlig skolerevy på Thora Storm videregående skole med
-                  over 150 deltakere. Ansvarlig for planlegging, øvinger og
-                  gjennomføring av produksjonen, samt budsjettering og
-                  økonomistyring, inkludert billettsalg og sponsorater.
-                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="experience">
+          <h2 class="section-title" data-translate="experience">Erfaring</h2>
+          <div class="card pad">
+            <div class="timeline">
+              <div class="step">
+                <div class="dot" aria-hidden="true"></div>
+                <div>
+                  <h3 data-translate="financialManager">Økonomiansvarlig</h3>
+                  <span class="tag" data-translate="voluntaryWork"
+                    >Frivillig arbeid</span
+                  >
+                  <p class="small">
+                    Linjeforeningen Elektra · 2024 —
+                    <span data-translate="present">Nåværende</span>
+                  </p>
+                  <p class="small" data-translate="financialManagerDesc">
+                    Hadde ansvaret for budsjettering, regnskap og finansiell
+                    planlegging for studentorganisasjonen som representerer
+                    elektrostudenter på NTNU. Introduserte strukturerte
+                    finansielle prosedyrer som forbedret transparens,
+                    nøyaktighet og kontroll av organisasjonens finansielle
+                    drift.
+                  </p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="dot" aria-hidden="true"></div>
+                <div>
+                  <h3 data-translate="shiftLeader">Skiftleder</h3>
+                  <span class="tag" data-translate="partTime">Deltid</span>
+                  <p class="small">
+                    Trondheim Kino · 2021 —
+                    <span data-translate="present">Nåværende</span>
+                  </p>
+                  <p class="small" data-translate="shiftLeaderDesc">
+                    Ansvarlig for opplæring, drift og kundeservice i et
+                    tempofylt miljø. Bidro til forbedrede prosedyrer som økte
+                    effektiviteten i billett- og kiosksalg samtidig som den
+                    totale kundeopplevelsen ble forbedret.
+                  </p>
+                </div>
+              </div>
+              <br />
+              <div class="step">
+                <div class="dot" aria-hidden="true"></div>
+                <div>
+                  <h3 data-translate="teachingAssistant">
+                    Undervisningsassistent
+                  </h3>
+                  <span class="tag" data-translate="partTime">Deltid</span>
+                  <p class="small">
+                    NTNU · 2024 —
+                    <span data-translate="present">Nåværende</span>
+                  </p>
+                  <p class="small" data-translate="teachingAssistantDesc">
+                    Støtter undervisning og studentveiledning på NTNU. Gir
+                    akademisk assistanse, hjelper med øvinger og legger til
+                    rette for dypere forståelse av fagstoffet.
+                  </p>
+                </div>
+              </div>
+              <br />
+              <div class="step">
+                <div class="dot" aria-hidden="true"></div>
+                <div>
+                  <h3 data-translate="communicationsOperator">
+                    Sambandsoperatør - Luftvern
+                  </h3>
+                  <span class="tag" data-translate="fullTime">Fulltid</span>
+                  <p class="small" data-translate="norwegianArmedForces">
+                    Forsvaret
+                  </p>
+                  <p class="small" data-translate="communicationsOperatorDesc">
+                    Operativ erfaring med sambandssystemer i Luftvernbataljonen.
+                    Tjenestegjorde som del av NATO Response Force, som krevde
+                    presisjon, lagarbeid og beredskap. Bidro til sikker og
+                    effektiv kommunikasjon under krevende forhold.
+                  </p>
+                </div>
+              </div>
+              <br />
+              <div class="step">
+                <div class="dot" aria-hidden="true"></div>
+                <div>
+                  <h3 data-translate="bartender">Bartender</h3>
+                  <span class="tag" data-translate="voluntaryWork"
+                    >Frivillig arbeid</span
+                  >
+                  <p class="small">UKA · 2023</p>
+                  <p class="small" data-translate="bartenderDesc">
+                    Jobbet under UKA-studentfestivalen på Samfundet i Trondheim,
+                    en av Norges største studentfestivaler. Opererte i et
+                    høytempobart miljø og utviklet sterke ferdigheter innen
+                    service, lagarbeid og stresshåndtering under krevende
+                    forhold.
+                  </p>
+                </div>
+              </div>
+              <br />
+              <div class="step">
+                <div class="dot" aria-hidden="true"></div>
+                <div>
+                  <h3 data-translate="managerAndTreasurer">
+                    Leder og kasserer
+                  </h3>
+                  <span class="tag" data-translate="voluntaryWork"
+                    >Frivillig arbeid</span
+                  >
+                  <p class="small">Stormrevyen · 2021-2022</p>
+                  <p class="small" data-translate="managerAndTreasurerDesc">
+                    Ledet en årlig skolerevy på Thora Storm videregående skole
+                    med over 150 deltakere. Ansvarlig for planlegging, øvinger
+                    og gjennomføring av produksjonen, samt budsjettering og
+                    økonomistyring, inkludert billettsalg og sponsorater.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section id="about">
-        <h2 class="section-title" data-translate="about">Om meg</h2>
-        <div class="grid cols-2">
-          <div class="card pad">
-            <p data-translate="aboutText1">
-              Jeg er student i Automatisering og intelligente systemer på NTNU,
-              basert i Trondheim, Norge. Mine interesser ligger i
-              skjæringspunktet mellom reguleringsteknikk og innebygd programvare
-              — å bruke streng matematikk for å få maskinvare til å oppføre seg.
-            </p>
-            <p data-translate="aboutText2">
-              Når jeg ikke studerer, finner du meg ved å bygge små roboter, lese
-              databladene eller gå tur rundt Bymarka.
-            </p>
+        <section id="about">
+          <h2 class="section-title" data-translate="about">Om meg</h2>
+          <div class="grid cols-2">
+            <div class="card pad">
+              <p data-translate="aboutText1">
+                Jeg er student i Automatisering og intelligente systemer på
+                NTNU, basert i Trondheim, Norge. Mine interesser ligger i
+                skjæringspunktet mellom reguleringsteknikk og innebygd
+                programvare — å bruke streng matematikk for å få maskinvare til
+                å oppføre seg.
+              </p>
+              <p data-translate="aboutText2">
+                Når jeg ikke studerer, finner du meg ved å bygge små roboter,
+                lese databladene eller gå tur rundt Bymarka.
+              </p>
+            </div>
+            <div class="card pad">
+              <h3 style="margin-top: 0" data-translate="highlights">
+                Høydepunkter
+              </h3>
+              <ul>
+                <li data-translate="highlight1">
+                  Hands-on med sensorer (IMU, ToF, encodere) og
+                  sanntidsbegrensninger.
+                </li>
+                <li data-translate="highlight2">
+                  Komfortabel med å gå fra simulering til maskinvareoppstart.
+                </li>
+                <li data-translate="highlight3">
+                  Nysgjerrig, pålitelig og sikkerhetsorientert.
+                </li>
+              </ul>
+            </div>
           </div>
-          <div class="card pad">
-            <h3 style="margin-top: 0" data-translate="highlights">
-              Høydepunkter
-            </h3>
-            <ul>
-              <li data-translate="highlight1">
-                Hands-on med sensorer (IMU, ToF, encodere) og
-                sanntidsbegrensninger.
-              </li>
-              <li data-translate="highlight2">
-                Komfortabel med å gå fra simulering til maskinvareoppstart.
-              </li>
-              <li data-translate="highlight3">
-                Nysgjerrig, pålitelig og sikkerhetsorientert.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section id="skills">
-        <h2 class="section-title" data-translate="skills">Ferdigheter</h2>
-        <div class="grid cols-3">
-          <div class="card pad">
-            <h3 data-translate="programming">Programmering</h3>
-            <p class="small">
-              C/C++, Python, MATLAB/Simulink, ROS2, grunnleggende HTML/CSS/JS.
-            </p>
-            <div class="row">
-              <span class="tag">Git</span><span class="tag">CMake</span
-              ><span class="tag" data-translate="unitTesting"
-                >Enhetstesting</span
-              >
+        <section id="skills">
+          <h2 class="section-title" data-translate="skills">Ferdigheter</h2>
+          <div class="grid cols-3">
+            <div class="card pad">
+              <h3 data-translate="programming">Programmering</h3>
+              <p class="small">
+                C/C++, Python, MATLAB/Simulink, ROS2, grunnleggende HTML/CSS/JS.
+              </p>
+              <div class="row">
+                <span class="tag">Git</span><span class="tag">CMake</span
+                ><span class="tag" data-translate="unitTesting"
+                  >Enhetstesting</span
+                >
+              </div>
+            </div>
+            <div class="card pad">
+              <h3 data-translate="controlsAndSignals">Styring og signaler</h3>
+              <p class="small">
+                PID, tilstandsrom, observatører, filtrering
+                (Kalman/Butterworth), frekvensrespons.
+              </p>
+              <div class="row">
+                <span class="tag">Bode/Nyquist</span
+                ><span class="tag" data-translate="rootLocus">Rotlokus</span>
+              </div>
+            </div>
+            <div class="card pad">
+              <h3 data-translate="hardware">Maskinvare</h3>
+              <p class="small">
+                STM32/ESP32/Arduino, sensorer/aktuatorer, PCB-reparasjon,
+                oscilloskoper, logiske analysatorer.
+              </p>
+              <div class="row">
+                <span class="tag">I2C/SPI/UART</span><span class="tag">PWM</span
+                ><span class="tag">PLS</span>
+              </div>
             </div>
           </div>
-          <div class="card pad">
-            <h3 data-translate="controlsAndSignals">Styring og signaler</h3>
-            <p class="small">
-              PID, tilstandsrom, observatører, filtrering (Kalman/Butterworth),
-              frekvensrespons.
-            </p>
-            <div class="row">
-              <span class="tag">Bode/Nyquist</span
-              ><span class="tag" data-translate="rootLocus">Rotlokus</span>
-            </div>
-          </div>
-          <div class="card pad">
-            <h3 data-translate="hardware">Maskinvare</h3>
-            <p class="small">
-              STM32/ESP32/Arduino, sensorer/aktuatorer, PCB-reparasjon,
-              oscilloskoper, logiske analysatorer.
-            </p>
-            <div class="row">
-              <span class="tag">I2C/SPI/UART</span><span class="tag">PWM</span
-              ><span class="tag">PLS</span>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section id="contact">
-        <h2 class="section-title" data-translate="contact">Kontakt</h2>
-        <div class="contact-grid">
-          <div class="card pad">
-            <h3 style="margin-top: 0" data-translate="letsStartSomething">
-              La oss starte noe flott
-            </h3>
-            <p class="small" data-translate="contactDesc">
-              Send meg en e-post direkte eller bruk skjemaet. Jeg er åpen for
-              praksis, prosjekter og samarbeid.
-            </p>
-            <div class="row" style="align-items: center">
-              <a class="btn" href="mailto:anders@garberg.wtf"
-                >✉️ anders@garberg.wtf</a
-              >
-              <a
-                class="btn ghost"
-                href="https://www.linkedin.com/in/anders-garberg-4214ba383"
-                target="_blank"
-                rel="noreferrer"
-                >LinkedIn</a
-              >
-              <a
-                class="btn ghost"
-                href="https://github.com/andersgar"
-                target="_blank"
-                rel="noreferrer"
-                >GitHub</a
-              >
+        <section id="contact">
+          <h2 class="section-title" data-translate="contact">Kontakt</h2>
+          <div class="contact-grid">
+            <div class="card pad">
+              <h3 style="margin-top: 0" data-translate="letsStartSomething">
+                La oss starte noe flott
+              </h3>
+              <p class="small" data-translate="contactDesc">
+                Send meg en e-post direkte eller bruk skjemaet. Jeg er åpen for
+                praksis, prosjekter og samarbeid.
+              </p>
+              <div class="row" style="align-items: center">
+                <a class="btn" href="mailto:anders@garberg.wtf"
+                  >✉️ anders@garberg.wtf</a
+                >
+                <a
+                  class="btn ghost"
+                  href="https://www.linkedin.com/in/anders-garberg-4214ba383"
+                  target="_blank"
+                  rel="noreferrer"
+                  >LinkedIn</a
+                >
+                <a
+                  class="btn ghost"
+                  href="https://github.com/andersgar"
+                  target="_blank"
+                  rel="noreferrer"
+                  >GitHub</a
+                >
+              </div>
             </div>
+            <form id="contactForm" class="card pad" aria-label="Kontaktskjema">
+              <div class="field">
+                <label for="name" data-translate="name">Navn</label>
+                <input
+                  id="name"
+                  name="name"
+                  placeholder="Ditt navn"
+                  autocomplete="name"
+                  required
+                />
+              </div>
+              <div class="field">
+                <label for="email" data-translate="email">E-post</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="deg@domene.no"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <div class="field">
+                <label for="message" data-translate="message">Melding</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  placeholder="Fortell meg om deg selv"
+                  required
+                ></textarea>
+              </div>
+              <div
+                class="row"
+                style="justify-content: space-between; align-items: center"
+              >
+                <span class="small" data-translate="formNote"
+                  >Dette skjemaet åpner e-postappen din med en forhåndsutfylt
+                  melding.</span
+                >
+                <button class="btn" type="submit" data-translate="send">
+                  Send
+                </button>
+              </div>
+            </form>
           </div>
-          <form id="contactForm" class="card pad" aria-label="Kontaktskjema">
-            <div class="field">
-              <label for="name" data-translate="name">Navn</label>
-              <input
-                id="name"
-                name="name"
-                placeholder="Ditt navn"
-                autocomplete="name"
-                required
-              />
-            </div>
-            <div class="field">
-              <label for="email" data-translate="email">E-post</label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="deg@domene.no"
-                autocomplete="email"
-                required
-              />
-            </div>
-            <div class="field">
-              <label for="message" data-translate="message">Melding</label>
-              <textarea
-                id="message"
-                name="message"
-                placeholder="Fortell meg om deg selv"
-                required
-              ></textarea>
-            </div>
-            <div
-              class="row"
-              style="justify-content: space-between; align-items: center"
+        </section>
+      </div>
+
+      <!-- Logged in content (initially hidden) -->
+      <div id="loggedInContent" style="display: none">
+        <section style="padding: 2rem 0">
+          <div style="text-align: center; margin-bottom: 3rem">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem">
+              Welcome back, Anders! 👋
+            </h1>
+            <p style="font-size: 1.1rem; color: var(--muted)">
+              Choose an app to get started
+            </p>
+          </div>
+
+          <div class="grid cols-3" style="gap: 2rem; margin-bottom: 3rem">
+            <a
+              href="https://ha.garberg.wtf"
+              target="_blank"
+              rel="noopener"
+              class="card pad app-card"
+              style="
+                text-decoration: none;
+                transition: transform 0.2s, box-shadow 0.2s;
+              "
             >
-              <span class="small" data-translate="formNote"
-                >Dette skjemaet åpner e-postappen din med en forhåndsutfylt
-                melding.</span
-              >
-              <button class="btn" type="submit" data-translate="send">
-                Send
-              </button>
+              <div style="font-size: 3rem; margin-bottom: 1rem">🏠</div>
+              <h3 style="margin: 0 0 0.5rem 0; color: var(--text)">
+                Home Assistant
+              </h3>
+              <p class="small" style="color: var(--muted); margin: 0">
+                Control your smart home devices and automation
+              </p>
+              <div style="margin-top: 1rem">
+                <span class="tag">ha.garberg.wtf</span>
+              </div>
+            </a>
+
+            <a
+              href="https://tv.garberg.wtf"
+              target="_blank"
+              rel="noopener"
+              class="card pad app-card"
+              style="
+                text-decoration: none;
+                transition: transform 0.2s, box-shadow 0.2s;
+              "
+            >
+              <div style="font-size: 3rem; margin-bottom: 1rem">📺</div>
+              <h3 style="margin: 0 0 0.5rem 0; color: var(--text)">
+                Media Server
+              </h3>
+              <p class="small" style="color: var(--muted); margin: 0">
+                Stream movies, TV shows, and manage your media library
+              </p>
+              <div style="margin-top: 1rem">
+                <span class="tag">tv.garberg.wtf</span>
+              </div>
+            </a>
+
+            <a
+              href="https://request.garberg.wtf"
+              target="_blank"
+              rel="noopener"
+              class="card pad app-card"
+              style="
+                text-decoration: none;
+                transition: transform 0.2s, box-shadow 0.2s;
+              "
+            >
+              <div style="font-size: 3rem; margin-bottom: 1rem">🎬</div>
+              <h3 style="margin: 0 0 0.5rem 0; color: var(--text)">
+                Media Requests
+              </h3>
+              <p class="small" style="color: var(--muted); margin: 0">
+                Request new movies and TV shows to add to your library
+              </p>
+              <div style="margin-top: 1rem">
+                <span class="tag">request.garberg.wtf</span>
+              </div>
+            </a>
+          </div>
+
+          <div
+            style="
+              text-align: center;
+              padding-top: 2rem;
+              border-top: 1px solid
+                color-mix(in oklab, var(--text) 8%, transparent);
+            "
+          >
+            <h3 style="margin-bottom: 1rem">Quick Actions</h3>
+            <div
+              style="
+                display: flex;
+                gap: 1rem;
+                justify-content: center;
+                flex-wrap: wrap;
+              "
+            >
+              <a href="admin.html" class="btn">📊 Admin Dashboard</a>
+              <button id="logoutBtnMain" class="btn ghost">Logout</button>
             </div>
-          </form>
-        </div>
-      </section>
+          </div>
+        </section>
+      </div>
     </main>
 
     <footer>
@@ -636,6 +775,7 @@
     </footer>
 
     <!-- JavaScript Files -->
+    <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/analytics.js"></script>
     <script src="js/common.js"></script>
     <script src="js/desktop.js"></script>
