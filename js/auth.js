@@ -58,7 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const result = await login(email, password);
 
       if (result.success) {
-        window.location.href = "admin.html";
+        // Redirect to main page instead of admin dashboard
+        window.location.href = "index.html";
       } else {
         errorMessage.textContent =
           result.error || "Ugyldig brukernavn eller passord";

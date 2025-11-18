@@ -6,7 +6,8 @@ let supabase;
 try {
   // Try to import from auth.js config
   const SUPABASE_URL = "https://rsbdfrvcxwcaoqwdplys.supabase.co"; // Replace with your URL
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzYmRmcnZjeHdjYW9xd2RwbHlzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM0NTYyOTAsImV4cCI6MjA3OTAzMjI5MH0.AEaYHvVU5h1kfBiTjYMTW6bvdlpvwutCb7LA_QSe9G4"; // Replace with your key
+  const SUPABASE_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzYmRmcnZjeHdjYW9xd2RwbHlzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM0NTYyOTAsImV4cCI6MjA3OTAzMjI5MH0.AEaYHvVU5h1kfBiTjYMTW6bvdlpvwutCb7LA_QSe9G4"; // Replace with your key
   supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 } catch (e) {
   console.error("Failed to initialize Supabase:", e);
@@ -149,5 +150,4 @@ window.analytics = {
   trackContact,
   trackCVDownload,
   getAnalytics,
-  resetAnalytics,
 };

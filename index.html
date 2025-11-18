@@ -92,7 +92,14 @@
           <a href="#experience" data-translate="experience">Erfaring</a>
           <a href="#about" data-translate="about">Om meg</a>
           <a href="#contact" data-translate="contact">Kontakt</a>
-          <a href="login.html" class="btn" data-translate="login">Logg inn</a>
+          <a
+            href="admin.html"
+            id="dashboardBtn"
+            class="btn"
+            style="display: none"
+            data-translate="dashboard"
+            >Dashboard</a
+          >
           <button
             class="theme-toggle"
             id="themeToggle"
@@ -108,6 +115,14 @@
             title="Bytt språk"
           >
             🌐
+          </button>
+          <button
+            class="theme-toggle"
+            id="loginToggle"
+            aria-label="Login status"
+            title="Click to login or view admin"
+          >
+            🔒
           </button>
         </div>
 
@@ -130,10 +145,11 @@
       <a href="#about" data-translate="about">Om meg</a>
       <a href="#contact" data-translate="contact">Kontakt</a>
       <a
-        href="login.html"
-        data-translate="login"
-        style="color: var(--brand); font-weight: 600"
-        >Logg inn</a
+        href="admin.html"
+        id="dashboardBtnMobile"
+        style="display: none; color: var(--brand); font-weight: 600"
+        data-translate="dashboard"
+        >Dashboard</a
       >
 
       <div class="mobile-buttons">
@@ -152,6 +168,14 @@
           title="Bytt språk"
         >
           🌐
+        </button>
+        <button
+          class="theme-toggle"
+          id="loginToggleMobile"
+          aria-label="Login status"
+          title="Click to login or view admin"
+        >
+          🔒
         </button>
       </div>
     </div>

@@ -18,6 +18,33 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Login toggle for desktop
+  const loginToggle = document.getElementById("loginToggle");
+  if (loginToggle) {
+    loginToggle.addEventListener("click", async () => {
+      // Wait for auth module
+      let attempts = 0;
+      while (!window.auth && attempts < 50) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        attempts++;
+      }
+
+      if (window.auth) {
+        const isLoggedIn = await window.auth.isAuthenticated();
+        if (isLoggedIn) {
+          // If logged in, go to admin dashboard
+          window.location.href = "admin.html";
+        } else {
+          // If not logged in, go to login page
+          window.location.href = "login.html";
+        }
+      } else {
+        // Fallback if auth module not loaded
+        window.location.href = "login.html";
+      }
+    });
+  }
+
   // Contact form functionality
   const form = document.getElementById("contactForm");
   if (form) {

@@ -75,6 +75,9 @@ const translations = {
       "Dette skjemaet åpner e-postappen din med en forhåndsutfylt melding.",
     send: "Send",
     login: "Logg inn",
+    logout: "Logg ut",
+    admin: "Admin",
+    dashboard: "Dashboard",
   },
   en: {
     devBanner: "🚧 This website is under development",
@@ -150,6 +153,9 @@ const translations = {
     formNote: "This form opens your email app with a prefilled message.",
     send: "Send",
     login: "Login",
+    logout: "Logout",
+    admin: "Admin",
+    dashboard: "Dashboard",
   },
 };
 
@@ -285,4 +291,76 @@ document.addEventListener("DOMContentLoaded", function () {
   if (yearElement) {
     yearElement.textContent = new Date().getFullYear();
   }
+
+  // Check login status and update icon
+  updateLoginStatus();
 });
+
+// Check and update login status
+async function updateLoginStatus() {
+  // Wait for auth module to load
+  let attempts = 0;
+  while (!window.auth && attempts < 50) {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    attempts++;
+  }
+
+  if (window.auth) {
+    const isLoggedIn = await window.auth.isAuthenticated();
+
+    // Update desktop login icon
+    const loginToggle = document.getElementById("loginToggle");
+    const dashboardBtn = document.getElementById("dashboardBtn");
+
+    if (loginToggle) {
+      if (isLoggedIn) {
+        loginToggle.textContent = "👤";
+        loginToggle.title = "Go to admin dashboard";
+        loginToggle.style.color = "var(--accent)";
+
+        // Show dashboard button
+        if (dashboardBtn) {
+          dashboardBtn.style.display = "inline-flex";
+        }
+      } else {
+        loginToggle.textContent = "🔒";
+        loginToggle.title = "Click to login";
+        loginToggle.style.color = "";
+
+        // Hide dashboard button
+        if (dashboardBtn) {
+          dashboardBtn.style.display = "none";
+        }
+      }
+    }
+
+    // Update mobile login icon and dashboard button
+    const loginToggleMobile = document.getElementById("loginToggleMobile");
+    const dashboardBtnMobile = document.getElementById("dashboardBtnMobile");
+
+    if (loginToggleMobile) {
+      if (isLoggedIn) {
+        loginToggleMobile.textContent = "👤";
+        loginToggleMobile.title = "Go to admin dashboard";
+        loginToggleMobile.style.color = "var(--accent)";
+
+        // Show mobile dashboard button
+        if (dashboardBtnMobile) {
+          dashboardBtnMobile.style.display = "block";
+        }
+      } else {
+        loginToggleMobile.textContent = "🔒";
+        loginToggleMobile.title = "Click to login";
+        loginToggleMobile.style.color = "";
+
+        // Hide mobile dashboard button
+        if (dashboardBtnMobile) {
+          dashboardBtnMobile.style.display = "none";
+        }
+      }
+    }
+  }
+}
+
+// Export for use in other files
+window.updateLoginStatus = updateLoginStatus;

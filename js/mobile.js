@@ -73,4 +73,31 @@ document.addEventListener("DOMContentLoaded", function () {
       updateLanguage(newLang);
     });
   }
+
+  // Login toggle for mobile
+  const loginToggleMobile = document.getElementById("loginToggleMobile");
+  if (loginToggleMobile) {
+    loginToggleMobile.addEventListener("click", async () => {
+      // Wait for auth module
+      let attempts = 0;
+      while (!window.auth && attempts < 50) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        attempts++;
+      }
+
+      if (window.auth) {
+        const isLoggedIn = await window.auth.isAuthenticated();
+        if (isLoggedIn) {
+          // If logged in, go to admin dashboard
+          window.location.href = "admin.html";
+        } else {
+          // If not logged in, go to login page
+          window.location.href = "login.html";
+        }
+      } else {
+        // Fallback if auth module not loaded
+        window.location.href = "login.html";
+      }
+    });
+  }
 });
