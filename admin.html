@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Dashboard — Anders Garberg</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/desktop.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
+    <style>
+      .admin-header {
+        background: var(--panel);
+        border-bottom: 1px solid
+          color-mix(in oklab, var(--text) 12%, transparent);
+        padding: 1rem 0;
+        margin-bottom: 2rem;
+      }
+      .admin-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .admin-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--brand);
+      }
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+      .stat-card {
+        background: var(--panel);
+        border: 1px solid color-mix(in oklab, var(--text) 10%, transparent);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+      }
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--brand);
+        margin: 0.5rem 0;
+      }
+      .stat-label {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+      .quick-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="admin-header">
+      <div class="container">
+        <div class="admin-nav">
+          <h1 class="admin-title">🔒 Admin Dashboard</h1>
+          <div style="display: flex; gap: 1rem; align-items: center">
+            <span class="small" id="welcomeMessage">Welcome, Admin</span>
+            <button class="btn ghost" id="logoutBtn">Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main class="container">
+      <section>
+        <h2 class="section-title">Overview</h2>
+        <div class="dashboard-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total Visits</div>
+            <div class="stat-value" id="visitCount">0</div>
+            <div class="small">Since last reset</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Contact Forms</div>
+            <div class="stat-value" id="contactCount">0</div>
+            <div class="small">Messages received</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">CV Downloads</div>
+            <div class="stat-value" id="cvDownloads">0</div>
+            <div class="small">Total downloads</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section-title">Quick Actions</h2>
+        <div class="quick-actions">
+          <a href="index.html" class="btn ghost">View Public Site</a>
+          <a href="content/CV_no.pdf" class="btn ghost" download
+            >Download CV (NO)</a
+          >
+          <a href="content/CV_en.pdf" class="btn ghost" download
+            >Download CV (EN)</a
+          >
+        </div>
+      </section>
+
+      <section style="margin-top: 3rem">
+        <h2 class="section-title">Site Information</h2>
+        <div class="card pad">
+          <p>
+            <strong>Last Updated:</strong> <span id="lastUpdate">Just now</span>
+          </p>
+          <p>
+            <strong>Current Language:</strong>
+            <span id="currentLang">Norwegian (default)</span>
+          </p>
+          <p>
+            <strong>Theme:</strong>
+            <span id="currentTheme">Auto (System preference)</span>
+          </p>
+          <p class="small" style="margin-top: 1rem; color: var(--muted)">
+            This is a private admin dashboard. Only you can access this page.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/common.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+      // Check if user is logged in
+      if (!isAuthenticated()) {
+        window.location.href = "login.html";
+      }
+
+      // Update last update time
+      document.getElementById("lastUpdate").textContent =
+        new Date().toLocaleString();
+
+      // Logout functionality
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        logout();
+        window.location.href = "login.html";
+      });
+
+      // Load some dummy stats (in a real app, these would come from a backend)
+      const stats = JSON.parse(
+        localStorage.getItem("adminStats") ||
+          '{"visits":0,"contacts":0,"downloads":0}'
+      );
+      document.getElementById("visitCount").textContent =
+        stats.visits || Math.floor(Math.random() * 1000);
+      document.getElementById("contactCount").textContent =
+        stats.contacts || Math.floor(Math.random() * 50);
+      document.getElementById("cvDownloads").textContent =
+        stats.downloads || Math.floor(Math.random() * 200);
+
+      // Detect current settings
+      const currentLang = localStorage.getItem("language") || "no";
+      document.getElementById("currentLang").textContent =
+        currentLang === "no" ? "Norwegian" : "English";
+
+      const theme = localStorage.getItem("theme");
+      if (theme) {
+        document.getElementById("currentTheme").textContent =
+          theme === "light" ? "Light Mode" : "Dark Mode";
+      }
+    </script>
+  </body>
+</html>

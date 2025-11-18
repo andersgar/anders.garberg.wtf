@@ -74,6 +74,7 @@ const translations = {
     formNote:
       "Dette skjemaet åpner e-postappen din med en forhåndsutfylt melding.",
     send: "Send",
+    login: "Logg inn",
   },
   en: {
     devBanner: "🚧 This website is under development",
@@ -148,6 +149,7 @@ const translations = {
     message: "Message",
     formNote: "This form opens your email app with a prefilled message.",
     send: "Send",
+    login: "Login",
   },
 };
 
