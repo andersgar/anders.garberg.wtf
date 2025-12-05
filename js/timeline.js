@@ -7,19 +7,12 @@ async function fetchExperienceData() {
   return experienceData;
 }
 
-function getCurrentLang() {
-  return document.documentElement.lang &&
-    document.documentElement.lang.startsWith("en")
-    ? "en"
-    : "no";
-}
-
 async function renderTimeline() {
   const timelineEl = document.getElementById("timeline");
   if (!timelineEl) return;
 
   const companies = await fetchExperienceData();
-  const lang = getCurrentLang();
+  const lang = window.currentLang || "no";
 
   timelineEl.innerHTML = companies
     .map(
@@ -56,17 +49,11 @@ async function renderTimeline() {
 
 document.addEventListener("DOMContentLoaded", renderTimeline);
 
-// Listen for language changes (assumes your language button toggles document.documentElement.lang)
-const langToggleBtn = document.getElementById("langToggle");
-const langToggleBtnMobile = document.getElementById("langToggleMobile");
-
-function addLangListener(btn) {
-  if (!btn) return;
-  btn.addEventListener("click", () => {
-    // Wait for lang attribute to update (if your toggle is async)
-    setTimeout(renderTimeline, 10);
-  });
+// Listen for global language changes
+if (window.updateLanguage) {
+  const originalUpdateLanguage = window.updateLanguage;
+  window.updateLanguage = function (lang) {
+    originalUpdateLanguage(lang);
+    renderTimeline();
+  };
 }
-
-addLangListener(langToggleBtn);
-addLangListener(langToggleBtnMobile);

@@ -60,17 +60,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const themeToggleMobile = document.getElementById("themeToggleMobile");
   const langToggleMobile = document.getElementById("langToggleMobile");
 
-  if (themeToggleMobile) {
-    themeToggleMobile.addEventListener("click", () => {
-      const isLight = document.documentElement.classList.contains("light");
-      applyTheme(isLight ? "dark" : "light");
-    });
-  }
+  // Theme toggle is handled in common.js
 
   if (langToggleMobile) {
     langToggleMobile.addEventListener("click", () => {
-      const newLang = currentLang === "no" ? "en" : "no";
-      updateLanguage(newLang);
+      const newLang = window.currentLang === "no" ? "en" : "no";
+      if (window.updateLanguage) window.updateLanguage(newLang);
     });
   }
 

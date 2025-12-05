@@ -196,13 +196,17 @@
       <div class="login-card">
         <div class="login-header">
           <div class="brand-badge" aria-hidden="true">AG</div>
-          <h2 class="login-title">Admin login</h2>
-          <p class="login-subtitle">Logg inn til dashboard</p>
+          <h2 class="login-title" data-translate="loginTitle">Admin login</h2>
+          <p class="login-subtitle" data-translate="loginSubtitle">
+            Logg inn til dashboard
+          </p>
         </div>
 
         <form id="loginForm">
           <div class="form-group">
-            <label for="username">E-postadresse</label>
+            <label for="username" data-translate="emailLabel"
+              >E-postadresse</label
+            >
             <input
               type="email"
               id="username"
@@ -214,7 +218,7 @@
           </div>
 
           <div class="form-group">
-            <label for="password">Passord</label>
+            <label for="password" data-translate="passwordLabel">Passord</label>
             <input
               type="password"
               id="password"
@@ -225,26 +229,35 @@
             />
           </div>
 
-          <div id="errorMessage" class="error-message">
+          <div
+            id="errorMessage"
+            class="error-message"
+            data-translate="errorMessage"
+          >
             Ugyldig e-postadresse eller passord
           </div>
 
-          <button type="submit" class="btn">Logg inn</button>
+          <button type="submit" class="btn" data-translate="loginButton">
+            Logg inn
+          </button>
         </form>
 
         <div class="divider">
-          <span>Er du ikke Anders?</span>
+          <span data-translate="notAnders">Er du ikke Anders?</span>
         </div>
 
         <a
           href="mailto:anders@garberg.wtf?subject=Tilgang til admin-panel"
           class="btn ghost"
+          data-translate="requestAccess"
         >
           Be om tilgang
         </a>
 
         <div class="back-link">
-          <a href="index.html">← Tilbake til forsiden</a>
+          <a href="index.html" data-translate="backToHome"
+            >← Tilbake til forsiden</a
+          >
         </div>
       </div>
     </div>

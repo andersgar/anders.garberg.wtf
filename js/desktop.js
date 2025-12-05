@@ -1,13 +1,13 @@
 // Desktop functionality
 document.addEventListener("DOMContentLoaded", function () {
-  // ...theme toggle handled in common.js...
+  // Theme toggle is handled in common.js
 
   // Language toggle for desktop
   const langToggle = document.getElementById("langToggle");
   if (langToggle) {
     langToggle.addEventListener("click", () => {
-      const newLang = currentLang === "no" ? "en" : "no";
-      updateLanguage(newLang);
+      const newLang = window.currentLang === "no" ? "en" : "no";
+      if (window.updateLanguage) window.updateLanguage(newLang);
     });
   }
 
