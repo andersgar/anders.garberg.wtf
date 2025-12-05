@@ -245,17 +245,49 @@ function updateLanguage(lang) {
 }
 
 // Theme functionality
+// Theme functionality (centralized)
 const root = document.documentElement;
-const userPref = localStorage.getItem("theme");
-const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+function getThemeFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const theme = params.get("theme");
+  if (theme === "light" || theme === "dark") return theme;
+  return null;
+}
+
+function getUserThemePref() {
+  return localStorage.getItem("theme");
+}
+
+function getSystemThemePref() {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
 
 function applyTheme(mode) {
+  // Set data-theme attribute for CSS
+  root.setAttribute("data-theme", mode);
   if (mode === "light") {
     root.classList.add("light");
   } else {
     root.classList.remove("light");
   }
   localStorage.setItem("theme", mode);
+  // Update URL parameter for sharing
+  const params = new URLSearchParams(window.location.search);
+  params.set("theme", mode);
+  window.history.replaceState({}, "", `${window.location.pathname}?${params}`);
+}
+
+function setupThemeToggles() {
+  const themeToggle = document.getElementById("themeToggle");
+  const themeToggleMobile = document.getElementById("themeToggleMobile");
+  function toggleTheme() {
+    const current = root.getAttribute("data-theme") || getSystemThemePref();
+    const next = current === "dark" ? "light" : "dark";
+    applyTheme(next);
+  }
+  if (themeToggle) themeToggle.addEventListener("click", toggleTheme);
+  if (themeToggleMobile) themeToggleMobile.addEventListener("click", toggleTheme);
 }
 
 // Update scroll padding based on actual header heights
@@ -584,7 +616,12 @@ window.closeQrPopup = closeQrPopup;
 
 // Initialize theme and language
 document.addEventListener("DOMContentLoaded", function () {
-  applyTheme(userPref || (systemDark ? "dark" : "light"));
+  // Theme initialization: URL param > localStorage > system
+  const urlTheme = getThemeFromUrl();
+  const userTheme = getUserThemePref();
+  const systemTheme = getSystemThemePref();
+  applyTheme(urlTheme || userTheme || systemTheme);
+  setupThemeToggles();
 
   // Initialize language (URL parameter takes precedence)
   const urlLang = getLanguageFromURL();
@@ -598,7 +635,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Update on resize in case banner height changes
   window.addEventListener("resize", updateScrollPadding);
-
+// ...existing code...
   // Set year
   const yearElement = document.getElementById("year");
   if (yearElement) {

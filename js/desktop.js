@@ -1,13 +1,6 @@
 // Desktop functionality
 document.addEventListener("DOMContentLoaded", function () {
-  // Theme toggle for desktop
-  const themeToggle = document.getElementById("themeToggle");
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      const isLight = document.documentElement.classList.contains("light");
-      applyTheme(isLight ? "dark" : "light");
-    });
-  }
+  // ...theme toggle handled in common.js...
 
   // Language toggle for desktop
   const langToggle = document.getElementById("langToggle");
