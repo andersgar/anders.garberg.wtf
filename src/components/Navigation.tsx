@@ -15,7 +15,7 @@ export function Navigation() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       // Only hide/show after scrolling past 100px
       if (currentScrollY > 100) {
         // Scrolling down - hide navbar
@@ -29,7 +29,7 @@ export function Navigation() {
       } else {
         setNavHidden(false);
       }
-      
+
       setLastScrollY(currentScrollY);
     };
 
