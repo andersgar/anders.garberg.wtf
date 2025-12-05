@@ -99,6 +99,8 @@ export const translations = {
     scanQR: "Skann for å besøke nettstedet",
     codedInReact: "Kodet i React av Anders",
     viewSource: "Se kildekode",
+    showMoreExperience: "Vis mer",
+    showLessExperience: "Vis mindre",
   },
   en: {
     // Navigation & General
@@ -197,6 +199,8 @@ export const translations = {
     scanQR: "Scan to visit the website",
     codedInReact: "Coded in React by Anders",
     viewSource: "View source",
+    showMoreExperience: "Show more",
+    showLessExperience: "Show less",
   },
 } as const;
 
