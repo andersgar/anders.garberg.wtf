@@ -1,0 +1,162 @@
+[
+  {
+    "company": { "no": "Trondheim Kino", "en": "Trondheim Kino" },
+    "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
+    "positions": [
+      {
+        "title": { "no": "Skiftleder", "en": "Shift Leader" },
+        "tag": { "no": "Deltid", "en": "Part-time" },
+        "date": {
+          "no": "Aug 2023 – Nåværende",
+          "en": "Aug 2023 – Present"
+        },
+        "desc": {
+          "no": "Ansvarlig for opplæring, drift og kundeservice i et tempofylt miljø. Bidro til forbedrede prosedyrer som økte effektiviteten i billett- og kiosksalg samtidig som den totale kundeopplevelsen ble forbedret.",
+          "en": "Responsible for training, operations, and customer service in a fast-paced environment. Contributed to improved procedures that increased efficiency in ticket and kiosk sales while enhancing the overall customer experience."
+        }
+      },
+      {
+        "title": { "no": "Bartender", "en": "Bartender" },
+        "tag": { "no": "Deltid", "en": "Part-time" },
+        "date": {
+          "no": "Jan 2024 – Nåværende",
+          "en": "Jan 2024 – Present"
+        },
+        "desc": {
+          "no": "Ansvar for salg og servering av alkohol i kinobaren. Jobber selvstendig og ofte alene, med fokus på god kundeservice, effektiv håndtering av gjester og ryddig drift.",
+          "en": "Responsible for sales and serving alcohol in the cinema bar. Works independently and often alone, focusing on excellent customer service, efficient guest handling, and tidy operations."
+        }
+      },
+      {
+        "title": { "no": "Salgsvert", "en": "Sales Host" },
+        "tag": { "no": "Deltid", "en": "Part-time" },
+        "date": {
+          "no": "Jun 2021 – Nåværende",
+          "en": "Jun 2021 – Present"
+        },
+        "desc": {
+          "no": "Bidro til daglig drift og kundeservice ved Trondheim Kino, med ansvar for billettsalg, kiosk og publikumsopplevelsen. Fokuserte på effektiv betjening og høy servicegrad i et travelt arbeidsmiljø.",
+          "en": "Contributed to daily operations and customer service at Trondheim Kino, responsible for ticket sales, kiosk, and audience experience. Focused on efficient service and high service standards in a busy work environment."
+        }
+      }
+    ]
+  },
+  {
+    "company": { "no": "NTNU", "en": "NTNU" },
+    "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
+    "positions": [
+        {
+        "title": { "no": "Læringsassistent -  Kunstig intelligens for robotikk og automatisering AIST2102", "en": "Teaching Assistant - Artificial intelligence for robotics and automation AIST2102" },
+        "tag": { "no": "Deltid", "en": "Part-time" },
+        "date": {
+          "no": "Jan 2026 – Mai 2026",
+          "en": "Jan 2026 – May 2026"
+        },
+        "desc": {
+          "no": "Studass i det nye emnet Kunstig intelligens for robotikk og automatisering våren 2026, der jeg veileder studenter og gir faglig støtte i AI-relaterte oppgaver.",
+          "en": "Teaching assistant in the new course Artificial Intelligence for Robotics and Automation spring 2026, guiding students and providing academic support in AI-related tasks."
+        }
+      },
+      {
+        "title": { "no": "Læringsassistent - Statistikk ISTT1002", "en": "Teaching Assistant - Statistics ISTT1002" },
+        "tag": { "no": "Deltid", "en": "Part-time" },
+        "date": {
+          "no": "Aug 2025 – Des 2025","en": "Aug 2025 – Dec 2025"},
+        "desc": {
+          "no": "Bidro til undervisning og veiledning av studenter i statistikk for ingeniørfag. Hjalp til med faglig oppfølging, oppgaveløsning og utvikling av studentenes forståelse i emnet.",
+          "en": "Contributed to teaching and guidance of students in Statistics. Assisted with academic follow-up, problem solving, and development of students' understanding in the subject."
+        }
+      }
+    ]
+  },
+  {
+    "company": {
+      "no": "Linjeforeningen Elektra",
+      "en": "Elektra Student Association"
+    },
+    "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
+    "positions": [
+      {
+        "title": { "no": "Økonomisjef", "en": "Financial Manager" },
+        "tag": { "no": "Verv", "en": "Voluntary" },
+        "date": { "no": "Okt 2024 – Nov 2025", "en": "Oct 2024 – Nov 2025" },
+        "desc": {
+          "no": "Studentforeningen for elektrostudenter ved NTNU. Ansvarlig for budsjett, regnskap og økonomisk planlegging for linjeforeningen med flere hundre medlemmer. Utarbeidet rutiner for økonomistyring som ga bedre kontroll og transparens.",
+          "en": "Student association for electrical engineering students at NTNU. Responsible for budget, accounting, and financial planning for the association with several hundred members. Developed routines for financial management that provided better control and transparency."
+        }
+      },
+      {
+        "title": {
+          "no": "Økonomiansvarlig Arrangementskomite",
+          "en": "Financial Manager, Event Committee"
+        },
+        "tag": { "no": "Verv", "en": "Voluntary" },
+        "date": { "no": "Aug 2023 – Okt 2024", "en": "Aug 2023 – Oct 2024" },
+        "desc": {
+          "no": "Bidro til økonomistyring og planlegging av arrangementer for linjeforeningen.",
+          "en": "Contributed to financial management and planning of events for the student association."
+        }
+      },
+      {
+        "title": {
+          "no": "Medlem Arrangementskomite",
+          "en": "Member, Event Committee"
+        },
+        "tag": { "no": "Verv", "en": "Voluntary" },
+        "date": { "no": "Aug 2023 – Nåværende", "en": "Aug 2023 – Present" },
+        "desc": {
+          "no": "Medlem av Elektras arrangementskomité, hvor jeg bidrar til å planlegge og gjennomføre sosiale arrangementer for bedre samhold.",
+          "en": "Member of Elektra’s event committee, helping plan and organize social events to strengthen the student community."
+        }
+      }
+    ]
+  },
+  {
+    "company": { "no": "Forsvaret", "en": "Norwegian Armed Forces" },
+    "location": { "no": "Ørland, Norge", "en": "Ørland, Norway" },
+    "positions": [
+      {
+        "title": {
+          "no": "Sambandsoperatør - Luftvern",
+          "en": "Communications Operator - Ground Based Air Defense"
+        },
+        "tag": { "no": "Fulltid", "en": "Full-time" },
+        "date": { "no": "Aug 2022 - Jan 2024", "en": "Aug 2022 – Jan 2024" },
+        "desc": {
+          "no": "Operativ erfaring med sambandssystemer i Luftvernbataljonen. Tjenestegjorde som del av NATO Response Force, som krevde presisjon, lagarbeid og beredskap. Bidro til sikker og effektiv kommunikasjon under krevende forhold.",
+          "en": "Operational experience with communication systems in the Air Defense Battalion. Served as part of the NATO Response Force, requiring precision, teamwork, and readiness. Contributed to secure and efficient communication under demanding conditions."
+        }
+      }
+    ]
+  },
+  {
+    "company": { "no": "UKA", "en": "UKA" },
+    "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
+    "positions": [
+      {
+        "title": { "no": "Bartender", "en": "Bartender" },
+        "tag": { "no": "Verv", "en": "Voluntary" },
+        "date": { "no": "Aug 2023 - Nov 2023", "en": "Aug 2023 – Nov 2023" },
+        "desc": {
+          "no": "Jobbet under UKA-studentfestivalen på Samfundet i Trondheim, en av Norges største studentfestivaler. Opererte i et høytempobart miljø og utviklet sterke ferdigheter innen service, lagarbeid og stresshåndtering under krevende forhold.",
+          "en": "Worked during the UKA student festival at Samfundet in Trondheim, one of Norway's largest student festivals. Operated in a high-paced bar environment and developed strong skills in service, teamwork, and stress management under demanding conditions."
+        }
+      }
+    ]
+  },
+  {
+    "company": { "no": "Stormrevyen", "en": "Stormrevyen" },
+    "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
+    "positions": [
+      {
+        "title": { "no": "Leder og kasserer", "en": "Manager and Treasurer" },
+        "tag": { "no": "Verv", "en": "Voluntary" },
+        "date": { "no": "Jun 2021 - Jun 2022", "en": "Jun 2021 – Jun 2022" },
+        "desc": {
+          "no": "Ledet en årlig skolerevy på Thora Storm videregående skole med over 150 deltakere. Ansvarlig for planlegging, øvinger og gjennomføring av produksjonen, samt budsjettering og økonomistyring, inkludert billettsalg og sponsorater.",
+          "en": "Led an annual school revue at Thora Storm Upper Secondary School with over 150 participants. Responsible for planning, rehearsals, and execution of the production, as well as budgeting and financial management, including ticket sales and sponsorships."
+        }
+      }
+    ]
+  }
+]
