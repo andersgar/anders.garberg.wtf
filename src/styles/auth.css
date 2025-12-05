@@ -365,8 +365,31 @@
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .login-card {
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
     margin: 1rem;
+  }
+
+  .login-card .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .login-card .login-btn {
+    margin-top: 0.75rem;
+    padding: 0.875rem;
+  }
+
+  .login-card .btn.ghost {
+    margin-top: 0.5rem;
+    padding: 0.875rem;
+  }
+
+  .divider {
+    margin: 1.25rem 0;
+  }
+
+  .login-card .back-link {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
   }
 
   .stats-grid {

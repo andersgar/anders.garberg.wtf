@@ -118,16 +118,16 @@ export function Navigation() {
               <i className="fa-solid fa-globe"></i>
             </button>
 
-            <button
-              className="theme-toggle"
-              onClick={() => setShowQrPopup(true)}
-              aria-label="Show QR Code"
-              title={t("showQR")}
-            >
-              <i className="fa-solid fa-qrcode"></i>
-            </button>
-
             {isAuthenticated ? (
+              <>
+                <button
+                  className="theme-toggle"
+                  onClick={() => setShowQrPopup(true)}
+                  aria-label="Show QR Code"
+                  title={t("showQR")}
+                >
+                  <i className="fa-solid fa-qrcode"></i>
+                </button>
               <div className="user-menu-container">
                 <button
                   ref={userButtonRef}
@@ -173,6 +173,7 @@ export function Navigation() {
                   </div>
                 )}
               </div>
+              </>
             ) : (
               <Link
                 to="/login"
