@@ -184,8 +184,12 @@ body.mobile-menu-open {
     padding: 1rem;
   }
   .timeline .step {
-    grid-template-columns: 20px 1fr;
+    display: grid;
+    grid-template-columns: 18px 1fr;
     gap: 8px;
+    align-items: flex-start;
+    padding-top: 14px;
+    padding-bottom: 14px;
   }
   .timeline::before {
     left: 8px;
@@ -193,7 +197,11 @@ body.mobile-menu-open {
   .timeline .dot {
     inline-size: 16px;
     block-size: 16px;
-    margin-top: 2px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--brand), var(--brand-2));
+    margin-top: 0;
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--brand) 30%, transparent);
+    align-self: flex-start;
   }
   .small {
     font-size: 0.85rem;
