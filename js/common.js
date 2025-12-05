@@ -1,7 +1,7 @@
 // Translations object
 const translations = {
   no: {
-    devBanner: "🚧 Denne nettsiden er under utvikling",
+    devBanner: '<i class="fa-solid fa-triangle-exclamation"></i> Denne nettsiden er under utvikling',
     skipToContent: "Hopp til innhold",
     projects: "Prosjekter",
     experience: "Erfaring",
@@ -66,7 +66,8 @@ const translations = {
     name: "Navn",
     email: "E-post",
     message: "Melding",
-    formNote: "Dette skjemaet åpner e-postprogrammet ditt med en forhåndsutfylt melding.",
+    formNote:
+      "Dette skjemaet åpner e-postprogrammet ditt med en forhåndsutfylt melding.",
     send: "Send",
     login: "Logg inn",
     logout: "Logg ut",
@@ -80,7 +81,7 @@ const translations = {
     errorMessage: "Ugyldig e-postadresse eller passord",
     notAnders: "Er du ikke Anders?",
     requestAccess: "Be om tilgang",
-    backToHome: "← Tilbake til forsiden",
+    backToHome: '<i class="fa-solid fa-arrow-left"></i> Tilbake til forsiden',
     meta: {
       description:
         "Portfolio og kontaktside for student i Automatisering og intelligente systemer (NTNU). Prosjekter, erfaring og måter å ta kontakt på.",
@@ -94,7 +95,7 @@ const translations = {
     cv: "content/CV_no.pdf",
   },
   en: {
-    devBanner: "🚧 This website is under development",
+    devBanner: '<i class="fa-solid fa-triangle-exclamation"></i> This website is under development',
     skipToContent: "Skip to content",
     projects: "Projects",
     experience: "Experience",
@@ -168,6 +169,15 @@ const translations = {
     logout: "Logout",
     admin: "Admin",
     dashboard: "Dashboard",
+    loginTitle: "Admin login",
+    loginSubtitle: "Log in to dashboard",
+    emailLabel: "Email address",
+    passwordLabel: "Password",
+    loginButton: "Log in",
+    errorMessage: "Invalid email or password",
+    notAnders: "Not Anders?",
+    requestAccess: "Request access",
+    backToHome: '<i class="fa-solid fa-arrow-left"></i> Back to home',
     meta: {
       description:
         "Portfolio and contact page for a student in Automation & Intelligent Systems (NTNU). Projects, experience, and ways to get in touch.",
@@ -258,7 +268,7 @@ function updateLanguage(lang) {
   const elements = document.querySelectorAll("[data-translate]");
   elements.forEach((element) => {
     const key = element.getAttribute("data-translate");
-    element.textContent = t(key, lang);
+    element.innerHTML = t(key, lang);
   });
 
   // Update CV download link based on language
@@ -440,13 +450,13 @@ function updateViewDisplay() {
     if (publicContent) publicContent.style.display = "grid";
     if (publicSections) publicSections.style.display = "block";
     if (loggedInContent) loggedInContent.style.display = "none";
-    if (toggleBtn) toggleBtn.innerHTML = "🔐 View as Admin";
+    if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-lock"></i> View as Admin';
   } else {
     // Show admin view
     if (publicContent) publicContent.style.display = "none";
     if (publicSections) publicSections.style.display = "none";
     if (loggedInContent) loggedInContent.style.display = "block";
-    if (toggleBtn) toggleBtn.innerHTML = "👁️ View as Public";
+    if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-eye"></i> View as Public';
   }
 }
 
@@ -595,7 +605,7 @@ async function updateLoginStatus() {
     if (loginToggle) {
       if (isLoggedIn) {
         loginToggle.style.display = "inline-flex";
-        loginToggle.textContent = "👤";
+        loginToggle.innerHTML = '<i class="fa-solid fa-user"></i>';
         loginToggle.title = "View profile";
         loginToggle.style.color = "var(--brand)";
 
@@ -614,7 +624,7 @@ async function updateLoginStatus() {
     if (loginToggleMobile) {
       if (isLoggedIn) {
         loginToggleMobile.style.display = "inline-flex";
-        loginToggleMobile.textContent = "👤";
+        loginToggleMobile.innerHTML = '<i class="fa-solid fa-user"></i>';
         loginToggleMobile.title = "View profile";
         loginToggleMobile.style.color = "var(--brand)";
 
