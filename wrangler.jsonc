@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "anders-garberg-wtf",
+  "name": "garberg-wtf",
   "compatibility_date": "2025-12-05",
   "pages_build_output_dir": "./dist"
 }
