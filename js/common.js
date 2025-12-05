@@ -1,7 +1,8 @@
 // Translations object
 const translations = {
   no: {
-    devBanner: '<i class="fa-solid fa-triangle-exclamation"></i> Denne nettsiden er under utvikling',
+    devBanner:
+      '<i class="fa-solid fa-triangle-exclamation"></i> Denne nettsiden er under utvikling',
     skipToContent: "Hopp til innhold",
     projects: "Prosjekter",
     experience: "Erfaring",
@@ -95,7 +96,8 @@ const translations = {
     cv: "content/CV_no.pdf",
   },
   en: {
-    devBanner: '<i class="fa-solid fa-triangle-exclamation"></i> This website is under development',
+    devBanner:
+      '<i class="fa-solid fa-triangle-exclamation"></i> This website is under development',
     skipToContent: "Skip to content",
     projects: "Projects",
     experience: "Experience",
@@ -450,13 +452,15 @@ function updateViewDisplay() {
     if (publicContent) publicContent.style.display = "grid";
     if (publicSections) publicSections.style.display = "block";
     if (loggedInContent) loggedInContent.style.display = "none";
-    if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-lock"></i> View as Admin';
+    if (toggleBtn)
+      toggleBtn.innerHTML = '<i class="fa-solid fa-lock"></i> View as Admin';
   } else {
     // Show admin view
     if (publicContent) publicContent.style.display = "none";
     if (publicSections) publicSections.style.display = "none";
     if (loggedInContent) loggedInContent.style.display = "block";
-    if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-eye"></i> View as Public';
+    if (toggleBtn)
+      toggleBtn.innerHTML = '<i class="fa-solid fa-eye"></i> View as Public';
   }
 }
 

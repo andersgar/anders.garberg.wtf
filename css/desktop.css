@@ -71,21 +71,68 @@ header.hero {
   align-items: center;
 }
 
-.gradient {
+/* Background blobs container - absolute to top of page */
+.background-blobs {
   position: absolute;
-  inset: auto -20% 0 -20%;
-  block-size: 560px;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
   z-index: -1;
-  background: radial-gradient(
-      40% 45% at 16% 40%,
-      color-mix(in oklab, var(--brand) 60%, transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      50% 45% at 85% 50%,
-      color-mix(in oklab, var(--brand-2) 50%, transparent),
-      transparent 70%
-    );
+  overflow: visible;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(150px);
+  will-change: transform;
+  opacity: 0.25;
+}
+
+.blob-1 {
+  width: 600px;
+  height: 500px;
+  background: var(--brand);
+  left: -10%;
+  top: 0%;
+  animation: blob1Move 12s ease-in-out infinite;
+}
+
+.blob-2 {
+  width: 550px;
+  height: 450px;
+  background: var(--brand-2);
+  right: -10%;
+  top: 10%;
+  animation: blob2Move 15s ease-in-out infinite;
+}
+
+@keyframes blob1Move {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(80px, -40px) scale(1.08);
+  }
+  66% {
+    transform: translate(-50px, 30px) scale(0.95);
+  }
+}
+
+@keyframes blob2Move {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-70px, 50px) scale(0.94);
+  }
+  66% {
+    transform: translate(50px, -35px) scale(1.06);
+  }
 }
 
 .hero h1 {
