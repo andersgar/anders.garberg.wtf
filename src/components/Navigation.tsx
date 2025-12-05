@@ -128,51 +128,51 @@ export function Navigation() {
                 >
                   <i className="fa-solid fa-qrcode"></i>
                 </button>
-              <div className="user-menu-container">
-                <button
-                  ref={userButtonRef}
-                  className="theme-toggle user-button active"
-                  onClick={() => setShowUserDropdown(!showUserDropdown)}
-                  aria-label="User menu"
-                  style={{ color: "var(--brand)" }}
-                >
-                  <i className="fa-solid fa-user"></i>
-                </button>
+                <div className="user-menu-container">
+                  <button
+                    ref={userButtonRef}
+                    className="theme-toggle user-button active"
+                    onClick={() => setShowUserDropdown(!showUserDropdown)}
+                    aria-label="User menu"
+                    style={{ color: "var(--brand)" }}
+                  >
+                    <i className="fa-solid fa-user"></i>
+                  </button>
 
-                {/* User Dropdown */}
-                {showUserDropdown && (
-                  <div className="user-dropdown" ref={dropdownRef}>
-                    <div className="user-dropdown-header">
-                      <div className="user-avatar-small">
-                        <i className="fa-solid fa-user"></i>
+                  {/* User Dropdown */}
+                  {showUserDropdown && (
+                    <div className="user-dropdown" ref={dropdownRef}>
+                      <div className="user-dropdown-header">
+                        <div className="user-avatar-small">
+                          <i className="fa-solid fa-user"></i>
+                        </div>
+                        <div className="user-dropdown-info">
+                          <span className="user-email">
+                            {user?.email || "Loading..."}
+                          </span>
+                          <span className="user-role">Administrator</span>
+                        </div>
                       </div>
-                      <div className="user-dropdown-info">
-                        <span className="user-email">
-                          {user?.email || "Loading..."}
-                        </span>
-                        <span className="user-role">Administrator</span>
-                      </div>
+                      <div className="user-dropdown-divider"></div>
+                      <Link
+                        to="/admin"
+                        className="user-dropdown-item"
+                        onClick={() => setShowUserDropdown(false)}
+                      >
+                        <i className="fa-solid fa-chart-line"></i>
+                        {t("adminDashboard")}
+                      </Link>
+                      <div className="user-dropdown-divider"></div>
+                      <button
+                        className="user-dropdown-item logout"
+                        onClick={handleLogout}
+                      >
+                        <i className="fa-solid fa-right-from-bracket"></i>
+                        {t("logout")}
+                      </button>
                     </div>
-                    <div className="user-dropdown-divider"></div>
-                    <Link
-                      to="/admin"
-                      className="user-dropdown-item"
-                      onClick={() => setShowUserDropdown(false)}
-                    >
-                      <i className="fa-solid fa-chart-line"></i>
-                      {t("adminDashboard")}
-                    </Link>
-                    <div className="user-dropdown-divider"></div>
-                    <button
-                      className="user-dropdown-item logout"
-                      onClick={handleLogout}
-                    >
-                      <i className="fa-solid fa-right-from-bracket"></i>
-                      {t("logout")}
-                    </button>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
               </>
             ) : (
               <Link
