@@ -260,7 +260,9 @@ function getUserThemePref() {
 }
 
 function getSystemThemePref() {
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
 }
 
 function applyTheme(mode) {
@@ -287,7 +289,8 @@ function setupThemeToggles() {
     applyTheme(next);
   }
   if (themeToggle) themeToggle.addEventListener("click", toggleTheme);
-  if (themeToggleMobile) themeToggleMobile.addEventListener("click", toggleTheme);
+  if (themeToggleMobile)
+    themeToggleMobile.addEventListener("click", toggleTheme);
 }
 
 // Update scroll padding based on actual header heights
@@ -635,7 +638,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Update on resize in case banner height changes
   window.addEventListener("resize", updateScrollPadding);
-// ...existing code...
+  // ...existing code...
   // Set year
   const yearElement = document.getElementById("year");
   if (yearElement) {
