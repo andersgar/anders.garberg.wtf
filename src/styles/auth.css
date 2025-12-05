@@ -356,69 +356,11 @@
   position: relative;
 }
 
-.user-button {
-  position: relative;
+.user-button.active {
+  color: var(--brand);
 }
 
-.user-popup {
-  position: absolute;
-  top: calc(100% + 0.5rem);
-  right: 0;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 0.75rem;
-  min-width: 200px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-  z-index: 100;
-}
-
-.user-email {
-  padding: 0.5rem 0.75rem;
-  color: var(--text-muted);
-  font-size: 0.875rem;
-  border-bottom: 1px solid var(--border-color);
-  margin-bottom: 0.5rem;
-}
-
-.popup-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  border-radius: 8px;
-  color: var(--text-color);
-  text-decoration: none;
-  transition: background 0.2s;
-  width: 100%;
-  background: none;
-  border: none;
-  font-size: 0.9375rem;
-  cursor: pointer;
-  text-align: left;
-}
-
-.popup-link:hover {
-  background: var(--hover-bg);
-}
-
-.popup-link i {
-  width: 20px;
-  text-align: center;
-  color: var(--text-muted);
-}
-
-.logout-btn {
-  color: #ef4444;
-}
-
-.logout-btn i {
-  color: #ef4444;
-}
-
-.logout-btn:hover {
-  background: rgba(239, 68, 68, 0.1);
-}
+/* User popup is now styled in common.css as a modal */
 
 /* Mobile adjustments */
 @media (max-width: 768px) {

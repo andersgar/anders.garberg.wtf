@@ -223,29 +223,151 @@ form .field {
   color: var(--brand);
 }
 
-/* User popup styles */
-.user-popup {
+/* User dropdown styles */
+.user-menu-container {
+  position: relative;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: var(--panel);
+  border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  min-width: 240px;
+  z-index: 10000;
+  animation: dropdownSlideIn 0.2s ease;
+  overflow: hidden;
+}
+
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.user-dropdown-header {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: color-mix(in oklab, var(--text) 4%, transparent);
+}
+
+.user-avatar-small {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  color: white;
+}
+
+.user-dropdown-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  overflow: hidden;
+}
+
+.user-email {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.user-dropdown-divider {
+  height: 1px;
+  background: color-mix(in oklab, var(--text) 10%, transparent);
+}
+
+.user-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 0.875rem;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+
+.user-dropdown-item:hover {
+  background: color-mix(in oklab, var(--text) 6%, transparent);
+  color: var(--brand);
+}
+
+.user-dropdown-item i {
+  width: 1rem;
+  text-align: center;
+  color: var(--muted);
+  transition: color 0.15s;
+}
+
+.user-dropdown-item:hover i {
+  color: var(--brand);
+}
+
+.user-dropdown-item.logout {
+  color: #ef4444;
+}
+
+.user-dropdown-item.logout:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.user-dropdown-item.logout i {
+  color: #ef4444;
+}
+
+/* QR Code Popup */
+.qr-popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
-  z-index: 10000;
+  z-index: 10001;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
 }
 
-.user-popup-content {
+.qr-popup {
   background: var(--panel);
   border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
   border-radius: var(--radius);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  max-width: 400px;
-  width: 100%;
+  padding: 2rem;
+  text-align: center;
   position: relative;
   animation: popupSlideIn 0.3s ease;
 }
@@ -261,13 +383,13 @@ form .field {
   }
 }
 
-.user-popup-close {
+.qr-popup-close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 0.75rem;
+  right: 0.75rem;
   background: transparent;
   border: none;
-  font-size: 2rem;
+  font-size: 1.5rem;
   line-height: 1;
   color: var(--muted);
   cursor: pointer;
@@ -281,36 +403,30 @@ form .field {
   transition: all 0.2s;
 }
 
-.user-popup-close:hover {
+.qr-popup-close:hover {
   background: color-mix(in oklab, var(--text) 8%, transparent);
   color: var(--text);
 }
 
-.user-popup-header {
-  padding: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  border-bottom: 1px solid color-mix(in oklab, var(--text) 8%, transparent);
+.qr-popup h3 {
+  margin: 0 0 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
 }
 
-.user-avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: var(--brand);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  flex-shrink: 0;
+.qr-code-container {
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  display: inline-block;
 }
 
-.user-popup-actions {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+.qr-url {
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 500;
 }
 
 .nav-links a {

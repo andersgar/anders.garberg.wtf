@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { QRCodeSVG } from "qrcode.react";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
@@ -8,9 +9,12 @@ export function Navigation() {
   const { t, toggleLanguage } = useLanguage();
   const { toggleTheme } = useTheme();
   const { user, isAuthenticated, logout } = useAuth();
-  const [showUserPopup, setShowUserPopup] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [showQrPopup, setShowQrPopup] = useState(false);
   const [navHidden, setNavHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const userButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,92 +41,188 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
+  // Handle escape key to close dropdown and QR popup
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowUserDropdown(false);
+        setShowQrPopup(false);
+      }
+    };
+
+    if (showUserDropdown || showQrPopup) {
+      document.addEventListener("keydown", handleEscape);
+    }
+
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [showUserDropdown, showQrPopup]);
+
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node) &&
+        userButtonRef.current &&
+        !userButtonRef.current.contains(e.target as Node)
+      ) {
+        setShowUserDropdown(false);
+      }
+    };
+
+    if (showUserDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showUserDropdown]);
+
   const handleLogout = async () => {
     await logout();
-    setShowUserPopup(false);
+    setShowUserDropdown(false);
   };
 
   return (
-    <nav aria-label="Primary" className={navHidden ? "nav-hidden" : ""}>
-      <div className="container nav-inner">
-        <div className="brand">
-          <div className="brand-badge" aria-hidden="true">
-            AG
-          </div>
-          <a href="#home" aria-label="Hjem">
-            <span>Anders Garberg</span>
-          </a>
-        </div>
-
-        <div className="nav-links">
-          <a href="#experience">{t("experience")}</a>
-          <a href="#about">{t("about")}</a>
-          <a href="#contact">{t("contact")}</a>
-
-          <button
-            className="theme-toggle"
-            onClick={toggleTheme}
-            aria-label="Bytt tema"
-            title="Bytt tema"
-          >
-            <i className="fa-solid fa-circle-half-stroke"></i>
-          </button>
-
-          <button
-            className="theme-toggle"
-            onClick={toggleLanguage}
-            aria-label="Bytt språk"
-            title="Bytt språk"
-          >
-            <i className="fa-solid fa-globe"></i>
-          </button>
-
-          {isAuthenticated ? (
-            <div className="user-menu">
-              <button
-                className="theme-toggle user-button"
-                onClick={() => setShowUserPopup(!showUserPopup)}
-                aria-label="User menu"
-              >
-                <i className="fa-solid fa-user"></i>
-              </button>
-              {showUserPopup && (
-                <div className="user-popup">
-                  <p className="user-email">{user?.email}</p>
-                  <Link
-                    to="/admin"
-                    className="popup-link"
-                    onClick={() => setShowUserPopup(false)}
-                  >
-                    <i className="fa-solid fa-chart-line"></i>{" "}
-                    {t("adminDashboard")}
-                  </Link>
-                  <button
-                    className="popup-link logout-btn"
-                    onClick={handleLogout}
-                  >
-                    <i className="fa-solid fa-right-from-bracket"></i>{" "}
-                    {t("logout")}
-                  </button>
-                </div>
-              )}
+    <>
+      <nav aria-label="Primary" className={navHidden ? "nav-hidden" : ""}>
+        <div className="container nav-inner">
+          <div className="brand">
+            <div className="brand-badge" aria-hidden="true">
+              AG
             </div>
-          ) : (
-            <Link
-              to="/login"
-              className="theme-toggle"
-              aria-label="Login"
-              title="Login"
-            >
-              <i className="fa-solid fa-right-to-bracket"></i>
-            </Link>
-          )}
-        </div>
+            <a href="#home" aria-label="Hjem">
+              <span>Anders Garberg</span>
+            </a>
+          </div>
 
-        {/* Mobile Hamburger */}
-        <MobileMenu />
-      </div>
-    </nav>
+          <div className="nav-links">
+            <a href="#experience">{t("experience")}</a>
+            <a href="#about">{t("about")}</a>
+            <a href="#contact">{t("contact")}</a>
+
+            <button
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label="Bytt tema"
+              title="Bytt tema"
+            >
+              <i className="fa-solid fa-circle-half-stroke"></i>
+            </button>
+
+            <button
+              className="theme-toggle"
+              onClick={toggleLanguage}
+              aria-label="Bytt språk"
+              title="Bytt språk"
+            >
+              <i className="fa-solid fa-globe"></i>
+            </button>
+
+            <button
+              className="theme-toggle"
+              onClick={() => setShowQrPopup(true)}
+              aria-label="Show QR Code"
+              title={t("showQR")}
+            >
+              <i className="fa-solid fa-qrcode"></i>
+            </button>
+
+            {isAuthenticated ? (
+              <div className="user-menu-container">
+                <button
+                  ref={userButtonRef}
+                  className="theme-toggle user-button active"
+                  onClick={() => setShowUserDropdown(!showUserDropdown)}
+                  aria-label="User menu"
+                  style={{ color: "var(--brand)" }}
+                >
+                  <i className="fa-solid fa-user"></i>
+                </button>
+
+                {/* User Dropdown */}
+                {showUserDropdown && (
+                  <div className="user-dropdown" ref={dropdownRef}>
+                    <div className="user-dropdown-header">
+                      <div className="user-avatar-small">
+                        <i className="fa-solid fa-user"></i>
+                      </div>
+                      <div className="user-dropdown-info">
+                        <span className="user-email">
+                          {user?.email || "Loading..."}
+                        </span>
+                        <span className="user-role">Administrator</span>
+                      </div>
+                    </div>
+                    <div className="user-dropdown-divider"></div>
+                    <Link
+                      to="/admin"
+                      className="user-dropdown-item"
+                      onClick={() => setShowUserDropdown(false)}
+                    >
+                      <i className="fa-solid fa-chart-line"></i>
+                      {t("adminDashboard")}
+                    </Link>
+                    <div className="user-dropdown-divider"></div>
+                    <button
+                      className="user-dropdown-item logout"
+                      onClick={handleLogout}
+                    >
+                      <i className="fa-solid fa-right-from-bracket"></i>
+                      {t("logout")}
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="theme-toggle"
+                aria-label="Login"
+                title="Login"
+              >
+                <i className="fa-solid fa-right-to-bracket"></i>
+              </Link>
+            )}
+          </div>
+
+          {/* Mobile Hamburger */}
+          <MobileMenu />
+        </div>
+      </nav>
+
+      {/* QR Code Popup */}
+      {showQrPopup && (
+        <div
+          className="qr-popup-overlay"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowQrPopup(false);
+            }
+          }}
+        >
+          <div className="qr-popup">
+            <button
+              className="qr-popup-close"
+              onClick={() => setShowQrPopup(false)}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <h3>{t("scanQR")}</h3>
+            <div className="qr-code-container">
+              <QRCodeSVG
+                value="https://garberg.wtf"
+                size={256}
+                level="H"
+                bgColor="#ffffff"
+                fgColor="#000000"
+              />
+            </div>
+            <p className="qr-url">garberg.wtf</p>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

@@ -95,6 +95,8 @@ export const translations = {
     passwordMismatch: "Passordene samsvarer ikke",
     passwordTooShort: "Passordet må være minst 6 tegn",
     backToLogin: "Tilbake til innlogging",
+    showQR: "Vis QR-kode",
+    scanQR: "Skann for å besøke nettstedet",
   },
   en: {
     // Navigation & General
@@ -189,6 +191,8 @@ export const translations = {
     passwordMismatch: "Passwords do not match",
     passwordTooShort: "Password must be at least 6 characters",
     backToLogin: "Back to login",
+    showQR: "Show QR Code",
+    scanQR: "Scan to visit the website",
   },
 } as const;
 

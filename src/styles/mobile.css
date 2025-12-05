@@ -128,20 +128,22 @@ body.mobile-menu-open {
   }
   .hero-wrap {
     grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 2rem 0;
+    gap: 2.5rem;
+    padding: 3rem 0 2rem;
     display: flex;
     flex-direction: column;
   }
   .hero-left {
     text-align: center;
     order: 1;
+    padding-bottom: 0.5rem;
   }
   .hero-right {
     order: 3;
     max-width: none;
     width: 100%;
-    margin: 0;
+    margin: 0.5rem 0 0;
+    padding: 1.5rem;
   }
   .hero-left .row {
     justify-content: center;
@@ -149,9 +151,11 @@ body.mobile-menu-open {
   .pill {
     font-size: 0.85rem;
     padding: 0.4rem 0.6rem;
+    margin-bottom: 0.75rem;
   }
   .hero h1 {
-    font-size: clamp(28px, 8vw, 40px);
+    font-size: clamp(36px, 10vw, 48px);
+    margin-bottom: 0.5rem;
   }
   .subtitle {
     font-size: 1rem;
@@ -181,8 +185,20 @@ body.mobile-menu-open {
     gap: 1.5rem;
   }
   .card.pad {
-    padding: 1rem;
+    padding: 1.25rem;
   }
+
+  /* Hero card (summer job section) mobile adjustments */
+  .hero-card {
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .hero-card .small {
+    margin: 0.5rem 0;
+    line-height: 1.6;
+  }
+
   .timeline .step {
     display: grid;
     grid-template-columns: 18px 1fr;
@@ -240,7 +256,7 @@ body.mobile-menu-open {
     padding: 0 20px;
   }
   .hero h1 {
-    font-size: clamp(24px, 7vw, 32px);
+    font-size: clamp(32px, 9vw, 40px);
   }
   .hero-cta {
     flex-direction: column;
