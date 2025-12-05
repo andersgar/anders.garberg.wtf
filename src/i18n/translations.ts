@@ -1,0 +1,200 @@
+export const translations = {
+  no: {
+    // Navigation & General
+    devBanner:
+      '<i class="fa-solid fa-triangle-exclamation"></i> Denne nettsiden er under utvikling',
+    skipToContent: "Hopp til innhold",
+    projects: "Prosjekter",
+    experience: "Erfaring",
+    skills: "Ferdigheter",
+    about: "Om meg",
+    contact: "Kontakt",
+    login: "Logg inn",
+    logout: "Logg ut",
+    sendMessage: "Send melding",
+    contactInfo: "Kontaktinformasjon",
+    footer: "\u00A9 {year} Anders Garberg. Alle rettigheter reservert.",
+
+    // Hero Section
+    degreeProgram:
+      "Automatisering og intelligente systemer @ NTNU \u00B7 Trondheim",
+    greeting: "Hei, jeg er",
+    seeProjects: "Se prosjekter",
+    getInTouch: "Ta kontakt",
+    controlSystems: "Reguleringsteknikk",
+    modeling: "Modellering",
+    physics: "Fysikk",
+    openToInternships: "\u00C5pen for sommerjobb \u00B7 2026",
+    heroDescription:
+      "Nysgjerrig automatiseringsstudent med lidenskap for autonomi, navigasjon og regulering. S\u00F8ker sommerjobb der jeg kan bidra til \u00E5 utvikle robuste, intelligente systemer, og l\u00E6re av ekte ingeni\u00F8rutfordringer underveis.",
+    downloadCV: "Last ned CV",
+    emailMe: "Send meg en e-post",
+
+    // About Section
+    aboutText1:
+      "Bachelorstudent i Automatisering og intelligente systemer ved NTNU, med interesse for robotikk, autonomi og reguleringsteknikk. Jeg har erfaring med simulering og utvikling av styringssystemer, og har samtidig opparbeidet meg god ledererfaring som skiftleder i et dynamisk arbeidsmilj\u00F8. P\u00E5 fritiden engasjerer jeg meg i studentfrivilligheten og trives godt i sosiale settinger. Jeg liker ogs\u00E5 \u00E5 utforske egne prosjekter, blant annet innen smarthus og home-lab, sm\u00E5 kodeprosjekter, 3D-printing og programmering av mikrokontrollere som ESP-familien.",
+    highlights: "H\u00F8ydepunkter",
+    highlight1:
+      "Praktisk erfaring med sensorer (IMU, ToF, enkodere) og sanntidskrav.",
+    highlight2: "Komfortabel med \u00E5 g\u00E5 fra simulering til maskinvare.",
+    highlight3: "Nysgjerrig, p\u00E5litelig og sikkerhetsbevisst.",
+
+    // Contact Section
+    letsStartSomething: "La oss starte noe bra",
+    contactDesc:
+      "Send meg en e-post direkte eller bruk skjemaet. Jeg er \u00E5pen for sommerjobb, prosjekter og samarbeid.",
+    name: "Navn",
+    email: "E-post",
+    message: "Melding",
+    formNote:
+      "Dette skjemaet \u00E5pner e-postprogrammet ditt med en forh\u00E5ndsutfylt melding.",
+    send: "Send",
+
+    // Meta
+    metaDescription:
+      "Portfolio og kontaktside for student i Automatisering og intelligente systemer (NTNU). Prosjekter, erfaring og m\u00E5ter \u00E5 ta kontakt p\u00E5.",
+    metaTitle: "Anders Garberg \u2013 Automatisering og intelligente systemer",
+
+    // CV Path
+    cv: "content/CV_no.pdf",
+
+    // Auth & Admin
+    password: "Passord",
+    loginError: "Feil e-post eller passord",
+    loggingIn: "Logger inn...",
+    backToHome: "Tilbake til forsiden",
+    adminDashboard: "Admin Dashboard",
+    loading: "Laster...",
+    totalVisits: "Totalt antall besøk",
+    totalContacts: "Kontaktforespørsler",
+    cvDownloads: "CV-nedlastinger",
+    statsError: "Kunne ikke laste statistikk",
+    loggedInAs: "Logget inn som",
+    loginTitle: "Admin login",
+    loginSubtitle: "Logg inn til dashboard",
+    emailLabel: "E-postadresse",
+    passwordLabel: "Passord",
+    loginButton: "Logg inn",
+    notAnders: "Er du ikke Anders?",
+    requestAccess: "Be om tilgang",
+    forgotPassword: "Glemt passord?",
+    forgotPasswordSubtitle:
+      "Skriv inn e-postadressen din for å tilbakestille passordet",
+    setNewPassword: "Nytt passord",
+    setNewPasswordSubtitle: "Skriv inn ditt nye passord",
+    newPassword: "Nytt passord",
+    confirmPassword: "Bekreft passord",
+    sendResetLink: "Send tilbakestillingslenke",
+    updatePassword: "Oppdater passord",
+    sending: "Sender...",
+    updating: "Oppdaterer...",
+    resetEmailSent: "E-post sendt! Sjekk innboksen din.",
+    resetRequestError: "Kunne ikke sende e-post. Prøv igjen.",
+    resetUpdateError: "Kunne ikke oppdatere passord. Prøv igjen.",
+    passwordUpdated: "Passord oppdatert! Omdirigerer...",
+    passwordMismatch: "Passordene samsvarer ikke",
+    passwordTooShort: "Passordet må være minst 6 tegn",
+    backToLogin: "Tilbake til innlogging",
+    showQR: "Vis QR-kode",
+    scanQR: "Skann for å besøke nettstedet",
+  },
+  en: {
+    // Navigation & General
+    devBanner:
+      '<i class="fa-solid fa-triangle-exclamation"></i> This website is under development',
+    skipToContent: "Skip to content",
+    projects: "Projects",
+    experience: "Experience",
+    skills: "Skills",
+    about: "About",
+    contact: "Contact",
+    login: "Login",
+    logout: "Logout",
+    sendMessage: "Send a message",
+    contactInfo: "Contact Information",
+    footer: "\u00A9 {year} Anders Garberg. All rights reserved.",
+
+    // Hero Section
+    degreeProgram: "Automation & Intelligent Systems @ NTNU \u00B7 Trondheim",
+    greeting: "Hi, I'm",
+    seeProjects: "See projects",
+    getInTouch: "Get in touch",
+    controlSystems: "Control systems",
+    modeling: "Modeling",
+    physics: "Physics",
+    openToInternships: "Open to Internships \u00B7 2026",
+    heroDescription:
+      "Curious automation student passionate about autonomy, navigation, and control. Looking for a summer internship where I can contribute to developing resilient, intelligent systems, and learn from real engineering challenges along the way.",
+    downloadCV: "Download CV",
+    emailMe: "Email me",
+
+    // About Section
+    aboutText1:
+      "Bachelor student in Automation and Intelligent Systems at NTNU, specializing in robotics, autonomy and control theory. I have experience with simulation and development of control systems, complemented by leadership experience as a shift leader in a dynamic work environment. In my free time, I am involved in student organizations and enjoy being social and engaged. I also spend time on personal projects such as building a home-lab and smart home setup, various coding projects, 3D printing and programming microcontrollers like the ESP family.",
+    highlights: "Highlights",
+    highlight1:
+      "Hands-on with sensors (IMU, ToF, encoders) and real-time constraints.",
+    highlight2: "Comfortable moving from simulation to hardware bring-up.",
+    highlight3: "Curious, reliable, and safety-minded.",
+
+    // Contact Section
+    letsStartSomething: "Let's start something great",
+    contactDesc:
+      "Email me directly or use the form. I'm open to internships, projects, and collaborations.",
+    name: "Name",
+    email: "Email",
+    message: "Message",
+    formNote: "This form opens your email app with a prefilled message.",
+    send: "Send",
+
+    // Meta
+    metaDescription:
+      "Portfolio and contact page for a student in Automation & Intelligent Systems (NTNU). Projects, experience, and ways to get in touch.",
+    metaTitle: "Anders Garberg \u2013 Automation & Intelligent Systems",
+
+    // CV Path
+    cv: "content/CV_en.pdf",
+
+    // Auth & Admin
+    password: "Password",
+    loginError: "Invalid email or password",
+    loggingIn: "Logging in...",
+    backToHome: "Back to home",
+    adminDashboard: "Admin Dashboard",
+    loading: "Loading...",
+    totalVisits: "Total Visits",
+    totalContacts: "Contact Requests",
+    cvDownloads: "CV Downloads",
+    statsError: "Failed to load statistics",
+    loggedInAs: "Logged in as",
+    loginTitle: "Admin login",
+    loginSubtitle: "Log in to dashboard",
+    emailLabel: "Email address",
+    passwordLabel: "Password",
+    loginButton: "Log in",
+    notAnders: "Not Anders?",
+    requestAccess: "Request access",
+    forgotPassword: "Forgot password?",
+    forgotPasswordSubtitle: "Enter your email address to reset your password",
+    setNewPassword: "New password",
+    setNewPasswordSubtitle: "Enter your new password",
+    newPassword: "New password",
+    confirmPassword: "Confirm password",
+    sendResetLink: "Send reset link",
+    updatePassword: "Update password",
+    sending: "Sending...",
+    updating: "Updating...",
+    resetEmailSent: "Email sent! Check your inbox.",
+    resetRequestError: "Could not send email. Please try again.",
+    resetUpdateError: "Could not update password. Please try again.",
+    passwordUpdated: "Password updated! Redirecting...",
+    passwordMismatch: "Passwords do not match",
+    passwordTooShort: "Password must be at least 6 characters",
+    backToLogin: "Back to login",
+    showQR: "Show QR Code",
+    scanQR: "Scan to visit the website",
+  },
+} as const;
+
+export type Language = keyof typeof translations;
+export type TranslationKey = keyof typeof translations.no;
