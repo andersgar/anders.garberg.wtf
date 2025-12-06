@@ -19,6 +19,7 @@ export const translations = {
     degreeProgram:
       "Automatisering og intelligente systemer @ NTNU \u00B7 Trondheim",
     greeting: "Hei, jeg er",
+    greetingEasterEgg: "Hei, du er",
     seeProjects: "Se prosjekter",
     getInTouch: "Ta kontakt",
     controlSystems: "Reguleringsteknikk",
@@ -185,6 +186,7 @@ export const translations = {
     // Hero Section
     degreeProgram: "Automation & Intelligent Systems @ NTNU \u00B7 Trondheim",
     greeting: "Hi, I'm",
+    greetingEasterEgg: "Hi, You're",
     seeProjects: "See projects",
     getInTouch: "Get in touch",
     controlSystems: "Control systems",
