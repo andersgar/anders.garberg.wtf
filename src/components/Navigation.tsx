@@ -2,19 +2,72 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import { useLanguage } from "../context/LanguageContext";
-import { useTheme } from "../context/ThemeContext";
+import { useTheme, ColorTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
+
+const colorThemes: { id: ColorTheme; gradient: string }[] = [
+  {
+    id: "aurora",
+    gradient:
+      "linear-gradient(135deg, #00F5D4 0%, #00BBF9 30%, #8338EC 65%, #FF006E 100%)",
+  },
+  {
+    id: "cinema",
+    gradient:
+      "linear-gradient(135deg, #00E5FF 0%, #2979FF 30%, #7C4DFF 65%, #FF1744 100%)",
+  },
+  {
+    id: "sunset",
+    gradient:
+      "linear-gradient(135deg, #FF7A00 0%, #FF3D77 35%, #C200FB 70%, #6A00FF 100%)",
+  },
+  {
+    id: "cyber",
+    gradient:
+      "linear-gradient(135deg, #00FFA3 0%, #00F5FF 30%, #00A6FB 60%, #7400B8 100%)",
+  },
+  {
+    id: "space",
+    gradient:
+      "linear-gradient(135deg, #0B1026 0%, #1F2A7C 30%, #4A00E0 60%, #B517FF 100%)",
+  },
+  {
+    id: "volcanic",
+    gradient:
+      "linear-gradient(135deg, #0B0B0F 0%, #E10600 35%, #FF5400 70%, #FFA400 100%)",
+  },
+  {
+    id: "icefire",
+    gradient:
+      "linear-gradient(135deg, #00F0FF 0%, #1E3AFF 50%, #FF2E2E 75%, #FF8A00 100%)",
+  },
+  {
+    id: "candy",
+    gradient:
+      "linear-gradient(135deg, #BFFBFF 0%, #4DD6FF 30%, #9B5CFF 65%, #FF8AE2 100%)",
+  },
+];
 
 export function Navigation() {
   const { t, toggleLanguage } = useLanguage();
-  const { toggleTheme } = useTheme();
+  const {
+    theme,
+    setTheme,
+    colorTheme,
+    setColorTheme,
+    blobCount,
+    setBlobCount,
+  } = useTheme();
   const { user, isAuthenticated, logout } = useAuth();
   const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [showColorDropdown, setShowColorDropdown] = useState(false);
   const [showQrPopup, setShowQrPopup] = useState(false);
   const [navHidden, setNavHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const userButtonRef = useRef<HTMLButtonElement>(null);
+  const colorDropdownRef = useRef<HTMLDivElement>(null);
+  const colorButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,16 +99,17 @@ export function Navigation() {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setShowUserDropdown(false);
+        setShowColorDropdown(false);
         setShowQrPopup(false);
       }
     };
 
-    if (showUserDropdown || showQrPopup) {
+    if (showUserDropdown || showQrPopup || showColorDropdown) {
       document.addEventListener("keydown", handleEscape);
     }
 
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [showUserDropdown, showQrPopup]);
+  }, [showUserDropdown, showQrPopup, showColorDropdown]);
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -68,18 +122,38 @@ export function Navigation() {
       ) {
         setShowUserDropdown(false);
       }
+      if (
+        colorDropdownRef.current &&
+        !colorDropdownRef.current.contains(e.target as Node) &&
+        colorButtonRef.current &&
+        !colorButtonRef.current.contains(e.target as Node)
+      ) {
+        setShowColorDropdown(false);
+      }
     };
 
-    if (showUserDropdown) {
+    if (showUserDropdown || showColorDropdown) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showUserDropdown]);
+  }, [showUserDropdown, showColorDropdown]);
 
   const handleLogout = async () => {
     await logout();
     setShowUserDropdown(false);
+  };
+
+  const handleColorThemeChange = (theme: ColorTheme) => {
+    setColorTheme(theme);
+    setShowColorDropdown(false);
+  };
+
+  const getThemeTranslation = (themeId: ColorTheme): string => {
+    const key = `theme${
+      themeId.charAt(0).toUpperCase() + themeId.slice(1)
+    }` as keyof typeof t;
+    return t(key as any);
   };
 
   return (
@@ -100,14 +174,94 @@ export function Navigation() {
             <a href="#about">{t("about")}</a>
             <a href="#contact">{t("contact")}</a>
 
-            <button
-              className="theme-toggle"
-              onClick={toggleTheme}
-              aria-label="Bytt tema"
-              title="Bytt tema"
-            >
-              <i className="fa-solid fa-circle-half-stroke"></i>
-            </button>
+            <div className="color-theme-container">
+              <button
+                ref={colorButtonRef}
+                className="theme-toggle"
+                onClick={() => setShowColorDropdown(!showColorDropdown)}
+                aria-label={t("colorTheme")}
+                title={t("colorTheme")}
+              >
+                <i className="fa-solid fa-palette"></i>
+              </button>
+
+              {showColorDropdown && (
+                <div className="color-theme-dropdown" ref={colorDropdownRef}>
+                  <div className="color-theme-header">{t("colorTheme")}</div>
+                  <div className="color-theme-grid">
+                    {colorThemes.map((theme) => (
+                      <button
+                        key={theme.id}
+                        className={`color-theme-tile ${
+                          colorTheme === theme.id ? "active" : ""
+                        }`}
+                        onClick={() => handleColorThemeChange(theme.id)}
+                        title={getThemeTranslation(theme.id)}
+                      >
+                        <div
+                          className="color-theme-gradient"
+                          style={{ background: theme.gradient }}
+                        />
+                        {colorTheme === theme.id && (
+                          <div className="color-theme-active-indicator">
+                            <i className="fa-solid fa-check"></i>
+                          </div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="theme-mode-toggle">
+                    <button
+                      className={`theme-mode-btn ${
+                        theme === "light" ? "active" : ""
+                      }`}
+                      onClick={() => setTheme("light")}
+                      aria-label="Light mode"
+                    >
+                      <i className="fa-solid fa-sun"></i>
+                    </button>
+                    <button
+                      className={`theme-mode-btn ${
+                        theme === "dark" ? "active" : ""
+                      }`}
+                      onClick={() => setTheme("dark")}
+                      aria-label="Dark mode"
+                    >
+                      <i className="fa-solid fa-moon"></i>
+                    </button>
+                    <div
+                      className={`theme-mode-slider ${
+                        theme === "dark" ? "dark" : "light"
+                      }`}
+                    />
+                  </div>
+
+                  <div className="blob-count-section">
+                    <div className="blob-count-header">{t("blobs")}</div>
+                    <div className="blob-count-control">
+                      <button
+                        className="blob-count-btn"
+                        onClick={() => setBlobCount(blobCount - 1)}
+                        disabled={blobCount <= 0}
+                        aria-label="Decrease blobs"
+                      >
+                        <i className="fa-solid fa-minus"></i>
+                      </button>
+                      <span className="blob-count-value">{blobCount}</span>
+                      <button
+                        className="blob-count-btn"
+                        onClick={() => setBlobCount(blobCount + 1)}
+                        disabled={blobCount >= 10}
+                        aria-label="Increase blobs"
+                      >
+                        <i className="fa-solid fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
             <button
               className="theme-toggle"

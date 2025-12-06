@@ -31,12 +31,16 @@
   block-size: 56px;
   border-radius: 14px;
   background: radial-gradient(
-      120px 90px at 10% 20%,
-      var(--brand) 0 35%,
-      transparent 36%
+      circle 34px at 20% 20%,
+      color-mix(in oklab, var(--brand) 85%, transparent) 85%,
+      transparent 100%
     ),
-    radial-gradient(120px 90px at 80% 0%, var(--brand-2) 0 40%, transparent 41%),
-    linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, #0f172a 100%);
+    radial-gradient(
+      circle 28px at 75% 25%,
+      color-mix(in oklab, var(--brand-2) 85%, transparent) 85%,
+      transparent 100%
+    ),
+    var(--panel);
   display: grid;
   place-items: center;
   color: white;

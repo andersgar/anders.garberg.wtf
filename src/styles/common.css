@@ -3,10 +3,12 @@
   --panel: #0f172a;
   --muted: #94a3b8;
   --text: #e2e8f0;
-  --brand: #0ea5e9;
-  --brand-2: #22d3ee;
+  --brand: #00bbf9;
+  --brand-2: #8338ec;
+  --brand-3: #ff006e;
+  --brand-4: #00f5d4;
   --accent: #22c55e;
-  --ring: 0 0 0 3px rgba(14, 165, 233, 0.35);
+  --ring: 0 0 0 3px rgba(0, 187, 249, 0.35);
   --shadow: 0 10px 30px rgba(2, 8, 23, 0.45);
   --radius: 16px;
 }
@@ -15,10 +17,132 @@
   --panel: #ffffff;
   --muted: #475569;
   --text: #0f172a;
-  --brand: #0284c7;
-  --brand-2: #06b6d4;
+  --brand: #0077cc;
+  --brand-2: #6b21a8;
+  --brand-3: #db2777;
+  --brand-4: #00c4b4;
   --accent: #16a34a;
   --shadow: 0 6px 20px rgba(2, 8, 23, 0.08);
+}
+
+/* Color Themes - Aurora Pulse (default) */
+[data-color-theme="aurora"] {
+  --brand: #00bbf9;
+  --brand-2: #8338ec;
+  --brand-3: #ff006e;
+  --brand-4: #00f5d4;
+  --ring: 0 0 0 3px rgba(0, 187, 249, 0.35);
+}
+[data-color-theme="aurora"].light {
+  --brand: #0077cc;
+  --brand-2: #6b21a8;
+  --brand-3: #db2777;
+  --brand-4: #00c4b4;
+}
+
+/* Color Themes - Neon Cinema */
+[data-color-theme="cinema"] {
+  --brand: #2979ff;
+  --brand-2: #7c4dff;
+  --brand-3: #ff1744;
+  --brand-4: #00e5ff;
+  --ring: 0 0 0 3px rgba(41, 121, 255, 0.35);
+}
+[data-color-theme="cinema"].light {
+  --brand: #1565c0;
+  --brand-2: #651fff;
+  --brand-3: #d50000;
+  --brand-4: #00b8d4;
+}
+
+/* Color Themes - Sunset Drive */
+[data-color-theme="sunset"] {
+  --brand: #ff7a00;
+  --brand-2: #c200fb;
+  --brand-3: #ff3d77;
+  --brand-4: #6a00ff;
+  --ring: 0 0 0 3px rgba(255, 122, 0, 0.35);
+}
+[data-color-theme="sunset"].light {
+  --brand: #e65100;
+  --brand-2: #aa00ff;
+  --brand-3: #f50057;
+  --brand-4: #6200ea;
+}
+
+/* Color Themes - Cyber Mint */
+[data-color-theme="cyber"] {
+  --brand: #00ffa3;
+  --brand-2: #5e60ce;
+  --brand-3: #7400b8;
+  --brand-4: #00f5ff;
+  --ring: 0 0 0 3px rgba(0, 255, 163, 0.35);
+}
+[data-color-theme="cyber"].light {
+  --brand: #00c853;
+  --brand-2: #5c6bc0;
+  --brand-3: #6a1b9a;
+  --brand-4: #00bcd4;
+}
+
+/* Color Themes - Deep Space */
+[data-color-theme="space"] {
+  --brand: #4a00e0;
+  --brand-2: #00d1ff;
+  --brand-3: #b517ff;
+  --brand-4: #1f2a7c;
+  --ring: 0 0 0 3px rgba(74, 0, 224, 0.35);
+}
+[data-color-theme="space"].light {
+  --brand: #4527a0;
+  --brand-2: #0097a7;
+  --brand-3: #9c27b0;
+  --brand-4: #303f9f;
+}
+
+/* Color Themes - Volcanic Night */
+[data-color-theme="volcanic"] {
+  --brand: #ff5400;
+  --brand-2: #e10600;
+  --brand-3: #ffa400;
+  --brand-4: #1a1a2e;
+  --ring: 0 0 0 3px rgba(255, 84, 0, 0.35);
+}
+[data-color-theme="volcanic"].light {
+  --brand: #e64a19;
+  --brand-2: #c62828;
+  --brand-3: #ff8f00;
+  --brand-4: #37474f;
+}
+
+/* Color Themes - Ice Fire */
+[data-color-theme="icefire"] {
+  --brand: #00b2ff;
+  --brand-2: #ff2e2e;
+  --brand-3: #ff8a00;
+  --brand-4: #1e3aff;
+  --ring: 0 0 0 3px rgba(0, 178, 255, 0.35);
+}
+[data-color-theme="icefire"].light {
+  --brand: #0288d1;
+  --brand-2: #d32f2f;
+  --brand-3: #ef6c00;
+  --brand-4: #1a237e;
+}
+
+/* Color Themes - Cotton Candy */
+[data-color-theme="candy"] {
+  --brand: #ff5cc8;
+  --brand-2: #9b5cff;
+  --brand-3: #4dd6ff;
+  --brand-4: #ff8ae2;
+  --ring: 0 0 0 3px rgba(255, 92, 200, 0.35);
+}
+[data-color-theme="candy"].light {
+  --brand: #ec407a;
+  --brand-2: #7e57c2;
+  --brand-3: #29b6f6;
+  --brand-4: #f48fb1;
 }
 
 * {
