@@ -3,8 +3,11 @@
     "institution": { "no": "NTNU", "en": "NTNU" },
     "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
     "degrees": [
-        {
-        "title": { "no": "Bachelor i Automatisering og intelligente systemer", "en": "Bachelor in Automation and Intelligent Systems" },
+      {
+        "title": {
+          "no": "Bachelor i Automatisering og intelligente systemer",
+          "en": "Bachelor in Automation and Intelligent Systems"
+        },
         "tag": { "no": "Bachelor", "en": "Bachelor" },
         "date": { "no": "Aug 2023 – Jun 2026", "en": "Aug 2023 – Jun 2026" },
         "desc": {
@@ -13,7 +16,10 @@
         }
       },
       {
-        "title": { "no": "Master i Kybernetikk og robotikk (Planlagt)", "en": "Master in Cybernetics and Robotics (Planned)" },
+        "title": {
+          "no": "Master i Kybernetikk og robotikk (Planlagt)",
+          "en": "Master in Cybernetics and Robotics (Planned)"
+        },
         "tag": { "no": "Planlagt", "en": "Planned" },
         "date": { "no": "Aug 2026 – Jun 2028", "en": "Aug 2026 – Jun 2028" },
         "desc": {
@@ -21,15 +27,21 @@
           "en": "Two-year master's degree focusing on advanced control engineering, autonomous systems, machine learning, and robotics. Includes design of intelligent control systems and autonomous vehicles."
         },
         "planned": true
-      }      
+      }
     ]
   },
   {
-    "institution": { "no": "Thora Storm videregående skole", "en": "Thora Storm Secondary School" },
+    "institution": {
+      "no": "Thora Storm videregående skole",
+      "en": "Thora Storm Secondary School"
+    },
     "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
     "degrees": [
       {
-        "title": { "no": "Studiespesialisering med realfag", "en": "General Studies with Natural Sciences" },
+        "title": {
+          "no": "Studiespesialisering med realfag",
+          "en": "General Studies with Natural Sciences"
+        },
         "tag": { "no": "VGS", "en": "Secondary School" },
         "date": { "no": "Aug 2019 – Jun 2022", "en": "Aug 2019 – Jun 2022" },
         "desc": {

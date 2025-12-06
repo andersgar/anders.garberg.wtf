@@ -95,7 +95,9 @@ export function Experience() {
                 : t("showMoreExperience")}
             </span>
             <i
-              className={`fa-solid fa-chevron-${isExperienceExpanded ? "up" : "down"}`}
+              className={`fa-solid fa-chevron-${
+                isExperienceExpanded ? "up" : "down"
+              }`}
               aria-hidden="true"
             />
           </button>
@@ -122,7 +124,9 @@ export function Experience() {
                     <div className="nested-positions">
                       {institution.degrees.map((degree, degIdx) => (
                         <div
-                          className={`position ${degree.planned ? "planned" : ""}`}
+                          className={`position ${
+                            degree.planned ? "planned" : ""
+                          }`}
                           key={degIdx}
                         >
                           <span className="position-title">
@@ -151,7 +155,9 @@ export function Experience() {
                 : t("showMoreEducation")}
             </span>
             <i
-              className={`fa-solid fa-chevron-${isEducationExpanded ? "up" : "down"}`}
+              className={`fa-solid fa-chevron-${
+                isEducationExpanded ? "up" : "down"
+              }`}
               aria-hidden="true"
             />
           </button>
