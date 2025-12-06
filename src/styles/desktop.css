@@ -3,15 +3,18 @@ nav {
   top: 0;
   left: 0;
   right: 0;
+  width: 100%;
   z-index: 50;
   background: color-mix(in oklab, var(--bg) 85%, transparent 15%);
   backdrop-filter: saturate(180%) blur(10px);
   border-bottom: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
   transition: transform 0.3s ease;
+  transform: translateZ(0); /* Create new stacking context, prevent jitter */
+  will-change: transform;
 }
 
 nav.nav-hidden {
-  transform: translateY(-100%);
+  transform: translateY(-100%) translateZ(0);
 }
 
 /* Spacer for fixed navbar */
@@ -282,16 +285,17 @@ header.hero {
   align-items: center;
 }
 
-/* Background blobs container - absolute to top of page */
+/* Background blobs container - fixed to viewport */
 .background-blobs {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  height: 100vh; /* Container matches viewport */
+  width: 100vw;
+  height: 100vh;
   z-index: -1;
-  overflow: visible; /* Allow glow to extend beyond container */
+  overflow: hidden; /* Prevent blobs from causing scrollbars */
   pointer-events: none;
+  contain: strict; /* Isolate blobs from affecting rest of layout */
 }
 
 .blob {
@@ -300,6 +304,7 @@ header.hero {
   filter: blur(150px);
   will-change: transform;
   opacity: 0.25;
+  contain: layout style; /* Prevent blob animations from affecting layout */
 }
 
 /* Light mode: increase blob opacity */
@@ -541,6 +546,9 @@ footer {
   padding: 30px 0 60px;
   color: var(--muted);
   border-top: 1px solid color-mix(in oklab, var(--text) 10%, transparent);
+  background: var(--bg);
+  position: relative;
+  z-index: 1;
 }
 
 .icons {

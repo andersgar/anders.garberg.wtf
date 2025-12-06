@@ -116,15 +116,49 @@ body.mobile-menu-open {
   width: 100%;
 }
 
+/* Tablet breakpoint */
+@media (max-width: 930px) {
+  .nav-links {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .nav-links {
     display: none;
   }
   .hamburger {
     display: flex;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.5rem;
+  }
+  .nav-inner .brand {
+    flex-shrink: 0;
+  }
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    box-sizing: border-box;
   }
   .container {
-    padding: 0 24px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    width: 100%;
   }
   .hero-wrap {
     grid-template-columns: 1fr;

@@ -17,17 +17,17 @@ export function Footer() {
         }}
       >
         <p className="small">
-          © {currentYear} Anders Garberg · {t("codedInReact")} ·{" "}
+          © {currentYear} Anders Garberg · {t("allRightsReserved")} ·{" "}
           <a
             href="https://github.com/andersgar/anders.garberg.wtf"
             target="_blank"
             rel="noopener noreferrer"
             style={{ textDecoration: "underline" }}
           >
-            Source Code
+            {t("viewSource")}
           </a>
         </p>
-        <p className="small">Trondheim, Norge</p>
+        <p className="small">{t("location")}</p>
       </div>
     </footer>
   );
