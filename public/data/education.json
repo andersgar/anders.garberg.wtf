@@ -1,0 +1,54 @@
+[
+  {
+    "institution": { "no": "NTNU", "en": "NTNU" },
+    "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
+    "degrees": [
+      {
+        "title": {
+          "no": "Bachelor i Automatisering og intelligente systemer",
+          "en": "Bachelor in Automation and Intelligent Systems"
+        },
+        "tag": { "no": "Bachelor", "en": "Bachelor" },
+        "date": { "no": "Aug 2023 – Jun 2026", "en": "Aug 2023 – Jun 2026" },
+        "desc": {
+          "no": "Treårig bachelorgrad med fokus på reguleringsteknikk, robotikk, autonomi og intelligente systemer. Relevant kursarbeid inkluderer fysikk, matematikk, programmering og systemmodellering.",
+          "en": "Three-year bachelor's degree focusing on control engineering, robotics, autonomy, and intelligent systems. Relevant coursework includes physics, mathematics, programming, and system modeling."
+        }
+      },
+      {
+        "title": {
+          "no": "Master i Kybernetikk og robotikk (Planlagt)",
+          "en": "Master in Cybernetics and Robotics (Planned)"
+        },
+        "tag": { "no": "Planlagt", "en": "Planned" },
+        "date": { "no": "Aug 2026 – Jun 2028", "en": "Aug 2026 – Jun 2028" },
+        "desc": {
+          "no": "Toårig mastergrad med fokus på avansert reguleringsteknikk, autonome systemer, maskinlæring og robotikk. Inkluderer design av intelligente styresystemer og autonome farkoster.",
+          "en": "Two-year master's degree focusing on advanced control engineering, autonomous systems, machine learning, and robotics. Includes design of intelligent control systems and autonomous vehicles."
+        },
+        "planned": true
+      }
+    ]
+  },
+  {
+    "institution": {
+      "no": "Thora Storm videregående skole",
+      "en": "Thora Storm Secondary School"
+    },
+    "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
+    "degrees": [
+      {
+        "title": {
+          "no": "Studiespesialisering med realfag",
+          "en": "General Studies with Natural Sciences"
+        },
+        "tag": { "no": "VGS", "en": "Secondary School" },
+        "date": { "no": "Aug 2019 – Jun 2022", "en": "Aug 2019 – Jun 2022" },
+        "desc": {
+          "no": "Studiespesialisering med fordypning i realfag, inkludert matematikk R1 og R2, fysikk 1 og 2, og teknologi og forskningslære.",
+          "en": "General studies specialization with focus on natural sciences, including Mathematics R1 and R2, Physics 1 and 2, and Technology and Research Studies."
+        }
+      }
+    ]
+  }
+]

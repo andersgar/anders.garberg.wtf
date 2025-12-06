@@ -97,6 +97,13 @@ export const translations = {
     backToLogin: "Tilbake til innlogging",
     showQR: "Vis QR-kode",
     scanQR: "Skann for å besøke nettstedet",
+    codedInReact: "Kodet i React av Anders",
+    viewSource: "Se kildekode",
+    showMoreExperience: "Vis mer",
+    showLessExperience: "Vis mindre",
+    education: "Utdanning",
+    showMoreEducation: "Vis mer",
+    showLessEducation: "Vis mindre",
   },
   en: {
     // Navigation & General
@@ -193,6 +200,13 @@ export const translations = {
     backToLogin: "Back to login",
     showQR: "Show QR Code",
     scanQR: "Scan to visit the website",
+    codedInReact: "Coded in React by Anders",
+    viewSource: "View source",
+    showMoreExperience: "Show more",
+    showLessExperience: "Show less",
+    education: "Education",
+    showMoreEducation: "Show more",
+    showLessEducation: "Show less",
   },
 } as const;
 

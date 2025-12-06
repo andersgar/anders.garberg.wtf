@@ -242,6 +242,57 @@ section {
   align-self: flex-start;
 }
 
+/* Collapsible Timeline */
+.timeline-container {
+  position: relative;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out;
+}
+
+.timeline-container.collapsed {
+  max-height: 280px;
+}
+
+.timeline-container.expanded {
+  max-height: 3000px;
+}
+
+.timeline-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, var(--panel));
+  pointer-events: none;
+}
+
+.timeline-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  background: transparent;
+  border: 1px solid color-mix(in oklab, var(--text) 14%, transparent);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.timeline-toggle:hover {
+  background: color-mix(in oklab, var(--text) 5%, transparent);
+  border-color: color-mix(in oklab, var(--text) 25%, transparent);
+}
+
+.timeline-toggle i {
+  transition: transform 0.3s ease;
+}
+
 footer {
   padding: 30px 0 60px;
   color: var(--muted);
