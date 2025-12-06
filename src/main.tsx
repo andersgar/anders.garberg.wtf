@@ -4,6 +4,7 @@ import App from "./App";
 import { LanguageProvider } from "./context/LanguageContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AuthProvider } from "./context/AuthContext";
+import { ProfileProvider } from "./context/ProfileContext";
 import "./styles/index.css";
 
 createRoot(document.getElementById("root")!).render(
@@ -11,7 +12,9 @@ createRoot(document.getElementById("root")!).render(
     <ThemeProvider>
       <LanguageProvider>
         <AuthProvider>
-          <App />
+          <ProfileProvider>
+            <App />
+          </ProfileProvider>
         </AuthProvider>
       </LanguageProvider>
     </ThemeProvider>
