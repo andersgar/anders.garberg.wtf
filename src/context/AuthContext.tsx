@@ -16,6 +16,10 @@ interface AuthContextType {
     email: string,
     password: string
   ) => Promise<{ error: AuthError | null }>;
+  signup: (
+    email: string,
+    password: string
+  ) => Promise<{ error: AuthError | null; needsConfirmation: boolean }>;
   logout: () => Promise<void>;
 }
 
@@ -78,6 +82,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { error };
   };
 
+  const signup = async (email: string, password: string) => {
+    console.log("Attempting signup with email:", email);
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+    if (error) {
+      console.error("Signup error:", error.message, error);
+      return { error, needsConfirmation: false };
+    }
+
+    // Check if email confirmation is required
+    const needsConfirmation = !data.session;
+    console.log(
+      "Signup successful:",
+      data,
+      "Needs confirmation:",
+      needsConfirmation
+    );
+    return { error: null, needsConfirmation };
+  };
+
   const logout = async () => {
     await supabase.auth.signOut();
   };
@@ -89,6 +118,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isLoading,
         isAuthenticated: !!user,
         login,
+        signup,
         logout,
       }}
     >

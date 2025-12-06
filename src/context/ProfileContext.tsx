@@ -21,7 +21,9 @@ interface ProfileContextType {
   profile: Profile | null;
   loading: boolean;
   updateProfile: (
-    updates: Partial<Omit<Profile, "id" | "created_at" | "updated_at" | "access_level">>
+    updates: Partial<
+      Omit<Profile, "id" | "created_at" | "updated_at" | "access_level">
+    >
   ) => Promise<boolean>;
   updateSettings: (settings: Partial<UserSettings>) => Promise<boolean>;
   uploadAvatar: (file: File) => Promise<string | null>;
@@ -32,9 +34,9 @@ interface ProfileContextType {
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
 export function ProfileProvider({ children }: { children: ReactNode }) {
-  const { user } = useAuth();
+  const { user, isLoading: authLoading } = useAuth();
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const fetchProfile = async () => {
     if (!user) {
@@ -44,17 +46,28 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
     }
 
     setLoading(true);
-    const data = await getProfile();
-    setProfile(data);
-    setLoading(false);
+    try {
+      const data = await getProfile();
+      setProfile(data);
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+      setProfile(null);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
+    // Wait for auth to finish loading before fetching profile
+    if (authLoading) return;
+
     fetchProfile();
-  }, [user]);
+  }, [user, authLoading]);
 
   const updateProfile = async (
-    updates: Partial<Omit<Profile, "id" | "created_at" | "updated_at" | "access_level">>
+    updates: Partial<
+      Omit<Profile, "id" | "created_at" | "updated_at" | "access_level">
+    >
   ): Promise<boolean> => {
     const updated = await updateProfileApi(updates);
     if (updated) {

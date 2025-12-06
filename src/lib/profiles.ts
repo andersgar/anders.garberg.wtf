@@ -30,6 +30,51 @@ const DEFAULT_SETTINGS: UserSettings = {
 };
 
 /**
+ * Create a profile for the current user if it doesn't exist
+ */
+export async function createProfileIfMissing(): Promise<Profile | null> {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return null;
+
+  // Check if profile exists
+  const { data: existing } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (existing) {
+    // Profile exists, fetch and return it
+    return getProfile();
+  }
+
+  // Create new profile
+  const { data, error } = await supabase
+    .from("profiles")
+    .insert({
+      id: user.id,
+      email: user.email,
+      access_level: "user",
+      settings: DEFAULT_SETTINGS,
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error creating profile:", error);
+    return null;
+  }
+
+  return {
+    ...data,
+    settings: { ...DEFAULT_SETTINGS, ...data.settings },
+  } as Profile;
+}
+
+/**
  * Get the current user's profile
  */
 export async function getProfile(): Promise<Profile | null> {
@@ -43,11 +88,16 @@ export async function getProfile(): Promise<Profile | null> {
     .from("profiles")
     .select("*")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error("Error fetching profile:", error);
     return null;
+  }
+
+  // No profile found - create one
+  if (!data) {
+    return createProfileIfMissing();
   }
 
   return {
@@ -64,7 +114,7 @@ export async function getProfileById(userId: string): Promise<Profile | null> {
     .from("profiles")
     .select("*")
     .eq("id", userId)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error("Error fetching profile:", error);
@@ -81,7 +131,9 @@ export async function getProfileById(userId: string): Promise<Profile | null> {
  * Update the current user's profile
  */
 export async function updateProfile(
-  updates: Partial<Omit<Profile, "id" | "created_at" | "updated_at" | "access_level">>
+  updates: Partial<
+    Omit<Profile, "id" | "created_at" | "updated_at" | "access_level">
+  >
 ): Promise<Profile | null> {
   const {
     data: { user },

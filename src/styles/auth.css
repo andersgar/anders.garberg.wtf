@@ -415,3 +415,58 @@
     font-size: 1.5rem;
   }
 }
+
+/* Registration Success */
+.success-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 2.5rem;
+  color: white;
+  animation: successPop 0.4s ease;
+}
+
+@keyframes successPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-message {
+  text-align: center;
+  padding: 1.5rem;
+  background: color-mix(in oklab, var(--brand) 10%, transparent);
+  border: 1px solid color-mix(in oklab, var(--brand) 25%, transparent);
+  border-radius: calc(var(--radius) / 2);
+  margin-bottom: 1.5rem;
+}
+
+.success-message p {
+  margin: 0 0 0.75rem;
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.success-message p:last-child {
+  margin-bottom: 0;
+}
+
+.email-sent-to {
+  font-weight: 600;
+  color: var(--brand);
+  font-size: 1rem !important;
+}
