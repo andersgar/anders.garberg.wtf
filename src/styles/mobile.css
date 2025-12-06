@@ -233,16 +233,19 @@ body.mobile-menu-open {
     line-height: 1.6;
   }
 
+  .timeline {
+    padding-left: 3px;
+  }
   .timeline .step {
     display: grid;
-    grid-template-columns: 18px 1fr;
+    grid-template-columns: 20px 1fr;
     gap: 8px;
     align-items: flex-start;
     padding-top: 14px;
     padding-bottom: 14px;
   }
   .timeline::before {
-    left: 8px;
+    left: 12px; /* Center line with dot: 3px padding + (16px dot / 2) - 1px */
   }
   .timeline .dot {
     inline-size: 16px;
@@ -252,6 +255,7 @@ body.mobile-menu-open {
     margin-top: 0;
     box-shadow: 0 0 0 3px color-mix(in oklab, var(--brand) 30%, transparent);
     align-self: flex-start;
+    justify-self: center;
   }
   .small {
     font-size: 0.85rem;
