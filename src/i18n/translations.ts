@@ -104,6 +104,15 @@ export const translations = {
     education: "Utdanning",
     showMoreEducation: "Vis mer",
     showLessEducation: "Vis mindre",
+    colorTheme: "Fargetema",
+    themeAurora: "Aurora Pulse",
+    themeCinema: "Neon Cinema",
+    themeSunset: "Sunset Drive",
+    themeCyber: "Cyber Mint",
+    themeSpace: "Deep Space",
+    themeVolcanic: "Volcanic Night",
+    themeIcefire: "Ice Fire",
+    themeCandy: "Cotton Candy",
   },
   en: {
     // Navigation & General
@@ -207,6 +216,15 @@ export const translations = {
     education: "Education",
     showMoreEducation: "Show more",
     showLessEducation: "Show less",
+    colorTheme: "Color theme",
+    themeAurora: "Aurora Pulse",
+    themeCinema: "Neon Cinema",
+    themeSunset: "Sunset Drive",
+    themeCyber: "Cyber Mint",
+    themeSpace: "Deep Space",
+    themeVolcanic: "Volcanic Night",
+    themeIcefire: "Ice Fire",
+    themeCandy: "Cotton Candy",
   },
 } as const;
 
