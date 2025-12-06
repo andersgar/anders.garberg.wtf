@@ -89,11 +89,16 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
   };
 
   const uploadAvatar = async (file: File): Promise<string | null> => {
-    const url = await uploadAvatarApi(file);
-    if (url) {
-      await fetchProfile(); // Refresh profile to get new avatar URL
+    try {
+      const url = await uploadAvatarApi(file);
+      if (url) {
+        await fetchProfile(); // Refresh profile to get new avatar URL
+      }
+      return url;
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+      return null;
     }
-    return url;
   };
 
   const checkAccess = (requiredLevel: AccessLevel): boolean => {

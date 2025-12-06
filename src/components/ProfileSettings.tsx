@@ -47,8 +47,19 @@ export function ProfileSettings({ onClose }: ProfileSettingsProps) {
     }
 
     setIsUploading(true);
-    await uploadAvatar(file);
-    setIsUploading(false);
+    try {
+      const url = await uploadAvatar(file);
+      if (!url) {
+        alert(
+          "Failed to upload avatar. Make sure the storage bucket is configured in Supabase."
+        );
+      }
+    } catch (error) {
+      console.error("Avatar upload error:", error);
+      alert("Failed to upload avatar. Check console for details.");
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleInputChange = (
