@@ -113,6 +113,7 @@ export const translations = {
     themeVolcanic: "Volcanic Night",
     themeIcefire: "Ice Fire",
     themeCandy: "Cotton Candy",
+    blobs: "Blobs",
   },
   en: {
     // Navigation & General
@@ -225,6 +226,7 @@ export const translations = {
     themeVolcanic: "Volcanic Night",
     themeIcefire: "Ice Fire",
     themeCandy: "Cotton Candy",
+    blobs: "Blobs",
   },
 } as const;
 

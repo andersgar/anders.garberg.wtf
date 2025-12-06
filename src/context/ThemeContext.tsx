@@ -20,8 +20,10 @@ type ColorTheme =
 interface ThemeContextType {
   theme: Theme;
   colorTheme: ColorTheme;
+  blobCount: number;
   setTheme: (theme: Theme) => void;
   setColorTheme: (colorTheme: ColorTheme) => void;
+  setBlobCount: (count: number) => void;
   toggleTheme: () => void;
 }
 
@@ -76,6 +78,17 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       "aurora"
     );
   });
+
+  const [blobCount, setBlobCountState] = useState<number>(() => {
+    const stored = localStorage.getItem("blobCount");
+    return stored ? parseInt(stored, 10) : 3;
+  });
+
+  const setBlobCount = (count: number) => {
+    const newCount = Math.max(0, Math.min(10, count));
+    setBlobCountState(newCount);
+    localStorage.setItem("blobCount", newCount.toString());
+  };
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
@@ -133,7 +146,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   return (
     <ThemeContext.Provider
-      value={{ theme, colorTheme, setTheme, setColorTheme, toggleTheme }}
+      value={{
+        theme,
+        colorTheme,
+        blobCount,
+        setTheme,
+        setColorTheme,
+        setBlobCount,
+        toggleTheme,
+      }}
     >
       {children}
     </ThemeContext.Provider>

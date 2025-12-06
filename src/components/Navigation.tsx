@@ -50,7 +50,14 @@ const colorThemes: { id: ColorTheme; gradient: string }[] = [
 
 export function Navigation() {
   const { t, toggleLanguage } = useLanguage();
-  const { theme, setTheme, colorTheme, setColorTheme } = useTheme();
+  const {
+    theme,
+    setTheme,
+    colorTheme,
+    setColorTheme,
+    blobCount,
+    setBlobCount,
+  } = useTheme();
   const { user, isAuthenticated, logout } = useAuth();
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showColorDropdown, setShowColorDropdown] = useState(false);
@@ -228,6 +235,29 @@ export function Navigation() {
                         theme === "dark" ? "dark" : "light"
                       }`}
                     />
+                  </div>
+
+                  <div className="blob-count-section">
+                    <div className="blob-count-header">{t("blobs")}</div>
+                    <div className="blob-count-control">
+                      <button
+                        className="blob-count-btn"
+                        onClick={() => setBlobCount(blobCount - 1)}
+                        disabled={blobCount <= 0}
+                        aria-label="Decrease blobs"
+                      >
+                        <i className="fa-solid fa-minus"></i>
+                      </button>
+                      <span className="blob-count-value">{blobCount}</span>
+                      <button
+                        className="blob-count-btn"
+                        onClick={() => setBlobCount(blobCount + 1)}
+                        disabled={blobCount >= 10}
+                        aria-label="Increase blobs"
+                      >
+                        <i className="fa-solid fa-plus"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
