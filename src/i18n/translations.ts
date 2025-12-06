@@ -101,6 +101,9 @@ export const translations = {
     viewSource: "Se kildekode",
     showMoreExperience: "Vis mer",
     showLessExperience: "Vis mindre",
+    education: "Utdanning",
+    showMoreEducation: "Vis mer",
+    showLessEducation: "Vis mindre",
   },
   en: {
     // Navigation & General
@@ -201,6 +204,9 @@ export const translations = {
     viewSource: "View source",
     showMoreExperience: "Show more",
     showLessExperience: "Show less",
+    education: "Education",
+    showMoreEducation: "Show more",
+    showLessEducation: "Show less",
   },
 } as const;
 

@@ -530,3 +530,13 @@ form .field {
   margin-bottom: 0.3rem;
   line-height: 1.6;
 }
+
+/* Planned/future education styling */
+.position.planned {
+  font-style: italic;
+  opacity: 0.85;
+}
+.position.planned .tag {
+  background: color-mix(in oklab, var(--muted) 20%, transparent);
+  color: var(--muted);
+}
