@@ -402,6 +402,13 @@ form .field {
   font-size: 1.1rem;
   flex-shrink: 0;
   color: white;
+  overflow: hidden;
+}
+
+.user-avatar-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .user-dropdown-info {
@@ -669,4 +676,281 @@ form .field {
 .position.planned .tag {
   background: color-mix(in oklab, var(--muted) 20%, transparent);
   color: var(--muted);
+}
+
+/* Profile Settings Popup */
+.profile-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.profile-settings {
+  background: var(--panel);
+  border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: modalSlideIn 0.25s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.profile-settings-loading {
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 1.5rem;
+}
+
+.profile-settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--text) 10%, transparent);
+  background: color-mix(in oklab, var(--text) 4%, transparent);
+}
+
+.profile-settings-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.profile-settings-close {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s;
+}
+
+.profile-settings-close:hover {
+  color: var(--text);
+}
+
+.profile-settings-content {
+  padding: 1.5rem 1.25rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.profile-avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.profile-avatar-large {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: white;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.profile-avatar-large:hover {
+  transform: scale(1.05);
+}
+
+.profile-avatar-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-avatar-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  font-size: 1.5rem;
+}
+
+.profile-avatar-large:hover .profile-avatar-overlay {
+  opacity: 1;
+}
+
+.profile-avatar-hint {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.profile-access-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid;
+  margin: 0 auto 1.5rem;
+}
+
+.profile-access-badge i {
+  font-size: 0.7rem;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.profile-form-group label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.profile-form-group input,
+.profile-form-group textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  background: color-mix(in oklab, var(--text) 5%, transparent);
+  border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
+  border-radius: calc(var(--radius) / 2);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.profile-form-group input:focus,
+.profile-form-group textarea:focus {
+  outline: none;
+  border-color: var(--brand);
+  background: color-mix(in oklab, var(--brand) 5%, transparent);
+}
+
+.profile-form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.profile-form-group.readonly {
+  opacity: 0.8;
+}
+
+.profile-readonly-value {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  background: color-mix(in oklab, var(--text) 3%, transparent);
+  border: 1px solid color-mix(in oklab, var(--text) 8%, transparent);
+  border-radius: calc(var(--radius) / 2);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.profile-readonly-value i {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.profile-settings-footer {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid color-mix(in oklab, var(--text) 10%, transparent);
+  background: color-mix(in oklab, var(--text) 2%, transparent);
+}
+
+.profile-btn-cancel,
+.profile-btn-save {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border-radius: calc(var(--radius) / 2);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.15s;
+}
+
+.profile-btn-cancel {
+  background: transparent;
+  border: 1px solid color-mix(in oklab, var(--text) 15%, transparent);
+  color: var(--text);
+}
+
+.profile-btn-cancel:hover {
+  background: color-mix(in oklab, var(--text) 8%, transparent);
+}
+
+.profile-btn-save {
+  background: var(--brand);
+  border: none;
+  color: white;
+}
+
+.profile-btn-save:hover {
+  filter: brightness(1.1);
+}
+
+.profile-btn-save:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }

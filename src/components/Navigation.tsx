@@ -4,6 +4,8 @@ import { QRCodeSVG } from "qrcode.react";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme, ColorTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
+import { useProfile } from "../context/ProfileContext";
+import { ProfileSettings } from "./ProfileSettings";
 
 const colorThemes: { id: ColorTheme; gradient: string }[] = [
   {
@@ -59,9 +61,11 @@ export function Navigation() {
     setBlobCount,
   } = useTheme();
   const { user, isAuthenticated, logout } = useAuth();
+  const { profile, hasAccess } = useProfile();
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showColorDropdown, setShowColorDropdown] = useState(false);
   const [showQrPopup, setShowQrPopup] = useState(false);
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [navHidden, setNavHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -101,15 +105,21 @@ export function Navigation() {
         setShowUserDropdown(false);
         setShowColorDropdown(false);
         setShowQrPopup(false);
+        setShowProfilePopup(false);
       }
     };
 
-    if (showUserDropdown || showQrPopup || showColorDropdown) {
+    if (
+      showUserDropdown ||
+      showQrPopup ||
+      showColorDropdown ||
+      showProfilePopup
+    ) {
       document.addEventListener("keydown", handleEscape);
     }
 
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [showUserDropdown, showQrPopup, showColorDropdown]);
+  }, [showUserDropdown, showQrPopup, showColorDropdown, showProfilePopup]);
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -298,24 +308,51 @@ export function Navigation() {
                     <div className="user-dropdown" ref={dropdownRef}>
                       <div className="user-dropdown-header">
                         <div className="user-avatar-small">
-                          <i className="fa-solid fa-user"></i>
+                          {profile?.avatar_url ? (
+                            <img src={profile.avatar_url} alt="Avatar" />
+                          ) : (
+                            <i className="fa-solid fa-user"></i>
+                          )}
                         </div>
                         <div className="user-dropdown-info">
                           <span className="user-email">
-                            {user?.email || "Loading..."}
+                            {profile?.full_name ||
+                              profile?.username ||
+                              user?.email ||
+                              "Loading..."}
                           </span>
-                          <span className="user-role">Administrator</span>
+                          <span className="user-role">
+                            {profile?.access_level === "owner"
+                              ? t("accessLevelOwner")
+                              : profile?.access_level === "admin"
+                              ? t("accessLevelAdmin")
+                              : profile?.access_level === "moderator"
+                              ? t("accessLevelMod")
+                              : t("accessLevelUser")}
+                          </span>
                         </div>
                       </div>
                       <div className="user-dropdown-divider"></div>
-                      <Link
-                        to="/admin"
+                      <button
                         className="user-dropdown-item"
-                        onClick={() => setShowUserDropdown(false)}
+                        onClick={() => {
+                          setShowUserDropdown(false);
+                          setShowProfilePopup(true);
+                        }}
                       >
-                        <i className="fa-solid fa-chart-line"></i>
-                        {t("adminDashboard")}
-                      </Link>
+                        <i className="fa-solid fa-user-pen"></i>
+                        {t("profile")}
+                      </button>
+                      {hasAccess("admin") && (
+                        <Link
+                          to="/admin"
+                          className="user-dropdown-item"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          <i className="fa-solid fa-chart-line"></i>
+                          {t("adminDashboard")}
+                        </Link>
+                      )}
                       <div className="user-dropdown-divider"></div>
                       <button
                         className="user-dropdown-item logout"
@@ -375,6 +412,20 @@ export function Navigation() {
             </div>
             <p className="qr-url">garberg.wtf</p>
           </div>
+        </div>
+      )}
+
+      {/* Profile Settings Popup */}
+      {showProfilePopup && (
+        <div
+          className="profile-popup-overlay"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowProfilePopup(false);
+            }
+          }}
+        >
+          <ProfileSettings onClose={() => setShowProfilePopup(false)} />
         </div>
       )}
     </>

@@ -1,8 +1,14 @@
 import { useLanguage } from "../context/LanguageContext";
+import { useProfile } from "../context/ProfileContext";
 import { translations } from "../i18n/translations";
 
 export function Hero() {
   const { t, lang } = useLanguage();
+  const { profile } = useProfile();
+
+  // Easter egg: Check if the logged-in user is Anders Garberg
+  const isAnders =
+    profile?.email?.toLowerCase() === "anders@garberg.wtf";
 
   return (
     <header id="home" className="hero">
@@ -13,7 +19,7 @@ export function Hero() {
             <span>{t("degreeProgram")}</span>
           </p>
           <h1>
-            <span>{t("greeting")}</span>{" "}
+            <span>{isAnders ? t("greetingEasterEgg") : t("greeting")}</span>{" "}
             <span style={{ color: "var(--brand)" }}>Anders Garberg</span>
           </h1>
           <div style={{ height: "1rem" }}></div>
