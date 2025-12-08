@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme, ColorTheme } from "../context/ThemeContext";
@@ -51,7 +51,8 @@ const colorThemes: { id: ColorTheme; gradient: string }[] = [
 ];
 
 export function Navigation() {
-  const { t, toggleLanguage } = useLanguage();
+  const { t, lang, toggleLanguage } = useLanguage();
+  const location = useLocation();
   const {
     theme,
     setTheme,
@@ -72,6 +73,10 @@ export function Navigation() {
   const userButtonRef = useRef<HTMLButtonElement>(null);
   const colorDropdownRef = useRef<HTMLDivElement>(null);
   const colorButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Determine if we're on the about page (with sections) or dashboard
+  const isAboutPage = location.pathname === "/about" || location.pathname === "/om-meg";
+  const aboutPath = lang === "no" ? "/om-meg" : "/about";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -174,15 +179,32 @@ export function Navigation() {
             <div className="brand-badge" aria-hidden="true">
               AG
             </div>
-            <a href="#home" aria-label="Hjem">
+            <Link to={isAuthenticated ? "/" : aboutPath} aria-label="Hjem">
               <span>Anders Garberg</span>
-            </a>
+            </Link>
           </div>
 
           <div className="nav-links">
-            <a href="#experience">{t("experience")}</a>
-            <a href="#about">{t("about")}</a>
-            <a href="#contact">{t("contact")}</a>
+            {/* Show different links based on auth status and current page */}
+            {isAuthenticated && !isAboutPage && (
+              <Link to={aboutPath}>{t("aboutMe")}</Link>
+            )}
+            {isAuthenticated && isAboutPage && (
+              <Link to="/">{t("dashboard")}</Link>
+            )}
+            {isAboutPage && (
+              <>
+                <a href="#experience">{t("experience")}</a>
+                <a href="#about">{t("about")}</a>
+              </>
+            )}
+            {!isAuthenticated && !isAboutPage && (
+              <Link to={aboutPath}>{t("aboutMe")}</Link>
+            )}
+            <a href={isAboutPage ? "#contact" : aboutPath + "#contact"}>{t("contact")}</a>
+            {!isAuthenticated && (
+              <Link to="/login" className="nav-login-link">{t("login")}</Link>
+            )}
 
             <div className="color-theme-container">
               <button
@@ -438,9 +460,14 @@ export function NavSpacer() {
 }
 
 function MobileMenu() {
-  const { t, toggleLanguage } = useLanguage();
+  const { t, lang, toggleLanguage } = useLanguage();
   const { toggleTheme } = useTheme();
   const { isAuthenticated, logout } = useAuth();
+  const location = useLocation();
+
+  // Determine if we're on the about page (with sections) or dashboard
+  const isAboutPage = location.pathname === "/about" || location.pathname === "/om-meg";
+  const aboutPath = lang === "no" ? "/om-meg" : "/about";
 
   const handleMenuToggle = () => {
     document.getElementById("hamburger")?.classList.toggle("active");
@@ -476,13 +503,33 @@ function MobileMenu() {
       ></div>
 
       <div className="mobile-menu" id="mobileMenu">
-        <a href="#experience" onClick={closeMenu}>
-          {t("experience")}
-        </a>
-        <a href="#about" onClick={closeMenu}>
-          {t("about")}
-        </a>
-        <a href="#contact" onClick={closeMenu}>
+        {/* Show different links based on auth status and current page */}
+        {isAuthenticated && !isAboutPage && (
+          <Link to={aboutPath} onClick={closeMenu}>
+            {t("aboutMe")}
+          </Link>
+        )}
+        {isAuthenticated && isAboutPage && (
+          <Link to="/" onClick={closeMenu}>
+            {t("dashboard")}
+          </Link>
+        )}
+        {isAboutPage && (
+          <>
+            <a href="#experience" onClick={closeMenu}>
+              {t("experience")}
+            </a>
+            <a href="#about" onClick={closeMenu}>
+              {t("about")}
+            </a>
+          </>
+        )}
+        {!isAuthenticated && !isAboutPage && (
+          <Link to={aboutPath} onClick={closeMenu}>
+            {t("aboutMe")}
+          </Link>
+        )}
+        <a href={isAboutPage ? "#contact" : aboutPath + "#contact"} onClick={closeMenu}>
           {t("contact")}
         </a>
 

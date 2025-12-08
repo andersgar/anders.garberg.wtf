@@ -1,0 +1,207 @@
+/* Dashboard Styles */
+.dashboard {
+  min-height: calc(100vh - 200px);
+  padding: 2rem 0;
+}
+
+.dashboard-header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.dashboard-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--brand), var(--brand-secondary, var(--brand)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dashboard-subtitle {
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.dashboard-section {
+  margin-bottom: 3rem;
+}
+
+.dashboard-section h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  color: var(--fg);
+}
+
+/* App Grid */
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.app-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.app-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border-color: var(--app-color, var(--brand));
+  background: var(--card);
+}
+
+.app-tile:hover .app-tile-icon {
+  transform: scale(1.1);
+}
+
+.app-tile-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--app-color, var(--brand)) 15%, transparent);
+  color: var(--app-color, var(--brand));
+  font-size: 1.5rem;
+  transition: transform 0.2s ease;
+}
+
+.app-tile-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--fg);
+  text-align: center;
+}
+
+/* Add App Tile */
+.app-tile-add {
+  border-style: dashed;
+  background: transparent;
+}
+
+.app-tile-add:hover {
+  background: var(--card);
+}
+
+.app-tile-add .app-tile-icon {
+  background: color-mix(in oklab, var(--muted) 10%, transparent);
+  color: var(--muted);
+}
+
+.app-tile-add .app-tile-name {
+  color: var(--muted);
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.quick-action-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  text-decoration: none;
+  color: var(--fg);
+  transition: all 0.2s ease;
+}
+
+.quick-action-card:hover {
+  border-color: var(--brand);
+  transform: translateX(4px);
+}
+
+.quick-action-card i {
+  font-size: 1.25rem;
+  color: var(--brand);
+}
+
+.quick-action-card span {
+  font-weight: 500;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .dashboard-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .app-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .app-tile {
+    padding: 1rem 0.5rem;
+  }
+
+  .app-tile-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+  }
+
+  .app-tile-name {
+    font-size: 0.8rem;
+  }
+
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Light mode enhancements */
+:root[data-theme="light"] .app-tile {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="light"] .app-tile:hover {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+:root[data-theme="light"] .app-tile-name {
+  color: #1a1a1a;
+}
+
+:root[data-theme="light"] .quick-action-card {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="light"] .quick-action-card:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+:root[data-theme="light"] .quick-action-card span {
+  color: #1a1a1a;
+}

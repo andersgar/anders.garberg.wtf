@@ -1,28 +1,32 @@
-import { Navigation, NavSpacer } from "../components/Navigation";
-import { Hero } from "../components/Hero";
-import { Experience } from "../components/Experience";
-import { About } from "../components/About";
-import { Contact } from "../components/Contact";
-import { Footer } from "../components/Footer";
-import { BackgroundBlobs } from "../components/BackgroundBlobs";
-// import { DevBanner } from "../components/DevBanner";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../context/LanguageContext";
+import { DashboardPage } from "./DashboardPage";
 
 export function HomePage() {
-  return (
-    <>
-      <BackgroundBlobs />
-      {/* <DevBanner /> */}
-      <Navigation />
-      <NavSpacer />
-      <Hero />
-      <main id="main" className="container" aria-live="polite">
-        <div id="publicSections">
-          <Experience />
-          <About />
-          <Contact />
-        </div>
-      </main>
-      <Footer />
-    </>
-  );
+  const { isAuthenticated, isLoading } = useAuth();
+  const { lang } = useLanguage();
+
+  // Show loading state while checking auth
+  if (isLoading) {
+    return (
+      <div style={{ 
+        display: "flex", 
+        alignItems: "center", 
+        justifyContent: "center", 
+        height: "100vh" 
+      }}>
+        <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: "2rem" }}></i>
+      </div>
+    );
+  }
+
+  // Redirect non-authenticated users to about page
+  if (!isAuthenticated) {
+    const aboutPath = lang === "no" ? "/om-meg" : "/about";
+    return <Navigate to={aboutPath} replace />;
+  }
+
+  // Show dashboard for authenticated users
+  return <DashboardPage />;
 }
