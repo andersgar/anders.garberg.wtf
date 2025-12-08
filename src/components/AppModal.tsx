@@ -94,20 +94,25 @@ export function AppModal({
 
   const handleSave = () => {
     if (!selectedApp) return;
-    if (!url.trim()) {
-      setUrlError(t("urlRequired"));
-      return;
-    }
-    if (!validateUrl(url)) {
-      setUrlError(t("invalidUrl"));
-      return;
+    const requiresUrl = selectedApp.requiresUrl !== false;
+    if (requiresUrl) {
+      if (!url.trim()) {
+        setUrlError(t("urlRequired"));
+        return;
+      }
+      if (!validateUrl(url)) {
+        setUrlError(t("invalidUrl"));
+        return;
+      }
+    } else {
+      setUrlError("");
     }
 
     const appToEdit = adminEditingUser ? internalEditingApp : editingApp;
     const userApp: UserApp = {
       id: appToEdit?.id || generateAppId(),
       appId: selectedApp.id,
-      url: url.trim(),
+      url: requiresUrl ? url.trim() : "",
       customName: selectedApp.isCustom
         ? customName.trim() || "Custom Link"
         : undefined,
@@ -197,11 +202,13 @@ export function AppModal({
   const getAppDisplayInfo = (app: UserApp) => {
     const appDef = getAppById(app.appId);
     if (appDef && !appDef.isCustom) {
+      const isFontIcon =
+        appDef.icon.includes("fa-") || appDef.icon.startsWith("fa");
       return {
         name: appDef.name,
         icon: appDef.icon,
         color: appDef.color,
-        isImage: true,
+        isImage: !isFontIcon,
       };
     }
     return {
@@ -220,6 +227,10 @@ export function AppModal({
       app.isCustom || // Custom links always available
       !existingAppIds.includes(app.id) ||
       (editingApp && editingApp.appId === app.id)
+  );
+  const featuredApps = availableApps.filter((app) => app.featured);
+  const homelabApps = availableApps.filter(
+    (app) => !app.isCustom && !app.featured
   );
 
   return (
@@ -366,12 +377,50 @@ export function AppModal({
                 </>
               )}
 
+              {/* Featured Apps */}
+              {featuredApps.length > 0 && (
+                <>
+                  <div className="app-modal-section-title">Recommended</div>
+                  <div className="app-library-grid">
+                    {featuredApps.map((app) => {
+                      const isFontIcon =
+                        app.icon.includes("fa-") || app.icon.startsWith("fa");
+                      return (
+                        <button
+                          key={app.id}
+                          className="app-library-item"
+                          onClick={() => handleSelectApp(app)}
+                          style={
+                            {
+                              "--app-color": app.color,
+                            } as React.CSSProperties
+                          }
+                        >
+                          <div className="app-library-icon">
+                            {isFontIcon ? (
+                              <i className={app.icon}></i>
+                            ) : (
+                              <img src={app.icon} alt={app.name} />
+                            )}
+                          </div>
+                          <span className="app-library-name">{app.name}</span>
+                          <span className="app-library-desc">
+                            {app.description}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+
               {/* Homelab Apps */}
               <div className="app-modal-section-title">Homelab</div>
               <div className="app-library-grid">
-                {availableApps
-                  .filter((app) => !app.isCustom)
-                  .map((app) => (
+                {homelabApps.map((app) => {
+                  const isFontIcon =
+                    app.icon.includes("fa-") || app.icon.startsWith("fa");
+                  return (
                     <button
                       key={app.id}
                       className="app-library-item"
@@ -381,14 +430,19 @@ export function AppModal({
                       }
                     >
                       <div className="app-library-icon">
-                        <img src={app.icon} alt={app.name} />
+                        {isFontIcon ? (
+                          <i className={app.icon}></i>
+                        ) : (
+                          <img src={app.icon} alt={app.name} />
+                        )}
                       </div>
                       <span className="app-library-name">{app.name}</span>
                       <span className="app-library-desc">
                         {app.description}
                       </span>
                     </button>
-                  ))}
+                  );
+                })}
               </div>
 
               {/* Custom Link */}
@@ -420,25 +474,37 @@ export function AppModal({
             selectedApp && (
               <div className="app-configure">
                 <div className="app-configure-preview">
-                  <div
-                    className="app-preview-icon"
-                    style={
-                      {
-                        "--app-color": selectedApp.color,
-                      } as React.CSSProperties
-                    }
-                  >
-                    {selectedApp.isCustom ? (
-                      <i className={customIcon}></i>
-                    ) : (
-                      <img src={selectedApp.icon} alt={selectedApp.name} />
-                    )}
-                  </div>
+                  {(() => {
+                    const isFontIcon =
+                      selectedApp.icon.includes("fa-") ||
+                      selectedApp.icon.startsWith("fa");
+                    return (
+                      <div
+                        className="app-preview-icon"
+                        style={
+                          {
+                            "--app-color": selectedApp.color,
+                          } as React.CSSProperties
+                        }
+                      >
+                        {selectedApp.isCustom || isFontIcon ? (
+                          <i className={selectedApp.isCustom ? customIcon : selectedApp.icon}></i>
+                        ) : (
+                          <img src={selectedApp.icon} alt={selectedApp.name} />
+                        )}
+                      </div>
+                    );
+                  })()}
                   <span className="app-preview-name">
                     {selectedApp.isCustom
                       ? customName || "Custom Link"
                       : selectedApp.name}
                   </span>
+                  {selectedApp.requiresUrl === false && (
+                    <span className="app-preview-helper">
+                      {t("qrAppDescription")}
+                    </span>
+                  )}
                 </div>
 
                 {selectedApp.isCustom && (
@@ -454,27 +520,29 @@ export function AppModal({
                   </div>
                 )}
 
-                <div className="app-form-group">
-                  <label htmlFor="appUrl">
-                    {t("appUrl")}
-                    {selectedApp.defaultPort && (
-                      <span className="app-port-hint">
-                        {t("defaultPort")}: {selectedApp.defaultPort}
-                      </span>
+                {selectedApp.requiresUrl !== false && (
+                  <div className="app-form-group">
+                    <label htmlFor="appUrl">
+                      {t("appUrl")}
+                      {selectedApp.defaultPort && (
+                        <span className="app-port-hint">
+                          {t("defaultPort")}: {selectedApp.defaultPort}
+                        </span>
+                      )}
+                    </label>
+                    <input
+                      type="text"
+                      id="appUrl"
+                      value={url}
+                      onChange={(e) => handleUrlChange(e.target.value)}
+                      placeholder="192.168.1.100:8096 or app.example.com"
+                      className={urlError ? "error" : ""}
+                    />
+                    {urlError && (
+                      <span className="app-form-error">{urlError}</span>
                     )}
-                  </label>
-                  <input
-                    type="text"
-                    id="appUrl"
-                    value={url}
-                    onChange={(e) => handleUrlChange(e.target.value)}
-                    placeholder="192.168.1.100:8096 or app.example.com"
-                    className={urlError ? "error" : ""}
-                  />
-                  {urlError && (
-                    <span className="app-form-error">{urlError}</span>
-                  )}
-                </div>
+                  </div>
+                )}
 
                 <div className="app-form-group app-form-toggle">
                   <label htmlFor="appVisible">{t("showOnDashboard")}</label>
@@ -508,7 +576,10 @@ export function AppModal({
               <button
                 className="app-btn-save"
                 onClick={handleSave}
-                disabled={!url.trim() || !!urlError}
+                disabled={
+                  (selectedApp?.requiresUrl !== false && !url.trim()) ||
+                  !!urlError
+                }
               >
                 <i className="fa-solid fa-check"></i>
                 {t("save")}

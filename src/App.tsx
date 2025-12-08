@@ -5,6 +5,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { AuthCallback } from "./pages/AuthCallback";
 import { ResetPasswordPage } from "./pages/ResetPasswordPage";
+import { QRGeneratorPage } from "./pages/QRGeneratorPage";
 import { SettingsSync } from "./components/SettingsSync";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/admin" element={<Navigate to="/" replace />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/qr-generator" element={<QRGeneratorPage />} />
       </Routes>
     </BrowserRouter>
   );

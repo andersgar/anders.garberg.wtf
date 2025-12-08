@@ -7,6 +7,8 @@ export interface AppDefinition {
   description: string;
   defaultPort?: number;
   isCustom?: boolean;
+  requiresUrl?: boolean;
+  featured?: boolean; // Shown before homelab apps in the picker
 }
 
 export interface UserApp {
@@ -21,6 +23,15 @@ export interface UserApp {
 
 // Predefined apps library
 export const APP_LIBRARY: AppDefinition[] = [
+  {
+    id: "qr_app",
+    name: "QR Generator",
+    icon: "fa-solid fa-qrcode",
+    color: "var(--brand)",
+    description: "Create QR codes for links and text",
+    featured: true,
+    requiresUrl: false,
+  },
   {
     id: "homeassistant",
     name: "Home Assistant",

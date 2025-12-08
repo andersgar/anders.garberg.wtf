@@ -1,0 +1,141 @@
+.qr-generator {
+  min-height: 100vh;
+  padding: 2rem 0 4rem;
+  position: relative;
+}
+
+.qr-generator__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.qr-generator__subtitle {
+  color: var(--muted);
+  max-width: 620px;
+  margin-top: 0.5rem;
+}
+
+.qr-generator__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.qr-generator__panel {
+  background: color-mix(in oklab, var(--bg) 80%, transparent);
+  border: 1px solid color-mix(in oklab, var(--muted) 30%, transparent);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 25px 50px -12px color-mix(in oklab, var(--shadow) 35%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.qr-generator__label {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.qr-generator__input {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: color-mix(in oklab, var(--bg) 60%, transparent);
+  border: 1px solid color-mix(in oklab, var(--muted) 25%, transparent);
+  border-radius: 0.9rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.qr-generator__input--focused {
+  border-color: color-mix(in oklab, var(--brand) 60%, transparent);
+  box-shadow: 0 10px 25px -12px color-mix(in oklab, var(--brand) 55%, transparent);
+}
+
+.qr-generator__input input {
+  background: transparent;
+  border: none;
+  outline: none;
+  flex: 1;
+  color: var(--fg);
+  font-size: 1rem;
+}
+
+.qr-generator__input i {
+  color: var(--muted);
+}
+
+.qr-generator__actions {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.qr-generator__hint {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.qr-generator__preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.qr-generator__preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.qr-generator__badge {
+  background: color-mix(in oklab, var(--brand) 12%, transparent);
+  border: 1px solid color-mix(in oklab, var(--brand) 60%, transparent);
+  color: color-mix(in oklab, var(--brand) 90%, var(--fg));
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.qr-generator__qr-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: linear-gradient(135deg, color-mix(in oklab, var(--bg) 85%, transparent), color-mix(in oklab, var(--bg) 65%, transparent));
+  border-radius: 1rem;
+}
+
+.qr-generator__qr {
+  background: #fff;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.3);
+}
+
+.qr-generator__caption {
+  text-align: center;
+  color: var(--muted);
+  word-break: break-word;
+}
+
+@media (max-width: 640px) {
+  .qr-generator {
+    padding: 1rem 0 3rem;
+  }
+
+  .qr-generator__actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .qr-generator__actions .button {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Navigation, NavSpacer } from "../components/Navigation";
 import { Footer } from "../components/Footer";
 import { BackgroundBlobs } from "../components/BackgroundBlobs";
@@ -23,6 +23,13 @@ import { QRCodeSVG } from "qrcode.react";
 export function DashboardPage() {
   // QR modal state
   const [showQrModal, setShowQrModal] = useState(false);
+  const [qrValue, setQrValue] = useState("https://garberg.wtf");
+  const [qrFgColor, setQrFgColor] = useState("#000000");
+  const [qrBgColor, setQrBgColor] = useState("#ffffff");
+  const [qrSize, setQrSize] = useState(192);
+  const qrRef = useRef<SVGSVGElement | null>(null);
+  const [editMode, setEditMode] = useState(false);
+  const [showHidden, setShowHidden] = useState(false);
   const { t } = useLanguage();
   const { profile, refreshProfile, hasAccess } = useProfile();
   const { user } = useAuth();
@@ -45,6 +52,29 @@ export function DashboardPage() {
   );
 
   const isAdmin = hasAccess("admin");
+  const handleDownloadQr = () => {
+    if (!qrRef.current) return;
+    const serializer = new XMLSerializer();
+    const source = serializer.serializeToString(qrRef.current);
+    const blob = new Blob([source], {
+      type: "image/svg+xml;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "qr-code.svg";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleResetQr = () => {
+    setQrValue("https://garberg.wtf");
+    setQrFgColor("#000000");
+    setQrBgColor("#ffffff");
+    setQrSize(192);
+  };
 
   // Load admin data
   useEffect(() => {
@@ -101,21 +131,24 @@ export function DashboardPage() {
   const visibleApps = userApps
     .filter((app) => app.visible)
     .sort((a, b) => a.order - b.order);
+  const displayedApps = (showHidden ? userApps : visibleApps).sort(
+    (a, b) => a.order - b.order
+  );
 
   // Recommended Apps: all custom apps (appId === 'custom')
-  // Add QR code app to recommended apps
+  // Add QR generator app to recommended apps
   const qrApp = {
     id: "qr_app",
     appId: "qr_app",
     url: "",
-    customName: "QR Code",
+    customName: "QR Generator",
     customIcon: "fa-solid fa-qrcode",
     visible: true,
     order: 999,
   };
   const recommendedApps = [
-    ...userApps.filter((app) => app.appId === "custom"),
     qrApp,
+    ...userApps.filter((app) => app.appId === "custom"),
   ];
 
   const handleOpenAddApp = () => {
@@ -217,11 +250,13 @@ export function DashboardPage() {
   const getAppDisplay = (app: UserApp) => {
     const appDef = getAppById(app.appId);
     if (appDef && !appDef.isCustom) {
+      const isFontIcon =
+        appDef.icon.includes("fa-") || appDef.icon.startsWith("fa");
       return {
         name: appDef.name,
         icon: appDef.icon,
         color: appDef.color,
-        isImage: true,
+        isImage: !isFontIcon,
       };
     }
     return {
@@ -260,17 +295,97 @@ export function DashboardPage() {
             <p className="dashboard-subtitle">{t("dashboardSubtitle")}</p>
           </header>
           <section className="dashboard-section">
-            <h2>{t("yourApps")}</h2>
+            <div className="apps-header">
+              <h2>{t("yourApps")}</h2>
+              <div className="apps-actions">
+                <button
+                  type="button"
+                  className={`apps-action-btn ${editMode ? "active" : ""}`}
+                  onClick={() => setEditMode((v) => !v)}
+                  aria-label={editMode ? t("cancel") : t("edit")}
+                  title={editMode ? t("cancel") : t("edit")}
+                >
+                  <i
+                    className={`fa-solid ${editMode ? "fa-check" : "fa-pen"}`}
+                  ></i>
+                </button>
+                <button
+                  type="button"
+                  className={`apps-action-btn ${showHidden ? "active" : ""}`}
+                  onClick={() => setShowHidden((v) => !v)}
+                  aria-label={showHidden ? t("hide") : t("showHidden")}
+                  title={showHidden ? t("hide") : t("showHidden")}
+                >
+                  <i
+                    className={`fa-solid ${
+                      showHidden ? "fa-eye" : "fa-eye-slash"
+                    }`}
+                  ></i>
+                </button>
+              </div>
+            </div>
             <div className="app-grid">
-              {visibleApps.length === 0 ? (
+              {displayedApps.length === 0 ? (
                 <div className="app-grid-empty">
                   <i className="fa-solid fa-grid-2"></i>
                   <p>{t("noAppsYet")}</p>
-                  <span>{t("addYourFirstApp")}</span>
+                  <span>
+                    {editMode ? t("addYourFirstApp") : t("addApp")}
+                  </span>
                 </div>
               ) : (
-                visibleApps.map((app) => {
+                displayedApps.map((app) => {
                   const display = getAppDisplay(app);
+                  const isHidden = !app.visible;
+                  if (app.appId === "qr_app") {
+                    return (
+                      <button
+                        key={app.id}
+                        className={`app-tile ${isHidden ? "app-tile-hidden" : ""}`}
+                        style={
+                          { "--app-color": display.color } as React.CSSProperties
+                        }
+                        onClick={() => setShowQrModal(true)}
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                          handleEditApp(app);
+                        }}
+                      >
+                        <div className="app-tile-icon">
+                          {display.isImage ? (
+                            <img src={display.icon} alt={display.name} />
+                          ) : (
+                            <i className={display.icon}></i>
+                          )}
+                        </div>
+                        <span className="app-tile-name">{display.name}</span>
+                        {editMode && (
+                          <div className="app-tile-edit">
+                            <button
+                              className="app-tile-icon-btn"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleEditApp(app);
+                              }}
+                              title={t("editApp")}
+                            >
+                              <i className="fa-solid fa-pen"></i>
+                            </button>
+                            <button
+                              className="app-tile-icon-btn danger"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteApp(app.id);
+                              }}
+                              title={t("delete")}
+                            >
+                              <i className="fa-solid fa-trash"></i>
+                            </button>
+                          </div>
+                        )}
+                      </button>
+                    );
+                  }
                   return (
                     <a
                       key={app.id}
@@ -283,6 +398,11 @@ export function DashboardPage() {
                       }
                       onClick={(e) => {
                         // Right click or ctrl+click opens edit modal
+                        if (editMode) {
+                          e.preventDefault();
+                          handleEditApp(app);
+                          return;
+                        }
                         if (e.ctrlKey || e.metaKey) {
                           e.preventDefault();
                           handleEditApp(app);
@@ -301,20 +421,48 @@ export function DashboardPage() {
                         )}
                       </div>
                       <span className="app-tile-name">{display.name}</span>
+                      {editMode && (
+                        <div className="app-tile-edit">
+                          <button
+                            className="app-tile-icon-btn"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleEditApp(app);
+                            }}
+                            title={t("editApp")}
+                          >
+                            <i className="fa-solid fa-pen"></i>
+                          </button>
+                          <button
+                            className="app-tile-icon-btn danger"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleDeleteApp(app.id);
+                            }}
+                            title={t("delete")}
+                          >
+                            <i className="fa-solid fa-trash"></i>
+                          </button>
+                        </div>
+                      )}
                     </a>
                   );
                 })
               )}
-              <button
-                className="app-tile app-tile-add"
-                onClick={handleOpenAddApp}
-                style={{ "--app-color": "var(--muted)" } as React.CSSProperties}
-              >
-                <div className="app-tile-icon">
-                  <i className="fa-solid fa-plus"></i>
-                </div>
-                <span className="app-tile-name">{t("addApp")}</span>
-              </button>
+              {editMode && (
+                <button
+                  className="app-tile app-tile-add"
+                  onClick={handleOpenAddApp}
+                  style={
+                    { "--app-color": "var(--muted)" } as React.CSSProperties
+                  }
+                >
+                  <div className="app-tile-icon">
+                    <i className="fa-solid fa-plus"></i>
+                  </div>
+                  <span className="app-tile-name">{t("addApp")}</span>
+                </button>
+              )}
             </div>
           </section>
           {recommendedApps.length > 0 && (
@@ -372,6 +520,9 @@ export function DashboardPage() {
                         )}
                       </div>
                       <span className="app-tile-name">{display.name}</span>
+                      <span className="app-tile-desc">
+                        {app.customName || app.url}
+                      </span>
                     </a>
                   );
                 })}
@@ -578,7 +729,7 @@ export function DashboardPage() {
           >
             <div className="app-modal-header">
               <div className="app-modal-title">
-                <h2 id="qr-modal-title">QR Code</h2>
+                <h2 id="qr-modal-title">{t("qrAppName")}</h2>
               </div>
               <button
                 className="app-modal-close"
@@ -591,40 +742,87 @@ export function DashboardPage() {
             </div>
             <div
               className="app-modal-content"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "2rem",
-              }}
+              style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}
             >
-              <h3>Scan to visit garberg.wtf</h3>
-              <div
-                style={{
-                  background: "#fff",
-                  padding: "1rem",
-                  borderRadius: "1rem",
-                }}
-              >
-                {/* @ts-ignore */}
-                <QRCodeSVG
-                  value="https://garberg.wtf"
-                  size={192}
-                  level="H"
-                  bgColor="#ffffff"
-                  fgColor="#000000"
-                />
+              <div className="qr-generator-grid">
+                <div className="qr-generator-form">
+                  <label className="qr-label">
+                    <span>{t("qrContentLabel")}</span>
+                    <input
+                      type="text"
+                      value={qrValue}
+                      onChange={(e) => setQrValue(e.target.value)}
+                      placeholder={t("qrContentPlaceholder")}
+                    />
+                  </label>
+                  <div className="qr-label-row">
+                    <label className="qr-label">
+                      <span>{t("qrForeground")}</span>
+                      <input
+                        type="color"
+                        value={qrFgColor}
+                        onChange={(e) => setQrFgColor(e.target.value)}
+                      />
+                    </label>
+                    <label className="qr-label">
+                      <span>{t("qrBackground")}</span>
+                      <input
+                        type="color"
+                        value={qrBgColor}
+                        onChange={(e) => setQrBgColor(e.target.value)}
+                      />
+                    </label>
+                  </div>
+                  <label className="qr-label">
+                    <span>
+                      {t("qrSize")} ({qrSize}px)
+                    </span>
+                    <input
+                      type="range"
+                      min={128}
+                      max={320}
+                      step={8}
+                      value={qrSize}
+                      onChange={(e) => setQrSize(Number(e.target.value))}
+                    />
+                  </label>
+                </div>
+                <div className="qr-preview-card">
+                  <span className="qr-preview-title">{t("qrPreview")}</span>
+                  <div className="qr-code-box">
+                    {/* @ts-ignore */}
+                    <QRCodeSVG
+                      ref={qrRef}
+                      value={qrValue || " "}
+                      size={qrSize}
+                      level="H"
+                      bgColor={qrBgColor}
+                      fgColor={qrFgColor}
+                    />
+                  </div>
+                  <p className="qr-preview-url">
+                    {qrValue || t("qrEmptyPlaceholder")}
+                  </p>
+                  <div className="qr-actions">
+                    <button
+                      type="button"
+                      className="qr-btn"
+                      onClick={handleDownloadQr}
+                    >
+                      <i className="fa-solid fa-download"></i>
+                      {t("qrDownload")}
+                    </button>
+                    <button
+                      type="button"
+                      className="qr-btn ghost"
+                      onClick={handleResetQr}
+                    >
+                      <i className="fa-solid fa-rotate-left"></i>
+                      {t("qrReset")}
+                    </button>
+                  </div>
+                </div>
               </div>
-              <p
-                style={{
-                  marginTop: "1rem",
-                  color: "var(--fg)",
-                  fontWeight: 500,
-                }}
-              >
-                garberg.wtf
-              </p>
             </div>
           </div>
         </div>
