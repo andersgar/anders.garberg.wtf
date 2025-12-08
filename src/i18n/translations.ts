@@ -33,12 +33,14 @@ export const translations = {
 
     // About Section
     aboutText1:
-      "Bachelorstudent i Automatisering og intelligente systemer ved NTNU, med interesse for robotikk, autonomi og reguleringsteknikk. Jeg har erfaring med simulering og utvikling av styringssystemer, og har samtidig opparbeidet meg god ledererfaring som skiftleder i et dynamisk arbeidsmilj\u00F8. P\u00E5 fritiden engasjerer jeg meg i studentfrivilligheten og trives godt i sosiale settinger. Jeg liker ogs\u00E5 \u00E5 utforske egne prosjekter, blant annet innen smarthus og home-lab, sm\u00E5 kodeprosjekter, 3D-printing og programmering av mikrokontrollere som ESP-familien.",
-    highlights: "H\u00F8ydepunkter",
-    highlight1:
-      "Praktisk erfaring med sensorer (IMU, ToF, enkodere) og sanntidskrav.",
-    highlight2: "Komfortabel med \u00E5 g\u00E5 fra simulering til maskinvare.",
-    highlight3: "Nysgjerrig, p\u00E5litelig og sikkerhetsbevisst.",
+      "Bachelorstudent i Automatisering og intelligente systemer ved NTNU, med interesse for robotikk, autonomi og reguleringsteknikk. Jeg har erfaring med simulering og utvikling av styringssystemer, og har samtidig opparbeidet meg god ledererfaring som skiftleder i et dynamisk arbeidsmilj\u00F8.",
+    aboutText2:
+      "P\u00E5 fritiden engasjerer jeg meg i studentfrivilligheten og trives godt i sosiale settinger. Jeg liker ogs\u00E5 \u00E5 utforske egne prosjekter, blant annet innen smarthus og home-lab, sm\u00E5 kodeprosjekter, 3D-printing og programmering av mikrokontrollere som ESP-familien.",
+    highlights: "Høydepunkter",
+    highlight1: "BSc-student i Automatisering og intelligente systemer, NTNU",
+    highlight2: "Control • AI • Software",
+    highlight3: "C/C++ • Python • PLS",
+    highlight4: "Ledelse + studentengasjement",
 
     // Contact Section
     letsStartSomething: "La oss starte noe bra",
@@ -200,12 +202,14 @@ export const translations = {
 
     // About Section
     aboutText1:
-      "Bachelor student in Automation and Intelligent Systems at NTNU, specializing in robotics, autonomy and control theory. I have experience with simulation and development of control systems, complemented by leadership experience as a shift leader in a dynamic work environment. In my free time, I am involved in student organizations and enjoy being social and engaged. I also spend time on personal projects such as building a home-lab and smart home setup, various coding projects, 3D printing and programming microcontrollers like the ESP family.",
+      "Bachelor student in Automation and Intelligent Systems at NTNU, specializing in robotics, autonomy and control theory. I have experience with simulation and development of control systems, complemented by leadership experience as a shift leader in a dynamic work environment.",
+    aboutText2:
+      "In my free time, I am involved in student organizations and enjoy being social and engaged. I also spend time on personal projects such as building a home-lab and smart home setup, various coding projects, 3D printing and programming microcontrollers like the ESP family.",
     highlights: "Highlights",
-    highlight1:
-      "Hands-on with sensors (IMU, ToF, encoders) and real-time constraints.",
-    highlight2: "Comfortable moving from simulation to hardware bring-up.",
-    highlight3: "Curious, reliable, and safety-minded.",
+    highlight1: "BSc student, Automation & Intelligent Systems, NTNU",
+    highlight2: "Control • AI • Cyber-physical systems",
+    highlight3: "C/C++ • Python • PLC",
+    highlight4: "Leadership + student involvement",
 
     // Contact Section
     letsStartSomething: "Let's start something great",

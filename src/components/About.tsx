@@ -9,6 +9,7 @@ export function About() {
       <div className="grid cols-2">
         <div className="card pad">
           <p>{t("aboutText1")}</p>
+          <p>{t("aboutText2")}</p>
         </div>
         <div className="card pad">
           <h3 style={{ marginTop: 0 }}>{t("highlights")}</h3>
@@ -16,6 +17,7 @@ export function About() {
             <li>{t("highlight1")}</li>
             <li>{t("highlight2")}</li>
             <li>{t("highlight3")}</li>
+            <li>{t("highlight4")}</li>
           </ul>
         </div>
       </div>
