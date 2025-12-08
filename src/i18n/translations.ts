@@ -185,6 +185,8 @@ export const translations = {
     actions: "Handlinger",
     editUserApps: "Rediger brukerens apper",
     editingAppsFor: "Redigerer apper for",
+    manageApps: "Administrer apper",
+    currentApps: "Nåværende apper",
 
     // Auth Errors
     errorInvalidCredentials: "Feil e-post eller passord",
@@ -381,6 +383,8 @@ export const translations = {
     actions: "Actions",
     editUserApps: "Edit user's apps",
     editingAppsFor: "Editing apps for",
+    manageApps: "Manage Apps",
+    currentApps: "Current apps",
 
     // Auth Errors
     errorInvalidCredentials: "Invalid email or password",

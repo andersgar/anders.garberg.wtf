@@ -18,9 +18,10 @@ interface AppModalProps {
   editingApp?: UserApp | null;
   existingAppIds?: string[]; // App IDs user already has
   adminEditingUser?: string; // When admin is editing another user's apps
+  adminUserApps?: UserApp[]; // The user's apps when admin is editing
 }
 
-type ModalView = "library" | "configure";
+type ModalView = "library" | "configure" | "userApps";
 
 export function AppModal({
   isOpen,
@@ -30,6 +31,7 @@ export function AppModal({
   editingApp,
   existingAppIds = [],
   adminEditingUser,
+  adminUserApps = [],
 }: AppModalProps) {
   const { t } = useLanguage();
   const [view, setView] = useState<ModalView>("library");
@@ -52,6 +54,14 @@ export function AppModal({
         setCustomIcon(editingApp.customIcon || "fa-solid fa-link");
         setVisible(editingApp.visible);
         setView("configure");
+      } else if (adminEditingUser) {
+        // Admin viewing user's apps
+        setSelectedApp(null);
+        setUrl("");
+        setCustomName("");
+        setCustomIcon("fa-solid fa-link");
+        setVisible(true);
+        setView("userApps");
       } else {
         // Adding new app
         setSelectedApp(null);
@@ -63,7 +73,7 @@ export function AppModal({
       }
       setUrlError("");
     }
-  }, [isOpen, editingApp]);
+  }, [isOpen, editingApp, adminEditingUser]);
 
   const handleSelectApp = (app: AppDefinition) => {
     setSelectedApp(app);
@@ -93,8 +103,9 @@ export function AppModal({
       return;
     }
 
+    const appToEdit = adminEditingUser ? internalEditingApp : editingApp;
     const userApp: UserApp = {
-      id: editingApp?.id || generateAppId(),
+      id: appToEdit?.id || generateAppId(),
       appId: selectedApp.id,
       url: url.trim(),
       customName: selectedApp.isCustom
@@ -102,27 +113,103 @@ export function AppModal({
         : undefined,
       customIcon: selectedApp.isCustom ? customIcon : undefined,
       visible: visible,
-      order: editingApp?.order ?? 999,
+      order: appToEdit?.order ?? 999,
     };
 
     onSave(userApp);
-    onClose();
-  };
-
-  const handleDelete = () => {
-    if (editingApp && onDelete) {
-      onDelete(editingApp.id);
+    // Don't close modal if admin is editing - go back to userApps view
+    if (adminEditingUser) {
+      setView("userApps");
+      setSelectedApp(null);
+      setEditingApp(null);
+    } else {
       onClose();
     }
   };
 
+  // Internal state for editing app within admin flow
+  const [internalEditingApp, setInternalEditingApp] = useState<UserApp | null>(
+    null
+  );
+
+  // Use internal editing app for admin flow, prop for normal flow
+  const currentEditingApp = adminEditingUser ? internalEditingApp : editingApp;
+
+  const setEditingApp = (app: UserApp | null) => {
+    if (adminEditingUser) {
+      setInternalEditingApp(app);
+    }
+  };
+
+  const handleDelete = () => {
+    const appToDelete = currentEditingApp;
+    if (appToDelete && onDelete) {
+      onDelete(appToDelete.id);
+      if (adminEditingUser) {
+        setView("userApps");
+        setInternalEditingApp(null);
+      } else {
+        onClose();
+      }
+    }
+  };
+
   const handleBack = () => {
-    if (editingApp) {
+    if (adminEditingUser) {
+      if (view === "configure") {
+        setView(internalEditingApp ? "userApps" : "library");
+        setSelectedApp(null);
+        setInternalEditingApp(null);
+      } else if (view === "library") {
+        setView("userApps");
+      } else {
+        onClose();
+      }
+    } else if (editingApp) {
       onClose();
     } else {
       setView("library");
       setSelectedApp(null);
     }
+  };
+
+  const handleEditUserApp = (app: UserApp) => {
+    setInternalEditingApp(app);
+    const appDef = getAppById(app.appId);
+    setSelectedApp(appDef || null);
+    setUrl(app.url);
+    setCustomName(app.customName || "");
+    setCustomIcon(app.customIcon || "fa-solid fa-link");
+    setVisible(app.visible);
+    setView("configure");
+  };
+
+  const handleAddNewApp = () => {
+    setInternalEditingApp(null);
+    setSelectedApp(null);
+    setUrl("");
+    setCustomName("");
+    setCustomIcon("fa-solid fa-link");
+    setVisible(true);
+    setView("library");
+  };
+
+  const getAppDisplayInfo = (app: UserApp) => {
+    const appDef = getAppById(app.appId);
+    if (appDef && !appDef.isCustom) {
+      return {
+        name: appDef.name,
+        icon: appDef.icon,
+        color: appDef.color,
+        isImage: true,
+      };
+    }
+    return {
+      name: app.customName || "Custom Link",
+      icon: app.customIcon || "fa-solid fa-link",
+      color: "var(--brand)",
+      isImage: false,
+    };
   };
 
   if (!isOpen) return null;
@@ -139,14 +226,17 @@ export function AppModal({
     <div className="app-modal-overlay" onClick={onClose}>
       <div className="app-modal" onClick={(e) => e.stopPropagation()}>
         <div className="app-modal-header">
-          {view === "configure" && (
+          {(view === "configure" ||
+            (adminEditingUser && view === "library")) && (
             <button className="app-modal-back" onClick={handleBack}>
               <i className="fa-solid fa-arrow-left"></i>
             </button>
           )}
           <div className="app-modal-title">
             <h2>
-              {editingApp
+              {view === "userApps"
+                ? t("manageApps")
+                : internalEditingApp || editingApp
                 ? t("editApp")
                 : view === "library"
                 ? t("addApp")
@@ -154,8 +244,7 @@ export function AppModal({
             </h2>
             {adminEditingUser && (
               <span className="app-modal-admin-badge">
-                <i className="fa-solid fa-user-pen"></i> {t("editingAppsFor")}{" "}
-                {adminEditingUser}
+                <i className="fa-solid fa-user-pen"></i> {adminEditingUser}
               </span>
             )}
           </div>
@@ -165,7 +254,67 @@ export function AppModal({
         </div>
 
         <div className="app-modal-content">
-          {view === "library" ? (
+          {view === "userApps" ? (
+            <>
+              <div className="user-apps-header">
+                <p className="app-modal-subtitle">{t("currentApps")}</p>
+                <button className="user-apps-add-btn" onClick={handleAddNewApp}>
+                  <i className="fa-solid fa-plus"></i> {t("addApp")}
+                </button>
+              </div>
+              {adminUserApps.length === 0 ? (
+                <div className="user-apps-empty">
+                  <i className="fa-solid fa-grid-2"></i>
+                  <p>{t("noAppsYet")}</p>
+                </div>
+              ) : (
+                <div className="user-apps-list">
+                  {adminUserApps.map((app) => {
+                    const display = getAppDisplayInfo(app);
+                    return (
+                      <div
+                        key={app.id}
+                        className="user-app-item"
+                        style={
+                          {
+                            "--app-color": display.color,
+                          } as React.CSSProperties
+                        }
+                      >
+                        <div className="user-app-icon">
+                          {display.isImage ? (
+                            <img src={display.icon} alt={display.name} />
+                          ) : (
+                            <i className={display.icon}></i>
+                          )}
+                        </div>
+                        <div className="user-app-info">
+                          <span className="user-app-name">{display.name}</span>
+                          <span className="user-app-url">{app.url}</span>
+                        </div>
+                        <div className="user-app-actions">
+                          <button
+                            className="user-app-edit"
+                            onClick={() => handleEditUserApp(app)}
+                            title={t("editApp")}
+                          >
+                            <i className="fa-solid fa-pen"></i>
+                          </button>
+                          <button
+                            className="user-app-delete"
+                            onClick={() => onDelete?.(app.id)}
+                            title={t("delete")}
+                          >
+                            <i className="fa-solid fa-trash"></i>
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </>
+          ) : view === "library" ? (
             <>
               <p className="app-modal-subtitle">{t("selectAppFromLibrary")}</p>
               <div className="app-library-grid">
@@ -268,14 +417,14 @@ export function AppModal({
 
         {view === "configure" && (
           <div className="app-modal-footer">
-            {editingApp && onDelete && (
+            {(internalEditingApp || editingApp) && onDelete && (
               <button className="app-btn-delete" onClick={handleDelete}>
                 <i className="fa-solid fa-trash"></i>
                 {t("delete")}
               </button>
             )}
             <div className="app-modal-footer-right">
-              <button className="app-btn-cancel" onClick={onClose}>
+              <button className="app-btn-cancel" onClick={handleBack}>
                 {t("cancel")}
               </button>
               <button

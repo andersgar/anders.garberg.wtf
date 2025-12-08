@@ -485,6 +485,7 @@ export function DashboardPage() {
           (a) => a.appId
         )}
         adminEditingUser={editingUserId ? editingUserName : undefined}
+        adminUserApps={editingUserId ? editingUserApps : undefined}
       />
     </>
   );
