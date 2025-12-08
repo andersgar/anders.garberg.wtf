@@ -122,16 +122,18 @@
 
 /* Add App Tile */
 .app-tile-add {
-  border-style: dashed;
+  border: 2px dashed color-mix(in oklab, var(--muted) 75%, transparent);
   background: transparent;
+  box-shadow: none;
 }
 
 .app-tile-add:hover {
-  background: var(--card);
+  border-color: var(--brand);
+  background: transparent;
 }
 
 .app-tile-add .app-tile-icon {
-  background: color-mix(in oklab, var(--muted) 10%, transparent);
+  background: transparent;
   color: var(--muted);
 }
 
@@ -572,6 +574,13 @@
 .app-tile-icon-btn:hover {
   border-color: var(--brand);
   color: var(--brand);
+}
+
+.app-tile-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: var(--border);
+  color: var(--muted);
 }
 
 .app-tile-icon-btn.danger {

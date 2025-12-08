@@ -28,8 +28,8 @@ export function DashboardPage() {
   const [qrBgColor, setQrBgColor] = useState("#ffffff");
   const [qrSize, setQrSize] = useState(192);
   const qrRef = useRef<SVGSVGElement | null>(null);
-  const [editMode, setEditMode] = useState(false);
   const [showHidden, setShowHidden] = useState(false);
+  const [manageOwnApps, setManageOwnApps] = useState(false);
   const { t } = useLanguage();
   const { profile, refreshProfile, hasAccess } = useProfile();
   const { user } = useAuth();
@@ -156,6 +156,12 @@ export function DashboardPage() {
     setIsAppModalOpen(true);
   };
 
+  const handleOpenManageOwnApps = () => {
+    setManageOwnApps(true);
+    setEditingApp(null);
+    setIsAppModalOpen(true);
+  };
+
   const handleEditApp = (app: UserApp) => {
     setEditingApp(app);
     setIsAppModalOpen(true);
@@ -185,6 +191,14 @@ export function DashboardPage() {
       .map((app, index) => ({ ...app, order: index })); // Reorder
 
     const success = await updateApps(newApps);
+    if (success) {
+      refreshProfile();
+    }
+  };
+
+  const handleReorderOwnApps = async (apps: UserApp[]) => {
+    const reIndexed = apps.map((app, index) => ({ ...app, order: index }));
+    const success = await updateApps(reIndexed);
     if (success) {
       refreshProfile();
     }
@@ -239,12 +253,25 @@ export function DashboardPage() {
     }
   };
 
+  const handleReorderUserApps = async (apps: UserApp[]) => {
+    if (!editingUserId) return;
+    const reIndexed = apps.map((app, index) => ({ ...app, order: index }));
+    const success = await updateUserApps(editingUserId, reIndexed);
+    if (success) {
+      setEditingUserApps(reIndexed);
+      setUsers(
+        users.map((u) => (u.id === editingUserId ? { ...u, apps: reIndexed } : u))
+      );
+    }
+  };
+
   const handleCloseModal = () => {
     setIsAppModalOpen(false);
     setEditingUserId(null);
     setEditingUserApps([]);
     setEditingUserName("");
     setEditingApp(null);
+    setManageOwnApps(false);
   };
 
   const getAppDisplay = (app: UserApp) => {
@@ -300,14 +327,12 @@ export function DashboardPage() {
               <div className="apps-actions">
                 <button
                   type="button"
-                  className={`apps-action-btn ${editMode ? "active" : ""}`}
-                  onClick={() => setEditMode((v) => !v)}
-                  aria-label={editMode ? t("cancel") : t("edit")}
-                  title={editMode ? t("cancel") : t("edit")}
+                  className="apps-action-btn"
+                  onClick={handleOpenManageOwnApps}
+                  aria-label={t("edit")}
+                  title={t("edit")}
                 >
-                  <i
-                    className={`fa-solid ${editMode ? "fa-check" : "fa-pen"}`}
-                  ></i>
+                  <i className="fa-solid fa-pen"></i>
                 </button>
                 <button
                   type="button"
@@ -329,9 +354,7 @@ export function DashboardPage() {
                 <div className="app-grid-empty">
                   <i className="fa-solid fa-grid-2"></i>
                   <p>{t("noAppsYet")}</p>
-                  <span>
-                    {editMode ? t("addYourFirstApp") : t("addApp")}
-                  </span>
+                  <span>{t("addApp")}</span>
                 </div>
               ) : (
                 displayedApps.map((app) => {
@@ -359,30 +382,6 @@ export function DashboardPage() {
                           )}
                         </div>
                         <span className="app-tile-name">{display.name}</span>
-                        {editMode && (
-                          <div className="app-tile-edit">
-                            <button
-                              className="app-tile-icon-btn"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleEditApp(app);
-                              }}
-                              title={t("editApp")}
-                            >
-                              <i className="fa-solid fa-pen"></i>
-                            </button>
-                            <button
-                              className="app-tile-icon-btn danger"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDeleteApp(app.id);
-                              }}
-                              title={t("delete")}
-                            >
-                              <i className="fa-solid fa-trash"></i>
-                            </button>
-                          </div>
-                        )}
                       </button>
                     );
                   }
@@ -397,12 +396,6 @@ export function DashboardPage() {
                         { "--app-color": display.color } as React.CSSProperties
                       }
                       onClick={(e) => {
-                        // Right click or ctrl+click opens edit modal
-                        if (editMode) {
-                          e.preventDefault();
-                          handleEditApp(app);
-                          return;
-                        }
                         if (e.ctrlKey || e.metaKey) {
                           e.preventDefault();
                           handleEditApp(app);
@@ -421,48 +414,22 @@ export function DashboardPage() {
                         )}
                       </div>
                       <span className="app-tile-name">{display.name}</span>
-                      {editMode && (
-                        <div className="app-tile-edit">
-                          <button
-                            className="app-tile-icon-btn"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleEditApp(app);
-                            }}
-                            title={t("editApp")}
-                          >
-                            <i className="fa-solid fa-pen"></i>
-                          </button>
-                          <button
-                            className="app-tile-icon-btn danger"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleDeleteApp(app.id);
-                            }}
-                            title={t("delete")}
-                          >
-                            <i className="fa-solid fa-trash"></i>
-                          </button>
-                        </div>
-                      )}
                     </a>
                   );
                 })
               )}
-              {editMode && (
-                <button
-                  className="app-tile app-tile-add"
-                  onClick={handleOpenAddApp}
-                  style={
-                    { "--app-color": "var(--muted)" } as React.CSSProperties
-                  }
-                >
-                  <div className="app-tile-icon">
-                    <i className="fa-solid fa-plus"></i>
-                  </div>
-                  <span className="app-tile-name">{t("addApp")}</span>
-                </button>
-              )}
+              <button
+                className="app-tile app-tile-add"
+                onClick={handleOpenAddApp}
+                style={
+                  { "--app-color": "var(--muted)" } as React.CSSProperties
+                }
+              >
+                <div className="app-tile-icon">
+                  <i className="fa-solid fa-plus"></i>
+                </div>
+                <span className="app-tile-name">{t("addApp")}</span>
+              </button>
             </div>
           </section>
           {recommendedApps.length > 0 && (
@@ -837,8 +804,27 @@ export function DashboardPage() {
         existingAppIds={(editingUserId ? editingUserApps : userApps).map(
           (a) => a.appId
         )}
-        adminEditingUser={editingUserId ? editingUserName : undefined}
-        adminUserApps={editingUserId ? editingUserApps : undefined}
+        adminEditingUser={
+          editingUserId
+            ? editingUserName
+            : manageOwnApps
+            ? displayName || t("yourApps")
+            : undefined
+        }
+        adminUserApps={
+          editingUserId
+            ? editingUserApps
+            : manageOwnApps
+            ? userApps
+            : undefined
+        }
+        onReorderUserApps={
+          editingUserId
+            ? handleReorderUserApps
+            : manageOwnApps
+            ? handleReorderOwnApps
+            : undefined
+        }
       />
     </>
   );

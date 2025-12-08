@@ -19,6 +19,7 @@ interface AppModalProps {
   existingAppIds?: string[]; // App IDs user already has
   adminEditingUser?: string; // When admin is editing another user's apps
   adminUserApps?: UserApp[]; // The user's apps when admin is editing
+  onReorderUserApps?: (apps: UserApp[]) => void;
 }
 
 type ModalView = "library" | "configure" | "userApps";
@@ -32,6 +33,7 @@ export function AppModal({
   existingAppIds = [],
   adminEditingUser,
   adminUserApps = [],
+  onReorderUserApps,
 }: AppModalProps) {
   const { t } = useLanguage();
   const [view, setView] = useState<ModalView>("library");
@@ -199,6 +201,26 @@ export function AppModal({
     setView("library");
   };
 
+  const handleReorderAdminApp = (appId: string, direction: -1 | 1) => {
+    if (!adminUserApps.length || !onReorderUserApps) return;
+    const sorted = [...adminUserApps].sort((a, b) => a.order - b.order);
+    const idx = sorted.findIndex((a) => a.id === appId);
+    if (idx < 0) return;
+    const target = idx + direction;
+    if (target < 0 || target >= sorted.length) return;
+
+    const reordered = [...sorted];
+    const [moved] = reordered.splice(idx, 1);
+    reordered.splice(target, 0, moved);
+
+    onReorderUserApps(
+      reordered.map((app, index) => ({
+        ...app,
+        order: index,
+      }))
+    );
+  };
+
   const getAppDisplayInfo = (app: UserApp) => {
     const appDef = getAppById(app.appId);
     if (appDef && !appDef.isCustom) {
@@ -282,6 +304,7 @@ export function AppModal({
                 <div className="user-apps-list">
                   {adminUserApps.map((app) => {
                     const display = getAppDisplayInfo(app);
+                    const index = adminUserApps.findIndex((a) => a.id === app.id);
                     return (
                       <div
                         key={app.id}
@@ -304,6 +327,24 @@ export function AppModal({
                           <span className="user-app-url">{app.url}</span>
                         </div>
                         <div className="user-app-actions">
+                          <button
+                            className="user-app-move"
+                            onClick={() => handleReorderAdminApp(app.id, -1)}
+                            title="Move up"
+                            disabled={index === 0}
+                            aria-label="Move up"
+                          >
+                            <i className="fa-solid fa-arrow-up"></i>
+                          </button>
+                          <button
+                            className="user-app-move"
+                            onClick={() => handleReorderAdminApp(app.id, 1)}
+                            title="Move down"
+                            disabled={index === adminUserApps.length - 1}
+                            aria-label="Move down"
+                          >
+                            <i className="fa-solid fa-arrow-down"></i>
+                          </button>
                           <button
                             className="user-app-edit"
                             onClick={() => handleEditUserApp(app)}
