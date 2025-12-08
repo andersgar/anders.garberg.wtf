@@ -1,6 +1,9 @@
 :root {
   --bg: #0b1220;
   --panel: #0f172a;
+  --card: rgba(15, 23, 42, 0.95);
+  --border: rgba(148, 163, 184, 0.2);
+  --fg: #e2e8f0;
   --muted: #94a3b8;
   --text: #e2e8f0;
   --brand: #00bbf9;
@@ -15,6 +18,9 @@
 :root.light {
   --bg: #f8fafc;
   --panel: #ffffff;
+  --card: rgba(255, 255, 255, 0.9);
+  --border: rgba(15, 23, 42, 0.15);
+  --fg: #1e293b;
   --muted: #475569;
   --text: #0f172a;
   --brand: #0077cc;
