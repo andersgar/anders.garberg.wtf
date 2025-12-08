@@ -453,6 +453,31 @@
   background: rgba(255, 255, 255, 0.85);
 }
 
+/* Admin Action Button */
+.admin-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  background: color-mix(in oklab, var(--brand) 15%, transparent);
+  border: 1px solid var(--brand);
+  border-radius: 0.375rem;
+  color: var(--brand);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-action-btn:hover {
+  background: var(--brand);
+  color: white;
+}
+
+.admin-action-btn i {
+  font-size: 0.75rem;
+}
+
 @media (max-width: 768px) {
   .admin-tabs {
     width: 100%;

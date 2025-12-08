@@ -182,6 +182,9 @@ export const translations = {
     delete: "Slett",
     noAppsYet: "Ingen apper ennå",
     addYourFirstApp: "Legg til din første app for å komme i gang",
+    actions: "Handlinger",
+    editUserApps: "Rediger brukerens apper",
+    editingAppsFor: "Redigerer apper for",
 
     // Auth Errors
     errorInvalidCredentials: "Feil e-post eller passord",
@@ -375,6 +378,9 @@ export const translations = {
     delete: "Delete",
     noAppsYet: "No apps yet",
     addYourFirstApp: "Add your first app to get started",
+    actions: "Actions",
+    editUserApps: "Edit user's apps",
+    editingAppsFor: "Editing apps for",
 
     // Auth Errors
     errorInvalidCredentials: "Invalid email or password",

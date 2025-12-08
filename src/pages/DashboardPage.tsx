@@ -12,6 +12,7 @@ import {
   getAllProfiles,
   updateAccessLevel,
   updateApps,
+  updateUserApps,
   Profile,
   AccessLevel,
 } from "../lib/profiles";
@@ -26,6 +27,11 @@ export function DashboardPage() {
   // App modal state
   const [isAppModalOpen, setIsAppModalOpen] = useState(false);
   const [editingApp, setEditingApp] = useState<UserApp | null>(null);
+
+  // Admin user app editing state
+  const [editingUserId, setEditingUserId] = useState<string | null>(null);
+  const [editingUserApps, setEditingUserApps] = useState<UserApp[]>([]);
+  const [editingUserName, setEditingUserName] = useState<string>("");
 
   // Admin state
   const [stats, setStats] = useState<AnalyticsStats | null>(null);
@@ -120,6 +126,63 @@ export function DashboardPage() {
     if (success) {
       refreshProfile();
     }
+  };
+
+  // Admin user app editing functions
+  const handleEditUserApps = (targetUser: Profile) => {
+    setEditingUserId(targetUser.id);
+    setEditingUserApps(targetUser.apps || []);
+    setEditingUserName(
+      targetUser.full_name || targetUser.username || targetUser.email || "User"
+    );
+    setEditingApp(null);
+    setIsAppModalOpen(true);
+  };
+
+  const handleSaveUserApp = async (app: UserApp) => {
+    if (!editingUserId) return;
+
+    const existingIndex = editingUserApps.findIndex((a) => a.id === app.id);
+    let newApps: UserApp[];
+
+    if (existingIndex >= 0) {
+      newApps = editingUserApps.map((a) => (a.id === app.id ? app : a));
+    } else {
+      newApps = [...editingUserApps, { ...app, order: editingUserApps.length }];
+    }
+
+    const success = await updateUserApps(editingUserId, newApps);
+    if (success) {
+      setEditingUserApps(newApps);
+      // Update local users state
+      setUsers(
+        users.map((u) => (u.id === editingUserId ? { ...u, apps: newApps } : u))
+      );
+    }
+  };
+
+  const handleDeleteUserApp = async (appId: string) => {
+    if (!editingUserId) return;
+
+    const newApps = editingUserApps
+      .filter((a) => a.id !== appId)
+      .map((app, index) => ({ ...app, order: index }));
+
+    const success = await updateUserApps(editingUserId, newApps);
+    if (success) {
+      setEditingUserApps(newApps);
+      setUsers(
+        users.map((u) => (u.id === editingUserId ? { ...u, apps: newApps } : u))
+      );
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsAppModalOpen(false);
+    setEditingUserId(null);
+    setEditingUserApps([]);
+    setEditingUserName("");
+    setEditingApp(null);
   };
 
   const getAppDisplay = (app: UserApp) => {
@@ -322,6 +385,7 @@ export function DashboardPage() {
                         <th>{t("email")}</th>
                         <th>{t("accessLevel")}</th>
                         <th>{t("memberSince")}</th>
+                        <th>{t("actions")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -387,6 +451,16 @@ export function DashboardPage() {
                             )}
                           </td>
                           <td>{new Date(u.created_at).toLocaleDateString()}</td>
+                          <td>
+                            <button
+                              className="admin-action-btn"
+                              onClick={() => handleEditUserApps(u)}
+                              title={t("editUserApps")}
+                            >
+                              <i className="fa-solid fa-grid-2"></i>
+                              <span>{(u.apps || []).length}</span>
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -403,11 +477,14 @@ export function DashboardPage() {
 
       <AppModal
         isOpen={isAppModalOpen}
-        onClose={() => setIsAppModalOpen(false)}
-        onSave={handleSaveApp}
-        onDelete={handleDeleteApp}
+        onClose={handleCloseModal}
+        onSave={editingUserId ? handleSaveUserApp : handleSaveApp}
+        onDelete={editingUserId ? handleDeleteUserApp : handleDeleteApp}
         editingApp={editingApp}
-        existingAppIds={userApps.map((a) => a.appId)}
+        existingAppIds={(editingUserId ? editingUserApps : userApps).map(
+          (a) => a.appId
+        )}
+        adminEditingUser={editingUserId ? editingUserName : undefined}
       />
     </>
   );

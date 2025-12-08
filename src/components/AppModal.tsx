@@ -17,6 +17,7 @@ interface AppModalProps {
   onDelete?: (appId: string) => void;
   editingApp?: UserApp | null;
   existingAppIds?: string[]; // App IDs user already has
+  adminEditingUser?: string; // When admin is editing another user's apps
 }
 
 type ModalView = "library" | "configure";
@@ -28,6 +29,7 @@ export function AppModal({
   onDelete,
   editingApp,
   existingAppIds = [],
+  adminEditingUser,
 }: AppModalProps) {
   const { t } = useLanguage();
   const [view, setView] = useState<ModalView>("library");
@@ -142,13 +144,21 @@ export function AppModal({
               <i className="fa-solid fa-arrow-left"></i>
             </button>
           )}
-          <h2>
-            {editingApp
-              ? t("editApp")
-              : view === "library"
-              ? t("addApp")
-              : t("configureApp")}
-          </h2>
+          <div className="app-modal-title">
+            <h2>
+              {editingApp
+                ? t("editApp")
+                : view === "library"
+                ? t("addApp")
+                : t("configureApp")}
+            </h2>
+            {adminEditingUser && (
+              <span className="app-modal-admin-badge">
+                <i className="fa-solid fa-user-pen"></i> {t("editingAppsFor")}{" "}
+                {adminEditingUser}
+              </span>
+            )}
+          </div>
           <button className="app-modal-close" onClick={onClose}>
             <i className="fa-solid fa-times"></i>
           </button>
