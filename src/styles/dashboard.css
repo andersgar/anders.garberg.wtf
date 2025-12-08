@@ -12,7 +12,11 @@
 .dashboard-header h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, var(--brand), var(--brand-secondary, var(--brand)));
+  background: linear-gradient(
+    135deg,
+    var(--brand),
+    var(--brand-secondary, var(--brand))
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -74,7 +78,11 @@
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  background: color-mix(in oklab, var(--app-color, var(--brand)) 15%, transparent);
+  background: color-mix(
+    in oklab,
+    var(--app-color, var(--brand)) 15%,
+    transparent
+  );
   color: var(--app-color, var(--brand));
   font-size: 1.5rem;
   transition: transform 0.2s ease;

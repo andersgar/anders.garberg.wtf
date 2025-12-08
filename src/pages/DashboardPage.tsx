@@ -8,12 +8,23 @@ import "../styles/dashboard.css";
 
 // Placeholder apps for the dashboard grid
 const placeholderApps = [
-  { id: 1, icon: "fa-solid fa-chart-line", name: "Analytics", color: "#3b82f6" },
+  {
+    id: 1,
+    icon: "fa-solid fa-chart-line",
+    name: "Analytics",
+    color: "#3b82f6",
+  },
   { id: 2, icon: "fa-solid fa-calendar", name: "Calendar", color: "#10b981" },
   { id: 3, icon: "fa-solid fa-file-alt", name: "Documents", color: "#f59e0b" },
   { id: 4, icon: "fa-solid fa-cog", name: "Settings", color: "#6366f1" },
   { id: 5, icon: "fa-solid fa-envelope", name: "Messages", color: "#ec4899" },
-  { id: 6, icon: "fa-solid fa-plus", name: "Add App", color: "var(--muted)", isAdd: true },
+  {
+    id: 6,
+    icon: "fa-solid fa-plus",
+    name: "Add App",
+    color: "var(--muted)",
+    isAdd: true,
+  },
 ];
 
 export function DashboardPage() {
@@ -27,7 +38,11 @@ export function DashboardPage() {
     return t("goodEvening");
   };
 
-  const displayName = profile?.full_name || profile?.username || profile?.email?.split("@")[0] || "";
+  const displayName =
+    profile?.full_name ||
+    profile?.username ||
+    profile?.email?.split("@")[0] ||
+    "";
 
   return (
     <>
@@ -38,7 +53,8 @@ export function DashboardPage() {
         <div className="container">
           <header className="dashboard-header">
             <h1>
-              {getGreeting()}{displayName ? `, ${displayName}` : ""}
+              {getGreeting()}
+              {displayName ? `, ${displayName}` : ""}
             </h1>
             <p className="dashboard-subtitle">{t("dashboardSubtitle")}</p>
           </header>
@@ -55,7 +71,9 @@ export function DashboardPage() {
                   <div className="app-tile-icon">
                     <i className={app.icon}></i>
                   </div>
-                  <span className="app-tile-name">{app.isAdd ? t("addApp") : app.name}</span>
+                  <span className="app-tile-name">
+                    {app.isAdd ? t("addApp") : app.name}
+                  </span>
                 </button>
               ))}
             </div>

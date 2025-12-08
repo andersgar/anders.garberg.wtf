@@ -10,13 +10,18 @@ export function HomePage() {
   // Show loading state while checking auth
   if (isLoading) {
     return (
-      <div style={{ 
-        display: "flex", 
-        alignItems: "center", 
-        justifyContent: "center", 
-        height: "100vh" 
-      }}>
-        <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: "2rem" }}></i>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+        }}
+      >
+        <i
+          className="fa-solid fa-spinner fa-spin"
+          style={{ fontSize: "2rem" }}
+        ></i>
       </div>
     );
   }

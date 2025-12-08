@@ -75,7 +75,8 @@ export function Navigation() {
   const colorButtonRef = useRef<HTMLButtonElement>(null);
 
   // Determine if we're on the about page (with sections) or dashboard
-  const isAboutPage = location.pathname === "/about" || location.pathname === "/om-meg";
+  const isAboutPage =
+    location.pathname === "/about" || location.pathname === "/om-meg";
   const aboutPath = lang === "no" ? "/om-meg" : "/about";
 
   useEffect(() => {
@@ -201,9 +202,13 @@ export function Navigation() {
             {!isAuthenticated && !isAboutPage && (
               <Link to={aboutPath}>{t("aboutMe")}</Link>
             )}
-            <a href={isAboutPage ? "#contact" : aboutPath + "#contact"}>{t("contact")}</a>
+            <a href={isAboutPage ? "#contact" : aboutPath + "#contact"}>
+              {t("contact")}
+            </a>
             {!isAuthenticated && (
-              <Link to="/login" className="nav-login-link">{t("login")}</Link>
+              <Link to="/login" className="nav-login-link">
+                {t("login")}
+              </Link>
             )}
 
             <div className="color-theme-container">
@@ -466,7 +471,8 @@ function MobileMenu() {
   const location = useLocation();
 
   // Determine if we're on the about page (with sections) or dashboard
-  const isAboutPage = location.pathname === "/about" || location.pathname === "/om-meg";
+  const isAboutPage =
+    location.pathname === "/about" || location.pathname === "/om-meg";
   const aboutPath = lang === "no" ? "/om-meg" : "/about";
 
   const handleMenuToggle = () => {
@@ -529,7 +535,10 @@ function MobileMenu() {
             {t("aboutMe")}
           </Link>
         )}
-        <a href={isAboutPage ? "#contact" : aboutPath + "#contact"} onClick={closeMenu}>
+        <a
+          href={isAboutPage ? "#contact" : aboutPath + "#contact"}
+          onClick={closeMenu}
+        >
           {t("contact")}
         </a>
 
