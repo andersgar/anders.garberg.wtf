@@ -3,6 +3,7 @@ import { Navigation, NavSpacer } from "../components/Navigation";
 import { Footer } from "../components/Footer";
 import { BackgroundBlobs } from "../components/BackgroundBlobs";
 import { Contact } from "../components/Contact";
+import { AppModal } from "../components/AppModal";
 import { useLanguage } from "../context/LanguageContext";
 import { useProfile } from "../context/ProfileContext";
 import { useAuth } from "../context/AuthContext";
@@ -10,36 +11,21 @@ import { getAnalytics, AnalyticsStats } from "../lib/analytics";
 import {
   getAllProfiles,
   updateAccessLevel,
+  updateApps,
   Profile,
   AccessLevel,
 } from "../lib/profiles";
+import { UserApp, getAppById, ensureProtocol } from "../lib/apps";
 import "../styles/dashboard.css";
-
-// Placeholder apps for the dashboard grid
-const placeholderApps = [
-  {
-    id: 1,
-    icon: "fa-solid fa-chart-line",
-    name: "Analytics",
-    color: "#3b82f6",
-  },
-  { id: 2, icon: "fa-solid fa-calendar", name: "Calendar", color: "#10b981" },
-  { id: 3, icon: "fa-solid fa-file-alt", name: "Documents", color: "#f59e0b" },
-  { id: 4, icon: "fa-solid fa-cog", name: "Settings", color: "#6366f1" },
-  { id: 5, icon: "fa-solid fa-envelope", name: "Messages", color: "#ec4899" },
-  {
-    id: 6,
-    icon: "fa-solid fa-plus",
-    name: "Add App",
-    color: "var(--muted)",
-    isAdd: true,
-  },
-];
 
 export function DashboardPage() {
   const { t } = useLanguage();
-  const { profile, hasAccess } = useProfile();
+  const { profile, refreshProfile, hasAccess } = useProfile();
   const { user } = useAuth();
+
+  // App modal state
+  const [isAppModalOpen, setIsAppModalOpen] = useState(false);
+  const [editingApp, setEditingApp] = useState<UserApp | null>(null);
 
   // Admin state
   const [stats, setStats] = useState<AnalyticsStats | null>(null);
@@ -91,6 +77,69 @@ export function DashboardPage() {
     return colors[level];
   };
 
+  // App management functions
+  const userApps = profile?.apps || [];
+  const visibleApps = userApps
+    .filter((app) => app.visible)
+    .sort((a, b) => a.order - b.order);
+
+  const handleOpenAddApp = () => {
+    setEditingApp(null);
+    setIsAppModalOpen(true);
+  };
+
+  const handleEditApp = (app: UserApp) => {
+    setEditingApp(app);
+    setIsAppModalOpen(true);
+  };
+
+  const handleSaveApp = async (app: UserApp) => {
+    const existingIndex = userApps.findIndex((a) => a.id === app.id);
+    let newApps: UserApp[];
+
+    if (existingIndex >= 0) {
+      // Update existing app
+      newApps = userApps.map((a) => (a.id === app.id ? app : a));
+    } else {
+      // Add new app with order at end
+      newApps = [...userApps, { ...app, order: userApps.length }];
+    }
+
+    const success = await updateApps(newApps);
+    if (success) {
+      refreshProfile();
+    }
+  };
+
+  const handleDeleteApp = async (appId: string) => {
+    const newApps = userApps
+      .filter((a) => a.id !== appId)
+      .map((app, index) => ({ ...app, order: index })); // Reorder
+
+    const success = await updateApps(newApps);
+    if (success) {
+      refreshProfile();
+    }
+  };
+
+  const getAppDisplay = (app: UserApp) => {
+    const appDef = getAppById(app.appId);
+    if (appDef && !appDef.isCustom) {
+      return {
+        name: appDef.name,
+        icon: appDef.icon,
+        color: appDef.color,
+        isImage: true,
+      };
+    }
+    return {
+      name: app.customName || "Custom Link",
+      icon: app.customIcon || "fa-solid fa-link",
+      color: "var(--brand)",
+      isImage: false,
+    };
+  };
+
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return t("goodMorning");
@@ -122,20 +171,59 @@ export function DashboardPage() {
           <section className="dashboard-section">
             <h2>{t("yourApps")}</h2>
             <div className="app-grid">
-              {placeholderApps.map((app) => (
-                <button
-                  key={app.id}
-                  className={`app-tile ${app.isAdd ? "app-tile-add" : ""}`}
-                  style={{ "--app-color": app.color } as React.CSSProperties}
-                >
-                  <div className="app-tile-icon">
-                    <i className={app.icon}></i>
-                  </div>
-                  <span className="app-tile-name">
-                    {app.isAdd ? t("addApp") : app.name}
-                  </span>
-                </button>
-              ))}
+              {visibleApps.length === 0 ? (
+                <div className="app-grid-empty">
+                  <i className="fa-solid fa-grid-2"></i>
+                  <p>{t("noAppsYet")}</p>
+                  <span>{t("addYourFirstApp")}</span>
+                </div>
+              ) : (
+                visibleApps.map((app) => {
+                  const display = getAppDisplay(app);
+                  return (
+                    <a
+                      key={app.id}
+                      href={ensureProtocol(app.url)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="app-tile"
+                      style={
+                        { "--app-color": display.color } as React.CSSProperties
+                      }
+                      onClick={(e) => {
+                        // Right click or ctrl+click opens edit modal
+                        if (e.ctrlKey || e.metaKey) {
+                          e.preventDefault();
+                          handleEditApp(app);
+                        }
+                      }}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        handleEditApp(app);
+                      }}
+                    >
+                      <div className="app-tile-icon">
+                        {display.isImage ? (
+                          <img src={display.icon} alt={display.name} />
+                        ) : (
+                          <i className={display.icon}></i>
+                        )}
+                      </div>
+                      <span className="app-tile-name">{display.name}</span>
+                    </a>
+                  );
+                })
+              )}
+              <button
+                className="app-tile app-tile-add"
+                onClick={handleOpenAddApp}
+                style={{ "--app-color": "var(--muted)" } as React.CSSProperties}
+              >
+                <div className="app-tile-icon">
+                  <i className="fa-solid fa-plus"></i>
+                </div>
+                <span className="app-tile-name">{t("addApp")}</span>
+              </button>
             </div>
           </section>
 
@@ -312,6 +400,15 @@ export function DashboardPage() {
         </div>
       </main>
       <Footer />
+
+      <AppModal
+        isOpen={isAppModalOpen}
+        onClose={() => setIsAppModalOpen(false)}
+        onSave={handleSaveApp}
+        onDelete={handleDeleteApp}
+        editingApp={editingApp}
+        existingAppIds={userApps.map((a) => a.appId)}
+      />
     </>
   );
 }

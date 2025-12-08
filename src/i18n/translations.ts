@@ -167,6 +167,22 @@ export const translations = {
     confirmationInstructions:
       "Klikk på lenken i e-posten for å aktivere kontoen din. Sjekk også søppelpost-mappen.",
 
+    // App Modal
+    editApp: "Rediger app",
+    configureApp: "Konfigurer app",
+    selectAppFromLibrary: "Velg en app fra biblioteket",
+    appName: "Appnavn",
+    appNamePlaceholder: "Navn på appen",
+    appUrl: "App-URL",
+    defaultPort: "Standardport",
+    showOnDashboard: "Vis på dashbord",
+    invalidUrl: "Ugyldig URL-format",
+    urlRequired: "URL er påkrevd",
+    save: "Lagre",
+    delete: "Slett",
+    noAppsYet: "Ingen apper ennå",
+    addYourFirstApp: "Legg til din første app for å komme i gang",
+
     // Auth Errors
     errorInvalidCredentials: "Feil e-post eller passord",
     errorEmailNotConfirmed:
@@ -343,6 +359,22 @@ export const translations = {
     confirmationSent: "We've sent you a confirmation link",
     confirmationInstructions:
       "Click the link in the email to activate your account. Check your spam folder too.",
+
+    // App Modal
+    editApp: "Edit App",
+    configureApp: "Configure App",
+    selectAppFromLibrary: "Select an app from the library",
+    appName: "App Name",
+    appNamePlaceholder: "Name of the app",
+    appUrl: "App URL",
+    defaultPort: "Default port",
+    showOnDashboard: "Show on dashboard",
+    invalidUrl: "Invalid URL format",
+    urlRequired: "URL is required",
+    save: "Save",
+    delete: "Delete",
+    noAppsYet: "No apps yet",
+    addYourFirstApp: "Add your first app to get started",
 
     // Auth Errors
     errorInvalidCredentials: "Invalid email or password",

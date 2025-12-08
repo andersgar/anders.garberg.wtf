@@ -1,4 +1,5 @@
 import { supabase } from "./supabase";
+import { UserApp } from "./apps";
 
 export type AccessLevel = "user" | "moderator" | "admin" | "owner";
 
@@ -18,6 +19,7 @@ export interface Profile {
   bio: string | null;
   access_level: AccessLevel;
   settings: UserSettings;
+  apps: UserApp[];
   created_at: string;
   updated_at: string;
 }
@@ -59,6 +61,7 @@ export async function createProfileIfMissing(): Promise<Profile | null> {
       email: user.email,
       access_level: "user",
       settings: DEFAULT_SETTINGS,
+      apps: [],
     })
     .select()
     .single();
@@ -71,6 +74,7 @@ export async function createProfileIfMissing(): Promise<Profile | null> {
   return {
     ...data,
     settings: { ...DEFAULT_SETTINGS, ...data.settings },
+    apps: data.apps || [],
   } as Profile;
 }
 
@@ -103,6 +107,7 @@ export async function getProfile(): Promise<Profile | null> {
   return {
     ...data,
     settings: { ...DEFAULT_SETTINGS, ...data.settings },
+    apps: data.apps || [],
   } as Profile;
 }
 
@@ -121,9 +126,12 @@ export async function getProfileById(userId: string): Promise<Profile | null> {
     return null;
   }
 
+  if (!data) return null;
+
   return {
     ...data,
     settings: { ...DEFAULT_SETTINGS, ...data.settings },
+    apps: data.apps || [],
   } as Profile;
 }
 
@@ -156,6 +164,7 @@ export async function updateProfile(
   return {
     ...data,
     settings: { ...DEFAULT_SETTINGS, ...data.settings },
+    apps: data.apps || [],
   } as Profile;
 }
 
@@ -262,6 +271,7 @@ export async function getAllProfiles(): Promise<Profile[]> {
   return data.map((profile) => ({
     ...profile,
     settings: { ...DEFAULT_SETTINGS, ...profile.settings },
+    apps: profile.apps || [],
   })) as Profile[];
 }
 
@@ -279,6 +289,51 @@ export async function updateAccessLevel(
 
   if (error) {
     console.error("Error updating access level:", error);
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Update user's apps (for current user)
+ */
+export async function updateApps(
+  apps: import("./apps").UserApp[]
+): Promise<boolean> {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return false;
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ apps })
+    .eq("id", user.id);
+
+  if (error) {
+    console.error("Error updating apps:", error);
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Update user's apps by user ID (admin only)
+ */
+export async function updateUserApps(
+  userId: string,
+  apps: import("./apps").UserApp[]
+): Promise<boolean> {
+  const { error } = await supabase
+    .from("profiles")
+    .update({ apps })
+    .eq("id", userId);
+
+  if (error) {
+    console.error("Error updating user apps:", error);
     return false;
   }
 
