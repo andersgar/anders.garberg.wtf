@@ -62,6 +62,16 @@ export function DashboardPage() {
     loadAdminData();
   }, [isAdmin]);
 
+  // Prevent background scroll when QR modal is open
+  useEffect(() => {
+    if (showQrModal) {
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }
+  }, [showQrModal]);
+
   const handleAccessLevelChange = async (
     userId: string,
     newLevel: AccessLevel
@@ -366,67 +376,6 @@ export function DashboardPage() {
                   );
                 })}
               </div>
-              {/* QR Modal */}
-              {showQrModal && (
-                <div
-                  className="app-modal-overlay"
-                  onClick={() => setShowQrModal(false)}
-                >
-                  <div
-                    className="app-modal"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <div className="app-modal-header">
-                      <div className="app-modal-title">
-                        <h2>QR Code</h2>
-                      </div>
-                      <button
-                        className="app-modal-close"
-                        onClick={() => setShowQrModal(false)}
-                      >
-                        <i className="fa-solid fa-times"></i>
-                      </button>
-                    </div>
-                    <div
-                      className="app-modal-content"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        padding: "2rem",
-                      }}
-                    >
-                      <h3>Scan to visit garberg.wtf</h3>
-                      <div
-                        style={{
-                          background: "#fff",
-                          padding: "1rem",
-                          borderRadius: "1rem",
-                        }}
-                      >
-                        {/* @ts-ignore */}
-                        <QRCodeSVG
-                          value="https://garberg.wtf"
-                          size={192}
-                          level="H"
-                          bgColor="#ffffff"
-                          fgColor="#000000"
-                        />
-                      </div>
-                      <p
-                        style={{
-                          marginTop: "1rem",
-                          color: "var(--fg)",
-                          fontWeight: 500,
-                        }}
-                      >
-                        garberg.wtf
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
             </section>
           )}
 
@@ -611,7 +560,75 @@ export function DashboardPage() {
           <Contact />
         </div>
       </main>
+
       <Footer />
+
+      {/* QR Modal - moved here to avoid dashboard section styling issues */}
+      {showQrModal && (
+        <div
+          className="app-modal-overlay"
+          onClick={() => setShowQrModal(false)}
+        >
+          <div
+            className="app-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="qr-modal-title"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="app-modal-header">
+              <div className="app-modal-title">
+                <h2 id="qr-modal-title">QR Code</h2>
+              </div>
+              <button
+                className="app-modal-close"
+                onClick={() => setShowQrModal(false)}
+                type="button"
+                aria-label="Close QR modal"
+              >
+                <i className="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+            <div
+              className="app-modal-content"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "2rem",
+              }}
+            >
+              <h3>Scan to visit garberg.wtf</h3>
+              <div
+                style={{
+                  background: "#fff",
+                  padding: "1rem",
+                  borderRadius: "1rem",
+                }}
+              >
+                {/* @ts-ignore */}
+                <QRCodeSVG
+                  value="https://garberg.wtf"
+                  size={192}
+                  level="H"
+                  bgColor="#ffffff"
+                  fgColor="#000000"
+                />
+              </div>
+              <p
+                style={{
+                  marginTop: "1rem",
+                  color: "var(--fg)",
+                  fontWeight: 500,
+                }}
+              >
+                garberg.wtf
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       <AppModal
         isOpen={isAppModalOpen}
@@ -628,3 +645,4 @@ export function DashboardPage() {
     </>
   );
 }
+
