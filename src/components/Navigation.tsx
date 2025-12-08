@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { QRCodeSVG } from "qrcode.react";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme, ColorTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
@@ -311,14 +310,6 @@ export function Navigation() {
 
             {isAuthenticated ? (
               <>
-                <button
-                  className="theme-toggle"
-                  onClick={() => setShowQrPopup(true)}
-                  aria-label="Show QR Code"
-                  title={t("showQR")}
-                >
-                  <i className="fa-solid fa-qrcode"></i>
-                </button>
                 <div className="user-menu-container">
                   <button
                     ref={userButtonRef}
@@ -408,39 +399,6 @@ export function Navigation() {
           <MobileMenu />
         </div>
       </nav>
-
-      {/* QR Code Popup */}
-      {showQrPopup && (
-        <div
-          className="qr-popup-overlay"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setShowQrPopup(false);
-            }
-          }}
-        >
-          <div className="qr-popup">
-            <button
-              className="qr-popup-close"
-              onClick={() => setShowQrPopup(false)}
-              aria-label="Close"
-            >
-              ×
-            </button>
-            <h3>{t("scanQR")}</h3>
-            <div className="qr-code-container">
-              <QRCodeSVG
-                value="https://garberg.wtf"
-                size={256}
-                level="H"
-                bgColor="#ffffff"
-                fgColor="#000000"
-              />
-            </div>
-            <p className="qr-url">garberg.wtf</p>
-          </div>
-        </div>
-      )}
 
       {/* Profile Settings Popup */}
       {showProfilePopup && (

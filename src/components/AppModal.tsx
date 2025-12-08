@@ -316,26 +316,104 @@ export function AppModal({
             </>
           ) : view === "library" ? (
             <>
-              <p className="app-modal-subtitle">{t("selectAppFromLibrary")}</p>
+              <div className="app-modal-section-header app-modal-library-header">
+                <span className="app-modal-library-title">
+                  {t("selectAppFromLibrary")}
+                </span>
+              </div>
+              {/* Recommended Apps */}
+              {adminUserApps && adminUserApps.length > 0 && (
+                <>
+                  <div className="app-modal-section-title">Recommended</div>
+                  <div className="app-library-grid">
+                    {adminUserApps.map((app) => {
+                      const display = getAppDisplayInfo(app);
+                      return (
+                        <button
+                          key={app.id}
+                          className="app-library-item"
+                          onClick={() =>
+                            handleSelectApp({
+                              id: app.appId,
+                              name: display.name,
+                              icon: display.icon,
+                              color: display.color,
+                              description: "",
+                              isCustom: false,
+                            })
+                          }
+                          style={
+                            {
+                              "--app-color": display.color,
+                            } as React.CSSProperties
+                          }
+                        >
+                          <div className="app-library-icon">
+                            {display.isImage ? (
+                              <img src={display.icon} alt={display.name} />
+                            ) : (
+                              <i className={display.icon}></i>
+                            )}
+                          </div>
+                          <span className="app-library-name">
+                            {display.name}
+                          </span>
+                          <span className="app-library-desc">{app.url}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+
+              {/* Homelab Apps */}
+              <div className="app-modal-section-title">Homelab</div>
               <div className="app-library-grid">
-                {availableApps.map((app) => (
-                  <button
-                    key={app.id}
-                    className="app-library-item"
-                    onClick={() => handleSelectApp(app)}
-                    style={{ "--app-color": app.color } as React.CSSProperties}
-                  >
-                    <div className="app-library-icon">
-                      {app.isCustom ? (
-                        <i className={app.icon}></i>
-                      ) : (
+                {availableApps
+                  .filter((app) => !app.isCustom)
+                  .map((app) => (
+                    <button
+                      key={app.id}
+                      className="app-library-item"
+                      onClick={() => handleSelectApp(app)}
+                      style={
+                        { "--app-color": app.color } as React.CSSProperties
+                      }
+                    >
+                      <div className="app-library-icon">
                         <img src={app.icon} alt={app.name} />
-                      )}
-                    </div>
-                    <span className="app-library-name">{app.name}</span>
-                    <span className="app-library-desc">{app.description}</span>
-                  </button>
-                ))}
+                      </div>
+                      <span className="app-library-name">{app.name}</span>
+                      <span className="app-library-desc">
+                        {app.description}
+                      </span>
+                    </button>
+                  ))}
+              </div>
+
+              {/* Custom Link */}
+              <div className="app-modal-section-title">Custom</div>
+              <div className="app-library-grid">
+                {availableApps
+                  .filter((app) => app.isCustom)
+                  .map((app) => (
+                    <button
+                      key={app.id}
+                      className="app-library-item"
+                      onClick={() => handleSelectApp(app)}
+                      style={
+                        { "--app-color": app.color } as React.CSSProperties
+                      }
+                    >
+                      <div className="app-library-icon">
+                        <i className={app.icon}></i>
+                      </div>
+                      <span className="app-library-name">{app.name}</span>
+                      <span className="app-library-desc">
+                        {app.description}
+                      </span>
+                    </button>
+                  ))}
               </div>
             </>
           ) : (

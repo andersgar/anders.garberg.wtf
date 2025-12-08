@@ -113,6 +113,13 @@
   text-align: center;
 }
 
+.app-tile-desc {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-align: center;
+}
+
 /* Add App Tile */
 .app-tile-add {
   border-style: dashed;

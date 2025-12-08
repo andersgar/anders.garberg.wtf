@@ -18,8 +18,11 @@ import {
 } from "../lib/profiles";
 import { UserApp, getAppById, ensureProtocol } from "../lib/apps";
 import "../styles/dashboard.css";
+import { QRCodeSVG } from "qrcode.react";
 
 export function DashboardPage() {
+  // QR modal state
+  const [showQrModal, setShowQrModal] = useState(false);
   const { t } = useLanguage();
   const { profile, refreshProfile, hasAccess } = useProfile();
   const { user } = useAuth();
@@ -88,6 +91,22 @@ export function DashboardPage() {
   const visibleApps = userApps
     .filter((app) => app.visible)
     .sort((a, b) => a.order - b.order);
+
+  // Recommended Apps: all custom apps (appId === 'custom')
+  // Add QR code app to recommended apps
+  const qrApp = {
+    id: "qr_app",
+    appId: "qr_app",
+    url: "",
+    customName: "QR Code",
+    customIcon: "fa-solid fa-qrcode",
+    visible: true,
+    order: 999,
+  };
+  const recommendedApps = [
+    ...userApps.filter((app) => app.appId === "custom"),
+    qrApp,
+  ];
 
   const handleOpenAddApp = () => {
     setEditingApp(null);
@@ -230,7 +249,6 @@ export function DashboardPage() {
             </h1>
             <p className="dashboard-subtitle">{t("dashboardSubtitle")}</p>
           </header>
-
           <section className="dashboard-section">
             <h2>{t("yourApps")}</h2>
             <div className="app-grid">
@@ -289,6 +307,128 @@ export function DashboardPage() {
               </button>
             </div>
           </section>
+          {recommendedApps.length > 0 && (
+            <section className="dashboard-section">
+              <h2>Recommended Apps</h2>
+              <div className="app-grid">
+                {recommendedApps.map((app) => {
+                  const display = getAppDisplay(app);
+                  if (app.appId === "qr_app") {
+                    return (
+                      <button
+                        key={app.id}
+                        className="app-tile"
+                        style={
+                          { "--app-color": "var(--fg)" } as React.CSSProperties
+                        }
+                        onClick={() => setShowQrModal(true)}
+                      >
+                        <div className="app-tile-icon">
+                          <i className={display.icon}></i>
+                        </div>
+                        <span className="app-tile-name">{t("qrAppName")}</span>
+                        <span className="app-tile-desc">
+                          {t("qrAppDescription")}
+                        </span>
+                      </button>
+                    );
+                  }
+                  return (
+                    <a
+                      key={app.id}
+                      href={ensureProtocol(app.url)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="app-tile"
+                      style={
+                        { "--app-color": display.color } as React.CSSProperties
+                      }
+                      onClick={(e) => {
+                        if (e.ctrlKey || e.metaKey) {
+                          e.preventDefault();
+                          handleEditApp(app);
+                        }
+                      }}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        handleEditApp(app);
+                      }}
+                    >
+                      <div className="app-tile-icon">
+                        {display.isImage ? (
+                          <img src={display.icon} alt={display.name} />
+                        ) : (
+                          <i className={display.icon}></i>
+                        )}
+                      </div>
+                      <span className="app-tile-name">{display.name}</span>
+                    </a>
+                  );
+                })}
+              </div>
+              {/* QR Modal */}
+              {showQrModal && (
+                <div
+                  className="app-modal-overlay"
+                  onClick={() => setShowQrModal(false)}
+                >
+                  <div
+                    className="app-modal"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="app-modal-header">
+                      <div className="app-modal-title">
+                        <h2>QR Code</h2>
+                      </div>
+                      <button
+                        className="app-modal-close"
+                        onClick={() => setShowQrModal(false)}
+                      >
+                        <i className="fa-solid fa-times"></i>
+                      </button>
+                    </div>
+                    <div
+                      className="app-modal-content"
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "2rem",
+                      }}
+                    >
+                      <h3>Scan to visit garberg.wtf</h3>
+                      <div
+                        style={{
+                          background: "#fff",
+                          padding: "1rem",
+                          borderRadius: "1rem",
+                        }}
+                      >
+                        {/* @ts-ignore */}
+                        <QRCodeSVG
+                          value="https://garberg.wtf"
+                          size={192}
+                          level="H"
+                          bgColor="#ffffff"
+                          fgColor="#000000"
+                        />
+                      </div>
+                      <p
+                        style={{
+                          marginTop: "1rem",
+                          color: "var(--fg)",
+                          fontWeight: 500,
+                        }}
+                      >
+                        garberg.wtf
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </section>
+          )}
 
           <section className="dashboard-section">
             <h2>{t("quickActions")}</h2>
@@ -303,7 +443,6 @@ export function DashboardPage() {
               </a>
             </div>
           </section>
-
           {/* Admin Section - Only visible for admins */}
           {isAdmin && (
             <section className="dashboard-section admin-section">
@@ -469,7 +608,6 @@ export function DashboardPage() {
               )}
             </section>
           )}
-
           <Contact />
         </div>
       </main>

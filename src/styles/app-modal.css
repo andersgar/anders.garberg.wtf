@@ -1,3 +1,27 @@
+/* Section header above app grid */
+.app-modal-section-header {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+/* Divider subtitle for modal sections */
+.app-modal-section-title {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 1.5rem 0 0.5rem 0;
+}
+.app-modal-section-title::before,
+.app-modal-section-title::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid var(--border);
+  margin: 0 1rem;
+}
 /* App Modal Styles */
 .app-modal-overlay {
   position: fixed;
