@@ -146,10 +146,8 @@ export function DashboardPage() {
     visible: true,
     order: 999,
   };
-  const recommendedApps = [
-    qrApp,
-    ...userApps.filter((app) => app.appId === "custom"),
-  ];
+  // Recommended apps are explicitly curated; for now only the QR generator
+  const recommendedApps = [qrApp];
 
   const handleOpenAddApp = () => {
     if (!isAuthenticated) return;
