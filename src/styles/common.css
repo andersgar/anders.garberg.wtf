@@ -604,6 +604,35 @@ form .field {
   color: var(--brand);
 }
 
+.nav-apps-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--text) 14%, transparent);
+  background: transparent;
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-apps-btn:hover {
+  color: var(--brand);
+  border-color: var(--brand);
+  background: color-mix(in oklab, var(--brand) 8%, transparent);
+}
+
+.nav-apps-btn i {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.nav-apps-btn span {
+  font-weight: 600;
+}
+
 #skills .grid.cols-3 {
   gap: 1rem;
 }

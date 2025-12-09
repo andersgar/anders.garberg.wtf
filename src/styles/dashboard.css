@@ -140,8 +140,8 @@
 
 .app-placeholder {
   grid-column: 1 / -1;
-  border: 2px dashed color-mix(in oklab, var(--muted) 75%, transparent);
-  background: color-mix(in oklab, var(--card) 6%, transparent);
+  border: 2px dashed color-mix(in oklab, var(--muted) 60%, transparent);
+  background: transparent;
   box-shadow: none;
   flex-direction: column;
   gap: 0.5rem;
@@ -170,8 +170,18 @@
 }
 
 .app-placeholder:hover {
-  background: color-mix(in oklab, var(--card) 6%, transparent);
-  border-color: color-mix(in oklab, var(--muted) 75%, transparent);
+  background: transparent;
+  border-color: color-mix(in oklab, var(--muted) 60%, transparent);
+}
+
+:root[data-theme="light"] .app-placeholder {
+  background: rgba(255, 255, 255, 0.65);
+  border-color: color-mix(in oklab, #1f2937 20%, transparent);
+}
+
+:root[data-theme="light"] .app-placeholder:hover {
+  background: rgba(255, 255, 255, 0.65);
+  border-color: color-mix(in oklab, #1f2937 20%, transparent);
 }
 
 .apps-note {
@@ -592,6 +602,15 @@
   background: color-mix(in oklab, var(--brand) 20%, transparent);
   border-color: var(--brand);
   color: var(--brand);
+}
+
+.apps-action-btn:disabled,
+.apps-action-btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: var(--border);
+  color: var(--muted);
+  background: transparent;
 }
 
 .app-tile-hidden {

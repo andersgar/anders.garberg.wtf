@@ -32,7 +32,7 @@ export function DashboardPage() {
   const [manageOwnApps, setManageOwnApps] = useState(false);
   const { t } = useLanguage();
   const { profile, refreshProfile, hasAccess } = useProfile();
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
 
   // App modal state
   const [isAppModalOpen, setIsAppModalOpen] = useState(false);
@@ -152,6 +152,7 @@ export function DashboardPage() {
   ];
 
   const handleOpenAddApp = () => {
+    if (!isAuthenticated) return;
     setEditingApp(null);
     setIsAppModalOpen(true);
   };
@@ -305,7 +306,7 @@ export function DashboardPage() {
     profile?.full_name ||
     profile?.username ||
     profile?.email?.split("@")[0] ||
-    "";
+    (isAuthenticated ? user?.email?.split("@")[0] : t("user"));
 
   return (
     <>
@@ -319,9 +320,13 @@ export function DashboardPage() {
               {getGreeting()}
               {displayName ? `, ${displayName}` : ""}
             </h1>
-            <p className="dashboard-subtitle">{t("dashboardSubtitle")}</p>
+            <p className="dashboard-subtitle">
+              {isAuthenticated
+                ? t("dashboardSubtitleLoggedIn")
+                : t("dashboardSubtitleLoggedOut")}
+            </p>
           </header>
-          <section className="dashboard-section">
+          <section className="dashboard-section" id="apps">
             <div className="apps-header">
               <h2>{t("yourApps")}</h2>
               <div className="apps-actions">
@@ -331,6 +336,7 @@ export function DashboardPage() {
                   onClick={handleOpenManageOwnApps}
                   aria-label={t("edit")}
                   title={t("edit")}
+                  disabled={!isAuthenticated}
                 >
                   <i className="fa-solid fa-pen"></i>
                 </button>
@@ -340,6 +346,7 @@ export function DashboardPage() {
                   onClick={() => setShowHidden((v) => !v)}
                   aria-label={showHidden ? t("hide") : t("showHidden")}
                   title={showHidden ? t("hide") : t("showHidden")}
+                  disabled={!isAuthenticated}
                 >
                   <i
                     className={`fa-solid ${
@@ -350,7 +357,15 @@ export function DashboardPage() {
               </div>
             </div>
             <div className="app-grid">
-              {displayedApps.length === 0 ? (
+              {!isAuthenticated && displayedApps.length === 0 ? (
+                <div className="app-tile app-placeholder" aria-hidden="true">
+                  <div className="app-placeholder-text">
+                    <span className="app-placeholder-sub">
+                      {t("loginToEdit")}
+                    </span>
+                  </div>
+                </div>
+              ) : displayedApps.length === 0 ? (
                 <div className="app-grid-empty">
                   <i className="fa-solid fa-grid-2"></i>
                   <p>{t("noAppsYet")}</p>
@@ -370,6 +385,7 @@ export function DashboardPage() {
                         }
                         onClick={() => setShowQrModal(true)}
                         onContextMenu={(e) => {
+                          if (!isAuthenticated) return;
                           e.preventDefault();
                           handleEditApp(app);
                         }}
@@ -396,12 +412,14 @@ export function DashboardPage() {
                         { "--app-color": display.color } as React.CSSProperties
                       }
                       onClick={(e) => {
+                        if (!isAuthenticated) return;
                         if (e.ctrlKey || e.metaKey) {
                           e.preventDefault();
                           handleEditApp(app);
                         }
                       }}
                       onContextMenu={(e) => {
+                        if (!isAuthenticated) return;
                         e.preventDefault();
                         handleEditApp(app);
                       }}
@@ -418,23 +436,25 @@ export function DashboardPage() {
                   );
                 })
               )}
-              <button
-                className="app-tile app-tile-add"
-                onClick={handleOpenAddApp}
-                style={
-                  { "--app-color": "var(--muted)" } as React.CSSProperties
-                }
-              >
-                <div className="app-tile-icon">
-                  <i className="fa-solid fa-plus"></i>
-                </div>
-                <span className="app-tile-name">{t("addApp")}</span>
-              </button>
+              {isAuthenticated && (
+                <button
+                  className="app-tile app-tile-add"
+                  onClick={handleOpenAddApp}
+                  style={
+                    { "--app-color": "var(--muted)" } as React.CSSProperties
+                  }
+                >
+                  <div className="app-tile-icon">
+                    <i className="fa-solid fa-plus"></i>
+                  </div>
+                  <span className="app-tile-name">{t("addApp")}</span>
+                </button>
+              )}
             </div>
           </section>
           {recommendedApps.length > 0 && (
             <section className="dashboard-section">
-              <h2>Recommended Apps</h2>
+              <h2>{t("recommendedApps")}</h2>
               <div className="app-grid">
                 {recommendedApps.map((app) => {
                   const display = getAppDisplay(app);

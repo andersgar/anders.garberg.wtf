@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
 import { DashboardPage } from "./DashboardPage";
@@ -6,6 +6,9 @@ import { DashboardPage } from "./DashboardPage";
 export function HomePage() {
   const { isAuthenticated, isLoading } = useAuth();
   const { lang } = useLanguage();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const allowGuest = searchParams.get("guest") === "1";
 
   // Show loading state while checking auth
   if (isLoading) {
@@ -27,11 +30,11 @@ export function HomePage() {
   }
 
   // Redirect non-authenticated users to about page
-  if (!isAuthenticated) {
+  if (!isAuthenticated && !allowGuest) {
     const aboutPath = lang === "no" ? "/om-meg" : "/about";
     return <Navigate to={aboutPath} replace />;
   }
 
-  // Show dashboard for authenticated users
+  // Show dashboard for authenticated users or guest-allowed visits
   return <DashboardPage />;
 }

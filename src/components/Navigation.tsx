@@ -77,6 +77,7 @@ export function Navigation() {
   const isAboutPage =
     location.pathname === "/about" || location.pathname === "/om-meg";
   const aboutPath = lang === "no" ? "/om-meg" : "/about";
+  const appsLink = isAuthenticated ? "/#apps" : "/?guest=1#apps";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -186,29 +187,11 @@ export function Navigation() {
 
           <div className="nav-links">
             {/* Show different links based on auth status and current page */}
-            {isAuthenticated && !isAboutPage && (
-              <Link to={aboutPath}>{t("aboutMe")}</Link>
-            )}
-            {isAuthenticated && isAboutPage && (
-              <Link to="/">{t("dashboard")}</Link>
-            )}
-            {isAboutPage && (
-              <>
-                <a href="#experience">{t("experience")}</a>
-                <a href="#about">{t("about")}</a>
-              </>
-            )}
-            {!isAuthenticated && !isAboutPage && (
-              <Link to={aboutPath}>{t("aboutMe")}</Link>
-            )}
+            {!isAboutPage && <Link to={aboutPath}>{t("aboutMe")}</Link>}
             <a href={isAboutPage ? "#contact" : aboutPath + "#contact"}>
               {t("contact")}
             </a>
-            {!isAuthenticated && (
-              <Link to="/login" className="nav-login-link">
-                {t("login")}
-              </Link>
-            )}
+            {/* Removed text login link in favor of icon button */}
 
             <div className="color-theme-container">
               <button
@@ -305,8 +288,12 @@ export function Navigation() {
               aria-label="Bytt språk"
               title="Bytt språk"
             >
-              <i className="fa-solid fa-globe"></i>
+            <i className="fa-solid fa-globe"></i>
             </button>
+            <Link to={appsLink} className="nav-apps-btn" aria-label={t("apps")} title={t("apps")}>
+              <i className="fa-solid fa-grip"></i>
+              <span>{t("apps")}</span>
+            </Link>
 
             {isAuthenticated ? (
               <>

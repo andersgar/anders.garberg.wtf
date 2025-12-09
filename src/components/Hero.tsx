@@ -24,8 +24,9 @@ export function Hero() {
           </h1>
           <div style={{ height: "1rem" }}></div>
           <div className="hero-cta">
-            <a className="btn" href="#projects">
-              {t("seeProjects")}
+            <a className="btn" href="/?guest=1#apps">
+              <i className="fa-solid fa-grip"></i>
+              {t("apps")}
             </a>
             <a className="btn ghost" href="#contact">
               {t("getInTouch")}
