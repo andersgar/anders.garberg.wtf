@@ -132,6 +132,54 @@
   background: transparent;
 }
 
+.app-tile-add.disabled,
+.app-tile-add:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.app-placeholder {
+  grid-column: 1 / -1;
+  border: 2px dashed color-mix(in oklab, var(--muted) 75%, transparent);
+  background: color-mix(in oklab, var(--card) 6%, transparent);
+  box-shadow: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 1.25rem;
+  min-height: 120px;
+  pointer-events: none;
+}
+
+.app-placeholder .app-tile-icon {
+  background: transparent;
+  color: var(--muted);
+}
+
+.app-placeholder-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+  text-align: center;
+}
+
+.app-placeholder-sub {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.app-placeholder:hover {
+  background: color-mix(in oklab, var(--card) 6%, transparent);
+  border-color: color-mix(in oklab, var(--muted) 75%, transparent);
+}
+
+.apps-note {
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+}
+
 .app-tile-add .app-tile-icon {
   background: transparent;
   color: var(--muted);
