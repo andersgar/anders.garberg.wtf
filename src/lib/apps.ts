@@ -9,6 +9,8 @@ export interface AppDefinition {
   isCustom?: boolean;
   requiresUrl?: boolean;
   featured?: boolean; // Shown before homelab apps in the picker
+  category?: "ntnu" | "homelab";
+  defaultUrl?: string;
 }
 
 export interface UserApp {
@@ -31,6 +33,67 @@ export const APP_LIBRARY: AppDefinition[] = [
     description: "Create QR codes for links and text",
     featured: true,
     requiresUrl: false,
+  },
+  {
+    id: "blackboard",
+    name: "Blackboard",
+    icon: "fa-solid fa-book-open-reader",
+    color: "#0ea5e9",
+    description: "NTNU Blackboard portal",
+    category: "ntnu",
+    requiresUrl: false,
+    defaultUrl: "https://innsida.ntnu.no/blackboard",
+  },
+  {
+    id: "onedrive_ntnu",
+    name: "Onedrive",
+    icon: "fa-solid fa-cloud",
+    color: "#2563eb",
+    description: "NTNU OneDrive",
+    category: "ntnu",
+    requiresUrl: false,
+    defaultUrl: "https://m365.cloud.microsoft/onedrive/",
+  },
+  {
+    id: "studentweb",
+    name: "Studentweb",
+    icon: "fa-solid fa-graduation-cap",
+    color: "#7c3aed",
+    description: "Course registration & exams",
+    category: "ntnu",
+    requiresUrl: false,
+    defaultUrl: "https://www.ntnu.no/studentweb",
+  },
+  {
+    id: "remnote",
+    name: "Remnote",
+    icon: "fa-solid fa-brain",
+    color: "#10b981",
+    description: "Notes and spaced repetition",
+    category: "ntnu",
+    requiresUrl: false,
+    defaultUrl: "https://www.remnote.com/",
+  },
+  {
+    id: "inspera",
+    name: "Inspera",
+    icon: "fa-solid fa-pen-to-square",
+    color: "#f59e0b",
+    description: "Digital exams",
+    category: "ntnu",
+    requiresUrl: false,
+    defaultUrl: "https://ntnu.inspera.no/",
+  },
+  {
+    id: "tp-timeplan",
+    name: "TP Timeplan",
+    icon: "fa-solid fa-calendar-days",
+    color: "#3b82f6",
+    description: "Course schedules",
+    category: "ntnu",
+    requiresUrl: false,
+    defaultUrl:
+      "https://tp.uio.no/ntnu/timeplan/timeplan.php?type=courseact",
   },
   {
     id: "homeassistant",

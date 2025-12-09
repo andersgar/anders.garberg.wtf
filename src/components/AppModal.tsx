@@ -79,7 +79,7 @@ export function AppModal({
 
   const handleSelectApp = (app: AppDefinition) => {
     setSelectedApp(app);
-    setUrl("");
+    setUrl(app.defaultUrl || "");
     setCustomName(app.isCustom ? "" : app.name);
     setUrlError("");
     setView("configure");
@@ -114,7 +114,7 @@ export function AppModal({
     const userApp: UserApp = {
       id: appToEdit?.id || generateAppId(),
       appId: selectedApp.id,
-      url: requiresUrl ? url.trim() : "",
+      url: requiresUrl ? url.trim() : selectedApp.defaultUrl || "",
       customName: selectedApp.isCustom
         ? customName.trim() || "Custom Link"
         : undefined,
@@ -252,8 +252,9 @@ export function AppModal({
   );
   const featuredApps = availableApps.filter((app) => app.featured);
   const homelabApps = availableApps.filter(
-    (app) => !app.isCustom && !app.featured
+    (app) => !app.isCustom && !app.featured && app.category !== "ntnu"
   );
+  const ntnuApps = availableApps.filter((app) => app.category === "ntnu");
 
   return (
     <div className="app-modal-overlay" onClick={onClose}>
@@ -374,43 +375,36 @@ export function AppModal({
                 </span>
               </div>
               {/* Recommended Apps */}
-              {adminUserApps && adminUserApps.length > 0 && (
+              {/* Featured Apps */}
+              {featuredApps.length > 0 && (
                 <>
                   <div className="app-modal-section-title">Recommended</div>
                   <div className="app-library-grid">
-                    {adminUserApps.map((app) => {
-                      const display = getAppDisplayInfo(app);
+                    {featuredApps.map((app) => {
+                      const isFontIcon =
+                        app.icon.includes("fa-") || app.icon.startsWith("fa");
                       return (
                         <button
                           key={app.id}
                           className="app-library-item"
-                          onClick={() =>
-                            handleSelectApp({
-                              id: app.appId,
-                              name: display.name,
-                              icon: display.icon,
-                              color: display.color,
-                              description: "",
-                              isCustom: false,
-                            })
-                          }
+                          onClick={() => handleSelectApp(app)}
                           style={
                             {
-                              "--app-color": display.color,
+                              "--app-color": app.color,
                             } as React.CSSProperties
                           }
                         >
                           <div className="app-library-icon">
-                            {display.isImage ? (
-                              <img src={display.icon} alt={display.name} />
+                            {isFontIcon ? (
+                              <i className={app.icon}></i>
                             ) : (
-                              <i className={display.icon}></i>
+                              <img src={app.icon} alt={app.name} />
                             )}
                           </div>
-                          <span className="app-library-name">
-                            {display.name}
+                          <span className="app-library-name">{app.name}</span>
+                          <span className="app-library-desc">
+                            {app.description}
                           </span>
-                          <span className="app-library-desc">{app.url}</span>
                         </button>
                       );
                     })}
@@ -418,12 +412,12 @@ export function AppModal({
                 </>
               )}
 
-              {/* Featured Apps */}
-              {featuredApps.length > 0 && (
+              {/* NTNU Apps */}
+              {ntnuApps.length > 0 && (
                 <>
-                  <div className="app-modal-section-title">Recommended</div>
+                  <div className="app-modal-section-title">NTNU</div>
                   <div className="app-library-grid">
-                    {featuredApps.map((app) => {
+                    {ntnuApps.map((app) => {
                       const isFontIcon =
                         app.icon.includes("fa-") || app.icon.startsWith("fa");
                       return (
@@ -541,9 +535,9 @@ export function AppModal({
                       ? customName || "Custom Link"
                       : selectedApp.name}
                   </span>
-                  {selectedApp.requiresUrl === false && (
+                  {selectedApp.description && (
                     <span className="app-preview-helper">
-                      {t("qrAppDescription")}
+                      {selectedApp.description}
                     </span>
                   )}
                 </div>
