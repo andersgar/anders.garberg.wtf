@@ -1,4 +1,5 @@
 import { useLanguage } from "../context/LanguageContext";
+import { trackContact } from "../lib/analytics";
 
 export function Contact() {
   const { t } = useLanguage();
@@ -10,6 +11,8 @@ export function Contact() {
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
     const message = (form.elements.namedItem("message") as HTMLTextAreaElement)
       .value;
+
+    trackContact({ name, email, message });
 
     const mailtoLink = `mailto:anders@garberg.wtf?subject=Kontakt fra ${name}&body=${encodeURIComponent(
       message

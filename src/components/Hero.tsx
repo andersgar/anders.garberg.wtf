@@ -1,6 +1,7 @@
 import { useLanguage } from "../context/LanguageContext";
 import { useProfile } from "../context/ProfileContext";
 import { translations } from "../i18n/translations";
+import { trackCVDownload } from "../lib/analytics";
 
 export function Hero() {
   const { t, lang } = useLanguage();
@@ -79,7 +80,12 @@ export function Hero() {
           </div>
           <p className="small">{t("heroDescription")}</p>
           <div className="row">
-            <a className="btn" href={translations[lang].cv} download>
+            <a
+              className="btn"
+              href={translations[lang].cv}
+              download
+              onClick={() => trackCVDownload()}
+            >
               {t("downloadCV")}
             </a>
             <a className="btn ghost" href="#contact">

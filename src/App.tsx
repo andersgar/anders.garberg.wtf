@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useEffect } from "react";
 import { HomePage } from "./pages/HomePage";
 import { AboutPage } from "./pages/AboutPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -7,8 +8,13 @@ import { AuthCallback } from "./pages/AuthCallback";
 import { ResetPasswordPage } from "./pages/ResetPasswordPage";
 import { QRGeneratorPage } from "./pages/QRGeneratorPage";
 import { SettingsSync } from "./components/SettingsSync";
+import { trackVisit } from "./lib/analytics";
 
 function App() {
+  useEffect(() => {
+    trackVisit();
+  }, []);
+
   return (
     <BrowserRouter>
       <SettingsSync />
