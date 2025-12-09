@@ -12,6 +12,8 @@ export interface ContactData {
   name: string;
   email: string;
   message?: string;
+  user_id?: string | null;
+  created_at?: string;
 }
 
 export interface AnalyticsStats {
@@ -19,6 +21,8 @@ export interface AnalyticsStats {
   totalContacts: number;
   totalCVDownloads: number;
   recentVisits: VisitData[];
+  recentContacts: ContactData[];
+  recentDownloads: { downloaded_at?: string; user_id?: string | null }[];
 }
 
 async function getCurrentUserId(): Promise<string | null> {
@@ -72,7 +76,9 @@ export async function getAnalytics(): Promise<AnalyticsStats> {
       { count: visitsCount, error: visitsError },
       { count: contactsCount, error: contactsError },
       { count: downloadsCount, error: downloadsError },
-      { data: recentVisitsData, error: recentError },
+      { data: recentVisitsData, error: recentVisitsError },
+      { data: recentContactsData, error: recentContactsError },
+      { data: recentDownloadsData, error: recentDownloadsError },
     ] = await Promise.all([
       supabase.from("visits").select("id", { count: "exact" }),
       supabase.from("contacts").select("id", { count: "exact" }),
@@ -82,14 +88,33 @@ export async function getAnalytics(): Promise<AnalyticsStats> {
         .select("page_url, referrer, user_agent, created_at, user_id")
         .order("created_at", { ascending: false })
         .limit(10),
+      supabase
+        .from("contacts")
+        .select("name, email, message, created_at, user_id")
+        .order("created_at", { ascending: false })
+        .limit(10),
+      supabase
+        .from("cv_downloads")
+        .select("downloaded_at, user_id")
+        .order("downloaded_at", { ascending: false })
+        .limit(10),
     ]);
 
-    if (visitsError || contactsError || downloadsError || recentError) {
+    if (
+      visitsError ||
+      contactsError ||
+      downloadsError ||
+      recentVisitsError ||
+      recentContactsError ||
+      recentDownloadsError
+    ) {
       console.error("Analytics errors:", {
         visitsError,
         contactsError,
         downloadsError,
-        recentError,
+        recentVisitsError,
+        recentContactsError,
+        recentDownloadsError,
       });
     }
 
@@ -98,6 +123,8 @@ export async function getAnalytics(): Promise<AnalyticsStats> {
       totalContacts: contactsCount || 0,
       totalCVDownloads: downloadsCount || 0,
       recentVisits: recentVisitsData || [],
+      recentContacts: recentContactsData || [],
+      recentDownloads: recentDownloadsData || [],
     };
   } catch (error) {
     console.error("Failed to get analytics:", error);
@@ -106,6 +133,8 @@ export async function getAnalytics(): Promise<AnalyticsStats> {
       totalContacts: 0,
       totalCVDownloads: 0,
       recentVisits: [],
+      recentContacts: [],
+      recentDownloads: [],
     };
   }
 }

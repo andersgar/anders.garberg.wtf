@@ -50,6 +50,9 @@ export function DashboardPage() {
   const [activeAdminTab, setActiveAdminTab] = useState<"stats" | "users">(
     "stats"
   );
+  const [logModal, setLogModal] = useState<
+    null | "visits" | "contacts" | "downloads"
+  >(null);
 
   const isAdmin = hasAccess("admin");
   const handleDownloadQr = () => {
@@ -67,6 +70,17 @@ export function DashboardPage() {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+  };
+
+  const getUserLabel = (userId?: string | null) => {
+    if (!userId) return "anon";
+    const u = users.find((usr) => usr.id === userId);
+    return (
+      u?.full_name ||
+      u?.username ||
+      u?.email ||
+      (userId.length > 8 ? `${userId.slice(0, 8)}…` : userId)
+    );
   };
 
   const handleResetQr = () => {
@@ -564,7 +578,11 @@ export function DashboardPage() {
               ) : activeAdminTab === "stats" ? (
                 stats ? (
                   <div className="stats-grid">
-                    <div className="stat-card">
+                    <button
+                      className="stat-card"
+                      type="button"
+                      onClick={() => setLogModal("visits")}
+                    >
                       <div className="stat-icon">
                         <i className="fa-solid fa-eye"></i>
                       </div>
@@ -572,9 +590,13 @@ export function DashboardPage() {
                         <h3>{t("totalVisits")}</h3>
                         <p className="stat-value">{stats.totalVisits}</p>
                       </div>
-                    </div>
+                    </button>
 
-                    <div className="stat-card">
+                    <button
+                      className="stat-card"
+                      type="button"
+                      onClick={() => setLogModal("contacts")}
+                    >
                       <div className="stat-icon">
                         <i className="fa-solid fa-envelope"></i>
                       </div>
@@ -582,9 +604,13 @@ export function DashboardPage() {
                         <h3>{t("totalContacts")}</h3>
                         <p className="stat-value">{stats.totalContacts}</p>
                       </div>
-                    </div>
+                    </button>
 
-                    <div className="stat-card">
+                    <button
+                      className="stat-card"
+                      type="button"
+                      onClick={() => setLogModal("downloads")}
+                    >
                       <div className="stat-icon">
                         <i className="fa-solid fa-file-arrow-down"></i>
                       </div>
@@ -592,7 +618,7 @@ export function DashboardPage() {
                         <h3>{t("cvDownloads")}</h3>
                         <p className="stat-value">{stats.totalCVDownloads}</p>
                       </div>
-                    </div>
+                    </button>
                   </div>
                 ) : (
                   <div className="error-message">
@@ -844,6 +870,120 @@ export function DashboardPage() {
             : undefined
         }
       />
+
+      {logModal && (
+        <div
+          className="app-modal-overlay"
+          onClick={() => setLogModal(null)}
+        >
+          <div
+            className="app-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="log-modal-title"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="app-modal-header">
+              <div className="app-modal-title">
+                <h2 id="log-modal-title">
+                  {logModal === "visits"
+                    ? t("totalVisits")
+                    : logModal === "contacts"
+                    ? t("totalContacts")
+                    : t("cvDownloads")}
+                </h2>
+              </div>
+              <button
+                className="app-modal-close"
+                onClick={() => setLogModal(null)}
+                aria-label="Close"
+              >
+                <i className="fa-solid fa-times"></i>
+              </button>
+            </div>
+            <div className="app-modal-content">
+              <div className="admin-log-table">
+                {logModal === "visits" && (
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Page</th>
+                        <th>Referrer</th>
+                        <th>User</th>
+                        <th>Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {(stats?.recentVisits || []).map((v, idx) => (
+                        <tr key={idx}>
+                          <td>{v.page_url || "-"}</td>
+                          <td>{v.referrer || "-"}</td>
+                          <td>{getUserLabel(v.user_id)}</td>
+                          <td>
+                            {v.created_at
+                              ? new Date(v.created_at).toLocaleString()
+                              : "-"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+                {logModal === "contacts" && (
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Message</th>
+                        <th>User</th>
+                        <th>Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {(stats?.recentContacts || []).map((c, idx) => (
+                        <tr key={idx}>
+                          <td>{c.name || "-"}</td>
+                          <td>{c.email || "-"}</td>
+                          <td>{c.message || "-"}</td>
+                          <td>{getUserLabel(c.user_id)}</td>
+                          <td>
+                            {c.created_at
+                              ? new Date(c.created_at).toLocaleString()
+                              : "-"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+                {logModal === "downloads" && (
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>User</th>
+                        <th>Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {(stats?.recentDownloads || []).map((d, idx) => (
+                        <tr key={idx}>
+                          <td>{getUserLabel(d.user_id)}</td>
+                          <td>
+                            {d.downloaded_at
+                              ? new Date(d.downloaded_at).toLocaleString()
+                              : "-"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -406,6 +406,9 @@
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 0.75rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
 }
 
 .stat-icon {
