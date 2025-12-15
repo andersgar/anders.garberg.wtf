@@ -83,18 +83,57 @@
   color: var(--brand);
 }
 
-.mobile-menu .mobile-buttons {
+.mobile-menu-actions {
   margin-top: auto;
-  display: flex;
+  padding-top: 1.5rem;
+  display: grid;
   gap: 0.5rem;
-  padding-top: 2rem;
-  padding-bottom: 1rem;
-  flex-shrink: 0;
-  align-items: center;
 }
 
-.mobile-menu .mobile-buttons .nav-apps-btn {
-  min-height: 44px;
+.mobile-menu-action {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 1rem;
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--text) 10%, transparent);
+  background: color-mix(in oklab, var(--text) 4%, transparent);
+  color: var(--text);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.mobile-menu-action span {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.mobile-menu-action.apps-highlight {
+  border-color: color-mix(in oklab, var(--text) 10%, transparent);
+  background: color-mix(in oklab, var(--text) 4%, transparent);
+  box-shadow: none;
+}
+
+.mobile-menu-action i {
+  color: var(--muted);
+  width: 20px;
+  text-align: center;
+}
+
+.mobile-menu-action.apps-highlight i {
+  color: var(--brand);
+}
+
+.mobile-menu-action:hover {
+  border-color: color-mix(in oklab, var(--brand) 70%, var(--text));
+  color: var(--brand);
 }
 
 .mobile-sheet-overlay {
@@ -105,6 +144,16 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
+}
+
+.mobile-sheet-overlay.bottom-offset {
+  --bottom-bar-height: 60px;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0) + var(--bottom-bar-height));
+  background: rgba(0, 0, 0, 0.55);
+}
+.mobile-sheet-overlay.bottom-offset .mobile-sheet {
+  margin-bottom: 0;
+  border-radius: 18px 18px 0 0;
 }
 
 .mobile-sheet {
@@ -135,6 +184,99 @@
 .mobile-sheet__content {
   display: grid;
   gap: 1rem;
+}
+
+.mobile-bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  transform: none;
+  top: auto;
+  bottom: 0;
+  width: 100%;
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  background: var(--panel);
+  border: none;
+  border-top: 1px solid color-mix(in oklab, var(--text) 10%, transparent);
+  border-radius: 0;
+  box-shadow: 0 -6px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1300;
+}
+
+@media (min-width: 931px) {
+  .mobile-bottom-bar,
+  .mobile-bottom-menu {
+    display: none !important;
+  }
+}
+
+.mobile-bottom-bar .bottom-bar-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mobile-bottom-bar .bottom-bar-section.left {
+  justify-content: flex-start;
+}
+
+.mobile-bottom-bar .bottom-bar-section.right {
+  justify-content: flex-end;
+}
+
+.mobile-bottom-bar .bottom-bar-section.center .theme-toggle {
+  border-radius: 12px;
+}
+
+.mobile-bottom-menu {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom, 0) + 76px);
+  left: 0;
+  transform: none;
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
+  border-radius: 14px;
+  box-shadow: var(--shadow), 0 10px 30px rgba(0, 0, 0, 0.25);
+  display: grid;
+  gap: 0;
+  overflow: hidden;
+  z-index: 1199;
+}
+
+.mobile-bottom-menu a {
+  display: block;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--text) 10%, transparent);
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.mobile-bottom-menu a:last-child {
+  border-bottom: none;
+}
+
+.mobile-bottom-menu a:hover {
+  background: color-mix(in oklab, var(--brand) 10%, transparent);
+  color: var(--brand);
+}
+
+.mobile-bottom-menu .mobile-menu-apps-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.6rem;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+}
+
+.mobile-bottom-menu .mobile-menu-apps-link i {
+  color: var(--brand);
 }
 
 .sheet-section {

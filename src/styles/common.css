@@ -1059,10 +1059,63 @@ form .field {
   color: var(--muted);
 }
 
+.collapsible-header.danger span,
+.collapsible-header.danger i {
+  color: #ef4444;
+}
+
 .collapsible-body {
   display: grid;
   gap: 0.6rem;
   padding: 0 0.85rem 0.85rem;
+}
+
+.mobile-nav-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+.mobile-nav-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: space-between;
+  padding: 0.85rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
+  background: color-mix(in oklab, var(--text) 4%, transparent);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mobile-nav-option__icon-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+
+.mobile-nav-option__check {
+  display: none;
+  color: var(--brand);
+}
+
+.mobile-nav-option:hover {
+  border-color: color-mix(in oklab, var(--brand) 65%, var(--text));
+  background: color-mix(in oklab, var(--brand) 10%, transparent);
+}
+
+.mobile-nav-option.active {
+  border-color: color-mix(in oklab, var(--brand) 80%, var(--text));
+  background: color-mix(in oklab, var(--brand) 14%, transparent);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-nav-option.active .mobile-nav-option__check {
+  display: inline-flex;
 }
 
 .language-container {

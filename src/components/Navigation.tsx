@@ -81,6 +81,13 @@ export function Navigation() {
   const [deleteSuccess, setDeleteSuccess] = useState<string | null>(null);
   const [showPasswordSection, setShowPasswordSection] = useState(false);
   const [showDeleteSection, setShowDeleteSection] = useState(false);
+  const [mobileNavType, setMobileNavType] = useState<"hamburger" | "bottom">(
+    () => (localStorage.getItem("mobileNavType") as "hamburger" | "bottom") || "bottom"
+  );
+
+  const toggleMobileSheet = (target: "theme" | "user" | "language") => {
+    setMobileSheet((prev) => (prev === target ? null : target));
+  };
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [mobileSheet, setMobileSheet] = useState<"theme" | "user" | "language" | null>(null);
   const [navHidden, setNavHidden] = useState(false);
@@ -211,6 +218,11 @@ export function Navigation() {
     setLang(language);
     setShowLanguageDropdown(false);
     setMobileSheet(null);
+  };
+
+  const handleMobileNavChange = (type: "hamburger" | "bottom") => {
+    setMobileNavType(type);
+    localStorage.setItem("mobileNavType", type);
   };
 
   const handlePasswordChange = async (e: React.FormEvent) => {
@@ -607,24 +619,42 @@ export function Navigation() {
             )}
           </div>
 
-          {/* Mobile Hamburger */}
-          <MobileMenu
-            isAuthenticated={isAuthenticated}
-            isAboutPage={isAboutPage}
-            aboutPath={aboutPath}
-            appsLink={appsLink}
-            onOpenUserMenu={() => setMobileSheet("user")}
-            onOpenLanguageMenu={() => setMobileSheet("language")}
-            onOpenThemeMenu={() => setMobileSheet("theme")}
-          />
+          {/* Mobile hamburger inside nav for positioning */}
+          {mobileNavType === "hamburger" && (
+            <MobileMenu
+              isAuthenticated={isAuthenticated}
+              isAboutPage={isAboutPage}
+              aboutPath={aboutPath}
+              appsLink={appsLink}
+              onOpenUserMenu={() => toggleMobileSheet("user")}
+              onOpenLanguageMenu={() => toggleMobileSheet("language")}
+              onOpenThemeMenu={() => toggleMobileSheet("theme")}
+              onCloseSheet={() => setMobileSheet(null)}
+            />
+          )}
         </div>
       </nav>
+
+      {/* Bottom bar nav rendered outside for fixed positioning */}
+      {mobileNavType === "bottom" && (
+        <MobileBottomBar
+          isAuthenticated={isAuthenticated}
+          isAboutPage={isAboutPage}
+          aboutPath={aboutPath}
+          appsLink={appsLink}
+          onOpenUserMenu={() => toggleMobileSheet("user")}
+          onOpenLanguageMenu={() => toggleMobileSheet("language")}
+          onOpenThemeMenu={() => toggleMobileSheet("theme")}
+          onCloseSheet={() => setMobileSheet(null)}
+        />
+      )}
 
       {/* Mobile sheets */}
       <MobileSheet
         isOpen={mobileSheet === "theme"}
         title={lang === "no" ? "Tema" : "Theme"}
         onClose={() => setMobileSheet(null)}
+        offsetBottomBar={mobileNavType === "bottom"}
       >
         <div className="sheet-section">
           <div className="sheet-subtitle">{t("colorTheme")}</div>
@@ -705,6 +735,7 @@ export function Navigation() {
         isOpen={mobileSheet === "language"}
         title={t("language")}
         onClose={() => setMobileSheet(null)}
+        offsetBottomBar={mobileNavType === "bottom"}
       >
         <div className="sheet-section">
           <div className="sheet-subtitle">{t("chooseLanguage")}</div>
@@ -737,6 +768,7 @@ export function Navigation() {
         isOpen={mobileSheet === "user"}
         title={lang === "no" ? "Profil" : "Profile"}
         onClose={() => setMobileSheet(null)}
+        offsetBottomBar={mobileNavType === "bottom"}
       >
         <div className="sheet-user-header">
           <div className="user-avatar-small">
@@ -836,11 +868,41 @@ export function Navigation() {
               <div className="profile-form">
                 <div className="profile-form-group">
                   <label>{t("mobileMenuType")}</label>
-                  <div className="profile-readonly-value">
-                    <i className="fa-solid fa-clock"></i>
-                    {t("comingSoon")}
+                  <div className="mobile-nav-options">
+                    <button
+                      type="button"
+                      className={`mobile-nav-option ${mobileNavType === "hamburger" ? "active" : ""}`}
+                      onClick={() => handleMobileNavChange("hamburger")}
+                    >
+                      <span className="mobile-nav-option__icon-text">
+                        <i className="fa-solid fa-bars"></i>
+                        {t("mobileNavHamburger")}
+                      </span>
+                      {mobileNavType === "hamburger" && (
+                        <span className="mobile-nav-option__check">
+                          <i className="fa-solid fa-check"></i>
+                        </span>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      className={`mobile-nav-option ${mobileNavType === "bottom" ? "active" : ""}`}
+                      onClick={() => handleMobileNavChange("bottom")}
+                    >
+                      <span className="mobile-nav-option__icon-text">
+                        <i className="fa-solid fa-ellipsis"></i>
+                        {t("mobileNavBottom")}
+                      </span>
+                      {mobileNavType === "bottom" && (
+                        <span className="mobile-nav-option__check">
+                          <i className="fa-solid fa-check"></i>
+                        </span>
+                      )}
+                    </button>
                   </div>
                 </div>
+
+                <div className="sheet-subtitle">{t("accountManagement")}</div>
 
                 <div className="collapsible-section">
                   <button
@@ -914,7 +976,7 @@ export function Navigation() {
                 <div className="collapsible-section">
                   <button
                     type="button"
-                    className="collapsible-header"
+                    className="collapsible-header danger"
                     onClick={() => setShowDeleteSection(!showDeleteSection)}
                   >
                     <span>
@@ -986,6 +1048,7 @@ type MobileMenuProps = {
   onOpenUserMenu: () => void;
   onOpenThemeMenu: () => void;
   onOpenLanguageMenu: () => void;
+  onCloseSheet?: () => void;
 };
 
 function MobileMenu({
@@ -996,10 +1059,12 @@ function MobileMenu({
   onOpenUserMenu,
   onOpenThemeMenu,
   onOpenLanguageMenu,
+  onCloseSheet,
 }: MobileMenuProps) {
   const { t } = useLanguage();
 
   const handleMenuToggle = () => {
+    onCloseSheet?.();
     document.getElementById("hamburger")?.classList.toggle("active");
     document.getElementById("mobileMenu")?.classList.toggle("active");
     document.getElementById("mobileOverlay")?.classList.toggle("active");
@@ -1066,52 +1131,50 @@ function MobileMenu({
           {t("contact")}
         </a>
 
-        <div className="mobile-buttons">
-          <button
-            className="theme-toggle"
-            onClick={() => {
-              onOpenThemeMenu();
-              closeMenu();
-            }}
-            aria-label="Bytt tema"
-          >
-            <i className="fa-solid fa-palette"></i>
-          </button>
-          <button
-            className="theme-toggle"
-            onClick={() => {
-              onOpenLanguageMenu();
-              closeMenu();
-            }}
-            aria-label={t("language")}
-          >
-            <i className="fa-solid fa-language"></i>
-          </button>
+        <div className="mobile-menu-actions">
           <Link
             to={appsLink}
-            className="nav-apps-btn"
+            className="mobile-menu-action apps-highlight"
             onClick={closeMenu}
-            aria-label={t("apps")}
-            title={t("apps")}
           >
             <i className="fa-solid fa-grip"></i>
             <span>{t("apps")}</span>
           </Link>
+          <button
+            className="mobile-menu-action"
+            onClick={() => {
+              onOpenThemeMenu();
+              closeMenu();
+            }}
+          >
+            <i className="fa-solid fa-palette"></i>
+            <span>{t("colorTheme")}</span>
+          </button>
+          <button
+            className="mobile-menu-action"
+            onClick={() => {
+              onOpenLanguageMenu();
+              closeMenu();
+            }}
+          >
+            <i className="fa-solid fa-language"></i>
+            <span>{t("language")}</span>
+          </button>
           {isAuthenticated ? (
             <button
-              className="theme-toggle user-toggle"
+              className="mobile-menu-action"
               onClick={() => {
                 onOpenUserMenu();
                 closeMenu();
               }}
-              aria-label={t("profile")}
-              title={t("profile")}
             >
               <i className="fa-solid fa-user"></i>
+              <span>{t("profile")}</span>
             </button>
           ) : (
-            <Link to="/login" className="theme-toggle" onClick={closeMenu}>
+            <Link to="/login" className="mobile-menu-action" onClick={closeMenu}>
               <i className="fa-solid fa-right-to-bracket"></i>
+              <span>{t("login")}</span>
             </Link>
           )}
         </div>
@@ -1125,13 +1188,24 @@ type MobileSheetProps = {
   title: string;
   onClose: () => void;
   children: ReactNode;
+  offsetBottomBar?: boolean;
 };
 
-function MobileSheet({ isOpen, title, onClose, children }: MobileSheetProps) {
+function MobileSheet({
+  isOpen,
+  title,
+  onClose,
+  children,
+  offsetBottomBar = false,
+}: MobileSheetProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="mobile-sheet-overlay" role="presentation" onClick={onClose}>
+    <div
+      className={`mobile-sheet-overlay ${offsetBottomBar ? "bottom-offset" : ""}`}
+      role="presentation"
+      onClick={onClose}
+    >
       <div
         className="mobile-sheet"
         role="dialog"
@@ -1148,5 +1222,128 @@ function MobileSheet({ isOpen, title, onClose, children }: MobileSheetProps) {
         <div className="mobile-sheet__content">{children}</div>
       </div>
     </div>
+  );
+}
+
+type MobileBottomBarProps = {
+  isAuthenticated: boolean;
+  isAboutPage: boolean;
+  aboutPath: string;
+  appsLink: string;
+  onOpenUserMenu: () => void;
+  onOpenThemeMenu: () => void;
+  onOpenLanguageMenu: () => void;
+  onCloseSheet: () => void;
+};
+
+function MobileBottomBar({
+  isAuthenticated,
+  isAboutPage,
+  aboutPath,
+  appsLink,
+  onOpenUserMenu,
+  onOpenThemeMenu,
+  onOpenLanguageMenu,
+  onCloseSheet,
+}: MobileBottomBarProps) {
+  const { t } = useLanguage();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const close = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(".mobile-bottom-bar") && !target.closest(".mobile-bottom-menu")) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, []);
+
+  return (
+    <>
+      <div className="mobile-bottom-bar">
+        <div className="bottom-bar-section left">
+          <button
+            className="theme-toggle"
+            onClick={() => onOpenThemeMenu()}
+            aria-label="Bytt tema"
+          >
+            <i className="fa-solid fa-palette"></i>
+          </button>
+          <button
+            className="theme-toggle"
+            onClick={() => onOpenLanguageMenu()}
+            aria-label={t("language")}
+          >
+            <i className="fa-solid fa-language"></i>
+          </button>
+        </div>
+        <div className="bottom-bar-section center">
+          <button
+          className={`theme-toggle ${open ? "active" : ""}`}
+            onClick={() => {
+              setOpen(!open);
+              onCloseSheet();
+            }}
+          aria-label="Åpne meny"
+        >
+            <i className="fa-solid fa-bars"></i>
+          </button>
+        </div>
+        <div className="bottom-bar-section right">
+          {isAuthenticated ? (
+            <button
+              className="theme-toggle user-toggle"
+              onClick={() => onOpenUserMenu()}
+              aria-label={t("profile")}
+              title={t("profile")}
+              style={{ color: "var(--brand)" }}
+            >
+              <i className="fa-solid fa-user"></i>
+            </button>
+          ) : (
+            <Link to="/login" className="theme-toggle">
+              <i className="fa-solid fa-right-to-bracket"></i>
+            </Link>
+          )}
+        </div>
+      </div>
+
+      {open && (
+        <div className="mobile-bottom-menu">
+          {isAuthenticated && !isAboutPage && (
+            <Link to={aboutPath} onClick={() => setOpen(false)}>
+              {t("aboutMe")}
+            </Link>
+          )}
+          {isAboutPage && (
+            <>
+              <a href="#experience" onClick={() => setOpen(false)}>
+                {t("experience")}
+              </a>
+              <a href="#about" onClick={() => setOpen(false)}>
+                {t("about")}
+              </a>
+            </>
+          )}
+          {!isAuthenticated && !isAboutPage && (
+            <Link to={aboutPath} onClick={() => setOpen(false)}>
+              {t("aboutMe")}
+            </Link>
+          )}
+          <a
+            href={isAboutPage ? "#contact" : aboutPath + "#contact"}
+            onClick={() => setOpen(false)}
+          >
+            {t("contact")}
+          </a>
+          <Link to={appsLink} onClick={() => setOpen(false)} className="mobile-menu-apps-link">
+            <i className="fa-solid fa-grip"></i>
+            <span>{t("apps")}</span>
+          </Link>
+        </div>
+      )}
+    </>
   );
 }
