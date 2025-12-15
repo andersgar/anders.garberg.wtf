@@ -522,11 +522,9 @@ export function Navigation() {
             isAboutPage={isAboutPage}
             aboutPath={aboutPath}
             appsLink={appsLink}
-            hasAdminAccess={hasAccess("admin")}
             onOpenUserMenu={() => setMobileSheet("user")}
             onOpenLanguageMenu={() => setMobileSheet("language")}
             onOpenThemeMenu={() => setMobileSheet("theme")}
-            onLogout={handleLogout}
           />
         </div>
       </nav>
@@ -821,11 +819,9 @@ type MobileMenuProps = {
   isAboutPage: boolean;
   aboutPath: string;
   appsLink: string;
-  hasAdminAccess: boolean;
   onOpenUserMenu: () => void;
   onOpenThemeMenu: () => void;
   onOpenLanguageMenu: () => void;
-  onLogout: () => void;
 };
 
 function MobileMenu({
@@ -833,11 +829,9 @@ function MobileMenu({
   isAboutPage,
   aboutPath,
   appsLink,
-  hasAdminAccess,
   onOpenUserMenu,
   onOpenThemeMenu,
   onOpenLanguageMenu,
-  onLogout,
 }: MobileMenuProps) {
   const { t } = useLanguage();
 
