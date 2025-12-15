@@ -1,0 +1,42 @@
+<svg width="800" height="450" viewBox="0 0 800 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ap-bg" x1="80" y1="40" x2="720" y2="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#102437"/>
+    </linearGradient>
+    <linearGradient id="ap-accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#00BBF9"/>
+      <stop offset="1" stop-color="#8338EC"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" rx="28" fill="url(#ap-bg)"/>
+  <rect x="52" y="42" width="696" height="366" rx="22" fill="#0F172A" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
+  <rect x="88" y="78" width="624" height="294" rx="18" fill="#0B1828" stroke="rgba(255,255,255,0.06)" stroke-width="1.5"/>
+
+  <g>
+    <rect x="120" y="104" width="560" height="60" rx="14" fill="#0D1F31" stroke="#12324C" stroke-width="1.2"/>
+    <circle cx="150" cy="134" r="7" fill="#FF006E"/>
+    <circle cx="170" cy="134" r="7" fill="#FFC700"/>
+    <circle cx="190" cy="134" r="7" fill="#00F5D4"/>
+    <text x="400" y="130" text-anchor="middle" fill="#E2E8F0" font-family="Segoe UI, Arial, sans-serif" font-size="21" font-weight="700">Autoprosjekt V25 · report</text>
+    <text x="400" y="152" text-anchor="middle" fill="#B8C6D8" font-family="Segoe UI, Arial, sans-serif" font-size="12" letter-spacing="0.4">simulations · control · documentation</text>
+  </g>
+
+  <rect x="130" y="184" width="540" height="196" rx="16" fill="#0C1827" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"/>
+
+  <g>
+    <rect x="160" y="202" width="100" height="144" rx="12" fill="#00BBF9" opacity="0.85"/>
+    <rect x="276" y="202" width="100" height="144" rx="12" fill="#8338EC" opacity="0.85"/>
+    <rect x="392" y="202" width="100" height="144" rx="12" fill="#FF006E" opacity="0.8"/>
+    <rect x="508" y="202" width="100" height="144" rx="12" fill="#1E2E46" opacity="0.9"/>
+    <text x="210" y="360" text-anchor="middle" fill="#9FB1C6" font-family="Segoe UI, Arial, sans-serif" font-size="12">sensors</text>
+    <text x="326" y="360" text-anchor="middle" fill="#9FB1C6" font-family="Segoe UI, Arial, sans-serif" font-size="12">models</text>
+    <text x="442" y="360" text-anchor="middle" fill="#9FB1C6" font-family="Segoe UI, Arial, sans-serif" font-size="12">control</text>
+    <text x="558" y="360" text-anchor="middle" fill="#9FB1C6" font-family="Segoe UI, Arial, sans-serif" font-size="12">safety</text>
+  </g>
+
+  <path d="M210 272 C280 250 350 245 430 256 C500 266 560 246 590 232" stroke="url(#ap-accent)" stroke-width="4" stroke-linecap="round" stroke-dasharray="12 12" opacity="0.65"/>
+  <circle cx="210" cy="272" r="8" fill="#00F5D4"/>
+  <circle cx="430" cy="256" r="8" fill="#FF006E"/>
+  <circle cx="590" cy="232" r="8" fill="#00BBF9"/>
+</svg>

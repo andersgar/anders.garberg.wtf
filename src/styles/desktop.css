@@ -433,30 +433,104 @@ h2.section-title {
   margin: 10px 0 4px;
 }
 
+.section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
 section {
   padding: 26px 0;
 }
 
-.projects .item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+.projects-scroller {
+  margin-top: 6px;
+  overflow: hidden;
 }
 
-.projects .thumb {
-  inline-size: 100%;
-  aspect-ratio: 16/9;
+.projects-strip {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(260px, 320px);
+  gap: 16px;
+  overflow-x: auto;
+  padding: 8px 6px 10px;
+  margin: 0 -6px -12px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--brand) 45%, transparent)
+    color-mix(in oklab, var(--text) 10%, transparent);
+}
+
+.projects-strip::-webkit-scrollbar {
+  height: 10px;
+}
+
+.projects-strip::-webkit-scrollbar-track {
+  background: color-mix(in oklab, var(--text) 6%, transparent);
   border-radius: 12px;
+}
+
+.projects-strip::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--brand) 45%, transparent);
+  border-radius: 12px;
+}
+
+.project-card {
+  scroll-snap-align: start;
+  background: color-mix(in oklab, var(--panel) 96%, transparent);
+  border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  min-height: 100%;
+}
+
+.project-image {
+  position: relative;
+  aspect-ratio: 16/9;
   background: linear-gradient(
     135deg,
-    color-mix(in oklab, var(--brand) 35%, transparent),
-    color-mix(in oklab, var(--brand-2) 35%, transparent)
+    color-mix(in oklab, var(--brand) 25%, transparent),
+    color-mix(in oklab, var(--brand-2) 20%, transparent)
   );
+  border-bottom: 1px solid color-mix(in oklab, var(--text) 8%, transparent);
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.project-body {
   display: grid;
-  place-items: center;
-  color: white;
-  font-weight: 700;
-  letter-spacing: 0.3px;
+  gap: 0.35rem;
+  padding: 14px 16px 16px;
+}
+
+.project-meta {
+  min-height: 24px;
+}
+
+.project-body h3 {
+  margin: 0;
+  font-size: 1.12rem;
+}
+
+.project-body p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.project-link {
+  margin-top: auto;
+  width: fit-content;
+  padding-inline: 0.9rem 1rem;
 }
 
 .timeline {

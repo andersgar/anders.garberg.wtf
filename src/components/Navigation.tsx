@@ -470,6 +470,9 @@ function MobileMenu() {
             <a href="#experience" onClick={closeMenu}>
               {t("experience")}
             </a>
+            <a href="#projects" onClick={closeMenu}>
+              {t("projects")}
+            </a>
             <a href="#about" onClick={closeMenu}>
               {t("about")}
             </a>

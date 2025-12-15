@@ -1,6 +1,7 @@
 import { Navigation, NavSpacer } from "../components/Navigation";
 import { Hero } from "../components/Hero";
 import { Experience } from "../components/Experience";
+import { Projects } from "../components/Projects";
 import { About } from "../components/About";
 import { Contact } from "../components/Contact";
 import { Footer } from "../components/Footer";
@@ -16,6 +17,7 @@ export function AboutPage() {
       <main id="main" className="container" aria-live="polite">
         <div id="publicSections">
           <Experience />
+          <Projects />
           <About />
           <Contact />
         </div>

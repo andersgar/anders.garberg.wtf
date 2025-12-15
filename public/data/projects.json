@@ -1,0 +1,82 @@
+[
+  {
+    "title": {
+      "no": "Personlig nettside (garberg.wtf)",
+      "en": "Personal website (garberg.wtf)"
+    },
+    "description": {
+      "no": "Ny versjon av nettsiden min med portefølje, små verktøy og analytics. Bygget i React/Vite med Supabase for innlogging og statistikk, og fokus på rask navigasjon.",
+      "en": "A refreshed personal site with portfolio, small tools, and analytics. Built in React/Vite with Supabase for auth and stats, focused on fast navigation."
+    },
+    "tag": {
+      "no": "Live",
+      "en": "Live"
+    },
+    "cta": {
+      "no": "Besøk garberg.wtf",
+      "en": "Visit garberg.wtf"
+    },
+    "image": "/assets/projects/personal-site.svg",
+    "link": "https://garberg.wtf"
+  },
+  {
+    "title": {
+      "no": "BSc-oppgave: Lone Wolf simulering og syntetisk testmiljø",
+      "en": "BSc Thesis: Lone Wolf simulation and synthetic testbed"
+    },
+    "description": {
+      "no": "Planlagt bachelorprosjekt våren 2026 som utforsker Lone Wolf-simulering og testmiljø for navigasjon, sensorfusjon og robusthet før fysisk prototyping.",
+      "en": "Planned bachelor thesis for spring 2026 exploring a Lone Wolf simulation and synthetic testbed for navigation, sensor fusion, and robustness before hardware prototyping."
+    },
+    "tag": {
+      "no": "Planlagt 2026",
+      "en": "Planned 2026"
+    },
+    "cta": {
+      "no": "Se oppgaven",
+      "en": "View thesis plan"
+    },
+    "image": "/assets/projects/lone-wolf.svg",
+    "link": "https://garberg.wtf/lone-wolf"
+  },
+  {
+    "title": {
+      "no": "HomeLab på Raspberry Pi 5",
+      "en": "Homelab on Raspberry Pi 5"
+    },
+    "description": {
+      "no": "Selvhostet lab på en Pi 5 med Docker Compose, reverse proxy og monitoring. Kjører media- og nettverkstjenester og brukes som sandkasse for IaC og automasjon.",
+      "en": "Self-hosted lab on a Pi 5 with Docker Compose, reverse proxying, and monitoring. Runs media and network services and doubles as a sandbox for IaC and automation."
+    },
+    "tag": {
+      "no": "HomeLab",
+      "en": "Homelab"
+    },
+    "cta": {
+      "no": "Se oppsettet",
+      "en": "View setup"
+    },
+    "image": "/assets/projects/homelab.svg",
+    "link": "https://garberg.wtf/homelab"
+  },
+  {
+    "title": {
+      "no": "Autoprosjekt: Regulering av vanntank",
+      "en": "Automation Project: Water Tank Control"
+    },
+    "description": {
+      "no": "Autonom vanntank-rigg med sensorsett, regulatorer, simuleringsmodeller og testoppsett. Rapporten inneholder arkitekturvalg, datastrømmer, tuning av styringssløyfer, sikkerhetsstrategier og refleksjoner fra integrasjonstester.",
+      "en": "Autonomous water-tank rig: sensor stack, controllers, simulation models, and test setups. The report includes architecture choices, data flows, control-loop tuning, safety strategies, and reflections from integration tests."
+    },
+    "tag": {
+      "no": "Rapport",
+      "en": "Report"
+    },
+    "cta": {
+      "no": "Åpne rapport",
+      "en": "Open report"
+    },
+    "image": "/assets/projects/autoprosjekt-v25.svg",
+    "link": "/content/AutoprosjektV25.pdf"
+  }
+]

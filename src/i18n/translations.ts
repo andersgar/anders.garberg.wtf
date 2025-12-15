@@ -5,6 +5,8 @@ export const translations = {
       '<i class="fa-solid fa-triangle-exclamation"></i> Denne nettsiden er under utvikling',
     skipToContent: "Hopp til innhold",
     projects: "Prosjekter",
+    projectsIntro:
+      "Utvalgte prosjekter og eksperimenter jeg bygger videre p\u00e5.",
     experience: "Erfaring",
     skills: "Ferdigheter",
     about: "Om meg",
@@ -30,6 +32,7 @@ export const translations = {
       "Nysgjerrig automatiseringsstudent med lidenskap for autonomi, navigasjon og regulering. S\u00F8ker sommerjobb der jeg kan bidra til \u00E5 utvikle robuste, intelligente systemer, og l\u00E6re av ekte ingeni\u00F8rutfordringer underveis.",
     downloadCV: "Last ned CV",
     emailMe: "Send meg en e-post",
+    readMore: "Les mer",
 
     // About Section
     aboutText1:
@@ -237,6 +240,8 @@ export const translations = {
       '<i class="fa-solid fa-triangle-exclamation"></i> This website is under development',
     skipToContent: "Skip to content",
     projects: "Projects",
+    projectsIntro:
+      "Selected builds and experiments I'm iterating on.",
     experience: "Experience",
     skills: "Skills",
     about: "About",
@@ -261,6 +266,7 @@ export const translations = {
       "Curious automation student passionate about autonomy, navigation, and control. Looking for a summer internship where I can contribute to developing resilient, intelligent systems, and learn from real engineering challenges along the way.",
     downloadCV: "Download CV",
     emailMe: "Email me",
+    readMore: "Read more",
 
     // About Section
     aboutText1:

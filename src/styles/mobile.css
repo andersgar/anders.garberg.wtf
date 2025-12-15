@@ -222,6 +222,21 @@ body.mobile-menu-open {
     padding: 1.25rem;
   }
 
+  .section-header {
+    align-items: center;
+    text-align: center;
+  }
+
+  .projects-strip {
+    grid-auto-columns: 78%;
+    padding: 10px 6px 14px;
+  }
+
+  .project-link {
+    width: 100%;
+    justify-content: center;
+  }
+
   /* Hero card (summer job section) mobile adjustments */
   .hero-card {
     gap: 1rem;
