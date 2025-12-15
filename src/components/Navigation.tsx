@@ -295,7 +295,7 @@ export function Navigation() {
             <i className="fa-solid fa-globe"></i>
             </button>
             <Link to={appsLink} className="nav-apps-btn" aria-label={t("apps")} title={t("apps")}>
-              <i className="fa-solid fa-grip"></i><span>{t("apps")}</span>
+              <i className="fa-solid fa-grip"></i>
               <span>{t("apps")}</span>
             </Link>
 
@@ -403,7 +403,7 @@ export function Navigation() {
       {/* Mobile sheets */}
       <MobileSheet
         isOpen={mobileSheet === "theme"}
-        title={t("colorTheme")}
+        title={lang === "no" ? "Tema" : "Theme"}
         onClose={() => setMobileSheet(null)}
       >
         <div className="sheet-section">
@@ -483,7 +483,7 @@ export function Navigation() {
 
       <MobileSheet
         isOpen={mobileSheet === "user"}
-        title={user?.email || t("profile")}
+        title={lang === "no" ? "Profil" : "Profile"}
         onClose={() => setMobileSheet(null)}
       >
         <div className="sheet-user-header">
@@ -671,12 +671,13 @@ function MobileMenu({
           </button>
           <Link
             to={appsLink}
-            className="theme-toggle apps-toggle apps-toggle--wide"
+            className="nav-apps-btn"
             onClick={closeMenu}
             aria-label={t("apps")}
             title={t("apps")}
           >
-            <i className="fa-solid fa-grip"></i><span>{t("apps")}</span>
+            <i className="fa-solid fa-grip"></i>
+            <span>{t("apps")}</span>
           </Link>
           {isAuthenticated ? (
             <button
