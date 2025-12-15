@@ -74,11 +74,12 @@ export function Navigation() {
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
+  const [resetLoading, setResetLoading] = useState(false);
   const [deletePassword, setDeletePassword] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [deleteSuccess, setDeleteSuccess] = useState<string | null>(null);
-  const [showPasswordSection, setShowPasswordSection] = useState(true);
+  const [showPasswordSection, setShowPasswordSection] = useState(false);
   const [showDeleteSection, setShowDeleteSection] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [mobileSheet, setMobileSheet] = useState<"theme" | "user" | "language" | null>(null);
@@ -218,6 +219,7 @@ export function Navigation() {
     setPasswordSuccess(null);
     setDeleteError(null);
     setDeleteSuccess(null);
+    setResetLoading(false);
 
     if (newPassword !== confirmPassword) {
       setPasswordError(t("passwordMismatch"));
@@ -259,6 +261,25 @@ export function Navigation() {
     setCurrentPassword("");
     setNewPassword("");
     setConfirmPassword("");
+  };
+
+  const handleSendResetLink = async () => {
+    if (!user?.email) {
+      setPasswordError(t("loginError"));
+      return;
+    }
+    setPasswordError(null);
+    setPasswordSuccess(null);
+    setResetLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setResetLoading(false);
+    if (error) {
+      setPasswordError(t("resetRequestError"));
+    } else {
+      setPasswordSuccess(t("resetEmailSent"));
+    }
   };
 
   const handleDeleteAccount = async (e: React.FormEvent) => {
@@ -859,6 +880,15 @@ export function Navigation() {
                         placeholder={t("confirmPassword")}
                         required
                       />
+                      <button
+                        type="button"
+                        className="profile-btn-cancel"
+                        onClick={handleSendResetLink}
+                        disabled={resetLoading}
+                        style={{ width: "100%" }}
+                      >
+                        {resetLoading ? t("sending") : t("sendResetLink")}
+                      </button>
                       {passwordError && (
                         <div className="profile-readonly-value" style={{ color: "#ef4444" }}>
                           <i className="fa-solid fa-circle-exclamation"></i> {passwordError}
