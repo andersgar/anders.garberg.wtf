@@ -74,6 +74,12 @@ export function Navigation() {
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
+  const [deletePassword, setDeletePassword] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [deleteSuccess, setDeleteSuccess] = useState<string | null>(null);
+  const [showPasswordSection, setShowPasswordSection] = useState(true);
+  const [showDeleteSection, setShowDeleteSection] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [mobileSheet, setMobileSheet] = useState<"theme" | "user" | "language" | null>(null);
   const [navHidden, setNavHidden] = useState(false);
@@ -210,6 +216,8 @@ export function Navigation() {
     e.preventDefault();
     setPasswordError(null);
     setPasswordSuccess(null);
+    setDeleteError(null);
+    setDeleteSuccess(null);
 
     if (newPassword !== confirmPassword) {
       setPasswordError(t("passwordMismatch"));
@@ -251,6 +259,68 @@ export function Navigation() {
     setCurrentPassword("");
     setNewPassword("");
     setConfirmPassword("");
+  };
+
+  const handleDeleteAccount = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setDeleteError(null);
+    setDeleteSuccess(null);
+    setPasswordError(null);
+    setPasswordSuccess(null);
+
+    if (!user?.email) {
+      setDeleteError(t("loginError"));
+      return;
+    }
+
+    const confirmMessage = t("deleteAccountConfirm");
+    if (!window.confirm(confirmMessage)) {
+      return;
+    }
+
+    setDeleteLoading(true);
+    const { error: reauthError } = await supabase.auth.signInWithPassword({
+      email: user.email,
+      password: deletePassword,
+    });
+
+    if (reauthError) {
+      setDeleteError(reauthError.message);
+      setDeleteLoading(false);
+      return;
+    }
+
+    const { data } = await supabase.auth.getSession();
+    const accessToken = data.session?.access_token;
+    const deleteFunctionUrl =
+      import.meta.env.VITE_DELETE_USER_FUNCTION_URL ||
+      import.meta.env.VITE_SUPABASE_DELETE_USER_FUNCTION_URL;
+
+    if (!deleteFunctionUrl) {
+      setDeleteError(t("deleteFunctionMissing"));
+      setDeleteLoading(false);
+      return;
+    }
+
+    const resp = await fetch(deleteFunctionUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken || ""}`,
+      },
+    });
+
+    setDeleteLoading(false);
+    if (!resp.ok) {
+      const message = await resp.text();
+      setDeleteError(message || t("deleteAccountFailed"));
+      return;
+    }
+
+    setDeleteSuccess(t("accountDeleted"));
+    setDeletePassword("");
+    await logout();
+    setShowUserSettingsPopup(false);
+    setMobileSheet(null);
   };
 
   const getThemeTranslation = (themeId: ColorTheme): string => {
@@ -750,48 +820,112 @@ export function Navigation() {
                     {t("comingSoon")}
                   </div>
                 </div>
-                <form className="profile-form-group" onSubmit={handlePasswordChange}>
-                  <label>{t("updatePassword")}</label>
-                  <input
-                    type="password"
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
-                    placeholder={t("currentPassword")}
-                    required
-                  />
-                  <input
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder={t("newPassword")}
-                    required
-                  />
-                  <input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder={t("confirmPassword")}
-                    required
-                  />
-                  {passwordError && (
-                    <div className="profile-readonly-value" style={{ color: "#ef4444" }}>
-                      <i className="fa-solid fa-circle-exclamation"></i> {passwordError}
-                    </div>
-                  )}
-                  {passwordSuccess && (
-                    <div className="profile-readonly-value" style={{ color: "var(--accent)" }}>
-                      <i className="fa-solid fa-circle-check"></i> {passwordSuccess}
-                    </div>
-                  )}
+
+                <div className="collapsible-section">
                   <button
-                    className="profile-btn-save"
-                    type="submit"
-                    disabled={passwordLoading}
-                    style={{ width: "100%" }}
+                    type="button"
+                    className="collapsible-header"
+                    onClick={() => setShowPasswordSection(!showPasswordSection)}
                   >
-                    {passwordLoading ? t("updating") : t("updatePassword")}
+                    <span>
+                      <i className="fa-solid fa-lock"></i> {t("updatePassword")}
+                    </span>
+                    <i
+                      className={`fa-solid fa-chevron-${
+                        showPasswordSection ? "up" : "down"
+                      }`}
+                    ></i>
                   </button>
-                </form>
+                  {showPasswordSection && (
+                    <form className="collapsible-body" onSubmit={handlePasswordChange}>
+                      <input
+                        type="password"
+                        value={currentPassword}
+                        onChange={(e) => setCurrentPassword(e.target.value)}
+                        placeholder={t("currentPassword")}
+                        required
+                      />
+                      <input
+                        type="password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        placeholder={t("newPassword")}
+                        required
+                      />
+                      <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder={t("confirmPassword")}
+                        required
+                      />
+                      {passwordError && (
+                        <div className="profile-readonly-value" style={{ color: "#ef4444" }}>
+                          <i className="fa-solid fa-circle-exclamation"></i> {passwordError}
+                        </div>
+                      )}
+                      {passwordSuccess && (
+                        <div className="profile-readonly-value" style={{ color: "var(--accent)" }}>
+                          <i className="fa-solid fa-circle-check"></i> {passwordSuccess}
+                        </div>
+                      )}
+                      <button
+                        className="profile-btn-save"
+                        type="submit"
+                        disabled={passwordLoading}
+                        style={{ width: "100%" }}
+                      >
+                        {passwordLoading ? t("updating") : t("updatePassword")}
+                      </button>
+                    </form>
+                  )}
+                </div>
+
+                <div className="collapsible-section">
+                  <button
+                    type="button"
+                    className="collapsible-header"
+                    onClick={() => setShowDeleteSection(!showDeleteSection)}
+                  >
+                    <span>
+                      <i className="fa-solid fa-user-slash"></i> {t("deleteAccount")}
+                    </span>
+                    <i
+                      className={`fa-solid fa-chevron-${
+                        showDeleteSection ? "up" : "down"
+                      }`}
+                    ></i>
+                  </button>
+                  {showDeleteSection && (
+                    <form className="collapsible-body" onSubmit={handleDeleteAccount}>
+                      <input
+                        type="password"
+                        value={deletePassword}
+                        onChange={(e) => setDeletePassword(e.target.value)}
+                        placeholder={t("currentPassword")}
+                        required
+                      />
+                      {deleteError && (
+                        <div className="profile-readonly-value" style={{ color: "#ef4444" }}>
+                          <i className="fa-solid fa-circle-exclamation"></i> {deleteError}
+                        </div>
+                      )}
+                      {deleteSuccess && (
+                        <div className="profile-readonly-value" style={{ color: "var(--accent)" }}>
+                          <i className="fa-solid fa-circle-check"></i> {deleteSuccess}
+                        </div>
+                      )}
+                      <button
+                        className="profile-btn-save"
+                        type="submit"
+                        disabled={deleteLoading}
+                        style={{ width: "100%", background: "#ef4444" }}
+                      >
+                        {deleteLoading ? t("deletingAccount") : t("confirmDelete")}
+                      </button>
+                    </form>
+                  )}
+                </div>
               </div>
             </div>
             <div className="profile-settings-footer">
