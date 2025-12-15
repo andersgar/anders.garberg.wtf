@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme, ColorTheme } from "../context/ThemeContext";
@@ -66,6 +66,7 @@ export function Navigation() {
   const [showColorDropdown, setShowColorDropdown] = useState(false);
   const [showQrPopup, setShowQrPopup] = useState(false);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
+  const [mobileSheet, setMobileSheet] = useState<"theme" | "user" | null>(null);
   const [navHidden, setNavHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -112,6 +113,7 @@ export function Navigation() {
         setShowColorDropdown(false);
         setShowQrPopup(false);
         setShowProfilePopup(false);
+        setMobileSheet(null);
       }
     };
 
@@ -119,13 +121,14 @@ export function Navigation() {
       showUserDropdown ||
       showQrPopup ||
       showColorDropdown ||
-      showProfilePopup
+      showProfilePopup ||
+      mobileSheet
     ) {
       document.addEventListener("keydown", handleEscape);
     }
 
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [showUserDropdown, showQrPopup, showColorDropdown, showProfilePopup]);
+  }, [showUserDropdown, showQrPopup, showColorDropdown, showProfilePopup, mobileSheet]);
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -148,16 +151,17 @@ export function Navigation() {
       }
     };
 
-    if (showUserDropdown || showColorDropdown) {
+    if (showUserDropdown || showColorDropdown || mobileSheet) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showUserDropdown, showColorDropdown]);
+  }, [showUserDropdown, showColorDropdown, mobileSheet]);
 
   const handleLogout = async () => {
     await logout();
     setShowUserDropdown(false);
+    setMobileSheet(null);
   };
 
   const handleColorThemeChange = (theme: ColorTheme) => {
@@ -285,13 +289,13 @@ export function Navigation() {
             <button
               className="theme-toggle"
               onClick={toggleLanguage}
-              aria-label="Bytt språk"
-              title="Bytt språk"
+              aria-label="Bytt spr?k"
+              title="Bytt spr?k"
             >
             <i className="fa-solid fa-globe"></i>
             </button>
             <Link to={appsLink} className="nav-apps-btn" aria-label={t("apps")} title={t("apps")}>
-              <i className="fa-solid fa-grip"></i>
+              <i className="fa-solid fa-grip"></i><span>{t("apps")}</span>
               <span>{t("apps")}</span>
             </Link>
 
@@ -383,9 +387,154 @@ export function Navigation() {
           </div>
 
           {/* Mobile Hamburger */}
-          <MobileMenu />
+          <MobileMenu
+            isAuthenticated={isAuthenticated}
+            isAboutPage={isAboutPage}
+            aboutPath={aboutPath}
+            appsLink={appsLink}
+            hasAdminAccess={hasAccess("admin")}
+            onOpenUserMenu={() => setMobileSheet("user")}
+            onOpenThemeMenu={() => setMobileSheet("theme")}
+            onLogout={handleLogout}
+          />
         </div>
       </nav>
+
+      {/* Mobile sheets */}
+      <MobileSheet
+        isOpen={mobileSheet === "theme"}
+        title={t("colorTheme")}
+        onClose={() => setMobileSheet(null)}
+      >
+        <div className="sheet-section">
+          <div className="sheet-subtitle">{t("colorTheme")}</div>
+          <div className="color-theme-grid">
+            {colorThemes.map((themeItem) => (
+              <button
+                key={themeItem.id}
+                className={`color-theme-tile ${
+                  colorTheme === themeItem.id ? "active" : ""
+                }`}
+                onClick={() => handleColorThemeChange(themeItem.id)}
+                title={getThemeTranslation(themeItem.id)}
+              >
+                <div
+                  className="color-theme-gradient"
+                  style={{ background: themeItem.gradient }}
+                />
+                {colorTheme === themeItem.id && (
+                  <div className="color-theme-active-indicator">
+                    <i className="fa-solid fa-check"></i>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="sheet-section">
+          <div className="sheet-subtitle">Mode</div>
+          <div className="theme-mode-toggle sheet-mode-toggle">
+            <button
+              className={`theme-mode-btn ${theme === "light" ? "active" : ""}`}
+              onClick={() => setTheme("light")}
+              aria-label="Light mode"
+            >
+              <i className="fa-solid fa-sun"></i>
+            </button>
+            <button
+              className={`theme-mode-btn ${theme === "dark" ? "active" : ""}`}
+              onClick={() => setTheme("dark")}
+              aria-label="Dark mode"
+            >
+              <i className="fa-solid fa-moon"></i>
+            </button>
+            <div
+              className={`theme-mode-slider ${
+                theme === "dark" ? "dark" : "light"
+              }`}
+            />
+          </div>
+        </div>
+
+        <div className="sheet-section">
+          <div className="sheet-subtitle">{t("blobs")}</div>
+          <div className="blob-count-control sheet-blob-control">
+            <button
+              className="blob-count-btn"
+              onClick={() => setBlobCount(blobCount - 1)}
+              disabled={blobCount <= 0}
+              aria-label="Decrease blobs"
+            >
+              <i className="fa-solid fa-minus"></i>
+            </button>
+            <span className="blob-count-value">{blobCount}</span>
+            <button
+              className="blob-count-btn"
+              onClick={() => setBlobCount(blobCount + 1)}
+              disabled={blobCount >= 10}
+              aria-label="Increase blobs"
+            >
+              <i className="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </MobileSheet>
+
+      <MobileSheet
+        isOpen={mobileSheet === "user"}
+        title={user?.email || t("profile")}
+        onClose={() => setMobileSheet(null)}
+      >
+        <div className="sheet-user-header">
+          <div className="user-avatar-small">
+            {profile?.avatar_url ? (
+              <img src={profile.avatar_url} alt="Avatar" />
+            ) : (
+              <i className="fa-solid fa-user"></i>
+            )}
+          </div>
+          <div className="sheet-user-meta">
+            <span className="user-email">
+              {profile?.full_name || profile?.username || user?.email}
+            </span>
+            <span className="user-role">
+              {profile?.access_level === "owner"
+                ? t("accessLevelOwner")
+                : profile?.access_level === "admin"
+                ? t("accessLevelAdmin")
+                : profile?.access_level === "moderator"
+                ? t("accessLevelMod")
+                : t("accessLevelUser")}
+            </span>
+          </div>
+        </div>
+
+        <button
+          className="sheet-action"
+          onClick={() => {
+            setShowProfilePopup(true);
+            setMobileSheet(null);
+          }}
+        >
+          <i className="fa-solid fa-user-pen"></i>
+          {t("profile")}
+        </button>
+        {hasAccess("admin") && (
+          <Link
+            to="/admin"
+            className="sheet-action"
+            onClick={() => setMobileSheet(null)}
+          >
+            <i className="fa-solid fa-chart-line"></i>
+            {t("adminDashboard")}
+          </Link>
+        )}
+        <button className="sheet-action logout" onClick={handleLogout}>
+          <i className="fa-solid fa-right-from-bracket"></i>
+          {t("logout")}
+        </button>
+      </MobileSheet>
 
       {/* Profile Settings Popup */}
       {showProfilePopup && (
@@ -409,16 +558,28 @@ export function NavSpacer() {
   return <div className="nav-spacer" />;
 }
 
-function MobileMenu() {
-  const { t, lang, toggleLanguage } = useLanguage();
-  const { toggleTheme } = useTheme();
-  const { isAuthenticated, logout } = useAuth();
-  const location = useLocation();
+type MobileMenuProps = {
+  isAuthenticated: boolean;
+  isAboutPage: boolean;
+  aboutPath: string;
+  appsLink: string;
+  hasAdminAccess: boolean;
+  onOpenUserMenu: () => void;
+  onOpenThemeMenu: () => void;
+  onLogout: () => void;
+};
 
-  // Determine if we're on the about page (with sections) or dashboard
-  const isAboutPage =
-    location.pathname === "/about" || location.pathname === "/om-meg";
-  const aboutPath = lang === "no" ? "/om-meg" : "/about";
+function MobileMenu({
+  isAuthenticated,
+  isAboutPage,
+  aboutPath,
+  appsLink,
+  hasAdminAccess,
+  onOpenUserMenu,
+  onOpenThemeMenu,
+  onLogout,
+}: MobileMenuProps) {
+  const { t, toggleLanguage } = useLanguage();
 
   const handleMenuToggle = () => {
     document.getElementById("hamburger")?.classList.toggle("active");
@@ -491,12 +652,12 @@ function MobileMenu() {
           <button
             className="theme-toggle"
             onClick={() => {
-              toggleTheme();
+              onOpenThemeMenu();
               closeMenu();
             }}
             aria-label="Bytt tema"
           >
-            <i className="fa-solid fa-circle-half-stroke"></i>
+            <i className="fa-solid fa-palette"></i>
           </button>
           <button
             className="theme-toggle"
@@ -508,22 +669,27 @@ function MobileMenu() {
           >
             <i className="fa-solid fa-globe"></i>
           </button>
+          <Link
+            to={appsLink}
+            className="theme-toggle apps-toggle apps-toggle--wide"
+            onClick={closeMenu}
+            aria-label={t("apps")}
+            title={t("apps")}
+          >
+            <i className="fa-solid fa-grip"></i><span>{t("apps")}</span>
+          </Link>
           {isAuthenticated ? (
-            <>
-              <Link to="/admin" className="theme-toggle" onClick={closeMenu}>
-                <i className="fa-solid fa-chart-line"></i>
-              </Link>
-              <button
-                className="theme-toggle"
-                onClick={() => {
-                  logout();
-                  closeMenu();
-                }}
-                aria-label="Logg ut"
-              >
-                <i className="fa-solid fa-right-from-bracket"></i>
-              </button>
-            </>
+            <button
+              className="theme-toggle user-toggle"
+              onClick={() => {
+                onOpenUserMenu();
+                closeMenu();
+              }}
+              aria-label={t("profile")}
+              title={t("profile")}
+            >
+              <i className="fa-solid fa-user"></i>
+            </button>
           ) : (
             <Link to="/login" className="theme-toggle" onClick={closeMenu}>
               <i className="fa-solid fa-right-to-bracket"></i>
@@ -532,5 +698,36 @@ function MobileMenu() {
         </div>
       </div>
     </>
+  );
+}
+
+type MobileSheetProps = {
+  isOpen: boolean;
+  title: string;
+  onClose: () => void;
+  children: ReactNode;
+};
+
+function MobileSheet({ isOpen, title, onClose, children }: MobileSheetProps) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="mobile-sheet-overlay" role="presentation" onClick={onClose}>
+      <div
+        className="mobile-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mobile-sheet__header">
+          <span className="mobile-sheet__title">{title}</span>
+          <button className="theme-toggle" aria-label="Close" onClick={onClose}>
+            <i className="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div className="mobile-sheet__content">{children}</div>
+      </div>
+    </div>
   );
 }
