@@ -16,6 +16,7 @@ export function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   // If already authenticated, redirect to home
   useEffect(() => {
@@ -39,6 +40,13 @@ export function RegisterPage() {
     // Validate password length
     if (password.length < 6) {
       setError(t("passwordTooShort"));
+      setShowError(true);
+      return;
+    }
+
+    // Require terms acceptance
+    if (!acceptedTerms) {
+      setError(t("mustAcceptTerms"));
       setShowError(true);
       return;
     }
@@ -152,6 +160,7 @@ export function RegisterPage() {
               />
             </div>
 
+
             <div className="form-group">
               <label htmlFor="confirmPassword">{t("confirmPassword")}</label>
               <input
@@ -164,6 +173,22 @@ export function RegisterPage() {
                 autoComplete="new-password"
                 minLength={6}
               />
+            </div>
+
+            <div className="form-group" style={{ marginTop: 18, marginBottom: 10 }}>
+              <label htmlFor="acceptTerms" style={{ display: "flex", alignItems: "center", gap: 10, fontWeight: 400, fontSize: 14, color: '#bfc9db' }}>
+                <input
+                  id="acceptTerms"
+                  type="checkbox"
+                  checked={acceptedTerms}
+                  onChange={e => setAcceptedTerms(e.target.checked)}
+                  required
+                  style={{ accentColor: '#4f8cff', width: 18, height: 18, marginRight: 10 }}
+                />
+                <span>
+                  {t("acceptTermsFullLabel")} <a href="/terms-privacy.html" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline", color: '#4f8cff' }}>{t("privacyTermsLink")}</a>
+                </span>
+              </label>
             </div>
 
             <div className={`error-message ${showError ? "show" : ""}`}>

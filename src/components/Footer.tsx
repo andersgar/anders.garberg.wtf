@@ -28,6 +28,11 @@ export function Footer() {
           </a>
         </p>
         <p className="small">{t("location")}</p>
+        <p className="small">
+          <a href="/terms-privacy.md" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline" }}>
+            {t("privacyTermsLink")}
+          </a>
+        </p>
       </div>
     </footer>
   );

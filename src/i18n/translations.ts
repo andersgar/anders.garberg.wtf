@@ -1,5 +1,9 @@
 export const translations = {
   no: {
+    mustAcceptTerms: "Du må godta personvern og vilkår for å opprette konto.",
+    acceptTermsLabel: "Jeg godtar",
+    acceptTermsFullLabel: "Jeg godtar vilkårene",
+    privacyTermsLink: "Personvern og vilkår",
     // Navigation & General
     devBanner:
       '<i class="fa-solid fa-triangle-exclamation"></i> Denne nettsiden er under utvikling',
@@ -103,8 +107,8 @@ export const translations = {
     notAnders: "Er du ikke Anders?",
     requestAccess: "Be om tilgang",
     forgotPassword: "Glemt passord?",
-    forgotPasswordSubtitle:
-      "Skriv inn e-postadressen din for å tilbakestille passordet",
+    forgotPasswordSubtitle: 
+    "Skriv inn e-postadressen din for å tilbakestille passordet",
     setNewPassword: "Nytt passord",
     setNewPasswordSubtitle: "Skriv inn ditt nye passord",
     newPassword: "Nytt passord",
@@ -232,6 +236,11 @@ export const translations = {
     errorGeneric: "Noe gikk galt. Prøv igjen.",
   },
   en: {
+    mustAcceptTerms:
+      "You must accept the privacy policy and terms to create an account.",
+    acceptTermsLabel: "I accept the",
+    acceptTermsFullLabel: "I accept the terms",
+    privacyTermsLink: "Privacy & Terms",
     // Navigation & General
     devBanner:
       '<i class="fa-solid fa-triangle-exclamation"></i> This website is under development',
