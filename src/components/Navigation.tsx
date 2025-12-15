@@ -5,6 +5,7 @@ import { useTheme, ColorTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 import { useProfile } from "../context/ProfileContext";
 import { ProfileSettings } from "./ProfileSettings";
+import { supabase } from "../lib/supabase";
 
 const colorThemes: { id: ColorTheme; gradient: string }[] = [
   {
@@ -66,6 +67,13 @@ export function Navigation() {
   const [showColorDropdown, setShowColorDropdown] = useState(false);
   const [showQrPopup, setShowQrPopup] = useState(false);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
+  const [showUserSettingsPopup, setShowUserSettingsPopup] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [mobileSheet, setMobileSheet] = useState<"theme" | "user" | "language" | null>(null);
   const [navHidden, setNavHidden] = useState(false);
@@ -116,6 +124,7 @@ export function Navigation() {
         setShowColorDropdown(false);
         setShowQrPopup(false);
         setShowProfilePopup(false);
+        setShowUserSettingsPopup(false);
         setShowLanguageDropdown(false);
         setMobileSheet(null);
       }
@@ -126,6 +135,7 @@ export function Navigation() {
       showQrPopup ||
       showColorDropdown ||
       showProfilePopup ||
+      showUserSettingsPopup ||
       showLanguageDropdown ||
       mobileSheet
     ) {
@@ -133,7 +143,15 @@ export function Navigation() {
     }
 
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [showUserDropdown, showQrPopup, showColorDropdown, showProfilePopup, showLanguageDropdown, mobileSheet]);
+  }, [
+    showUserDropdown,
+    showQrPopup,
+    showColorDropdown,
+    showProfilePopup,
+    showUserSettingsPopup,
+    showLanguageDropdown,
+    mobileSheet,
+  ]);
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -186,6 +204,53 @@ export function Navigation() {
     setLang(language);
     setShowLanguageDropdown(false);
     setMobileSheet(null);
+  };
+
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordError(null);
+    setPasswordSuccess(null);
+
+    if (newPassword !== confirmPassword) {
+      setPasswordError(t("passwordMismatch"));
+      return;
+    }
+    if (newPassword.length < 6) {
+      setPasswordError(t("passwordTooShort"));
+      return;
+    }
+
+    if (!user?.email) {
+      setPasswordError(t("loginError"));
+      return;
+    }
+
+    setPasswordLoading(true);
+    const { error: reauthError } = await supabase.auth.signInWithPassword({
+      email: user.email,
+      password: currentPassword,
+    });
+
+    if (reauthError) {
+      setPasswordError(reauthError.message);
+      setPasswordLoading(false);
+      return;
+    }
+
+    const { error: updateError } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+
+    setPasswordLoading(false);
+    if (updateError) {
+      setPasswordError(updateError.message);
+      return;
+    }
+
+    setPasswordSuccess(t("passwordUpdatedShort"));
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
   };
 
   const getThemeTranslation = (themeId: ColorTheme): string => {
@@ -407,6 +472,16 @@ export function Navigation() {
                         <i className="fa-solid fa-user-pen"></i>
                         {t("profile")}
                       </button>
+                      <button
+                        className="user-dropdown-item"
+                        onClick={() => {
+                          setShowUserDropdown(false);
+                          setShowUserSettingsPopup(true);
+                        }}
+                      >
+                        <i className="fa-solid fa-gear"></i>
+                        {t("userSettings")}
+                      </button>
                       {hasAccess("admin") && (
                         <Link
                           to="/admin"
@@ -608,6 +683,16 @@ export function Navigation() {
           <i className="fa-solid fa-user-pen"></i>
           {t("profile")}
         </button>
+        <button
+          className="sheet-action"
+          onClick={() => {
+            setShowUserSettingsPopup(true);
+            setMobileSheet(null);
+          }}
+        >
+          <i className="fa-solid fa-gear"></i>
+          {t("userSettings")}
+        </button>
         {hasAccess("admin") && (
           <Link
             to="/admin"
@@ -635,6 +720,91 @@ export function Navigation() {
           }}
         >
           <ProfileSettings onClose={() => setShowProfilePopup(false)} />
+        </div>
+      )}
+
+      {showUserSettingsPopup && (
+        <div
+          className="profile-popup-overlay"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowUserSettingsPopup(false);
+            }
+          }}
+        >
+          <div className="profile-settings">
+            <div className="profile-settings-header">
+              <h3>{t("userSettings")}</h3>
+              <button
+                className="profile-settings-close"
+                aria-label="Close"
+                onClick={() => setShowUserSettingsPopup(false)}
+              >
+                <i className="fa-solid fa-times"></i>
+              </button>
+            </div>
+            <div className="profile-settings-content">
+              <div className="profile-form">
+                <div className="profile-form-group">
+                  <label>{t("mobileMenuType")}</label>
+                  <div className="profile-readonly-value">
+                    <i className="fa-solid fa-clock"></i>
+                    {t("comingSoon")}
+                  </div>
+                </div>
+                <form className="profile-form-group" onSubmit={handlePasswordChange}>
+                  <label>{t("updatePassword")}</label>
+                  <input
+                    type="password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    placeholder={t("currentPassword")}
+                    required
+                  />
+                  <input
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder={t("newPassword")}
+                    required
+                  />
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder={t("confirmPassword")}
+                    required
+                  />
+                  {passwordError && (
+                    <div className="profile-readonly-value" style={{ color: "#ef4444" }}>
+                      <i className="fa-solid fa-circle-exclamation"></i> {passwordError}
+                    </div>
+                  )}
+                  {passwordSuccess && (
+                    <div className="profile-readonly-value" style={{ color: "var(--accent)" }}>
+                      <i className="fa-solid fa-circle-check"></i> {passwordSuccess}
+                    </div>
+                  )}
+                  <button
+                    className="profile-btn-save"
+                    type="submit"
+                    disabled={passwordLoading}
+                    style={{ width: "100%" }}
+                  >
+                    {passwordLoading ? t("updating") : t("updatePassword")}
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div className="profile-settings-footer">
+              <button
+                className="profile-btn-cancel"
+                onClick={() => setShowUserSettingsPopup(false)}
+              >
+                {t("close")}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </>
