@@ -1,4 +1,5 @@
 import { useState, FormEvent, useEffect } from "react";
+import { useTermsPrivacyModal } from "../components/useTermsPrivacyModal";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
@@ -18,6 +19,8 @@ export function RegisterPage() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
+  // Terms modal
+  const termsModal = useTermsPrivacyModal();
   // If already authenticated, redirect to home
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
@@ -151,42 +154,49 @@ export function RegisterPage() {
               <input
                 type="password"
                 id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                placeholder="••••••••"
-                autoComplete="new-password"
-                minLength={6}
-              />
-            </div>
-
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="********"
+              autoComplete="new-password"
+            />
+          </div>
 
             <div className="form-group">
               <label htmlFor="confirmPassword">{t("confirmPassword")}</label>
               <input
                 type="password"
                 id="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                placeholder="••••••••"
-                autoComplete="new-password"
-                minLength={6}
-              />
-            </div>
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              placeholder="********"
+              autoComplete="new-password"
+            />
+          </div>
 
-            <div className="form-group" style={{ marginTop: 18, marginBottom: 10 }}>
-              <label htmlFor="acceptTerms" style={{ display: "flex", alignItems: "center", gap: 10, fontWeight: 400, fontSize: 14, color: '#bfc9db' }}>
+            <div className="form-group terms-agreement">
+              <label htmlFor="acceptTerms" className="terms-check">
                 <input
                   id="acceptTerms"
                   type="checkbox"
                   checked={acceptedTerms}
-                  onChange={e => setAcceptedTerms(e.target.checked)}
-                  required
-                  style={{ accentColor: '#4f8cff', width: 18, height: 18, marginRight: 10 }}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                  className="terms-checkbox"
                 />
                 <span>
-                  {t("acceptTermsFullLabel")} <a href="/terms-privacy.html" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline", color: '#4f8cff' }}>{t("privacyTermsLink")}</a>
+                  {t("acceptTermsLabel")}{" "}
+                  <button
+                    type="button"
+                    className="link-button terms-link"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      termsModal.open();
+                    }}
+                  >
+                    {t("privacyTermsLink")}
+                  </button>
                 </span>
               </label>
             </div>
@@ -226,6 +236,7 @@ export function RegisterPage() {
           </div>
         </div>
       </div>
+      {termsModal.modal}
     </div>
   );
 }

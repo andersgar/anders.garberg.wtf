@@ -107,8 +107,8 @@ export const translations = {
     notAnders: "Er du ikke Anders?",
     requestAccess: "Be om tilgang",
     forgotPassword: "Glemt passord?",
-    forgotPasswordSubtitle: 
-    "Skriv inn e-postadressen din for å tilbakestille passordet",
+    forgotPasswordSubtitle:
+      "Skriv inn e-postadressen din for å tilbakestille passordet",
     setNewPassword: "Nytt passord",
     setNewPasswordSubtitle: "Skriv inn ditt nye passord",
     newPassword: "Nytt passord",
