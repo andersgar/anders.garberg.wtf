@@ -17,7 +17,8 @@
       "en": "Visit garberg.wtf"
     },
     "image": "/assets/projects/personal-site.svg",
-    "link": "https://garberg.wtf"
+    "link": "https://garberg.wtf",
+    "mdPath": "/assets/projects/personal-site.md"
   },
   {
     "title": {
@@ -37,7 +38,8 @@
       "en": "View thesis plan"
     },
     "image": "/assets/projects/lone-wolf.svg",
-    "link": "https://garberg.wtf/lone-wolf"
+    "link": "https://garberg.wtf/lone-wolf",
+    "mdPath": "/assets/projects/lone-wolf.md"
   },
   {
     "title": {
@@ -57,7 +59,8 @@
       "en": "View setup"
     },
     "image": "/assets/projects/homelab.svg",
-    "link": "https://garberg.wtf/homelab"
+    "link": "https://garberg.wtf/homelab",
+    "mdPath": "/assets/projects/homelab.md"
   },
   {
     "title": {
@@ -77,6 +80,7 @@
       "en": "Open report"
     },
     "image": "/assets/projects/autoprosjekt-v25.svg",
-    "link": "/content/AutoprosjektV25.pdf"
+    "link": "/content/AutoprosjektV25.pdf",
+    "mdPath": "/assets/projects/autoprosjekt-v25.md"
   }
 ]

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
+import { MarkdownModal } from "./MarkdownModal";
 
 interface LangText {
   no: string;
@@ -11,6 +12,7 @@ interface Project {
   description: LangText;
   tag?: LangText;
   cta?: LangText;
+  mdPath?: string;
   image: string;
   link: string;
 }
@@ -18,6 +20,7 @@ interface Project {
 export function Projects() {
   const { t, lang } = useLanguage();
   const [projects, setProjects] = useState<Project[]>([]);
+  const [activeProject, setActiveProject] = useState<Project | null>(null);
 
   useEffect(() => {
     fetch("/data/projects.json")
@@ -27,6 +30,7 @@ export function Projects() {
   }, []);
 
   const getText = (value: LangText) => (lang === "en" ? value.en : value.no);
+  const closeModal = () => setActiveProject(null);
 
   return (
     <section id="projects">
@@ -62,25 +66,49 @@ export function Projects() {
                 </div>
                 <h3>{getText(project.title)}</h3>
                 <p className="small">{getText(project.description)}</p>
-                <a
-                  className="btn ghost project-link"
-                  href={project.link}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  <span>
-                    {project.cta ? getText(project.cta) : t("readMore")}
-                  </span>
-                  <i
-                    className="fa-solid fa-arrow-up-right-from-square"
-                    aria-hidden="true"
-                  ></i>
-                </a>
+                {project.mdPath ? (
+                  <button
+                    type="button"
+                    className="btn ghost project-link"
+                    onClick={() => setActiveProject(project)}
+                  >
+                    <span>
+                      {project.cta ? getText(project.cta) : t("readMore")}
+                    </span>
+                    <i
+                      className="fa-solid fa-arrow-up-right-from-square"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+                ) : (
+                  <a
+                    className="btn ghost project-link"
+                    href={project.link}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    <span>
+                      {project.cta ? getText(project.cta) : t("readMore")}
+                    </span>
+                    <i
+                      className="fa-solid fa-arrow-up-right-from-square"
+                      aria-hidden="true"
+                    ></i>
+                  </a>
+                )}
               </div>
             </article>
           ))}
         </div>
       </div>
+      {activeProject?.mdPath && (
+        <MarkdownModal
+          isOpen={Boolean(activeProject)}
+          onClose={closeModal}
+          mdPath={activeProject.mdPath}
+          title={getText(activeProject.title)}
+        />
+      )}
     </section>
   );
 }
