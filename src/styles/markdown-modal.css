@@ -1,4 +1,4 @@
-.terms-modal-overlay {
+.md-modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
@@ -10,7 +10,7 @@
   z-index: 11000;
 }
 
-.terms-modal {
+.md-modal {
   width: min(880px, 100%);
   max-height: 85vh;
   background: var(--card);
@@ -22,7 +22,7 @@
   flex-direction: column;
 }
 
-.terms-modal__header {
+.md-modal__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -32,13 +32,13 @@
   background: color-mix(in oklab, var(--card) 80%, var(--bg));
 }
 
-.terms-modal__title {
+.md-modal__title {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
 }
 
-.terms-modal__eyebrow {
+.md-modal__eyebrow {
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -46,13 +46,13 @@
   color: var(--muted);
 }
 
-.terms-modal__header h2 {
+.md-modal__header h2 {
   margin: 0;
   font-size: 1.2rem;
   color: var(--fg);
 }
 
-.terms-modal__close {
+.md-modal__close {
   background: transparent;
   border: 1px solid var(--border);
   color: var(--fg);
@@ -66,19 +66,19 @@
   transition: all 0.2s ease;
 }
 
-.terms-modal__close:hover {
+.md-modal__close:hover {
   border-color: var(--brand);
   color: var(--brand);
 }
 
-.terms-modal__content {
+.md-modal__content {
   padding: 1.25rem 1.25rem 1.5rem;
   overflow-y: auto;
   line-height: 1.65;
   color: var(--fg);
 }
 
-.terms-modal__loading {
+.md-modal__loading {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -86,7 +86,7 @@
   font-weight: 500;
 }
 
-.terms-modal__error {
+.md-modal__error {
   background: color-mix(in oklab, #ef4444 12%, transparent);
   border: 1px solid color-mix(in oklab, #ef4444 40%, transparent);
   border-radius: 0.6rem;
@@ -95,31 +95,31 @@
   font-weight: 600;
 }
 
-.terms-markdown {
+.md-markdown {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
 }
 
-.terms-markdown h1 {
+.md-markdown h1 {
   margin: 0;
   font-size: 1.4rem;
   color: var(--fg);
 }
 
-.terms-markdown h2 {
+.md-markdown h2 {
   margin: 0.4rem 0 0.2rem;
   font-size: 1.05rem;
   color: var(--fg);
 }
 
-.terms-markdown p {
+.md-markdown p {
   margin: 0;
   color: var(--muted);
 }
 
-.terms-markdown ul,
-.terms-markdown ol {
+.md-markdown ul,
+.md-markdown ol {
   margin: 0;
   padding-left: 1.25rem;
   display: grid;
@@ -127,21 +127,21 @@
   color: var(--fg);
 }
 
-.terms-markdown li {
+.md-markdown li {
   margin: 0;
 }
 
-.terms-markdown strong {
+.md-markdown strong {
   color: var(--text);
 }
 
-.terms-markdown hr {
+.md-markdown hr {
   border: 0;
   border-top: 1px solid var(--border);
   margin: 0.5rem 0 0.2rem;
 }
 
-.terms-markdown blockquote {
+.md-markdown blockquote {
   margin: 0;
   padding: 0.75rem 0.9rem;
   border-left: 3px solid var(--brand);
@@ -151,16 +151,16 @@
 }
 
 @media (max-width: 720px) {
-  .terms-modal {
+  .md-modal {
     max-height: 90vh;
     border-radius: 1rem;
   }
 
-  .terms-modal__header {
+  .md-modal__header {
     padding: 0.85rem 1rem;
   }
 
-  .terms-modal__content {
+  .md-modal__content {
     padding: 1rem;
   }
 }

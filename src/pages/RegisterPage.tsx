@@ -1,5 +1,5 @@
 import { useState, FormEvent, useEffect } from "react";
-import { useTermsPrivacyModal } from "../components/useTermsPrivacyModal";
+import { useMarkdownModal } from "../components/useMarkdownModal";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
@@ -20,7 +20,7 @@ export function RegisterPage() {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   // Terms modal
-  const termsModal = useTermsPrivacyModal();
+  const termsModal = useMarkdownModal("/terms-privacy.md", t("privacyTermsLink"));
   // If already authenticated, redirect to home
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
@@ -154,26 +154,26 @@ export function RegisterPage() {
               <input
                 type="password"
                 id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="********"
-              autoComplete="new-password"
-            />
-          </div>
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="********"
+                autoComplete="new-password"
+              />
+            </div>
 
             <div className="form-group">
               <label htmlFor="confirmPassword">{t("confirmPassword")}</label>
               <input
                 type="password"
                 id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              placeholder="********"
-              autoComplete="new-password"
-            />
-          </div>
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                placeholder="********"
+                autoComplete="new-password"
+              />
+            </div>
 
             <div className="form-group terms-agreement">
               <label htmlFor="acceptTerms" className="terms-check">

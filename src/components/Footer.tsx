@@ -1,10 +1,10 @@
 import { useLanguage } from "../context/LanguageContext";
-import { useTermsPrivacyModal } from "./useTermsPrivacyModal";
+import { useMarkdownModal } from "./useMarkdownModal";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
   const { t } = useLanguage();
-  const termsModal = useTermsPrivacyModal();
+  const termsModal = useMarkdownModal("/terms-privacy.md", t("privacyTermsLink"));
 
   return (
     <footer>
