@@ -1,4 +1,5 @@
 import { useState, FormEvent, useEffect } from "react";
+import { useMarkdownModal } from "../components/useMarkdownModal";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
@@ -16,7 +17,10 @@ export function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
+  // Terms modal
+  const termsModal = useMarkdownModal("/terms-privacy.md", t("privacyTermsLink"));
   // If already authenticated, redirect to home
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
@@ -39,6 +43,13 @@ export function RegisterPage() {
     // Validate password length
     if (password.length < 6) {
       setError(t("passwordTooShort"));
+      setShowError(true);
+      return;
+    }
+
+    // Require terms acceptance
+    if (!acceptedTerms) {
+      setError(t("mustAcceptTerms"));
       setShowError(true);
       return;
     }
@@ -146,9 +157,8 @@ export function RegisterPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                placeholder="••••••••"
+                placeholder="********"
                 autoComplete="new-password"
-                minLength={6}
               />
             </div>
 
@@ -160,10 +170,35 @@ export function RegisterPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                placeholder="••••••••"
+                placeholder="********"
                 autoComplete="new-password"
-                minLength={6}
               />
+            </div>
+
+            <div className="form-group terms-agreement">
+              <label htmlFor="acceptTerms" className="terms-check">
+                <input
+                  id="acceptTerms"
+                  type="checkbox"
+                  checked={acceptedTerms}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                  className="terms-checkbox"
+                />
+                <span>
+                  {t("acceptTermsLabel")}{" "}
+                  <button
+                    type="button"
+                    className="link-button terms-link"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      termsModal.open();
+                    }}
+                  >
+                    {t("privacyTermsLink")}
+                  </button>
+                </span>
+              </label>
             </div>
 
             <div className={`error-message ${showError ? "show" : ""}`}>
@@ -201,6 +236,7 @@ export function RegisterPage() {
           </div>
         </div>
       </div>
+      {termsModal.modal}
     </div>
   );
 }

@@ -67,7 +67,7 @@
   margin-bottom: 1.25rem;
 }
 
-.login-card .form-group label {
+.login-card .form-group label:not(.terms-check) {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
@@ -96,6 +96,45 @@
 .login-card .form-group input::placeholder {
   color: var(--muted);
   opacity: 0.6;
+}
+
+.terms-agreement {
+  margin-top: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.login-card .terms-check {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 10px;
+  font-weight: 400;
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.terms-check span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.terms-checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--brand);
+  flex-shrink: 0;
+  margin: 0;
+  border: 1px solid color-mix(in oklab, var(--text) 18%, transparent);
+  background: var(--bg);
+  border-radius: 4px;
+}
+
+.terms-link {
+  font-weight: 600;
 }
 
 .login-card .error-message {
