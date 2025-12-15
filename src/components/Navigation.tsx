@@ -50,7 +50,7 @@ const colorThemes: { id: ColorTheme; gradient: string }[] = [
 ];
 
 export function Navigation() {
-  const { t, lang, toggleLanguage } = useLanguage();
+  const { t, lang, setLang } = useLanguage();
   const location = useLocation();
   const {
     theme,
@@ -66,13 +66,16 @@ export function Navigation() {
   const [showColorDropdown, setShowColorDropdown] = useState(false);
   const [showQrPopup, setShowQrPopup] = useState(false);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
-  const [mobileSheet, setMobileSheet] = useState<"theme" | "user" | null>(null);
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const [mobileSheet, setMobileSheet] = useState<"theme" | "user" | "language" | null>(null);
   const [navHidden, setNavHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const userButtonRef = useRef<HTMLButtonElement>(null);
   const colorDropdownRef = useRef<HTMLDivElement>(null);
   const colorButtonRef = useRef<HTMLButtonElement>(null);
+  const languageDropdownRef = useRef<HTMLDivElement>(null);
+  const languageButtonRef = useRef<HTMLButtonElement>(null);
 
   // Determine if we're on the about page (with sections) or dashboard
   const isAboutPage =
@@ -113,6 +116,7 @@ export function Navigation() {
         setShowColorDropdown(false);
         setShowQrPopup(false);
         setShowProfilePopup(false);
+        setShowLanguageDropdown(false);
         setMobileSheet(null);
       }
     };
@@ -122,13 +126,14 @@ export function Navigation() {
       showQrPopup ||
       showColorDropdown ||
       showProfilePopup ||
+      showLanguageDropdown ||
       mobileSheet
     ) {
       document.addEventListener("keydown", handleEscape);
     }
 
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [showUserDropdown, showQrPopup, showColorDropdown, showProfilePopup, mobileSheet]);
+  }, [showUserDropdown, showQrPopup, showColorDropdown, showProfilePopup, showLanguageDropdown, mobileSheet]);
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -149,14 +154,22 @@ export function Navigation() {
       ) {
         setShowColorDropdown(false);
       }
+      if (
+        languageDropdownRef.current &&
+        !languageDropdownRef.current.contains(e.target as Node) &&
+        languageButtonRef.current &&
+        !languageButtonRef.current.contains(e.target as Node)
+      ) {
+        setShowLanguageDropdown(false);
+      }
     };
 
-    if (showUserDropdown || showColorDropdown || mobileSheet) {
+    if (showUserDropdown || showColorDropdown || showLanguageDropdown || mobileSheet) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showUserDropdown, showColorDropdown, mobileSheet]);
+  }, [showUserDropdown, showColorDropdown, showLanguageDropdown, mobileSheet]);
 
   const handleLogout = async () => {
     await logout();
@@ -167,6 +180,12 @@ export function Navigation() {
   const handleColorThemeChange = (theme: ColorTheme) => {
     setColorTheme(theme);
     setShowColorDropdown(false);
+  };
+
+  const handleLanguageSelect = (language: "no" | "en") => {
+    setLang(language);
+    setShowLanguageDropdown(false);
+    setMobileSheet(null);
   };
 
   const getThemeTranslation = (themeId: ColorTheme): string => {
@@ -286,14 +305,50 @@ export function Navigation() {
               )}
             </div>
 
-            <button
-              className="theme-toggle"
-              onClick={toggleLanguage}
-              aria-label="Bytt spr?k"
-              title="Bytt spr?k"
-            >
-            <i className="fa-solid fa-globe"></i>
-            </button>
+            <div className="language-container">
+              <button
+                ref={languageButtonRef}
+                className="theme-toggle"
+                onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+                aria-label={t("language")}
+                title={t("language")}
+              >
+                <i className="fa-solid fa-language"></i>
+              </button>
+
+              {showLanguageDropdown && (
+                <div
+                  className="language-dropdown"
+                  ref={languageDropdownRef}
+                  role="menu"
+                  aria-label={t("language")}
+                >
+                  <div className="language-dropdown-title">{t("language")}</div>
+                  <button
+                    className={`language-pill ${lang === "no" ? "active" : ""}`}
+                    onClick={() => handleLanguageSelect("no")}
+                  >
+                    <span className="language-pill__icon">
+                      {lang === "no" && <i className="fa-solid fa-check"></i>}
+                    </span>
+                    <div className="language-pill__labels">
+                      <span className="language-pill__name">Norsk</span>
+                    </div>
+                  </button>
+                  <button
+                    className={`language-pill ${lang === "en" ? "active" : ""}`}
+                    onClick={() => handleLanguageSelect("en")}
+                    >
+                    <span className="language-pill__icon">
+                      {lang === "en" && <i className="fa-solid fa-check"></i>}
+                    </span>
+                    <div className="language-pill__labels">
+                      <span className="language-pill__name">English</span>
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
             <Link to={appsLink} className="nav-apps-btn" aria-label={t("apps")} title={t("apps")}>
               <i className="fa-solid fa-grip"></i>
               <span>{t("apps")}</span>
@@ -394,6 +449,7 @@ export function Navigation() {
             appsLink={appsLink}
             hasAdminAccess={hasAccess("admin")}
             onOpenUserMenu={() => setMobileSheet("user")}
+            onOpenLanguageMenu={() => setMobileSheet("language")}
             onOpenThemeMenu={() => setMobileSheet("theme")}
             onLogout={handleLogout}
           />
@@ -476,6 +532,38 @@ export function Navigation() {
               aria-label="Increase blobs"
             >
               <i className="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </MobileSheet>
+
+      <MobileSheet
+        isOpen={mobileSheet === "language"}
+        title={t("language")}
+        onClose={() => setMobileSheet(null)}
+      >
+        <div className="sheet-section">
+          <div className="sheet-subtitle">{t("chooseLanguage")}</div>
+          <div className="language-grid">
+            <button
+              className={`language-option ${lang === "no" ? "active" : ""}`}
+              onClick={() => handleLanguageSelect("no")}
+            >
+              <div className="language-badge">NO</div>
+              <div className="language-labels">
+                <span className="language-name">Norsk</span>
+              </div>
+              {lang === "no" && <i className="fa-solid fa-check"></i>}
+            </button>
+            <button
+              className={`language-option ${lang === "en" ? "active" : ""}`}
+              onClick={() => handleLanguageSelect("en")}
+            >
+              <div className="language-badge">EN</div>
+              <div className="language-labels">
+                <span className="language-name">English</span>
+              </div>
+              {lang === "en" && <i className="fa-solid fa-check"></i>}
             </button>
           </div>
         </div>
@@ -566,6 +654,7 @@ type MobileMenuProps = {
   hasAdminAccess: boolean;
   onOpenUserMenu: () => void;
   onOpenThemeMenu: () => void;
+  onOpenLanguageMenu: () => void;
   onLogout: () => void;
 };
 
@@ -577,9 +666,10 @@ function MobileMenu({
   hasAdminAccess,
   onOpenUserMenu,
   onOpenThemeMenu,
+  onOpenLanguageMenu,
   onLogout,
 }: MobileMenuProps) {
-  const { t, toggleLanguage } = useLanguage();
+  const { t } = useLanguage();
 
   const handleMenuToggle = () => {
     document.getElementById("hamburger")?.classList.toggle("active");
@@ -662,12 +752,12 @@ function MobileMenu({
           <button
             className="theme-toggle"
             onClick={() => {
-              toggleLanguage();
+              onOpenLanguageMenu();
               closeMenu();
             }}
-            aria-label="Bytt språk"
+            aria-label={t("language")}
           >
-            <i className="fa-solid fa-globe"></i>
+            <i className="fa-solid fa-language"></i>
           </button>
           <Link
             to={appsLink}
