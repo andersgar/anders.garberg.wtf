@@ -167,6 +167,7 @@ cp .env.example .env.local
 ```env
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_AUTH_COOKIE_DOMAIN=.garberg.wtf
 ```
 
 ### Development

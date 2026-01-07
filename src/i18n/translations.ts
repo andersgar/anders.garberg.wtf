@@ -150,6 +150,8 @@ export const translations = {
     scanQR: "Skann for å besøke nettstedet",
     qrAppName: "Hurtig-QR",
     qrAppDescription: "Lag en QR-kode direkte fra dashbordet",
+    infoScreensName: "Infoskjermer",
+    infoScreensDescription: "Lag og vis infoskjermene dine",
     qrGeneratorName: "QR-generator",
     qrGeneratorDescription: "Lag og last ned QR-koder for lenker eller tekst.",
     qrGeneratorDescriptionShort: "Skriv tekst og få en nedlastbar QR-kode.",
@@ -406,6 +408,8 @@ export const translations = {
     scanQR: "Scan to visit the website",
     qrAppName: "Quick QR",
     qrAppDescription: "Make a QR code without leaving the dashboard",
+    infoScreensName: "Info Screens",
+    infoScreensDescription: "Create and manage shared screens",
     qrGeneratorName: "QR Generator",
     qrGeneratorDescription:
       "Generate and download QR codes for any link or text.",

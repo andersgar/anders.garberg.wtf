@@ -6,6 +6,7 @@ Your privacy is important to us. This website uses Supabase to manage authentica
 
 - **Account data:** When you register, your email and a unique user ID are stored securely. You may also add a username, full name, avatar, and bio to personalize your profile.
 - **Profile settings:** Your preferences (theme, language, etc.) are stored so we can remember your choices.
+- **Cookies:** We store a login session cookie to keep you signed in across subdomains (for example, screens.garberg.wtf).
 - **Analytics:** We collect anonymous data about visits, downloads, and contact form submissions. If you are logged in, your user ID may be associated with these events. This data is only used to improve the service.
 - **Contact forms:** If you use the contact form, your name, email, and message are stored to respond to your inquiry.
 - **Data storage:** All data is stored securely using Supabase. We do not share your data with third parties except as required by law.
@@ -17,6 +18,7 @@ Ditt personvern er viktig for oss. Dette nettstedet bruker Supabase til å hånd
 
 - **Kontodata:** Når du registrerer deg, lagres e-postadressen din og en unik bruker-ID sikkert. Du kan også legge inn brukernavn, fullt navn, avatar og bio for å tilpasse profilen din.
 - **Profilinnstillinger:** Preferansene dine (tema, språk osv.) lagres slik at vi kan huske valgene dine.
+- **Informasjonskapsler:** Vi bruker en innloggingscookie for a holde deg innlogget pa tvers av underdomener (for eksempel screens.garberg.wtf).
 - **Analyse:** Vi samler inn anonym data om besøk, nedlastinger og kontaktskjema. Hvis du er innlogget, kan bruker-ID-en din kobles til disse hendelsene. Dataene brukes kun for å forbedre tjenesten.
 - **Kontaktskjema:** Hvis du bruker kontaktskjemaet, lagres navn, e-post og melding for å kunne svare deg.
 - **Databehandling:** All data lagres sikkert med Supabase. Vi deler ikke dine data med tredjeparter, med mindre det kreves ved lov.

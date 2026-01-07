@@ -160,8 +160,17 @@ export function DashboardPage() {
     visible: true,
     order: 999,
   };
-  // Recommended apps are explicitly curated; for now only the QR generator
-  const recommendedApps = [qrApp];
+  const infoScreensApp = {
+    id: "info_screens",
+    appId: "info_screens",
+    url: "",
+    customName: "Info Screens",
+    customIcon: "fa-solid fa-display",
+    visible: true,
+    order: 1000,
+  };
+  // Recommended apps are explicitly curated.
+  const recommendedApps = [qrApp, infoScreensApp];
 
   const handleOpenAddApp = () => {
     if (!isAuthenticated) return;
@@ -487,6 +496,31 @@ export function DashboardPage() {
                         <span className="app-tile-desc">
                           {t("qrAppDescription")}
                         </span>
+                      </button>
+                    );
+                  }
+                  if (app.appId === "info_screens") {
+                    return (
+                      <button
+                        key={app.id}
+                        className="app-tile app-tile-disabled"
+                        style={
+                          { "--app-color": "var(--muted)" } as React.CSSProperties
+                        }
+                        type="button"
+                        disabled
+                        title={t("comingSoon")}
+                      >
+                        <div className="app-tile-icon">
+                          <i className={display.icon}></i>
+                        </div>
+                        <span className="app-tile-name">
+                          {t("infoScreensName")}
+                        </span>
+                        <span className="app-tile-desc">
+                          {t("infoScreensDescription")}
+                        </span>
+                        <span className="app-tile-desc">{t("comingSoon")}</span>
                       </button>
                     );
                   }
