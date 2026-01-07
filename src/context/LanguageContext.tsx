@@ -45,7 +45,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = newLang;
     setLanguageInURL(newLang);
 
-    // Update meta tags
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
       metaDesc.setAttribute("content", translations[newLang].metaDescription);

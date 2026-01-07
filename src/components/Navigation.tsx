@@ -99,7 +99,6 @@ export function Navigation() {
   const languageDropdownRef = useRef<HTMLDivElement>(null);
   const languageButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Determine if we're on the about page (with sections) or dashboard
   const isAboutPage =
     location.pathname === "/about" || location.pathname === "/om-meg";
   const aboutPath = lang === "no" ? "/om-meg" : "/about";
@@ -109,13 +108,10 @@ export function Navigation() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Only hide/show after scrolling past 100px
       if (currentScrollY > 100) {
-        // Scrolling down - hide navbar
         if (currentScrollY > lastScrollY && currentScrollY > 100) {
           setNavHidden(true);
         }
-        // Scrolling up - show navbar
         else if (currentScrollY < lastScrollY) {
           setNavHidden(false);
         }
@@ -130,7 +126,6 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  // Handle escape key to close dropdown and QR popup
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -167,7 +162,6 @@ export function Navigation() {
     mobileSheet,
   ]);
 
-  // Handle click outside to close dropdown
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -377,12 +371,10 @@ export function Navigation() {
           </div>
 
           <div className="nav-links">
-            {/* Show different links based on auth status and current page */}
             {!isAboutPage && <Link to={aboutPath}>{t("aboutMe")}</Link>}
             <a href={isAboutPage ? "#contact" : aboutPath + "#contact"}>
               {t("contact")}
             </a>
-            {/* Removed text login link in favor of icon button */}
 
             <div className="color-theme-container">
               <button
@@ -535,7 +527,6 @@ export function Navigation() {
                     <i className="fa-solid fa-user"></i>
                   </button>
 
-                  {/* User Dropdown */}
                   {showUserDropdown && (
                     <div className="user-dropdown" ref={dropdownRef}>
                       <div className="user-dropdown-header">
@@ -587,7 +578,7 @@ export function Navigation() {
                       </button>
                       {hasAccess("admin") && (
                         <Link
-                          to="/admin"
+                          to="/#admin"
                           className="user-dropdown-item"
                           onClick={() => setShowUserDropdown(false)}
                         >
@@ -619,7 +610,6 @@ export function Navigation() {
             )}
           </div>
 
-          {/* Mobile hamburger inside nav for positioning */}
           {mobileNavType === "hamburger" && (
             <MobileMenu
               isAuthenticated={isAuthenticated}
@@ -635,7 +625,6 @@ export function Navigation() {
         </div>
       </nav>
 
-      {/* Bottom bar nav rendered outside for fixed positioning */}
       {mobileNavType === "bottom" && (
         <MobileBottomBar
           isAuthenticated={isAuthenticated}
@@ -649,7 +638,6 @@ export function Navigation() {
         />
       )}
 
-      {/* Mobile sheets */}
       <MobileSheet
         isOpen={mobileSheet === "theme"}
         title={lang === "no" ? "Tema" : "Theme"}
@@ -816,7 +804,7 @@ export function Navigation() {
         </button>
         {hasAccess("admin") && (
           <Link
-            to="/admin"
+            to="/#admin"
             className="sheet-action"
             onClick={() => setMobileSheet(null)}
           >
@@ -830,7 +818,6 @@ export function Navigation() {
         </button>
       </MobileSheet>
 
-      {/* Profile Settings Popup */}
       {showProfilePopup && (
         <div
           className="profile-popup-overlay"
@@ -1035,7 +1022,6 @@ export function Navigation() {
   );
 }
 
-// Spacer component to push content below fixed navbar
 export function NavSpacer() {
   return <div className="nav-spacer" />;
 }
@@ -1098,7 +1084,6 @@ function MobileMenu({
       ></div>
 
       <div className="mobile-menu" id="mobileMenu">
-        {/* Show different links based on auth status and current page */}
         {isAuthenticated && !isAboutPage && (
           <Link to={aboutPath} onClick={closeMenu}>
             {t("aboutMe")}

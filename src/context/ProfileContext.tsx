@@ -58,7 +58,6 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    // Wait for auth to finish loading before fetching profile
     if (authLoading) return;
 
     fetchProfile();
@@ -92,7 +91,7 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
     try {
       const url = await uploadAvatarApi(file);
       if (url) {
-        await fetchProfile(); // Refresh profile to get new avatar URL
+        await fetchProfile();
       }
       return url;
     } catch (error) {

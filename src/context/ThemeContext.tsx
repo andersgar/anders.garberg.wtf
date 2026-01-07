@@ -102,7 +102,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       root.classList.remove("light");
     }
 
-    // Update URL
     const params = new URLSearchParams(window.location.search);
     params.set("theme", newTheme);
     window.history.replaceState(
@@ -119,7 +118,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const root = document.documentElement;
     root.setAttribute("data-color-theme", newColorTheme);
 
-    // Update URL
     const params = new URLSearchParams(window.location.search);
     params.set("color", newColorTheme);
     window.history.replaceState(

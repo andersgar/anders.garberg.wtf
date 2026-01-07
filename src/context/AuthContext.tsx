@@ -30,7 +30,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Handle hash-based auth tokens (from magic links/password reset)
     const handleHashTokens = async () => {
       const hashParams = new URLSearchParams(window.location.hash.substring(1));
       const accessToken = hashParams.get("access_token");
@@ -41,7 +40,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           access_token: accessToken,
           refresh_token: refreshToken,
         });
-        // Clear the hash from the URL
         window.history.replaceState(
           null,
           "",
@@ -51,14 +49,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     handleHashTokens().then(() => {
-      // Get initial session
       supabase.auth.getSession().then(({ data: { session } }) => {
         setUser(session?.user ?? null);
         setIsLoading(false);
       });
     });
 
-    // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -69,21 +65,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    console.log("Attempting login with email:", email);
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    if (error) {
-      console.error("Login error:", error.message, error);
-    } else {
-      console.log("Login successful:", data);
-    }
     return { error };
   };
 
   const signup = async (email: string, password: string) => {
-    console.log("Attempting signup with email:", email);
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -92,19 +81,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       },
     });
     if (error) {
-      console.error("Signup error:", error.message, error);
       return { error, needsConfirmation: false };
     }
 
-    // Check if email confirmation is required
-    const needsConfirmation = !data.session;
-    console.log(
-      "Signup successful:",
-      data,
-      "Needs confirmation:",
-      needsConfirmation
-    );
-    return { error: null, needsConfirmation };
+    return { error: null, needsConfirmation: !data.session };
   };
 
   const logout = async () => {

@@ -2,6 +2,7 @@ import { useState, FormEvent, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useLanguage } from "../context/LanguageContext";
+import { AuthLayout } from "../components/AuthLayout";
 import "../styles/auth.css";
 
 type ResetMode = "request" | "update";
@@ -11,7 +12,6 @@ export function ResetPasswordPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  // Determine mode based on URL parameters
   const [mode, setMode] = useState<ResetMode>("request");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,11 +22,8 @@ export function ResetPasswordPage() {
   const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
-    // Check if we have a token in the URL (redirected from Supabase email)
     const accessToken = searchParams.get("access_token");
     const type = searchParams.get("type");
-
-    // Also check hash fragments (Supabase sometimes uses these)
     const hash = window.location.hash;
     const hashParams = new URLSearchParams(hash.replace("#", ""));
     const hashAccessToken = hashParams.get("access_token");
@@ -37,8 +34,6 @@ export function ResetPasswordPage() {
       (hashAccessToken && hashType === "recovery")
     ) {
       setMode("update");
-
-      // Set the session from the token
       const token = accessToken || hashAccessToken;
       const refreshToken =
         searchParams.get("refresh_token") ||
@@ -61,11 +56,12 @@ export function ResetPasswordPage() {
     setShowMessage(false);
     setIsLoading(true);
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+      email,
+      { redirectTo: `${window.location.origin}/reset-password` }
+    );
 
-    if (error) {
+    if (resetError) {
       setError(t("resetRequestError"));
       setShowMessage(true);
     } else {
@@ -74,11 +70,7 @@ export function ResetPasswordPage() {
     }
 
     setIsLoading(false);
-
-    // Hide message after 5 seconds
-    setTimeout(() => {
-      setShowMessage(false);
-    }, 5000);
+    setTimeout(() => setShowMessage(false), 5000);
   };
 
   const handleUpdatePassword = async (e: FormEvent) => {
@@ -101,160 +93,136 @@ export function ResetPasswordPage() {
 
     setIsLoading(true);
 
-    const { error } = await supabase.auth.updateUser({
-      password: password,
+    const { error: updateError } = await supabase.auth.updateUser({
+      password,
     });
 
-    if (error) {
+    if (updateError) {
       setError(t("resetUpdateError"));
       setShowMessage(true);
     } else {
       setSuccess(t("passwordUpdated"));
       setShowMessage(true);
-
-      // Redirect to login after 2 seconds
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+      setTimeout(() => navigate("/login"), 2000);
     }
 
     setIsLoading(false);
   };
 
   return (
-    <div className="login-page">
-      <div className="login-container">
-        <div className="login-card">
-          <div className="login-header">
-            <div className="brand-badge" aria-hidden="true">
-              AG
-            </div>
-            <h2 className="login-title">
-              {mode === "request" ? t("forgotPassword") : t("setNewPassword")}
-            </h2>
-            <p className="login-subtitle">
-              {mode === "request"
-                ? t("forgotPasswordSubtitle")
-                : t("setNewPasswordSubtitle")}
-            </p>
+    <AuthLayout
+      title={mode === "request" ? t("forgotPassword") : t("setNewPassword")}
+      subtitle={
+        mode === "request"
+          ? t("forgotPasswordSubtitle")
+          : t("setNewPasswordSubtitle")
+      }
+      backLink={{
+        to: "/login",
+        label: t("backToLogin"),
+        icon: "fa-solid fa-arrow-left",
+      }}
+    >
+      {mode === "request" ? (
+        <form onSubmit={handleRequestReset}>
+          <div className="form-group">
+            <label htmlFor="email">{t("emailLabel")}</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="din@epost.no"
+              autoComplete="email"
+            />
           </div>
 
-          {mode === "request" ? (
-            <form onSubmit={handleRequestReset}>
-              <div className="form-group">
-                <label htmlFor="email">{t("emailLabel")}</label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="din@epost.no"
-                  autoComplete="email"
-                />
-              </div>
-
-              <div
-                className={`error-message ${
-                  showMessage && error ? "show" : ""
-                }`}
-              >
-                {error}
-              </div>
-
-              <div
-                className={`success-message ${
-                  showMessage && success ? "show" : ""
-                }`}
-              >
-                {success}
-              </div>
-
-              <button
-                type="submit"
-                className="btn login-btn"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <i className="fa-solid fa-spinner fa-spin"></i>{" "}
-                    {t("sending")}
-                  </>
-                ) : (
-                  t("sendResetLink")
-                )}
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={handleUpdatePassword}>
-              <div className="form-group">
-                <label htmlFor="password">{t("newPassword")}</label>
-                <input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  placeholder="••••••••"
-                  autoComplete="new-password"
-                  minLength={6}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="confirmPassword">{t("confirmPassword")}</label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  placeholder="••••••••"
-                  autoComplete="new-password"
-                  minLength={6}
-                />
-              </div>
-
-              <div
-                className={`error-message ${
-                  showMessage && error ? "show" : ""
-                }`}
-              >
-                {error}
-              </div>
-
-              <div
-                className={`success-message ${
-                  showMessage && success ? "show" : ""
-                }`}
-              >
-                {success}
-              </div>
-
-              <button
-                type="submit"
-                className="btn login-btn"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <i className="fa-solid fa-spinner fa-spin"></i>{" "}
-                    {t("updating")}
-                  </>
-                ) : (
-                  t("updatePassword")
-                )}
-              </button>
-            </form>
-          )}
-
-          <div className="back-link">
-            <a href="/login">
-              <i className="fa-solid fa-arrow-left"></i> {t("backToLogin")}
-            </a>
+          <div
+            className={`error-message ${
+              showMessage && error ? "show" : ""
+            }`}
+          >
+            {error}
           </div>
-        </div>
-      </div>
-    </div>
+
+          <div
+            className={`success-message ${
+              showMessage && success ? "show" : ""
+            }`}
+          >
+            {success}
+          </div>
+
+          <button type="submit" className="btn login-btn" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <i className="fa-solid fa-spinner fa-spin"></i>{" "}
+                {t("sending")}
+              </>
+            ) : (
+              t("sendResetLink")
+            )}
+          </button>
+        </form>
+      ) : (
+        <form onSubmit={handleUpdatePassword}>
+          <div className="form-group">
+            <label htmlFor="password">{t("newPassword")}</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="********"
+              autoComplete="new-password"
+              minLength={6}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="confirmPassword">{t("confirmPassword")}</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              placeholder="********"
+              autoComplete="new-password"
+              minLength={6}
+            />
+          </div>
+
+          <div
+            className={`error-message ${
+              showMessage && error ? "show" : ""
+            }`}
+          >
+            {error}
+          </div>
+
+          <div
+            className={`success-message ${
+              showMessage && success ? "show" : ""
+            }`}
+          >
+            {success}
+          </div>
+
+          <button type="submit" className="btn login-btn" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <i className="fa-solid fa-spinner fa-spin"></i>{" "}
+                {t("updating")}
+              </>
+            ) : (
+              t("updatePassword")
+            )}
+          </button>
+        </form>
+      )}
+    </AuthLayout>
   );
 }

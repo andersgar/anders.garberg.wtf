@@ -24,7 +24,7 @@ function App() {
         <Route path="/om-meg" element={<AboutPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/admin" element={<Navigate to="/" replace />} />
+        <Route path="/admin" element={<Navigate to="/#admin" replace />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/qr-generator" element={<QRGeneratorPage />} />
