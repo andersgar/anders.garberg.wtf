@@ -163,14 +163,14 @@ export function DashboardPage() {
   const infoScreensApp = {
     id: "info_screens",
     appId: "info_screens",
-    url: "",
-    customName: "Info Screens",
-    customIcon: "fa-solid fa-display",
+    url: "https://screens.garberg.wtf",
+    customName: "Informize",
+    customIcon: "/assets/apps/informize.svg",
     visible: true,
     order: 1000,
   };
   // Recommended apps are explicitly curated.
-  const recommendedApps = [qrApp, infoScreensApp];
+  const recommendedApps = [infoScreensApp, qrApp];
 
   const handleOpenAddApp = () => {
     if (!isAuthenticated) return;
@@ -501,18 +501,22 @@ export function DashboardPage() {
                   }
                   if (app.appId === "info_screens") {
                     return (
-                      <button
+                      <a
                         key={app.id}
-                        className="app-tile app-tile-disabled"
+                        className="app-tile"
                         style={
-                          { "--app-color": "var(--muted)" } as React.CSSProperties
+                          { "--app-color": display.color } as React.CSSProperties
                         }
-                        type="button"
-                        disabled
-                        title={t("comingSoon")}
+                        href={ensureProtocol(app.url)}
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
                         <div className="app-tile-icon">
-                          <i className={display.icon}></i>
+                          {display.isImage ? (
+                            <img src={display.icon} alt={display.name} />
+                          ) : (
+                            <i className={display.icon}></i>
+                          )}
                         </div>
                         <span className="app-tile-name">
                           {t("infoScreensName")}
@@ -520,8 +524,7 @@ export function DashboardPage() {
                         <span className="app-tile-desc">
                           {t("infoScreensDescription")}
                         </span>
-                        <span className="app-tile-desc">{t("comingSoon")}</span>
-                      </button>
+                      </a>
                     );
                   }
                   return (

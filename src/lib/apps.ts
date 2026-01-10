@@ -35,6 +35,16 @@ export const APP_LIBRARY: AppDefinition[] = [
     requiresUrl: false,
   },
   {
+    id: "info_screens",
+    name: "Informize",
+    icon: "/assets/apps/informize.svg",
+    color: "#FF8C1A",
+    description: "Information screen creator and manager",
+    featured: true,
+    requiresUrl: false,
+    defaultUrl: "https://screens.garberg.wtf",
+  },
+  {
     id: "blackboard",
     name: "Blackboard",
     icon: "fa-solid fa-book-open-reader",
