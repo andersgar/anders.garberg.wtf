@@ -13,7 +13,6 @@ export interface UserSettings {
 export interface Profile {
   id: string;
   email: string | null;
-  username: string | null;
   full_name: string | null;
   avatar_url: string | null;
   bio: string | null;
@@ -53,12 +52,18 @@ export async function createProfileIfMissing(): Promise<Profile | null> {
     return getProfile();
   }
 
+  // Get name from auth metadata
+  const firstName = user.user_metadata?.first_name || "";
+  const lastName = user.user_metadata?.last_name || "";
+  const fullName = [firstName, lastName].filter(Boolean).join(" ") || null;
+
   // Create new profile
   const { data, error } = await supabase
     .from("profiles")
     .insert({
       id: user.id,
       email: user.email,
+      full_name: fullName,
       access_level: "user",
       settings: DEFAULT_SETTINGS,
       apps: [],
@@ -82,18 +87,22 @@ export async function createProfileIfMissing(): Promise<Profile | null> {
  * Get the current user's profile
  */
 export async function getProfile(): Promise<Profile | null> {
+  console.log("[getProfile] Starting...");
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
+  console.log("[getProfile] User:", user?.id);
   if (!user) return null;
 
+  console.log("[getProfile] Fetching profile from database...");
   const { data, error } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", user.id)
     .maybeSingle();
 
+  console.log("[getProfile] Result:", { data, error });
   if (error) {
     console.error("Error fetching profile:", error);
     return null;
@@ -104,8 +113,28 @@ export async function getProfile(): Promise<Profile | null> {
     return createProfileIfMissing();
   }
 
+  // If full_name is missing in profile, try to get it from auth metadata
+  let fullName = data.full_name;
+  if (!fullName) {
+    const firstName = user.user_metadata?.first_name || "";
+    const lastName = user.user_metadata?.last_name || "";
+    fullName = [firstName, lastName].filter(Boolean).join(" ") || null;
+
+    // Update profile with name from metadata if found (non-blocking)
+    if (fullName) {
+      supabase
+        .from("profiles")
+        .update({ full_name: fullName })
+        .eq("id", user.id)
+        .then(({ error }) => {
+          if (error) console.error("Failed to update full_name:", error);
+        });
+    }
+  }
+
   return {
     ...data,
+    full_name: fullName,
     settings: { ...DEFAULT_SETTINGS, ...data.settings },
     apps: data.apps || [],
   } as Profile;

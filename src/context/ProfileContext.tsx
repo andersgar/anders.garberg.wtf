@@ -61,7 +61,7 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
     if (authLoading) return;
 
     fetchProfile();
-  }, [user, authLoading]);
+  }, [user?.id, authLoading]); // Use user.id instead of user to avoid unnecessary refetches
 
   const updateProfile = async (
     updates: Partial<

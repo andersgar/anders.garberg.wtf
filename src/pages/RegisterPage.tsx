@@ -13,6 +13,8 @@ export function RegisterPage() {
   const [searchParams] = useSearchParams();
   const redirectUrl = searchParams.get("redirect");
 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -60,7 +62,9 @@ export function RegisterPage() {
 
     const { error: authError, needsConfirmation } = await signup(
       email,
-      password
+      password,
+      firstName,
+      lastName
     );
 
     if (authError) {
@@ -128,6 +132,32 @@ export function RegisterPage() {
         }}
       >
         <form id="registerForm" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="firstName">{t("firstNameLabel")}</label>
+            <input
+              type="text"
+              id="firstName"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+              placeholder="Anders"
+              autoComplete="given-name"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="lastName">{t("lastNameLabel")}</label>
+            <input
+              type="text"
+              id="lastName"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+              placeholder="Garberg"
+              autoComplete="family-name"
+            />
+          </div>
+
           <div className="form-group">
             <label htmlFor="email">{t("emailLabel")}</label>
             <input

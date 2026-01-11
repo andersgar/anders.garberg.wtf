@@ -36,6 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const refreshToken = hashParams.get("refresh_token");
 
       if (accessToken && refreshToken) {
+        console.log("[Auth] Setting session from hash tokens");
         await supabase.auth.setSession({
           access_token: accessToken,
           refresh_token: refreshToken,
@@ -50,6 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     handleHashTokens().then(() => {
       supabase.auth.getSession().then(({ data: { session } }) => {
+        console.log("[Auth] Initial session:", session?.user?.id);
         setUser(session?.user ?? null);
         setIsLoading(false);
       });
@@ -58,6 +60,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log("[Auth] State change:", _event, session?.user?.id);
       setUser(session?.user ?? null);
     });
 
@@ -65,19 +68,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
+    console.log("[Auth] Attempting login for:", email);
+    const { error, data } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+    console.log("[Auth] Login result:", { error, userId: data.user?.id });
     return { error };
   };
 
-  const signup = async (email: string, password: string) => {
+  const signup = async (
+    email: string,
+    password: string,
+    firstName?: string,
+    lastName?: string
+  ) => {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: `${window.location.origin}/auth/callback`,
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+        },
       },
     });
     if (error) {
