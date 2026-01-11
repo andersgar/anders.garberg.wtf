@@ -11,7 +11,7 @@ export function ResetPasswordPage() {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const redirectUrl = searchParams.get('redirect');
+  const redirectUrl = searchParams.get("redirect");
 
   const [mode, setMode] = useState<ResetMode>("request");
   const [email, setEmail] = useState("");
@@ -146,9 +146,7 @@ export function ResetPasswordPage() {
           </div>
 
           <div
-            className={`error-message ${
-              showMessage && error ? "show" : ""
-            }`}
+            className={`error-message ${showMessage && error ? "show" : ""}`}
           >
             {error}
           </div>
@@ -164,8 +162,7 @@ export function ResetPasswordPage() {
           <button type="submit" className="btn login-btn" disabled={isLoading}>
             {isLoading ? (
               <>
-                <i className="fa-solid fa-spinner fa-spin"></i>{" "}
-                {t("sending")}
+                <i className="fa-solid fa-spinner fa-spin"></i> {t("sending")}
               </>
             ) : (
               t("sendResetLink")
@@ -203,9 +200,7 @@ export function ResetPasswordPage() {
           </div>
 
           <div
-            className={`error-message ${
-              showMessage && error ? "show" : ""
-            }`}
+            className={`error-message ${showMessage && error ? "show" : ""}`}
           >
             {error}
           </div>
@@ -221,8 +216,7 @@ export function ResetPasswordPage() {
           <button type="submit" className="btn login-btn" disabled={isLoading}>
             {isLoading ? (
               <>
-                <i className="fa-solid fa-spinner fa-spin"></i>{" "}
-                {t("updating")}
+                <i className="fa-solid fa-spinner fa-spin"></i> {t("updating")}
               </>
             ) : (
               t("updatePassword")
