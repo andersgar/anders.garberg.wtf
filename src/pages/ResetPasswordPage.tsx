@@ -11,6 +11,7 @@ export function ResetPasswordPage() {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const redirectUrl = searchParams.get('redirect');
 
   const [mode, setMode] = useState<ResetMode>("request");
   const [email, setEmail] = useState("");
@@ -103,7 +104,13 @@ export function ResetPasswordPage() {
     } else {
       setSuccess(t("passwordUpdated"));
       setShowMessage(true);
-      setTimeout(() => navigate("/login"), 2000);
+      setTimeout(() => {
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
+        } else {
+          navigate("/login");
+        }
+      }, 2000);
     }
 
     setIsLoading(false);

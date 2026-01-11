@@ -1,5 +1,5 @@
 import { useState, FormEvent, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useMarkdownModal } from "../components/useMarkdownModal";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
@@ -10,6 +10,8 @@ export function RegisterPage() {
   const { t } = useLanguage();
   const { signup, isAuthenticated, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectUrl = searchParams.get('redirect');
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -78,7 +80,12 @@ export function RegisterPage() {
       return;
     }
 
-    navigate("/");
+    // Redirect to external URL or dashboard
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
+    } else {
+      navigate("/");
+    }
   };
 
   if (authLoading) {
