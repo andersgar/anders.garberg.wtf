@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
 import { getAuthErrorKey } from "../lib/authErrors";
 import { AuthLayout, AuthLoading } from "../components/AuthLayout";
+import { getAppBranding } from "../lib/appBranding";
 
 export function LoginPage() {
   const { t } = useLanguage();
@@ -11,6 +12,8 @@ export function LoginPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirectUrl = searchParams.get("redirect");
+  const appName = searchParams.get("app");
+  const appBranding = getAppBranding(appName);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -62,6 +65,7 @@ export function LoginPage() {
     <AuthLayout
       title={t("loginTitle")}
       subtitle={t("loginSubtitle")}
+      appBranding={appBranding}
       backLink={{
         to: "/",
         label: t("backToHome"),

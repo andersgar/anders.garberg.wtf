@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
 import { getAuthErrorKey } from "../lib/authErrors";
 import { AuthLayout, AuthLoading } from "../components/AuthLayout";
+import { getAppBranding } from "../lib/appBranding";
 
 export function RegisterPage() {
   const { t } = useLanguage();
@@ -12,6 +13,8 @@ export function RegisterPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirectUrl = searchParams.get("redirect");
+  const appName = searchParams.get("app");
+  const appBranding = getAppBranding(appName);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -101,6 +104,7 @@ export function RegisterPage() {
       <AuthLayout
         title={t("checkYourEmail")}
         subtitle={t("confirmationSent")}
+        appBranding={appBranding}
         headerBadge={
           <div className="success-icon">
             <i className="fa-solid fa-envelope-circle-check"></i>
@@ -125,6 +129,7 @@ export function RegisterPage() {
       <AuthLayout
         title={t("registerTitle")}
         subtitle={t("registerSubtitle")}
+        appBranding={appBranding}
         backLink={{
           to: "/",
           label: t("backToHome"),
