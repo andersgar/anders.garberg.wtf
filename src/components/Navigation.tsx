@@ -82,14 +82,18 @@ export function Navigation() {
   const [showPasswordSection, setShowPasswordSection] = useState(false);
   const [showDeleteSection, setShowDeleteSection] = useState(false);
   const [mobileNavType, setMobileNavType] = useState<"hamburger" | "bottom">(
-    () => (localStorage.getItem("mobileNavType") as "hamburger" | "bottom") || "bottom"
+    () =>
+      (localStorage.getItem("mobileNavType") as "hamburger" | "bottom") ||
+      "bottom"
   );
 
   const toggleMobileSheet = (target: "theme" | "user" | "language") => {
     setMobileSheet((prev) => (prev === target ? null : target));
   };
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
-  const [mobileSheet, setMobileSheet] = useState<"theme" | "user" | "language" | null>(null);
+  const [mobileSheet, setMobileSheet] = useState<
+    "theme" | "user" | "language" | null
+  >(null);
   const [navHidden, setNavHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -111,8 +115,7 @@ export function Navigation() {
       if (currentScrollY > 100) {
         if (currentScrollY > lastScrollY && currentScrollY > 100) {
           setNavHidden(true);
-        }
-        else if (currentScrollY < lastScrollY) {
+        } else if (currentScrollY < lastScrollY) {
           setNavHidden(false);
         }
       } else {
@@ -190,7 +193,12 @@ export function Navigation() {
       }
     };
 
-    if (showUserDropdown || showColorDropdown || showLanguageDropdown || mobileSheet) {
+    if (
+      showUserDropdown ||
+      showColorDropdown ||
+      showLanguageDropdown ||
+      mobileSheet
+    ) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
@@ -498,7 +506,7 @@ export function Navigation() {
                   <button
                     className={`language-pill ${lang === "en" ? "active" : ""}`}
                     onClick={() => handleLanguageSelect("en")}
-                    >
+                  >
                     <span className="language-pill__icon">
                       {lang === "en" && <i className="fa-solid fa-check"></i>}
                     </span>
@@ -509,7 +517,12 @@ export function Navigation() {
                 </div>
               )}
             </div>
-            <Link to={appsLink} className="nav-apps-btn" aria-label={t("apps")} title={t("apps")}>
+            <Link
+              to={appsLink}
+              className="nav-apps-btn"
+              aria-label={t("apps")}
+              title={t("apps")}
+            >
               <i className="fa-solid fa-grip"></i>
               <span>{t("apps")}</span>
             </Link>
@@ -858,7 +871,9 @@ export function Navigation() {
                   <div className="mobile-nav-options">
                     <button
                       type="button"
-                      className={`mobile-nav-option ${mobileNavType === "hamburger" ? "active" : ""}`}
+                      className={`mobile-nav-option ${
+                        mobileNavType === "hamburger" ? "active" : ""
+                      }`}
                       onClick={() => handleMobileNavChange("hamburger")}
                     >
                       <span className="mobile-nav-option__icon-text">
@@ -873,7 +888,9 @@ export function Navigation() {
                     </button>
                     <button
                       type="button"
-                      className={`mobile-nav-option ${mobileNavType === "bottom" ? "active" : ""}`}
+                      className={`mobile-nav-option ${
+                        mobileNavType === "bottom" ? "active" : ""
+                      }`}
                       onClick={() => handleMobileNavChange("bottom")}
                     >
                       <span className="mobile-nav-option__icon-text">
@@ -907,7 +924,10 @@ export function Navigation() {
                     ></i>
                   </button>
                   {showPasswordSection && (
-                    <form className="collapsible-body" onSubmit={handlePasswordChange}>
+                    <form
+                      className="collapsible-body"
+                      onSubmit={handlePasswordChange}
+                    >
                       <input
                         type="password"
                         value={currentPassword}
@@ -939,13 +959,21 @@ export function Navigation() {
                         {resetLoading ? t("sending") : t("sendResetLink")}
                       </button>
                       {passwordError && (
-                        <div className="profile-readonly-value" style={{ color: "#ef4444" }}>
-                          <i className="fa-solid fa-circle-exclamation"></i> {passwordError}
+                        <div
+                          className="profile-readonly-value"
+                          style={{ color: "#ef4444" }}
+                        >
+                          <i className="fa-solid fa-circle-exclamation"></i>{" "}
+                          {passwordError}
                         </div>
                       )}
                       {passwordSuccess && (
-                        <div className="profile-readonly-value" style={{ color: "var(--accent)" }}>
-                          <i className="fa-solid fa-circle-check"></i> {passwordSuccess}
+                        <div
+                          className="profile-readonly-value"
+                          style={{ color: "var(--accent)" }}
+                        >
+                          <i className="fa-solid fa-circle-check"></i>{" "}
+                          {passwordSuccess}
                         </div>
                       )}
                       <button
@@ -967,7 +995,8 @@ export function Navigation() {
                     onClick={() => setShowDeleteSection(!showDeleteSection)}
                   >
                     <span>
-                      <i className="fa-solid fa-user-slash"></i> {t("deleteAccount")}
+                      <i className="fa-solid fa-user-slash"></i>{" "}
+                      {t("deleteAccount")}
                     </span>
                     <i
                       className={`fa-solid fa-chevron-${
@@ -976,7 +1005,10 @@ export function Navigation() {
                     ></i>
                   </button>
                   {showDeleteSection && (
-                    <form className="collapsible-body" onSubmit={handleDeleteAccount}>
+                    <form
+                      className="collapsible-body"
+                      onSubmit={handleDeleteAccount}
+                    >
                       <input
                         type="password"
                         value={deletePassword}
@@ -985,13 +1017,21 @@ export function Navigation() {
                         required
                       />
                       {deleteError && (
-                        <div className="profile-readonly-value" style={{ color: "#ef4444" }}>
-                          <i className="fa-solid fa-circle-exclamation"></i> {deleteError}
+                        <div
+                          className="profile-readonly-value"
+                          style={{ color: "#ef4444" }}
+                        >
+                          <i className="fa-solid fa-circle-exclamation"></i>{" "}
+                          {deleteError}
                         </div>
                       )}
                       {deleteSuccess && (
-                        <div className="profile-readonly-value" style={{ color: "var(--accent)" }}>
-                          <i className="fa-solid fa-circle-check"></i> {deleteSuccess}
+                        <div
+                          className="profile-readonly-value"
+                          style={{ color: "var(--accent)" }}
+                        >
+                          <i className="fa-solid fa-circle-check"></i>{" "}
+                          {deleteSuccess}
                         </div>
                       )}
                       <button
@@ -1000,7 +1040,9 @@ export function Navigation() {
                         disabled={deleteLoading}
                         style={{ width: "100%", background: "#ef4444" }}
                       >
-                        {deleteLoading ? t("deletingAccount") : t("confirmDelete")}
+                        {deleteLoading
+                          ? t("deletingAccount")
+                          : t("confirmDelete")}
                       </button>
                     </form>
                   )}
@@ -1157,7 +1199,11 @@ function MobileMenu({
               <span>{t("profile")}</span>
             </button>
           ) : (
-            <Link to="/login" className="mobile-menu-action" onClick={closeMenu}>
+            <Link
+              to="/login"
+              className="mobile-menu-action"
+              onClick={closeMenu}
+            >
               <i className="fa-solid fa-right-to-bracket"></i>
               <span>{t("login")}</span>
             </Link>
@@ -1187,7 +1233,9 @@ function MobileSheet({
 
   return (
     <div
-      className={`mobile-sheet-overlay ${offsetBottomBar ? "bottom-offset" : ""}`}
+      className={`mobile-sheet-overlay ${
+        offsetBottomBar ? "bottom-offset" : ""
+      }`}
       role="presentation"
       onClick={onClose}
     >
@@ -1237,7 +1285,10 @@ function MobileBottomBar({
   useEffect(() => {
     const close = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (!target.closest(".mobile-bottom-bar") && !target.closest(".mobile-bottom-menu")) {
+      if (
+        !target.closest(".mobile-bottom-bar") &&
+        !target.closest(".mobile-bottom-menu")
+      ) {
         setOpen(false);
       }
     };
@@ -1266,13 +1317,13 @@ function MobileBottomBar({
         </div>
         <div className="bottom-bar-section center">
           <button
-          className={`theme-toggle ${open ? "active" : ""}`}
+            className={`theme-toggle ${open ? "active" : ""}`}
             onClick={() => {
               setOpen(!open);
               onCloseSheet();
             }}
-          aria-label="Åpne meny"
-        >
+            aria-label="Åpne meny"
+          >
             <i className="fa-solid fa-bars"></i>
           </button>
         </div>
@@ -1323,7 +1374,11 @@ function MobileBottomBar({
           >
             {t("contact")}
           </a>
-          <Link to={appsLink} onClick={() => setOpen(false)} className="mobile-menu-apps-link">
+          <Link
+            to={appsLink}
+            onClick={() => setOpen(false)}
+            className="mobile-menu-apps-link"
+          >
             <i className="fa-solid fa-grip"></i>
             <span>{t("apps")}</span>
           </Link>

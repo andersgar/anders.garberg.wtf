@@ -230,9 +230,7 @@ export function DashboardPage() {
   const handleEditUserApps = (targetUser: Profile) => {
     setEditingUserId(targetUser.id);
     setEditingUserApps(targetUser.apps || []);
-    setEditingUserName(
-      targetUser.full_name || targetUser.email || "User"
-    );
+    setEditingUserName(targetUser.full_name || targetUser.email || "User");
     setEditingApp(null);
     setIsAppModalOpen(true);
   };
@@ -282,7 +280,9 @@ export function DashboardPage() {
     if (success) {
       setEditingUserApps(reIndexed);
       setUsers(
-        users.map((u) => (u.id === editingUserId ? { ...u, apps: reIndexed } : u))
+        users.map((u) =>
+          u.id === editingUserId ? { ...u, apps: reIndexed } : u
+        )
       );
     }
   };
@@ -400,9 +400,13 @@ export function DashboardPage() {
                     return (
                       <button
                         key={app.id}
-                        className={`app-tile ${isHidden ? "app-tile-hidden" : ""}`}
+                        className={`app-tile ${
+                          isHidden ? "app-tile-hidden" : ""
+                        }`}
                         style={
-                          { "--app-color": display.color } as React.CSSProperties
+                          {
+                            "--app-color": display.color,
+                          } as React.CSSProperties
                         }
                         onClick={() => setShowQrModal(true)}
                         onContextMenu={(e) => {
@@ -505,7 +509,9 @@ export function DashboardPage() {
                         key={app.id}
                         className="app-tile"
                         style={
-                          { "--app-color": display.color } as React.CSSProperties
+                          {
+                            "--app-color": display.color,
+                          } as React.CSSProperties
                         }
                         href={ensureProtocol(app.url)}
                         target="_blank"
@@ -790,7 +796,11 @@ export function DashboardPage() {
             </div>
             <div
               className="app-modal-content"
-              style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.25rem",
+              }}
             >
               <div className="qr-generator-grid">
                 <div className="qr-generator-form">
@@ -893,11 +903,7 @@ export function DashboardPage() {
             : undefined
         }
         adminUserApps={
-          editingUserId
-            ? editingUserApps
-            : manageOwnApps
-            ? userApps
-            : undefined
+          editingUserId ? editingUserApps : manageOwnApps ? userApps : undefined
         }
         onReorderUserApps={
           editingUserId
@@ -909,10 +915,7 @@ export function DashboardPage() {
       />
 
       {logModal && (
-        <div
-          className="app-modal-overlay"
-          onClick={() => setLogModal(null)}
-        >
+        <div className="app-modal-overlay" onClick={() => setLogModal(null)}>
           <div
             className="app-modal"
             role="dialog"
@@ -1024,4 +1027,3 @@ export function DashboardPage() {
     </>
   );
 }
-
