@@ -1,5 +1,5 @@
 import { useState, FormEvent, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
 import { getAuthErrorKey } from "../lib/authErrors";
@@ -9,6 +9,8 @@ export function LoginPage() {
   const { t } = useLanguage();
   const { login, isAuthenticated, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectUrl = searchParams.get("redirect");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,9 +20,13 @@ export function LoginPage() {
 
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
-      navigate("/");
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
+      } else {
+        navigate("/");
+      }
     }
-  }, [authLoading, isAuthenticated, navigate]);
+  }, [authLoading, isAuthenticated, navigate, redirectUrl]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -40,7 +46,12 @@ export function LoginPage() {
       return;
     }
 
-    navigate("/");
+    // Redirect to external URL or dashboard
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
+    } else {
+      navigate("/");
+    }
   };
 
   if (authLoading) {
@@ -95,8 +106,7 @@ export function LoginPage() {
         <button type="submit" className="btn login-btn" disabled={isLoading}>
           {isLoading ? (
             <>
-              <i className="fa-solid fa-spinner fa-spin"></i>{" "}
-              {t("loggingIn")}
+              <i className="fa-solid fa-spinner fa-spin"></i> {t("loggingIn")}
             </>
           ) : (
             t("loginButton")
