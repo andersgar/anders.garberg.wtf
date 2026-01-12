@@ -18,7 +18,9 @@ interface AuthContextType {
   ) => Promise<{ error: AuthError | null }>;
   signup: (
     email: string,
-    password: string
+    password: string,
+    firstName?: string,
+    lastName?: string
   ) => Promise<{ error: AuthError | null; needsConfirmation: boolean }>;
   logout: () => Promise<void>;
 }

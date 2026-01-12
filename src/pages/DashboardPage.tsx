@@ -77,7 +77,7 @@ export function DashboardPage() {
     const u = users.find((usr) => usr.id === userId);
     return (
       u?.full_name ||
-      u?.username ||
+      u?.full_name ||
       u?.email ||
       (userId.length > 8 ? `${userId.slice(0, 8)}…` : userId)
     );
@@ -231,7 +231,7 @@ export function DashboardPage() {
     setEditingUserId(targetUser.id);
     setEditingUserApps(targetUser.apps || []);
     setEditingUserName(
-      targetUser.full_name || targetUser.username || targetUser.email || "User"
+      targetUser.full_name || targetUser.email || "User"
     );
     setEditingApp(null);
     setIsAppModalOpen(true);
@@ -325,7 +325,7 @@ export function DashboardPage() {
 
   const displayName =
     profile?.full_name ||
-    profile?.username ||
+    profile?.full_name ||
     profile?.email?.split("@")[0] ||
     (isAuthenticated ? user?.email?.split("@")[0] : t("user"));
 
@@ -689,7 +689,7 @@ export function DashboardPage() {
                                 <i className="fa-solid fa-user"></i>
                               )}
                             </div>
-                            <span>{u.full_name || u.username || "—"}</span>
+                            <span>{u.full_name || "—"}</span>
                           </td>
                           <td>{u.email}</td>
                           <td>

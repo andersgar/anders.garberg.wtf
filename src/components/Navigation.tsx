@@ -540,7 +540,7 @@ export function Navigation() {
                         <div className="user-dropdown-info">
                           <span className="user-email">
                             {profile?.full_name ||
-                              profile?.username ||
+                              profile?.full_name ||
                               user?.email ||
                               "Loading..."}
                           </span>
@@ -768,7 +768,7 @@ export function Navigation() {
           </div>
           <div className="sheet-user-meta">
             <span className="user-email">
-              {profile?.full_name || profile?.username || user?.email}
+              {profile?.full_name || user?.email}
             </span>
             <span className="user-role">
               {profile?.access_level === "owner"
