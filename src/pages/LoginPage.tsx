@@ -122,7 +122,14 @@ export function LoginPage() {
         <span>{t("noAccount")}</span>
       </div>
 
-      <Link to="/register" className="btn ghost">
+      <Link
+        to={`/register${redirectUrl || appName ? "?" : ""}${
+          appName ? `app=${appName}` : ""
+        }${appName && redirectUrl ? "&" : ""}${
+          redirectUrl ? `redirect=${encodeURIComponent(redirectUrl)}` : ""
+        }`}
+        className="btn ghost"
+      >
         {t("createAccount")}
       </Link>
     </AuthLayout>

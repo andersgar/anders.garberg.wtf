@@ -188,14 +188,14 @@
 }
 
 .forgot-password-link a {
-  color: var(--brand);
+  color: var(--auth-primary, var(--brand));
   font-size: 0.85rem;
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .forgot-password-link a:hover {
-  color: var(--brand-2);
+  color: var(--auth-primary, var(--brand-2));
   text-decoration: underline;
 }
 
@@ -248,8 +248,9 @@
 .login-card .btn.ghost {
   width: 100%;
   background: transparent;
-  color: var(--brand);
-  border: 1px solid color-mix(in oklab, var(--brand) 30%, transparent);
+  color: var(--auth-primary, var(--brand));
+  border: 1px solid
+    color-mix(in oklab, var(--auth-primary, var(--brand)) 30%, transparent);
   margin-top: 0.75rem;
   padding: 1rem;
   font-size: 1rem;
@@ -265,8 +266,12 @@
 }
 
 .login-card .btn.ghost:hover {
-  background: color-mix(in oklab, var(--brand) 8%, transparent);
-  border-color: var(--brand);
+  background: color-mix(
+    in oklab,
+    var(--auth-primary, var(--brand)) 8%,
+    transparent
+  );
+  border-color: var(--auth-primary, var(--brand));
 }
 
 .divider {
@@ -301,7 +306,7 @@
 }
 
 .login-card .back-link a {
-  color: var(--brand);
+  color: var(--auth-primary, var(--brand));
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 500;
@@ -312,7 +317,7 @@
 }
 
 .login-card .back-link a:hover {
-  color: var(--brand-2);
+  color: var(--auth-primary, var(--brand-2));
   text-decoration: underline;
 }
 
