@@ -29,7 +29,7 @@ export function RegisterPage() {
 
   const termsModal = useMarkdownModal(
     "/terms-privacy.md",
-    t("privacyTermsLink")
+    t("privacyTermsLink"),
   );
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export function RegisterPage() {
       email,
       password,
       firstName,
-      lastName
+      lastName,
     );
 
     if (authError) {
@@ -248,7 +248,14 @@ export function RegisterPage() {
           <span>{t("alreadyHaveAccount")}</span>
         </div>
 
-        <Link to="/login" className="btn ghost">
+        <Link
+          to={`/login${redirectUrl || appName ? "?" : ""}${
+            appName ? `app=${appName}` : ""
+          }${appName && redirectUrl ? "&" : ""}${
+            redirectUrl ? `redirect=${encodeURIComponent(redirectUrl)}` : ""
+          }`}
+          className="btn ghost"
+        >
           {t("loginButton")}
         </Link>
       </AuthLayout>

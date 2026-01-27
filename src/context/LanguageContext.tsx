@@ -24,6 +24,11 @@ function getLanguageFromURL(): Language | null {
   return null;
 }
 
+function isExternalApp(): boolean {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.has("app") || urlParams.has("redirect");
+}
+
 function setLanguageInURL(lang: Language) {
   const url = new URL(window.location.href);
   url.searchParams.set("lang", lang);
@@ -34,6 +39,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Language>(() => {
     return (
       getLanguageFromURL() ||
+      (isExternalApp() ? "en" : null) ||
       (localStorage.getItem("language") as Language) ||
       "no"
     );

@@ -30,7 +30,8 @@
   inline-size: 56px;
   block-size: 56px;
   border-radius: 14px;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       circle 34px at 20% 20%,
       color-mix(in oklab, var(--brand) 85%, transparent) 85%,
       transparent 100%
@@ -103,8 +104,9 @@
 
 .login-card .form-group input:focus {
   outline: none;
-  border-color: var(--brand);
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+  border-color: var(--auth-primary, var(--brand));
+  box-shadow: 0 0 0 3px
+    color-mix(in oklab, var(--auth-primary, var(--brand)) 10%, transparent);
 }
 
 .login-card .form-group input::placeholder {
@@ -139,7 +141,7 @@
 .terms-checkbox {
   width: 18px;
   height: 18px;
-  accent-color: var(--brand);
+  accent-color: var(--auth-primary, var(--brand));
   flex-shrink: 0;
   margin: 0;
   border: 1px solid color-mix(in oklab, var(--text) 18%, transparent);
@@ -149,6 +151,7 @@
 
 .terms-link {
   font-weight: 600;
+  color: var(--auth-primary, var(--brand));
 }
 
 .login-card .error-message {
@@ -384,7 +387,9 @@
   align-items: center;
   gap: 1.5rem;
   border: 1px solid var(--border-color);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 .stat-card:hover {
