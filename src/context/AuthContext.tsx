@@ -14,13 +14,15 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (
     email: string,
-    password: string
+    password: string,
   ) => Promise<{ error: AuthError | null }>;
   signup: (
     email: string,
     password: string,
     firstName?: string,
-    lastName?: string
+    lastName?: string,
+    redirectUrl?: string | null,
+    appName?: string | null,
   ) => Promise<{ error: AuthError | null; needsConfirmation: boolean }>;
   logout: () => Promise<void>;
 }
@@ -46,7 +48,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         window.history.replaceState(
           null,
           "",
-          window.location.pathname + window.location.search
+          window.location.pathname + window.location.search,
         );
       }
     };
@@ -83,13 +85,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     email: string,
     password: string,
     firstName?: string,
-    lastName?: string
+    lastName?: string,
+    redirectUrl?: string | null,
+    appName?: string | null,
   ) => {
+    // Build callback URL with redirect info for external apps
+    let callbackUrl = `${window.location.origin}/auth/callback`;
+    const params = new URLSearchParams();
+    if (appName) params.set("app", appName);
+    if (redirectUrl) params.set("redirect", redirectUrl);
+    if (params.toString()) callbackUrl += `?${params.toString()}`;
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: callbackUrl,
         data: {
           first_name: firstName,
           last_name: lastName,

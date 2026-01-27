@@ -68,6 +68,8 @@ export function RegisterPage() {
       password,
       firstName,
       lastName,
+      redirectUrl,
+      appName,
     );
 
     if (authError) {
@@ -100,6 +102,7 @@ export function RegisterPage() {
   }
 
   if (showSuccess) {
+    const loginPath = `/login${redirectUrl || appName ? "?" : ""}${appName ? `app=${appName}` : ""}${appName && redirectUrl ? "&" : ""}${redirectUrl ? `redirect=${encodeURIComponent(redirectUrl)}` : ""}`;
     return (
       <AuthLayout
         title={t("checkYourEmail")}
@@ -111,7 +114,7 @@ export function RegisterPage() {
           </div>
         }
         backLink={{
-          to: "/login",
+          to: loginPath,
           label: t("backToLogin"),
           icon: "fa-solid fa-arrow-left",
         }}
