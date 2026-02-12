@@ -1,15 +1,7 @@
-# Automation Project: Water Tank Control
+# Automation Project — Water Tank Control (Autoprosjekt V25)
 
-## System
-An autonomous water-tank rig combining sensors, controllers, and simulation models to explore stable level control and fail-safe behavior.
+This project implements and validates closed-loop control for a laboratory water-tank rig, combining practical PLC control with simulation and data-driven modelling. The control system is implemented in a PLC using Structured Text, centered around a discrete-time PID/PI-D design with key robustness features such as tracking/bumpless transfer, anti-windup, derivative filtering, and lead–lag feedforward for disturbance compensation.
 
-## What’s Inside
-- **Hardware:** Level/pressure sensors, actuated valves/pumps, safety relays, and an MCU/PLC controller.
-- **Control:** PI/PID tuning for fill/empty cycles, anti-windup, and disturbance rejection under varying inflow.
-- **Simulation:** Digital twin models for loop tuning and “what-if” tests before changing the physical rig.
-- **Testing:** Integration checklists, alarm handling, and fallback states to prevent overflow or dry-run scenarios.
+To tune and evaluate controller performance before deployment, the project also establishes a simulation and test workflow by coupling PLC execution with Simulink through OPC communication. In parallel, system behaviour is modelled in MATLAB using system identification methods (including NLARX), supporting comparison between model predictions and measured response.
 
-## Takeaways
-- The value of simulation-first tuning before touching hardware.
-- Clear separation between monitoring, control, and safety layers.
-- Practical lessons on sensor noise, calibration drift, and keeping logs actionable.
+The final result is a documented controller architecture, a verified closed-loop setup, and a report that covers design choices, signal flow, tuning approach, safety considerations, and reflections from integration testing.

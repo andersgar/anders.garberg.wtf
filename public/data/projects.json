@@ -1,45 +1,52 @@
 [
   {
     "title": {
+      "no": "BSc-oppgave: Lone Wolf simulering og syntetisk testmiljø",
+      "en": "BSc Thesis: Lone Wolf simulation and synthetic test environment"
+    },
+    "description": {
+      "no": "Bacheloroppgave våren 2026: etablere et ROS 2-konsistent syntetisk testmiljø i NVIDIA Isaac Sim for Husarion Panther, med modulær payload/sensor-workflow, repeterbare scenarier og integrasjonstester for å redusere avhengighet av fysisk plattform.",
+      "en": "BSc thesis (Spring 2026): build a ROS 2-consistent synthetic test environment in NVIDIA Isaac Sim for the Husarion Panther, with modular payload/sensor workflows, repeatable scenarios, and integration testing to reduce dependency on continuous hardware access."
+    },
+    "cta": {
+      "no": "Les om oppgaven",
+      "en": "Read about the thesis"
+    },
+    "image": "/assets/projects/panther_i_isaac.png",
+    "mdPath":"/assets/projects/lone_wolf.md",
+    "link": "https://garberg.wtf/lone-wolf"
+  },
+  {
+    "title": {
+      "no": "Informize (digitale informasjonsskjermer)",
+      "en": "Informize (digital information screens)"
+    },
+    "description": {
+      "no": "Fullstack webapp for å lage og kjøre informasjonsskjermer (digital signage) med stabil skjermspiller, innholdstyper og tilgangsstyring. Bygget i React/Vite med Supabase (auth/DB) og strukturert domenemodell for å kunne utvide med nye widgets uten å skrive om avspilleren.",
+      "en": "Full-stack web app for building and running digital signage/public screens with a stable screen player, extendable content types, and access control. Built with React/Vite and Supabase (auth/DB), structured around a clean domain model so new widgets can be added without rewriting the player."
+    },
+    "cta": {
+      "no": "Bruk appen",
+      "en": "Use the app"
+    },
+    "image": "/assets/apps/informize.svg",
+    "link": "https://screens.garberg.wtf/"
+  },
+  {
+    "title": {
       "no": "Personlig nettside (garberg.wtf)",
       "en": "Personal website (garberg.wtf)"
     },
     "description": {
-      "no": "Ny versjon av nettsiden min med portefølje, små verktøy og analytics. Bygget i React/Vite med Supabase for innlogging og statistikk, og fokus på rask navigasjon.",
-      "en": "A refreshed personal site with portfolio, small tools, and analytics. Built in React/Vite with Supabase for auth and stats, focused on fast navigation."
-    },
-    "tag": {
-      "no": "Live",
-      "en": "Live"
+      "no": "Oppdatert personlig nettside med portefølje, små verktøy og analytics. Bygget i React/Vite med Supabase for innlogging og statistikk, med fokus på rask navigasjon og enkel utvidelse av innhold.",
+      "en": "Refreshed personal site with portfolio, small tools, and analytics. Built in React/Vite with Supabase for authentication and stats, focused on fast navigation and easy content expansion."
     },
     "cta": {
-      "no": "Besøk garberg.wtf",
-      "en": "Visit garberg.wtf"
+      "no": "Se kildekode",
+      "en": "See source code"
     },
-    "image": "/assets/projects/personal-site.svg",
-    "link": "https://garberg.wtf",
-    "mdPath": "/assets/projects/personal-site.md"
-  },
-  {
-    "title": {
-      "no": "BSc-oppgave: Lone Wolf simulering og syntetisk testmiljø",
-      "en": "BSc Thesis: Lone Wolf simulation and synthetic testbed"
-    },
-    "description": {
-      "no": "Planlagt bachelorprosjekt våren 2026 som utforsker Lone Wolf-simulering og testmiljø for navigasjon, sensorfusjon og robusthet før fysisk prototyping.",
-      "en": "Planned bachelor thesis for spring 2026 exploring a Lone Wolf simulation and synthetic testbed for navigation, sensor fusion, and robustness before hardware prototyping."
-    },
-    "tag": {
-      "no": "Planlagt 2026",
-      "en": "Planned 2026"
-    },
-    "cta": {
-      "no": "Se oppgaven",
-      "en": "View thesis plan"
-    },
-    "image": "/assets/projects/lone-wolf.svg",
-    "link": "https://garberg.wtf/lone-wolf",
-    "mdPath": "/assets/projects/lone-wolf.md"
+    "image": "/assets/projects/garberg_wtf.png",
+    "link": "https://github.com/andersgar/anders.garberg.wtf"
   },
   {
     "title": {
@@ -47,20 +54,15 @@
       "en": "Homelab on Raspberry Pi 5"
     },
     "description": {
-      "no": "Selvhostet lab på en Pi 5 med Docker Compose, reverse proxy og monitoring. Kjører media- og nettverkstjenester og brukes som sandkasse for IaC og automasjon.",
-      "en": "Self-hosted lab on a Pi 5 with Docker Compose, reverse proxying, and monitoring. Runs media and network services and doubles as a sandbox for IaC and automation."
-    },
-    "tag": {
-      "no": "HomeLab",
-      "en": "Homelab"
+      "no": "Selvhostet lab på Pi 5 med Docker Compose, reverse proxy og monitoring. Kjører media- og nettverkstjenester, og brukes som sandkasse for infrastruktur, automasjon og drift.",
+      "en": "Self-hosted lab on a Pi 5 with Docker Compose, reverse proxying, and monitoring. Runs media/network services and doubles as a sandbox for infrastructure, automation, and ops."
     },
     "cta": {
       "no": "Se oppsettet",
       "en": "View setup"
     },
     "image": "/assets/projects/homelab.svg",
-    "link": "https://garberg.wtf/homelab",
-    "mdPath": "/assets/projects/homelab.md"
+    "link": "https://garberg.wtf/homelab"
   },
   {
     "title": {
@@ -68,19 +70,15 @@
       "en": "Automation Project: Water Tank Control"
     },
     "description": {
-      "no": "Autonom vanntank-rigg med sensorsett, regulatorer, simuleringsmodeller og testoppsett. Rapporten inneholder arkitekturvalg, datastrømmer, tuning av styringssløyfer, sikkerhetsstrategier og refleksjoner fra integrasjonstester.",
-      "en": "Autonomous water-tank rig: sensor stack, controllers, simulation models, and test setups. The report includes architecture choices, data flows, control-loop tuning, safety strategies, and reflections from integration tests."
-    },
-    "tag": {
-      "no": "Rapport",
-      "en": "Report"
+      "no": "Vanntank-rigg med sensorsett, regulatorer og simulering for tuning før fysisk implementasjon. Implementerte diskret PID/PI-D i PLS (ST) med tracking/anti-windup, derivatfilter og lead-lag foroverkobling; bygde lukket sløyfe med PLS + Simulink via OPC og modellering i MATLAB.",
+      "en": "Water-tank rig with sensors, controllers, and simulation for tuning before physical deployment. Implemented discrete PID/PI-D in PLC (Structured Text) with tracking/anti-windup, derivative filtering, and lead-lag feedforward; built a closed loop with PLC + Simulink via OPC and modelling in MATLAB."
     },
     "cta": {
-      "no": "Åpne rapport",
-      "en": "Open report"
+      "no": "Les om oppgaven",
+      "en": "Read about the project"
     },
     "image": "/assets/projects/autoprosjekt-v25.svg",
-    "link": "/content/AutoprosjektV25.pdf",
-    "mdPath": "/assets/projects/autoprosjekt-v25.md"
+    "mdPath": "/assets/projects/autoprosjekt-v25.md",
+    "link": "https://garberg.wtf/content/AutoprosjektV25.pdf"
   }
 ]
