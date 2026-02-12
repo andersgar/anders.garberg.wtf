@@ -10,7 +10,6 @@ interface LangText {
 interface Project {
   title: LangText;
   description: LangText;
-  tag?: LangText;
   cta?: LangText;
   mdPath?: string;
   image: string;
@@ -36,7 +35,6 @@ export function Projects() {
     <section id="projects">
       <div className="section-header">
         <h2 className="section-title">{t("projects")}</h2>
-        <p className="small">{t("projectsIntro")}</p>
       </div>
 
       <div
@@ -59,11 +57,6 @@ export function Projects() {
                 />
               </div>
               <div className="project-body">
-                <div className="project-meta">
-                  {project.tag && (
-                    <span className="tag">{getText(project.tag)}</span>
-                  )}
-                </div>
                 <h3>{getText(project.title)}</h3>
                 <p className="small">{getText(project.description)}</p>
                 {project.mdPath ? (
