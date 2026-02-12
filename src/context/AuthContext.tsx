@@ -14,11 +14,15 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (
     email: string,
-    password: string
+    password: string,
   ) => Promise<{ error: AuthError | null }>;
   signup: (
     email: string,
-    password: string
+    password: string,
+    firstName?: string,
+    lastName?: string,
+    redirectUrl?: string | null,
+    appName?: string | null,
   ) => Promise<{ error: AuthError | null; needsConfirmation: boolean }>;
   logout: () => Promise<void>;
 }
@@ -30,38 +34,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Handle hash-based auth tokens (from magic links/password reset)
     const handleHashTokens = async () => {
       const hashParams = new URLSearchParams(window.location.hash.substring(1));
       const accessToken = hashParams.get("access_token");
       const refreshToken = hashParams.get("refresh_token");
 
       if (accessToken && refreshToken) {
+        console.log("[Auth] Setting session from hash tokens");
         await supabase.auth.setSession({
           access_token: accessToken,
           refresh_token: refreshToken,
         });
-        // Clear the hash from the URL
         window.history.replaceState(
           null,
           "",
-          window.location.pathname + window.location.search
+          window.location.pathname + window.location.search,
         );
       }
     };
 
     handleHashTokens().then(() => {
-      // Get initial session
       supabase.auth.getSession().then(({ data: { session } }) => {
+        console.log("[Auth] Initial session:", session?.user?.id);
         setUser(session?.user ?? null);
         setIsLoading(false);
       });
     });
 
-    // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log("[Auth] State change:", _event, session?.user?.id);
       setUser(session?.user ?? null);
     });
 
@@ -69,42 +72,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    console.log("Attempting login with email:", email);
-    const { data, error } = await supabase.auth.signInWithPassword({
+    console.log("[Auth] Attempting login for:", email);
+    const { error, data } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    if (error) {
-      console.error("Login error:", error.message, error);
-    } else {
-      console.log("Login successful:", data);
-    }
+    console.log("[Auth] Login result:", { error, userId: data.user?.id });
     return { error };
   };
 
-  const signup = async (email: string, password: string) => {
-    console.log("Attempting signup with email:", email);
+  const signup = async (
+    email: string,
+    password: string,
+    firstName?: string,
+    lastName?: string,
+    redirectUrl?: string | null,
+    appName?: string | null,
+  ) => {
+    // Build callback URL with redirect info for external apps
+    let callbackUrl = `${window.location.origin}/auth/callback`;
+    const params = new URLSearchParams();
+    if (appName) params.set("app", appName);
+    if (redirectUrl) params.set("redirect", redirectUrl);
+    if (params.toString()) callbackUrl += `?${params.toString()}`;
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: callbackUrl,
+        data: {
+          first_name: firstName,
+          last_name: lastName,
+        },
       },
     });
     if (error) {
-      console.error("Signup error:", error.message, error);
       return { error, needsConfirmation: false };
     }
 
-    // Check if email confirmation is required
-    const needsConfirmation = !data.session;
-    console.log(
-      "Signup successful:",
-      data,
-      "Needs confirmation:",
-      needsConfirmation
-    );
-    return { error: null, needsConfirmation };
+    return { error: null, needsConfirmation: !data.session };
   };
 
   const logout = async () => {

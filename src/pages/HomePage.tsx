@@ -10,7 +10,6 @@ export function HomePage() {
   const searchParams = new URLSearchParams(location.search);
   const allowGuest = searchParams.get("guest") === "1";
 
-  // Show loading state while checking auth
   if (isLoading) {
     return (
       <div
@@ -29,12 +28,10 @@ export function HomePage() {
     );
   }
 
-  // Redirect non-authenticated users to about page
   if (!isAuthenticated && !allowGuest) {
     const aboutPath = lang === "no" ? "/om-meg" : "/about";
     return <Navigate to={aboutPath} replace />;
   }
 
-  // Show dashboard for authenticated users or guest-allowed visits
   return <DashboardPage />;
 }

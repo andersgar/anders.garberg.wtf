@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme, ColorTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 import { useProfile } from "../context/ProfileContext";
 import { ProfileSettings } from "./ProfileSettings";
+import { supabase } from "../lib/supabase";
 
 const colorThemes: { id: ColorTheme; gradient: string }[] = [
   {
@@ -50,7 +51,7 @@ const colorThemes: { id: ColorTheme; gradient: string }[] = [
 ];
 
 export function Navigation() {
-  const { t, lang, toggleLanguage } = useLanguage();
+  const { t, lang, setLang } = useLanguage();
   const location = useLocation();
   const {
     theme,
@@ -66,14 +67,42 @@ export function Navigation() {
   const [showColorDropdown, setShowColorDropdown] = useState(false);
   const [showQrPopup, setShowQrPopup] = useState(false);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
+  const [showUserSettingsPopup, setShowUserSettingsPopup] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
+  const [resetLoading, setResetLoading] = useState(false);
+  const [deletePassword, setDeletePassword] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [deleteSuccess, setDeleteSuccess] = useState<string | null>(null);
+  const [showPasswordSection, setShowPasswordSection] = useState(false);
+  const [showDeleteSection, setShowDeleteSection] = useState(false);
+  const [mobileNavType, setMobileNavType] = useState<"hamburger" | "bottom">(
+    () =>
+      (localStorage.getItem("mobileNavType") as "hamburger" | "bottom") ||
+      "bottom"
+  );
+
+  const toggleMobileSheet = (target: "theme" | "user" | "language") => {
+    setMobileSheet((prev) => (prev === target ? null : target));
+  };
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const [mobileSheet, setMobileSheet] = useState<
+    "theme" | "user" | "language" | null
+  >(null);
   const [navHidden, setNavHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const userButtonRef = useRef<HTMLButtonElement>(null);
   const colorDropdownRef = useRef<HTMLDivElement>(null);
   const colorButtonRef = useRef<HTMLButtonElement>(null);
+  const languageDropdownRef = useRef<HTMLDivElement>(null);
+  const languageButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Determine if we're on the about page (with sections) or dashboard
   const isAboutPage =
     location.pathname === "/about" || location.pathname === "/om-meg";
   const aboutPath = lang === "no" ? "/om-meg" : "/about";
@@ -83,14 +112,10 @@ export function Navigation() {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Only hide/show after scrolling past 100px
       if (currentScrollY > 100) {
-        // Scrolling down - hide navbar
         if (currentScrollY > lastScrollY && currentScrollY > 100) {
           setNavHidden(true);
-        }
-        // Scrolling up - show navbar
-        else if (currentScrollY < lastScrollY) {
+        } else if (currentScrollY < lastScrollY) {
           setNavHidden(false);
         }
       } else {
@@ -104,7 +129,6 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  // Handle escape key to close dropdown and QR popup
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -112,6 +136,9 @@ export function Navigation() {
         setShowColorDropdown(false);
         setShowQrPopup(false);
         setShowProfilePopup(false);
+        setShowUserSettingsPopup(false);
+        setShowLanguageDropdown(false);
+        setMobileSheet(null);
       }
     };
 
@@ -119,15 +146,25 @@ export function Navigation() {
       showUserDropdown ||
       showQrPopup ||
       showColorDropdown ||
-      showProfilePopup
+      showProfilePopup ||
+      showUserSettingsPopup ||
+      showLanguageDropdown ||
+      mobileSheet
     ) {
       document.addEventListener("keydown", handleEscape);
     }
 
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [showUserDropdown, showQrPopup, showColorDropdown, showProfilePopup]);
+  }, [
+    showUserDropdown,
+    showQrPopup,
+    showColorDropdown,
+    showProfilePopup,
+    showUserSettingsPopup,
+    showLanguageDropdown,
+    mobileSheet,
+  ]);
 
-  // Handle click outside to close dropdown
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -146,23 +183,179 @@ export function Navigation() {
       ) {
         setShowColorDropdown(false);
       }
+      if (
+        languageDropdownRef.current &&
+        !languageDropdownRef.current.contains(e.target as Node) &&
+        languageButtonRef.current &&
+        !languageButtonRef.current.contains(e.target as Node)
+      ) {
+        setShowLanguageDropdown(false);
+      }
     };
 
-    if (showUserDropdown || showColorDropdown) {
+    if (
+      showUserDropdown ||
+      showColorDropdown ||
+      showLanguageDropdown ||
+      mobileSheet
+    ) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showUserDropdown, showColorDropdown]);
+  }, [showUserDropdown, showColorDropdown, showLanguageDropdown, mobileSheet]);
 
   const handleLogout = async () => {
     await logout();
     setShowUserDropdown(false);
+    setMobileSheet(null);
   };
 
   const handleColorThemeChange = (theme: ColorTheme) => {
     setColorTheme(theme);
     setShowColorDropdown(false);
+  };
+
+  const handleLanguageSelect = (language: "no" | "en") => {
+    setLang(language);
+    setShowLanguageDropdown(false);
+    setMobileSheet(null);
+  };
+
+  const handleMobileNavChange = (type: "hamburger" | "bottom") => {
+    setMobileNavType(type);
+    localStorage.setItem("mobileNavType", type);
+  };
+
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordError(null);
+    setPasswordSuccess(null);
+    setDeleteError(null);
+    setDeleteSuccess(null);
+    setResetLoading(false);
+
+    if (newPassword !== confirmPassword) {
+      setPasswordError(t("passwordMismatch"));
+      return;
+    }
+    if (newPassword.length < 6) {
+      setPasswordError(t("passwordTooShort"));
+      return;
+    }
+
+    if (!user?.email) {
+      setPasswordError(t("loginError"));
+      return;
+    }
+
+    setPasswordLoading(true);
+    const { error: reauthError } = await supabase.auth.signInWithPassword({
+      email: user.email,
+      password: currentPassword,
+    });
+
+    if (reauthError) {
+      setPasswordError(reauthError.message);
+      setPasswordLoading(false);
+      return;
+    }
+
+    const { error: updateError } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+
+    setPasswordLoading(false);
+    if (updateError) {
+      setPasswordError(updateError.message);
+      return;
+    }
+
+    setPasswordSuccess(t("passwordUpdatedShort"));
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+  };
+
+  const handleSendResetLink = async () => {
+    if (!user?.email) {
+      setPasswordError(t("loginError"));
+      return;
+    }
+    setPasswordError(null);
+    setPasswordSuccess(null);
+    setResetLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setResetLoading(false);
+    if (error) {
+      setPasswordError(t("resetRequestError"));
+    } else {
+      setPasswordSuccess(t("resetEmailSent"));
+    }
+  };
+
+  const handleDeleteAccount = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setDeleteError(null);
+    setDeleteSuccess(null);
+    setPasswordError(null);
+    setPasswordSuccess(null);
+
+    if (!user?.email) {
+      setDeleteError(t("loginError"));
+      return;
+    }
+
+    const confirmMessage = t("deleteAccountConfirm");
+    if (!window.confirm(confirmMessage)) {
+      return;
+    }
+
+    setDeleteLoading(true);
+    const { error: reauthError } = await supabase.auth.signInWithPassword({
+      email: user.email,
+      password: deletePassword,
+    });
+
+    if (reauthError) {
+      setDeleteError(reauthError.message);
+      setDeleteLoading(false);
+      return;
+    }
+
+    const { data } = await supabase.auth.getSession();
+    const accessToken = data.session?.access_token;
+    const deleteFunctionUrl =
+      import.meta.env.VITE_DELETE_USER_FUNCTION_URL ||
+      import.meta.env.VITE_SUPABASE_DELETE_USER_FUNCTION_URL;
+
+    if (!deleteFunctionUrl) {
+      setDeleteError(t("deleteFunctionMissing"));
+      setDeleteLoading(false);
+      return;
+    }
+
+    const resp = await fetch(deleteFunctionUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken || ""}`,
+      },
+    });
+
+    setDeleteLoading(false);
+    if (!resp.ok) {
+      const message = await resp.text();
+      setDeleteError(message || t("deleteAccountFailed"));
+      return;
+    }
+
+    setDeleteSuccess(t("accountDeleted"));
+    setDeletePassword("");
+    await logout();
+    setShowUserSettingsPopup(false);
+    setMobileSheet(null);
   };
 
   const getThemeTranslation = (themeId: ColorTheme): string => {
@@ -186,12 +379,10 @@ export function Navigation() {
           </div>
 
           <div className="nav-links">
-            {/* Show different links based on auth status and current page */}
             {!isAboutPage && <Link to={aboutPath}>{t("aboutMe")}</Link>}
             <a href={isAboutPage ? "#contact" : aboutPath + "#contact"}>
               {t("contact")}
             </a>
-            {/* Removed text login link in favor of icon button */}
 
             <div className="color-theme-container">
               <button
@@ -282,15 +473,56 @@ export function Navigation() {
               )}
             </div>
 
-            <button
-              className="theme-toggle"
-              onClick={toggleLanguage}
-              aria-label="Bytt språk"
-              title="Bytt språk"
+            <div className="language-container">
+              <button
+                ref={languageButtonRef}
+                className="theme-toggle"
+                onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+                aria-label={t("language")}
+                title={t("language")}
+              >
+                <i className="fa-solid fa-language"></i>
+              </button>
+
+              {showLanguageDropdown && (
+                <div
+                  className="language-dropdown"
+                  ref={languageDropdownRef}
+                  role="menu"
+                  aria-label={t("language")}
+                >
+                  <div className="language-dropdown-title">{t("language")}</div>
+                  <button
+                    className={`language-pill ${lang === "no" ? "active" : ""}`}
+                    onClick={() => handleLanguageSelect("no")}
+                  >
+                    <span className="language-pill__icon">
+                      {lang === "no" && <i className="fa-solid fa-check"></i>}
+                    </span>
+                    <div className="language-pill__labels">
+                      <span className="language-pill__name">Norsk</span>
+                    </div>
+                  </button>
+                  <button
+                    className={`language-pill ${lang === "en" ? "active" : ""}`}
+                    onClick={() => handleLanguageSelect("en")}
+                  >
+                    <span className="language-pill__icon">
+                      {lang === "en" && <i className="fa-solid fa-check"></i>}
+                    </span>
+                    <div className="language-pill__labels">
+                      <span className="language-pill__name">English</span>
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
+            <Link
+              to={appsLink}
+              className="nav-apps-btn"
+              aria-label={t("apps")}
+              title={t("apps")}
             >
-            <i className="fa-solid fa-globe"></i>
-            </button>
-            <Link to={appsLink} className="nav-apps-btn" aria-label={t("apps")} title={t("apps")}>
               <i className="fa-solid fa-grip"></i>
               <span>{t("apps")}</span>
             </Link>
@@ -308,7 +540,6 @@ export function Navigation() {
                     <i className="fa-solid fa-user"></i>
                   </button>
 
-                  {/* User Dropdown */}
                   {showUserDropdown && (
                     <div className="user-dropdown" ref={dropdownRef}>
                       <div className="user-dropdown-header">
@@ -322,7 +553,7 @@ export function Navigation() {
                         <div className="user-dropdown-info">
                           <span className="user-email">
                             {profile?.full_name ||
-                              profile?.username ||
+                              profile?.full_name ||
                               user?.email ||
                               "Loading..."}
                           </span>
@@ -348,9 +579,19 @@ export function Navigation() {
                         <i className="fa-solid fa-user-pen"></i>
                         {t("profile")}
                       </button>
+                      <button
+                        className="user-dropdown-item"
+                        onClick={() => {
+                          setShowUserDropdown(false);
+                          setShowUserSettingsPopup(true);
+                        }}
+                      >
+                        <i className="fa-solid fa-gear"></i>
+                        {t("userSettings")}
+                      </button>
                       {hasAccess("admin") && (
                         <Link
-                          to="/admin"
+                          to="/#admin"
                           className="user-dropdown-item"
                           onClick={() => setShowUserDropdown(false)}
                         >
@@ -382,12 +623,214 @@ export function Navigation() {
             )}
           </div>
 
-          {/* Mobile Hamburger */}
-          <MobileMenu />
+          {mobileNavType === "hamburger" && (
+            <MobileMenu
+              isAuthenticated={isAuthenticated}
+              isAboutPage={isAboutPage}
+              aboutPath={aboutPath}
+              appsLink={appsLink}
+              onOpenUserMenu={() => toggleMobileSheet("user")}
+              onOpenLanguageMenu={() => toggleMobileSheet("language")}
+              onOpenThemeMenu={() => toggleMobileSheet("theme")}
+              onCloseSheet={() => setMobileSheet(null)}
+            />
+          )}
         </div>
       </nav>
 
-      {/* Profile Settings Popup */}
+      {mobileNavType === "bottom" && (
+        <MobileBottomBar
+          isAuthenticated={isAuthenticated}
+          isAboutPage={isAboutPage}
+          aboutPath={aboutPath}
+          appsLink={appsLink}
+          onOpenUserMenu={() => toggleMobileSheet("user")}
+          onOpenLanguageMenu={() => toggleMobileSheet("language")}
+          onOpenThemeMenu={() => toggleMobileSheet("theme")}
+          onCloseSheet={() => setMobileSheet(null)}
+        />
+      )}
+
+      <MobileSheet
+        isOpen={mobileSheet === "theme"}
+        title={lang === "no" ? "Tema" : "Theme"}
+        onClose={() => setMobileSheet(null)}
+        offsetBottomBar={mobileNavType === "bottom"}
+      >
+        <div className="sheet-section">
+          <div className="sheet-subtitle">{t("colorTheme")}</div>
+          <div className="color-theme-grid">
+            {colorThemes.map((themeItem) => (
+              <button
+                key={themeItem.id}
+                className={`color-theme-tile ${
+                  colorTheme === themeItem.id ? "active" : ""
+                }`}
+                onClick={() => handleColorThemeChange(themeItem.id)}
+                title={getThemeTranslation(themeItem.id)}
+              >
+                <div
+                  className="color-theme-gradient"
+                  style={{ background: themeItem.gradient }}
+                />
+                {colorTheme === themeItem.id && (
+                  <div className="color-theme-active-indicator">
+                    <i className="fa-solid fa-check"></i>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="sheet-section">
+          <div className="sheet-subtitle">Mode</div>
+          <div className="theme-mode-toggle sheet-mode-toggle">
+            <button
+              className={`theme-mode-btn ${theme === "light" ? "active" : ""}`}
+              onClick={() => setTheme("light")}
+              aria-label="Light mode"
+            >
+              <i className="fa-solid fa-sun"></i>
+            </button>
+            <button
+              className={`theme-mode-btn ${theme === "dark" ? "active" : ""}`}
+              onClick={() => setTheme("dark")}
+              aria-label="Dark mode"
+            >
+              <i className="fa-solid fa-moon"></i>
+            </button>
+            <div
+              className={`theme-mode-slider ${
+                theme === "dark" ? "dark" : "light"
+              }`}
+            />
+          </div>
+        </div>
+
+        <div className="sheet-section">
+          <div className="sheet-subtitle">{t("blobs")}</div>
+          <div className="blob-count-control sheet-blob-control">
+            <button
+              className="blob-count-btn"
+              onClick={() => setBlobCount(blobCount - 1)}
+              disabled={blobCount <= 0}
+              aria-label="Decrease blobs"
+            >
+              <i className="fa-solid fa-minus"></i>
+            </button>
+            <span className="blob-count-value">{blobCount}</span>
+            <button
+              className="blob-count-btn"
+              onClick={() => setBlobCount(blobCount + 1)}
+              disabled={blobCount >= 10}
+              aria-label="Increase blobs"
+            >
+              <i className="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </MobileSheet>
+
+      <MobileSheet
+        isOpen={mobileSheet === "language"}
+        title={t("language")}
+        onClose={() => setMobileSheet(null)}
+        offsetBottomBar={mobileNavType === "bottom"}
+      >
+        <div className="sheet-section">
+          <div className="sheet-subtitle">{t("chooseLanguage")}</div>
+          <div className="language-grid">
+            <button
+              className={`language-option ${lang === "no" ? "active" : ""}`}
+              onClick={() => handleLanguageSelect("no")}
+            >
+              <div className="language-badge">NO</div>
+              <div className="language-labels">
+                <span className="language-name">Norsk</span>
+              </div>
+              {lang === "no" && <i className="fa-solid fa-check"></i>}
+            </button>
+            <button
+              className={`language-option ${lang === "en" ? "active" : ""}`}
+              onClick={() => handleLanguageSelect("en")}
+            >
+              <div className="language-badge">EN</div>
+              <div className="language-labels">
+                <span className="language-name">English</span>
+              </div>
+              {lang === "en" && <i className="fa-solid fa-check"></i>}
+            </button>
+          </div>
+        </div>
+      </MobileSheet>
+
+      <MobileSheet
+        isOpen={mobileSheet === "user"}
+        title={lang === "no" ? "Profil" : "Profile"}
+        onClose={() => setMobileSheet(null)}
+        offsetBottomBar={mobileNavType === "bottom"}
+      >
+        <div className="sheet-user-header">
+          <div className="user-avatar-small">
+            {profile?.avatar_url ? (
+              <img src={profile.avatar_url} alt="Avatar" />
+            ) : (
+              <i className="fa-solid fa-user"></i>
+            )}
+          </div>
+          <div className="sheet-user-meta">
+            <span className="user-email">
+              {profile?.full_name || user?.email}
+            </span>
+            <span className="user-role">
+              {profile?.access_level === "owner"
+                ? t("accessLevelOwner")
+                : profile?.access_level === "admin"
+                ? t("accessLevelAdmin")
+                : profile?.access_level === "moderator"
+                ? t("accessLevelMod")
+                : t("accessLevelUser")}
+            </span>
+          </div>
+        </div>
+
+        <button
+          className="sheet-action"
+          onClick={() => {
+            setShowProfilePopup(true);
+            setMobileSheet(null);
+          }}
+        >
+          <i className="fa-solid fa-user-pen"></i>
+          {t("profile")}
+        </button>
+        <button
+          className="sheet-action"
+          onClick={() => {
+            setShowUserSettingsPopup(true);
+            setMobileSheet(null);
+          }}
+        >
+          <i className="fa-solid fa-gear"></i>
+          {t("userSettings")}
+        </button>
+        {hasAccess("admin") && (
+          <Link
+            to="/#admin"
+            className="sheet-action"
+            onClick={() => setMobileSheet(null)}
+          >
+            <i className="fa-solid fa-chart-line"></i>
+            {t("adminDashboard")}
+          </Link>
+        )}
+        <button className="sheet-action logout" onClick={handleLogout}>
+          <i className="fa-solid fa-right-from-bracket"></i>
+          {t("logout")}
+        </button>
+      </MobileSheet>
+
       {showProfilePopup && (
         <div
           className="profile-popup-overlay"
@@ -400,27 +843,256 @@ export function Navigation() {
           <ProfileSettings onClose={() => setShowProfilePopup(false)} />
         </div>
       )}
+
+      {showUserSettingsPopup && (
+        <div
+          className="profile-popup-overlay"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowUserSettingsPopup(false);
+            }
+          }}
+        >
+          <div className="profile-settings">
+            <div className="profile-settings-header">
+              <h3>{t("userSettings")}</h3>
+              <button
+                className="profile-settings-close"
+                aria-label="Close"
+                onClick={() => setShowUserSettingsPopup(false)}
+              >
+                <i className="fa-solid fa-times"></i>
+              </button>
+            </div>
+            <div className="profile-settings-content">
+              <div className="profile-form">
+                <div className="profile-form-group">
+                  <label>{t("mobileMenuType")}</label>
+                  <div className="mobile-nav-options">
+                    <button
+                      type="button"
+                      className={`mobile-nav-option ${
+                        mobileNavType === "hamburger" ? "active" : ""
+                      }`}
+                      onClick={() => handleMobileNavChange("hamburger")}
+                    >
+                      <span className="mobile-nav-option__icon-text">
+                        <i className="fa-solid fa-bars"></i>
+                        {t("mobileNavHamburger")}
+                      </span>
+                      {mobileNavType === "hamburger" && (
+                        <span className="mobile-nav-option__check">
+                          <i className="fa-solid fa-check"></i>
+                        </span>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      className={`mobile-nav-option ${
+                        mobileNavType === "bottom" ? "active" : ""
+                      }`}
+                      onClick={() => handleMobileNavChange("bottom")}
+                    >
+                      <span className="mobile-nav-option__icon-text">
+                        <i className="fa-solid fa-ellipsis"></i>
+                        {t("mobileNavBottom")}
+                      </span>
+                      {mobileNavType === "bottom" && (
+                        <span className="mobile-nav-option__check">
+                          <i className="fa-solid fa-check"></i>
+                        </span>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="sheet-subtitle">{t("accountManagement")}</div>
+
+                <div className="collapsible-section">
+                  <button
+                    type="button"
+                    className="collapsible-header"
+                    onClick={() => setShowPasswordSection(!showPasswordSection)}
+                  >
+                    <span>
+                      <i className="fa-solid fa-lock"></i> {t("updatePassword")}
+                    </span>
+                    <i
+                      className={`fa-solid fa-chevron-${
+                        showPasswordSection ? "up" : "down"
+                      }`}
+                    ></i>
+                  </button>
+                  {showPasswordSection && (
+                    <form
+                      className="collapsible-body"
+                      onSubmit={handlePasswordChange}
+                    >
+                      <input
+                        type="password"
+                        value={currentPassword}
+                        onChange={(e) => setCurrentPassword(e.target.value)}
+                        placeholder={t("currentPassword")}
+                        required
+                      />
+                      <input
+                        type="password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        placeholder={t("newPassword")}
+                        required
+                      />
+                      <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder={t("confirmPassword")}
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="profile-btn-cancel"
+                        onClick={handleSendResetLink}
+                        disabled={resetLoading}
+                        style={{ width: "100%" }}
+                      >
+                        {resetLoading ? t("sending") : t("sendResetLink")}
+                      </button>
+                      {passwordError && (
+                        <div
+                          className="profile-readonly-value"
+                          style={{ color: "#ef4444" }}
+                        >
+                          <i className="fa-solid fa-circle-exclamation"></i>{" "}
+                          {passwordError}
+                        </div>
+                      )}
+                      {passwordSuccess && (
+                        <div
+                          className="profile-readonly-value"
+                          style={{ color: "var(--accent)" }}
+                        >
+                          <i className="fa-solid fa-circle-check"></i>{" "}
+                          {passwordSuccess}
+                        </div>
+                      )}
+                      <button
+                        className="profile-btn-save"
+                        type="submit"
+                        disabled={passwordLoading}
+                        style={{ width: "100%" }}
+                      >
+                        {passwordLoading ? t("updating") : t("updatePassword")}
+                      </button>
+                    </form>
+                  )}
+                </div>
+
+                <div className="collapsible-section">
+                  <button
+                    type="button"
+                    className="collapsible-header danger"
+                    onClick={() => setShowDeleteSection(!showDeleteSection)}
+                  >
+                    <span>
+                      <i className="fa-solid fa-user-slash"></i>{" "}
+                      {t("deleteAccount")}
+                    </span>
+                    <i
+                      className={`fa-solid fa-chevron-${
+                        showDeleteSection ? "up" : "down"
+                      }`}
+                    ></i>
+                  </button>
+                  {showDeleteSection && (
+                    <form
+                      className="collapsible-body"
+                      onSubmit={handleDeleteAccount}
+                    >
+                      <input
+                        type="password"
+                        value={deletePassword}
+                        onChange={(e) => setDeletePassword(e.target.value)}
+                        placeholder={t("currentPassword")}
+                        required
+                      />
+                      {deleteError && (
+                        <div
+                          className="profile-readonly-value"
+                          style={{ color: "#ef4444" }}
+                        >
+                          <i className="fa-solid fa-circle-exclamation"></i>{" "}
+                          {deleteError}
+                        </div>
+                      )}
+                      {deleteSuccess && (
+                        <div
+                          className="profile-readonly-value"
+                          style={{ color: "var(--accent)" }}
+                        >
+                          <i className="fa-solid fa-circle-check"></i>{" "}
+                          {deleteSuccess}
+                        </div>
+                      )}
+                      <button
+                        className="profile-btn-save"
+                        type="submit"
+                        disabled={deleteLoading}
+                        style={{ width: "100%", background: "#ef4444" }}
+                      >
+                        {deleteLoading
+                          ? t("deletingAccount")
+                          : t("confirmDelete")}
+                      </button>
+                    </form>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="profile-settings-footer">
+              <button
+                className="profile-btn-cancel"
+                onClick={() => setShowUserSettingsPopup(false)}
+              >
+                {t("close")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
 
-// Spacer component to push content below fixed navbar
 export function NavSpacer() {
   return <div className="nav-spacer" />;
 }
 
-function MobileMenu() {
-  const { t, lang, toggleLanguage } = useLanguage();
-  const { toggleTheme } = useTheme();
-  const { isAuthenticated, logout } = useAuth();
-  const location = useLocation();
+type MobileMenuProps = {
+  isAuthenticated: boolean;
+  isAboutPage: boolean;
+  aboutPath: string;
+  appsLink: string;
+  onOpenUserMenu: () => void;
+  onOpenThemeMenu: () => void;
+  onOpenLanguageMenu: () => void;
+  onCloseSheet?: () => void;
+};
 
-  // Determine if we're on the about page (with sections) or dashboard
-  const isAboutPage =
-    location.pathname === "/about" || location.pathname === "/om-meg";
-  const aboutPath = lang === "no" ? "/om-meg" : "/about";
+function MobileMenu({
+  isAuthenticated,
+  isAboutPage,
+  aboutPath,
+  appsLink,
+  onOpenUserMenu,
+  onOpenThemeMenu,
+  onOpenLanguageMenu,
+  onCloseSheet,
+}: MobileMenuProps) {
+  const { t } = useLanguage();
 
   const handleMenuToggle = () => {
+    onCloseSheet?.();
     document.getElementById("hamburger")?.classList.toggle("active");
     document.getElementById("mobileMenu")?.classList.toggle("active");
     document.getElementById("mobileOverlay")?.classList.toggle("active");
@@ -454,7 +1126,6 @@ function MobileMenu() {
       ></div>
 
       <div className="mobile-menu" id="mobileMenu">
-        {/* Show different links based on auth status and current page */}
         {isAuthenticated && !isAboutPage && (
           <Link to={aboutPath} onClick={closeMenu}>
             {t("aboutMe")}
@@ -490,50 +1161,232 @@ function MobileMenu() {
           {t("contact")}
         </a>
 
-        <div className="mobile-buttons">
+        <div className="mobile-menu-actions">
+          <Link
+            to={appsLink}
+            className="mobile-menu-action apps-highlight"
+            onClick={closeMenu}
+          >
+            <i className="fa-solid fa-grip"></i>
+            <span>{t("apps")}</span>
+          </Link>
           <button
-            className="theme-toggle"
+            className="mobile-menu-action"
             onClick={() => {
-              toggleTheme();
+              onOpenThemeMenu();
               closeMenu();
             }}
-            aria-label="Bytt tema"
           >
-            <i className="fa-solid fa-circle-half-stroke"></i>
+            <i className="fa-solid fa-palette"></i>
+            <span>{t("colorTheme")}</span>
           </button>
           <button
-            className="theme-toggle"
+            className="mobile-menu-action"
             onClick={() => {
-              toggleLanguage();
+              onOpenLanguageMenu();
               closeMenu();
             }}
-            aria-label="Bytt språk"
           >
-            <i className="fa-solid fa-globe"></i>
+            <i className="fa-solid fa-language"></i>
+            <span>{t("language")}</span>
           </button>
           {isAuthenticated ? (
-            <>
-              <Link to="/admin" className="theme-toggle" onClick={closeMenu}>
-                <i className="fa-solid fa-chart-line"></i>
-              </Link>
-              <button
-                className="theme-toggle"
-                onClick={() => {
-                  logout();
-                  closeMenu();
-                }}
-                aria-label="Logg ut"
-              >
-                <i className="fa-solid fa-right-from-bracket"></i>
-              </button>
-            </>
+            <button
+              className="mobile-menu-action"
+              onClick={() => {
+                onOpenUserMenu();
+                closeMenu();
+              }}
+            >
+              <i className="fa-solid fa-user"></i>
+              <span>{t("profile")}</span>
+            </button>
           ) : (
-            <Link to="/login" className="theme-toggle" onClick={closeMenu}>
+            <Link
+              to="/login"
+              className="mobile-menu-action"
+              onClick={closeMenu}
+            >
+              <i className="fa-solid fa-right-to-bracket"></i>
+              <span>{t("login")}</span>
+            </Link>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+type MobileSheetProps = {
+  isOpen: boolean;
+  title: string;
+  onClose: () => void;
+  children: ReactNode;
+  offsetBottomBar?: boolean;
+};
+
+function MobileSheet({
+  isOpen,
+  title,
+  onClose,
+  children,
+  offsetBottomBar = false,
+}: MobileSheetProps) {
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className={`mobile-sheet-overlay ${
+        offsetBottomBar ? "bottom-offset" : ""
+      }`}
+      role="presentation"
+      onClick={onClose}
+    >
+      <div
+        className="mobile-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mobile-sheet__header">
+          <span className="mobile-sheet__title">{title}</span>
+          <button className="theme-toggle" aria-label="Close" onClick={onClose}>
+            <i className="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div className="mobile-sheet__content">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+type MobileBottomBarProps = {
+  isAuthenticated: boolean;
+  isAboutPage: boolean;
+  aboutPath: string;
+  appsLink: string;
+  onOpenUserMenu: () => void;
+  onOpenThemeMenu: () => void;
+  onOpenLanguageMenu: () => void;
+  onCloseSheet: () => void;
+};
+
+function MobileBottomBar({
+  isAuthenticated,
+  isAboutPage,
+  aboutPath,
+  appsLink,
+  onOpenUserMenu,
+  onOpenThemeMenu,
+  onOpenLanguageMenu,
+  onCloseSheet,
+}: MobileBottomBarProps) {
+  const { t } = useLanguage();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const close = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        !target.closest(".mobile-bottom-bar") &&
+        !target.closest(".mobile-bottom-menu")
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, []);
+
+  return (
+    <>
+      <div className="mobile-bottom-bar">
+        <div className="bottom-bar-section left">
+          <button
+            className="theme-toggle"
+            onClick={() => onOpenThemeMenu()}
+            aria-label="Bytt tema"
+          >
+            <i className="fa-solid fa-palette"></i>
+          </button>
+          <button
+            className="theme-toggle"
+            onClick={() => onOpenLanguageMenu()}
+            aria-label={t("language")}
+          >
+            <i className="fa-solid fa-language"></i>
+          </button>
+        </div>
+        <div className="bottom-bar-section center">
+          <button
+            className={`theme-toggle ${open ? "active" : ""}`}
+            onClick={() => {
+              setOpen(!open);
+              onCloseSheet();
+            }}
+            aria-label="Åpne meny"
+          >
+            <i className="fa-solid fa-bars"></i>
+          </button>
+        </div>
+        <div className="bottom-bar-section right">
+          {isAuthenticated ? (
+            <button
+              className="theme-toggle user-toggle"
+              onClick={() => onOpenUserMenu()}
+              aria-label={t("profile")}
+              title={t("profile")}
+              style={{ color: "var(--brand)" }}
+            >
+              <i className="fa-solid fa-user"></i>
+            </button>
+          ) : (
+            <Link to="/login" className="theme-toggle">
               <i className="fa-solid fa-right-to-bracket"></i>
             </Link>
           )}
         </div>
       </div>
+
+      {open && (
+        <div className="mobile-bottom-menu">
+          {isAuthenticated && !isAboutPage && (
+            <Link to={aboutPath} onClick={() => setOpen(false)}>
+              {t("aboutMe")}
+            </Link>
+          )}
+          {isAboutPage && (
+            <>
+              <a href="#experience" onClick={() => setOpen(false)}>
+                {t("experience")}
+              </a>
+              <a href="#about" onClick={() => setOpen(false)}>
+                {t("about")}
+              </a>
+            </>
+          )}
+          {!isAuthenticated && !isAboutPage && (
+            <Link to={aboutPath} onClick={() => setOpen(false)}>
+              {t("aboutMe")}
+            </Link>
+          )}
+          <a
+            href={isAboutPage ? "#contact" : aboutPath + "#contact"}
+            onClick={() => setOpen(false)}
+          >
+            {t("contact")}
+          </a>
+          <Link
+            to={appsLink}
+            onClick={() => setOpen(false)}
+            className="mobile-menu-apps-link"
+          >
+            <i className="fa-solid fa-grip"></i>
+            <span>{t("apps")}</span>
+          </Link>
+        </div>
+      )}
     </>
   );
 }

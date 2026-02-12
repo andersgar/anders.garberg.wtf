@@ -13,7 +13,6 @@ export function ProfileSettings({ onClose }: ProfileSettingsProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState({
-    username: profile?.username || "",
     full_name: profile?.full_name || "",
     bio: profile?.bio || "",
   });
@@ -72,7 +71,6 @@ export function ProfileSettings({ onClose }: ProfileSettingsProps) {
   const handleSave = async () => {
     setIsSaving(true);
     await updateProfile({
-      username: formData.username || null,
       full_name: formData.full_name || null,
       bio: formData.bio || null,
     });
@@ -156,18 +154,6 @@ export function ProfileSettings({ onClose }: ProfileSettingsProps) {
 
         {/* Form Fields */}
         <div className="profile-form">
-          <div className="profile-form-group">
-            <label htmlFor="username">{t("username")}</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
-              onChange={handleInputChange}
-              placeholder={t("usernamePlaceholder")}
-            />
-          </div>
-
           <div className="profile-form-group">
             <label htmlFor="full_name">{t("fullName")}</label>
             <input

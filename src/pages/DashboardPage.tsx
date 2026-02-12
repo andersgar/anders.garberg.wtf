@@ -77,7 +77,7 @@ export function DashboardPage() {
     const u = users.find((usr) => usr.id === userId);
     return (
       u?.full_name ||
-      u?.username ||
+      u?.full_name ||
       u?.email ||
       (userId.length > 8 ? `${userId.slice(0, 8)}…` : userId)
     );
@@ -160,8 +160,17 @@ export function DashboardPage() {
     visible: true,
     order: 999,
   };
-  // Recommended apps are explicitly curated; for now only the QR generator
-  const recommendedApps = [qrApp];
+  const infoScreensApp = {
+    id: "info_screens",
+    appId: "info_screens",
+    url: "https://screens.garberg.wtf",
+    customName: "Informize",
+    customIcon: "/assets/apps/informize.svg",
+    visible: true,
+    order: 1000,
+  };
+  // Recommended apps are explicitly curated.
+  const recommendedApps = [infoScreensApp, qrApp];
 
   const handleOpenAddApp = () => {
     if (!isAuthenticated) return;
@@ -221,9 +230,7 @@ export function DashboardPage() {
   const handleEditUserApps = (targetUser: Profile) => {
     setEditingUserId(targetUser.id);
     setEditingUserApps(targetUser.apps || []);
-    setEditingUserName(
-      targetUser.full_name || targetUser.username || targetUser.email || "User"
-    );
+    setEditingUserName(targetUser.full_name || targetUser.email || "User");
     setEditingApp(null);
     setIsAppModalOpen(true);
   };
@@ -273,7 +280,9 @@ export function DashboardPage() {
     if (success) {
       setEditingUserApps(reIndexed);
       setUsers(
-        users.map((u) => (u.id === editingUserId ? { ...u, apps: reIndexed } : u))
+        users.map((u) =>
+          u.id === editingUserId ? { ...u, apps: reIndexed } : u
+        )
       );
     }
   };
@@ -316,7 +325,7 @@ export function DashboardPage() {
 
   const displayName =
     profile?.full_name ||
-    profile?.username ||
+    profile?.full_name ||
     profile?.email?.split("@")[0] ||
     (isAuthenticated ? user?.email?.split("@")[0] : t("user"));
 
@@ -391,9 +400,13 @@ export function DashboardPage() {
                     return (
                       <button
                         key={app.id}
-                        className={`app-tile ${isHidden ? "app-tile-hidden" : ""}`}
+                        className={`app-tile ${
+                          isHidden ? "app-tile-hidden" : ""
+                        }`}
                         style={
-                          { "--app-color": display.color } as React.CSSProperties
+                          {
+                            "--app-color": display.color,
+                          } as React.CSSProperties
                         }
                         onClick={() => setShowQrModal(true)}
                         onContextMenu={(e) => {
@@ -488,6 +501,36 @@ export function DashboardPage() {
                           {t("qrAppDescription")}
                         </span>
                       </button>
+                    );
+                  }
+                  if (app.appId === "info_screens") {
+                    return (
+                      <a
+                        key={app.id}
+                        className="app-tile"
+                        style={
+                          {
+                            "--app-color": display.color,
+                          } as React.CSSProperties
+                        }
+                        href={ensureProtocol(app.url)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <div className="app-tile-icon">
+                          {display.isImage ? (
+                            <img src={display.icon} alt={display.name} />
+                          ) : (
+                            <i className={display.icon}></i>
+                          )}
+                        </div>
+                        <span className="app-tile-name">
+                          {t("infoScreensName")}
+                        </span>
+                        <span className="app-tile-desc">
+                          {t("infoScreensDescription")}
+                        </span>
+                      </a>
                     );
                   }
                   return (
@@ -652,7 +695,7 @@ export function DashboardPage() {
                                 <i className="fa-solid fa-user"></i>
                               )}
                             </div>
-                            <span>{u.full_name || u.username || "—"}</span>
+                            <span>{u.full_name || "—"}</span>
                           </td>
                           <td>{u.email}</td>
                           <td>
@@ -753,7 +796,11 @@ export function DashboardPage() {
             </div>
             <div
               className="app-modal-content"
-              style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.25rem",
+              }}
             >
               <div className="qr-generator-grid">
                 <div className="qr-generator-form">
@@ -856,11 +903,7 @@ export function DashboardPage() {
             : undefined
         }
         adminUserApps={
-          editingUserId
-            ? editingUserApps
-            : manageOwnApps
-            ? userApps
-            : undefined
+          editingUserId ? editingUserApps : manageOwnApps ? userApps : undefined
         }
         onReorderUserApps={
           editingUserId
@@ -872,10 +915,7 @@ export function DashboardPage() {
       />
 
       {logModal && (
-        <div
-          className="app-modal-overlay"
-          onClick={() => setLogModal(null)}
-        >
+        <div className="app-modal-overlay" onClick={() => setLogModal(null)}>
           <div
             className="app-modal"
             role="dialog"
@@ -987,4 +1027,3 @@ export function DashboardPage() {
     </>
   );
 }
-
