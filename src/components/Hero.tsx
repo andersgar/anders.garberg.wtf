@@ -1,10 +1,10 @@
 import { useLanguage } from "../context/LanguageContext";
 import { useProfile } from "../context/ProfileContext";
-import { translations } from "../i18n/translations";
-import { trackCVDownload } from "../lib/analytics";
+// import { translations } from "../i18n/translations";
+// import { trackCVDownload } from "../lib/analytics";
 
 export function Hero() {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   const { profile } = useProfile();
 
   // Easter egg: Check if the logged-in user is Anders Garberg
