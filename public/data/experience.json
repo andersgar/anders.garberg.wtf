@@ -1,5 +1,71 @@
 [
   {
+  "company": {
+    "no": "Kongsberg Defence & Aerospace",
+    "en": "Kongsberg Defence & Aerospace"
+  },
+  "location": {
+    "no": "Kongsberg, Norge",
+    "en": "Kongsberg, Norway"
+  },
+  "positions": [
+    {
+      "title": {
+        "no": "Sommerintern – Project Lone Wolf",
+        "en": "Summer Intern – Project Lone Wolf"
+      },
+      "tag": {
+        "no": "Fulltid",
+        "en": "Full-time"
+      },
+      "date": {
+        "no": "Jun 2026 – Aug 2026",
+        "en": "Jun 2026 – Aug 2026"
+      },
+      "desc": {
+        "no": "Skal bidra til å utvikle en variant av eksisterende ICS (Integrated Combat Solution) for Lone Wolf sin nye plattform, Husarion Panther, en autonom UGV. Arbeidet omfatter utvikling og tilpasning av systemløsninger i skjæringspunktet mellom robotikk, autonomi og plattformintegrasjon.",
+        "en": "Will contribute to developing a variant of the existing ICS (Integrated Combat Solution) for Lone Wolf’s new platform, the Husarion Panther, an autonomous UGV. The work includes developing and adapting system solutions at the intersection of robotics, autonomy, and platform integration."
+      }
+    }
+  ]
+  },
+  {
+    "company": { "no": "NTNU", "en": "NTNU" },
+    "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
+    "positions": [
+      {
+        "title": {
+          "no": "Læringsassistent -  Kunstig intelligens for robotikk og automatisering AIST2102",
+          "en": "Teaching Assistant - Artificial intelligence for robotics and automation AIST2102"
+        },
+        "tag": { "no": "Deltid", "en": "Part-time" },
+        "date": {
+          "no": "Jan 2026 – Mai 2026",
+          "en": "Jan 2026 – May 2026"
+        },
+        "desc": {
+          "no": "Studass i det nye emnet Kunstig intelligens for robotikk og automatisering våren 2026, der jeg veileder studenter og gir faglig støtte i AI-relaterte oppgaver.",
+          "en": "Teaching assistant in the new course Artificial Intelligence for Robotics and Automation spring 2026, guiding students and providing academic support in AI-related tasks."
+        }
+      },
+      {
+        "title": {
+          "no": "Læringsassistent - Statistikk ISTT1002",
+          "en": "Teaching Assistant - Statistics ISTT1002"
+        },
+        "tag": { "no": "Deltid", "en": "Part-time" },
+        "date": {
+          "no": "Aug 2025 – Des 2025",
+          "en": "Aug 2025 – Dec 2025"
+        },
+        "desc": {
+          "no": "Bidro til undervisning og veiledning av studenter i statistikk for ingeniørfag. Hjalp til med faglig oppfølging, oppgaveløsning og utvikling av studentenes forståelse i emnet.",
+          "en": "Contributed to teaching and guidance of students in Statistics. Assisted with academic follow-up, problem solving, and development of students' understanding in the subject."
+        }
+      }
+    ]
+  },
+  {
     "company": { "no": "Trondheim Kino", "en": "Trondheim Kino" },
     "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
     "positions": [
@@ -37,34 +103,6 @@
         "desc": {
           "no": "Bidro til daglig drift og kundeservice ved Trondheim Kino, med ansvar for billettsalg, kiosk og publikumsopplevelsen. Fokuserte på effektiv betjening og høy servicegrad i et travelt arbeidsmiljø.",
           "en": "Contributed to daily operations and customer service at Trondheim Kino, responsible for ticket sales, kiosk, and audience experience. Focused on efficient service and high service standards in a busy work environment."
-        }
-      }
-    ]
-  },
-  {
-    "company": { "no": "NTNU", "en": "NTNU" },
-    "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
-    "positions": [
-        {
-        "title": { "no": "Læringsassistent -  Kunstig intelligens for robotikk og automatisering AIST2102", "en": "Teaching Assistant - Artificial intelligence for robotics and automation AIST2102" },
-        "tag": { "no": "Deltid", "en": "Part-time" },
-        "date": {
-          "no": "Jan 2026 – Mai 2026",
-          "en": "Jan 2026 – May 2026"
-        },
-        "desc": {
-          "no": "Studass i det nye emnet Kunstig intelligens for robotikk og automatisering våren 2026, der jeg veileder studenter og gir faglig støtte i AI-relaterte oppgaver.",
-          "en": "Teaching assistant in the new course Artificial Intelligence for Robotics and Automation spring 2026, guiding students and providing academic support in AI-related tasks."
-        }
-      },
-      {
-        "title": { "no": "Læringsassistent - Statistikk ISTT1002", "en": "Teaching Assistant - Statistics ISTT1002" },
-        "tag": { "no": "Deltid", "en": "Part-time" },
-        "date": {
-          "no": "Aug 2025 – Des 2025","en": "Aug 2025 – Dec 2025"},
-        "desc": {
-          "no": "Bidro til undervisning og veiledning av studenter i statistikk for ingeniørfag. Hjalp til med faglig oppfølging, oppgaveløsning og utvikling av studentenes forståelse i emnet.",
-          "en": "Contributed to teaching and guidance of students in Statistics. Assisted with academic follow-up, problem solving, and development of students' understanding in the subject."
         }
       }
     ]

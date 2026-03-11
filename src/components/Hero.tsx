@@ -8,8 +8,7 @@ export function Hero() {
   const { profile } = useProfile();
 
   // Easter egg: Check if the logged-in user is Anders Garberg
-  const isAnders =
-    profile?.email?.toLowerCase() === "anders@garberg.wtf";
+  const isAnders = profile?.email?.toLowerCase() === "anders@garberg.wtf";
 
   return (
     <header id="home" className="hero">
@@ -41,7 +40,7 @@ export function Hero() {
           </div>
         </div>
 
-        <aside
+        {/* <aside
           className="hero-right card pad hero-card"
           aria-label="Rask profil"
         >
@@ -92,7 +91,7 @@ export function Hero() {
               {t("emailMe")}
             </a>
           </div>
-        </aside>
+        </aside> */}
       </div>
     </header>
   );

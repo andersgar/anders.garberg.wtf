@@ -292,6 +292,12 @@ header.hero {
   align-items: center;
 }
 
+/* When the aside is removed, let hero-left fill the full width */
+.hero-left:only-child {
+  grid-column: 1 / -1;
+  max-width: 800px;
+}
+
 /* Background blobs container - fixed to viewport */
 .background-blobs {
   position: fixed;
