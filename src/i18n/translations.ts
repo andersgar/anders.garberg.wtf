@@ -158,6 +158,8 @@ export const translations = {
     qrAppDescription: "Lag en QR-kode direkte fra dashbordet",
     infoScreensName: "Informize",
     infoScreensDescription: "Lag og administrer infoskjermer",
+    vorslyName: "Vorsly",
+    vorslyDescription: "Drikkeleker til vorset",
     qrGeneratorName: "QR-generator",
     qrGeneratorDescription: "Lag og last ned QR-koder for lenker eller tekst.",
     qrGeneratorDescriptionShort: "Skriv tekst og få en nedlastbar QR-kode.",
@@ -422,6 +424,8 @@ export const translations = {
     qrAppDescription: "Make a QR code without leaving the dashboard",
     infoScreensName: "Informize",
     infoScreensDescription: "Create and manage info screens",
+    vorslyName: "Vorsly",
+    vorslyDescription: "Drinking games for the pre-party",
     qrGeneratorName: "QR Generator",
     qrGeneratorDescription:
       "Generate and download QR codes for any link or text.",

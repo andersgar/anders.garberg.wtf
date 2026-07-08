@@ -45,6 +45,16 @@ export const APP_LIBRARY: AppDefinition[] = [
     defaultUrl: "https://screens.garberg.wtf",
   },
   {
+    id: "vorsly",
+    name: "Vorsly",
+    icon: "/assets/apps/vorsly.svg",
+    color: "#FF4D6D",
+    description: "Drinking game mini-apps",
+    featured: true,
+    requiresUrl: false,
+    defaultUrl: "https://vorsly.garberg.wtf",
+  },
+  {
     id: "blackboard",
     name: "Blackboard",
     icon: "fa-solid fa-book-open-reader",

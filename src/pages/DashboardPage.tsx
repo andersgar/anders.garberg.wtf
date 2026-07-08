@@ -169,8 +169,17 @@ export function DashboardPage() {
     visible: true,
     order: 1000,
   };
+  const vorslyApp = {
+    id: "vorsly",
+    appId: "vorsly",
+    url: "https://vorsly.garberg.wtf",
+    customName: "Vorsly",
+    customIcon: "/assets/apps/vorsly.svg",
+    visible: true,
+    order: 1001,
+  };
   // Recommended apps are explicitly curated.
-  const recommendedApps = [infoScreensApp, qrApp];
+  const recommendedApps = [infoScreensApp, vorslyApp, qrApp];
 
   const handleOpenAddApp = () => {
     if (!isAuthenticated) return;
@@ -501,6 +510,36 @@ export function DashboardPage() {
                           {t("qrAppDescription")}
                         </span>
                       </button>
+                    );
+                  }
+                  if (app.appId === "vorsly") {
+                    return (
+                      <a
+                        key={app.id}
+                        className="app-tile"
+                        style={
+                          {
+                            "--app-color": display.color,
+                          } as React.CSSProperties
+                        }
+                        href={ensureProtocol(app.url)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <div className="app-tile-icon">
+                          {display.isImage ? (
+                            <img src={display.icon} alt={display.name} />
+                          ) : (
+                            <i className={display.icon}></i>
+                          )}
+                        </div>
+                        <span className="app-tile-name">
+                          {t("vorslyName")}
+                        </span>
+                        <span className="app-tile-desc">
+                          {t("vorslyDescription")}
+                        </span>
+                      </a>
                     );
                   }
                   if (app.appId === "info_screens") {
