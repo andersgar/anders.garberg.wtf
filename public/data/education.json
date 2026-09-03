@@ -5,28 +5,27 @@
     "degrees": [
       {
         "title": {
+          "no": "Master i Kybernetikk og robotikk",
+          "en": "Master in Cybernetics and Robotics"
+        },
+        "tag": { "no": "Master", "en": "Master" },
+        "date": { "no": "Aug 2026 – Jun 2028", "en": "Aug 2026 – Jun 2028" },
+        "desc": {
+          "no": "Toårig mastergrad med spesialisering i robotikk og fartøysstyring. Fokus på avansert reguleringsteknikk, autonome systemer, maskinlæring og robotikk, inkludert design av intelligente styresystemer og autonome farkoster.",
+          "en": "Two-year master's degree with a specialization in Robotics and Vehicle Control. Focused on advanced control engineering, autonomous systems, machine learning, and robotics, including the design of intelligent control systems and autonomous vehicles."
+        }
+      },
+      {
+        "title": {
           "no": "Bachelor i Automatisering og intelligente systemer",
           "en": "Bachelor in Automation and Intelligent Systems"
         },
         "tag": { "no": "Bachelor", "en": "Bachelor" },
         "date": { "no": "Aug 2023 – Jun 2026", "en": "Aug 2023 – Jun 2026" },
         "desc": {
-          "no": "Treårig bachelorgrad med fokus på reguleringsteknikk, robotikk, autonomi og intelligente systemer. Relevant kursarbeid inkluderer fysikk, matematikk, programmering og systemmodellering.",
-          "en": "Three-year bachelor's degree focusing on control engineering, robotics, autonomy, and intelligent systems. Relevant coursework includes physics, mathematics, programming, and system modeling."
+          "no": "Treårig bachelorgrad med fokus på reguleringsteknikk, robotikk, autonomi og intelligente systemer. Relevant kursarbeid inkluderer fysikk, matematikk, programmering og systemmodellering. Fullført med karakter A.",
+          "en": "Three-year bachelor's degree focusing on control engineering, robotics, autonomy, and intelligent systems. Relevant coursework includes physics, mathematics, programming, and system modeling. Graduated with grade A."
         }
-      },
-      {
-        "title": {
-          "no": "Master i Kybernetikk og robotikk (Planlagt)",
-          "en": "Master in Cybernetics and Robotics (Planned)"
-        },
-        "tag": { "no": "Planlagt", "en": "Planned" },
-        "date": { "no": "Aug 2026 – Jun 2028", "en": "Aug 2026 – Jun 2028" },
-        "desc": {
-          "no": "Toårig mastergrad med fokus på avansert reguleringsteknikk, autonome systemer, maskinlæring og robotikk. Inkluderer design av intelligente styresystemer og autonome farkoster.",
-          "en": "Two-year master's degree focusing on advanced control engineering, autonomous systems, machine learning, and robotics. Includes design of intelligent control systems and autonomous vehicles."
-        },
-        "planned": true
       }
     ]
   },

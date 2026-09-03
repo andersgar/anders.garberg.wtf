@@ -1,10 +1,10 @@
 import { useLanguage } from "../context/LanguageContext";
 import { useProfile } from "../context/ProfileContext";
-// import { translations } from "../i18n/translations";
-// import { trackCVDownload } from "../lib/analytics";
+import { translations } from "../i18n/translations";
+import { trackCVDownload } from "../lib/analytics";
 
 export function Hero() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const { profile } = useProfile();
 
   // Easter egg: Check if the logged-in user is Anders Garberg
@@ -14,10 +14,16 @@ export function Hero() {
     <header id="home" className="hero">
       <div className="container hero-wrap">
         <div className="hero-left">
-          <p className="pill">
-            <i className="fa-solid fa-graduation-cap"></i>
-            <span>{t("degreeProgram")}</span>
-          </p>
+          <div className="row hero-pills">
+            <p className="pill">
+              <i className="fa-solid fa-graduation-cap"></i>
+              <span>{t("degreeProgram")}</span>
+            </p>
+            <p className="pill">
+              <i className="fa-solid fa-robot"></i>
+              <span>{t("roleTitle")}</span>
+            </p>
+          </div>
           <h1>
             <span>{isAnders ? t("greetingEasterEgg") : t("greeting")}</span>{" "}
             <span style={{ color: "var(--brand)" }}>Anders Garberg</span>
@@ -34,13 +40,13 @@ export function Hero() {
           </div>
           <div className="row" style={{ marginTop: "12px" }}>
             <span className="tag">{t("controlSystems")}</span>
-            <span className="tag">{t("modeling")}</span>
-            <span className="tag">{t("physics")}</span>
+            <span className="tag">{t("robotics")}</span>
+            <span className="tag">{t("autonomy")}</span>
             <span className="tag">C++</span>
           </div>
         </div>
 
-        {/* <aside
+        <aside
           className="hero-right card pad hero-card"
           aria-label="Rask profil"
         >
@@ -91,7 +97,7 @@ export function Hero() {
               {t("emailMe")}
             </a>
           </div>
-        </aside> */}
+        </aside>
       </div>
     </header>
   );

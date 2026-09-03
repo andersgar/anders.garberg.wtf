@@ -18,12 +18,15 @@ interface Company {
   company: LangText;
   location: LangText;
   positions: Position[];
+  /** Set to true in experience.json to keep an entry in the file but off the site. */
+  hidden?: boolean;
 }
 
 interface Institution {
   institution: LangText;
   location: LangText;
   degrees: Position[];
+  hidden?: boolean;
 }
 
 export function Experience() {
@@ -36,12 +39,14 @@ export function Experience() {
   useEffect(() => {
     fetch("/data/experience.json")
       .then((res) => res.json())
-      .then((data) => setCompanies(data))
+      .then((data: Company[]) => setCompanies(data.filter((c) => !c.hidden)))
       .catch((err) => console.error("Failed to load experience data:", err));
 
     fetch("/data/education.json")
       .then((res) => res.json())
-      .then((data) => setInstitutions(data))
+      .then((data: Institution[]) =>
+        setInstitutions(data.filter((i) => !i.hidden))
+      )
       .catch((err) => console.error("Failed to load education data:", err));
   }, []);
 

@@ -22,37 +22,37 @@ export const translations = {
     footer: "\u00A9 {year} Anders Garberg. Alle rettigheter reservert.",
 
     // Hero Section
-    degreeProgram:
-      "Automatisering og intelligente systemer @ NTNU \u00B7 Trondheim",
+    degreeProgram: "Kybernetikk og robotikk @ NTNU \u00B7 Trondheim",
+    roleTitle: "Robotikkingeni\u00F8r",
     greeting: "Hei, jeg er",
     greetingEasterEgg: "Hei, du er",
     seeProjects: "Se prosjekter",
     getInTouch: "Ta kontakt",
     controlSystems: "Reguleringsteknikk",
-    modeling: "Modellering",
-    physics: "Fysikk",
-    openToInternships: "\u00C5pen for sommerjobb \u00B7 2026",
+    robotics: "Robotikk",
+    autonomy: "Autonomi",
+    openToInternships: "\u00C5pen for sommerjobb \u00B7 2027",
     heroDescription:
-      "Nysgjerrig automatiseringsstudent med lidenskap for autonomi, navigasjon og regulering. S\u00F8ker sommerjobb der jeg kan bidra til \u00E5 utvikle robuste, intelligente systemer, og l\u00E6re av ekte ingeni\u00F8rutfordringer underveis.",
+      "Masterstudent i kybernetikk og robotikk med lidenskap for autonomi, navigasjon og regulering. Erfaring med ROS 2, simulering i NVIDIA Isaac Sim og industriell programvareutvikling. S\u00F8ker sommerjobb i 2027 der jeg kan bidra til \u00E5 utvikle robuste, intelligente systemer.",
     downloadCV: "Last ned CV",
     emailMe: "Send meg en e-post",
     readMore: "Les mer",
 
     // About Section
     aboutText1:
-      "Bachelorstudent i Automatisering og intelligente systemer ved NTNU, med interesse for robotikk, autonomi og reguleringsteknikk. Jeg har erfaring med simulering og utvikling av styringssystemer, og har samtidig opparbeidet meg god ledererfaring som skiftleder i et dynamisk arbeidsmilj\u00F8.",
+      "Masterstudent i Kybernetikk og robotikk ved NTNU, med fullf\u00F8rt bachelor i Automatisering og intelligente systemer. Jeg jobber med robotikk, autonomi og regulering, og har praktisk erfaring fra ROS 2-systemer, simulering i NVIDIA Isaac Sim og industriell programvareutvikling fra sommerjobb hos KONGSBERG.",
     aboutText2:
-      "P\u00E5 fritiden engasjerer jeg meg i studentfrivilligheten og trives godt i sosiale settinger. Jeg liker ogs\u00E5 \u00E5 utforske egne prosjekter, blant annet innen smarthus og home-lab, sm\u00E5 kodeprosjekter, 3D-printing og programmering av mikrokontrollere som ESP-familien.",
+      "P\u00E5 fritiden engasjerer jeg meg i studentfrivilligheten, blant annet i Marinor NTNU der jeg jobber med autonomistacken til et autonomt overflatefart\u00F8y. Jeg liker ogs\u00E5 \u00E5 utforske egne prosjekter, blant annet innen smarthus og home-lab, sm\u00E5 kodeprosjekter, 3D-printing og programmering av mikrokontrollere som ESP-familien.",
     highlights: "Høydepunkter",
-    highlight1: "BSc-student i Automatisering og intelligente systemer, NTNU",
-    highlight2: "Control • AI • Software",
-    highlight3: "C/C++ • Python • PLS",
+    highlight1: "MSc-student i Kybernetikk og robotikk, NTNU",
+    highlight2: "ROS 2 • NVIDIA Isaac Sim • Regulering",
+    highlight3: "C/C++ • Python • MATLAB • PLS",
     highlight4: "Ledelse + studentengasjement",
 
     // Contact Section
     letsStartSomething: "La oss starte noe bra",
     contactDesc:
-      "Send meg en e-post direkte eller bruk skjemaet. Jeg er \u00E5pen for sommerjobb, prosjekter og samarbeid.",
+      "Send meg en e-post direkte eller bruk skjemaet. Jeg er \u00E5pen for sommerjobb 2027, prosjekter og samarbeid.",
     name: "Navn",
     email: "E-post",
     message: "Melding",
@@ -62,11 +62,11 @@ export const translations = {
 
     // Meta
     metaDescription:
-      "Portfolio og kontaktside for student i Automatisering og intelligente systemer (NTNU). Prosjekter, erfaring og m\u00E5ter \u00E5 ta kontakt p\u00E5.",
-    metaTitle: "Anders Garberg \u2013 Automatisering og intelligente systemer",
+      "Portfolio og kontaktside for masterstudent i Kybernetikk og robotikk (NTNU). Prosjekter, erfaring og m\u00E5ter \u00E5 ta kontakt p\u00E5.",
+    metaTitle: "Anders Garberg \u2013 Kybernetikk og robotikk",
 
     // CV Path
-    cv: "content/CV_no.pdf",
+    cv: "/content/CV_AndersGarberg.pdf",
 
     // Auth & Admin
     password: "Passord",
@@ -291,36 +291,37 @@ export const translations = {
     footer: "\u00A9 {year} Anders Garberg. All rights reserved.",
 
     // Hero Section
-    degreeProgram: "Automation & Intelligent Systems @ NTNU \u00B7 Trondheim",
+    degreeProgram: "Cybernetics & Robotics @ NTNU \u00B7 Trondheim",
+    roleTitle: "Robotics Engineer",
     greeting: "Hi, I'm",
     greetingEasterEgg: "Hi, You're",
     seeProjects: "See projects",
     getInTouch: "Get in touch",
     controlSystems: "Control systems",
-    modeling: "Modeling",
-    physics: "Physics",
-    openToInternships: "Open to Internships \u00B7 2026",
+    robotics: "Robotics",
+    autonomy: "Autonomy",
+    openToInternships: "Open to Internships \u00B7 2027",
     heroDescription:
-      "Curious automation student passionate about autonomy, navigation, and control. Looking for a summer internship where I can contribute to developing resilient, intelligent systems, and learn from real engineering challenges along the way.",
+      "M.Sc. student in Cybernetics and Robotics, passionate about autonomy, navigation, and control. Hands-on experience with ROS 2, simulation in NVIDIA Isaac Sim, and industrial software development. Looking for a 2027 summer internship where I can help build resilient, intelligent systems.",
     downloadCV: "Download CV",
     emailMe: "Email me",
     readMore: "Read more",
 
     // About Section
     aboutText1:
-      "Bachelor student in Automation and Intelligent Systems at NTNU, specializing in robotics, autonomy and control theory. I have experience with simulation and development of control systems, complemented by leadership experience as a shift leader in a dynamic work environment.",
+      "M.Sc. student in Cybernetics and Robotics at NTNU, with a completed B.Sc. in Automation and Intelligent Systems. I work with robotics, autonomy, and control, with hands-on experience from ROS 2 systems, simulation in NVIDIA Isaac Sim, and industrial software development during my internship at KONGSBERG.",
     aboutText2:
-      "In my free time, I am involved in student organizations and enjoy being social and engaged. I also spend time on personal projects such as building a home-lab and smart home setup, various coding projects, 3D printing and programming microcontrollers like the ESP family.",
+      "In my free time, I am involved in student organizations — among them Marinor NTNU, where I work on the autonomy stack for an autonomous surface vessel. I also spend time on personal projects such as building a home-lab and smart home setup, various coding projects, 3D printing and programming microcontrollers like the ESP family.",
     highlights: "Highlights",
-    highlight1: "BSc student, Automation & Intelligent Systems, NTNU",
-    highlight2: "Control • AI • Cyber-physical systems",
-    highlight3: "C/C++ • Python • PLC",
+    highlight1: "MSc student, Cybernetics & Robotics, NTNU",
+    highlight2: "ROS 2 • NVIDIA Isaac Sim • Control",
+    highlight3: "C/C++ • Python • MATLAB • PLC",
     highlight4: "Leadership + student involvement",
 
     // Contact Section
     letsStartSomething: "Let's start something great",
     contactDesc:
-      "Email me directly or use the form. I'm open to internships, projects, and collaborations.",
+      "Email me directly or use the form. I'm open to a 2027 summer internship, projects, and collaborations.",
     name: "Name",
     email: "Email",
     message: "Message",
@@ -329,11 +330,11 @@ export const translations = {
 
     // Meta
     metaDescription:
-      "Portfolio and contact page for a student in Automation & Intelligent Systems (NTNU). Projects, experience, and ways to get in touch.",
-    metaTitle: "Anders Garberg \u2013 Automation & Intelligent Systems",
+      "Portfolio and contact page for an M.Sc. student in Cybernetics & Robotics (NTNU). Projects, experience, and ways to get in touch.",
+    metaTitle: "Anders Garberg \u2013 Cybernetics & Robotics",
 
     // CV Path
-    cv: "content/CV_en.pdf",
+    cv: "/content/CV_AndersGarberg.pdf",
 
     // Auth & Admin
     password: "Password",

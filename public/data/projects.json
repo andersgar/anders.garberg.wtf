@@ -5,8 +5,8 @@
       "en": "BSc Thesis: Lone Wolf simulation and synthetic test environment"
     },
     "description": {
-      "no": "Bacheloroppgave våren 2026: etablere et ROS 2-konsistent syntetisk testmiljø i NVIDIA Isaac Sim for Husarion Panther, med modulær payload/sensor-workflow, repeterbare scenarier og integrasjonstester for å redusere avhengighet av fysisk plattform.",
-      "en": "BSc thesis (Spring 2026): build a ROS 2-consistent synthetic test environment in NVIDIA Isaac Sim for the Husarion Panther, with modular payload/sensor workflows, repeatable scenarios, and integration testing to reduce dependency on continuous hardware access."
+      "no": "Bacheloroppgave levert våren 2026: bygget et modulært og konfigurerbart syntetisk testmiljø i NVIDIA Isaac Sim for Lone Wolf-UGVen, med ROS 2-konsistente grensesnitt (/clock, TF, topics), repeterbare scenarier og lukket-sløyfe-testing som reduserte avhengigheten av fysisk maskinvare. Utført i team på fire.",
+      "en": "BSc thesis delivered spring 2026: built a modular, configurable synthetic test environment in NVIDIA Isaac Sim for the Lone Wolf UGV, with consistent ROS 2 interfaces (/clock, TF, topics), repeatable scenario execution, and closed-loop testing that reduced dependency on physical hardware. Team of four."
     },
     "cta": {
       "no": "Les om oppgaven",
@@ -14,7 +14,14 @@
     },
     "image": "/assets/projects/panther_i_isaac.png",
     "mdPath":"/assets/projects/lone_wolf.md",
-    "link": "https://garberg.wtf/lone-wolf"
+    "link": "https://garberg.wtf/lone-wolf",
+    "extraLink": {
+      "url": "https://nva.sikt.no/registration/019fdbfa5b5b-f2a75d0c-5d47-4efa-a779-18a72d807721",
+      "label": {
+        "no": "Se publikasjonen (Sikt NVA)",
+        "en": "View publication (Sikt NVA)"
+      }
+    }
   },
   {
     "title": {

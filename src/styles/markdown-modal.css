@@ -135,6 +135,18 @@
   color: var(--text);
 }
 
+.md-markdown a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in oklab, var(--brand) 45%, transparent);
+}
+
+.md-markdown a:hover,
+.md-markdown a:focus-visible {
+  text-decoration-color: var(--brand);
+}
+
 .md-markdown hr {
   border: 0;
   border-top: 1px solid var(--border);

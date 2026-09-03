@@ -55,7 +55,17 @@ export function MarkdownModal({
             <div className="md-modal__error">{error}</div>
           ) : (
             <div className="md-markdown">
-              <ReactMarkdown>{content}</ReactMarkdown>
+              <ReactMarkdown
+                components={{
+                  a: ({ children, ...props }) => (
+                    <a {...props} target="_blank" rel="noreferrer noopener">
+                      {children}
+                    </a>
+                  ),
+                }}
+              >
+                {content}
+              </ReactMarkdown>
             </div>
           )}
         </div>

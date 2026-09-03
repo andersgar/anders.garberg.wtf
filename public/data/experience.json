@@ -1,33 +1,42 @@
 [
   {
-  "company": {
-    "no": "Kongsberg Defence & Aerospace",
-    "en": "Kongsberg Defence & Aerospace"
-  },
-  "location": {
-    "no": "Kongsberg, Norge",
-    "en": "Kongsberg, Norway"
-  },
-  "positions": [
-    {
-      "title": {
-        "no": "Sommerintern – Project Lone Wolf",
-        "en": "Summer Intern – Project Lone Wolf"
-      },
-      "tag": {
-        "no": "Fulltid",
-        "en": "Full-time"
-      },
-      "date": {
-        "no": "Jun 2026 – Aug 2026",
-        "en": "Jun 2026 – Aug 2026"
-      },
-      "desc": {
-        "no": "Skal bidra til å utvikle en variant av eksisterende ICS (Integrated Combat Solution) for Lone Wolf sin nye plattform, Husarion Panther, en autonom UGV. Arbeidet omfatter utvikling og tilpasning av systemløsninger i skjæringspunktet mellom robotikk, autonomi og plattformintegrasjon.",
-        "en": "Will contribute to developing a variant of the existing ICS (Integrated Combat Solution) for Lone Wolf’s new platform, the Husarion Panther, an autonomous UGV. The work includes developing and adapting system solutions at the intersection of robotics, autonomy, and platform integration."
+    "company": { "no": "Marinor NTNU", "en": "Marinor NTNU" },
+    "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
+    "positions": [
+      {
+        "title": {
+          "no": "Autonomiingeniør",
+          "en": "Autonomy Engineer"
+        },
+        "tag": { "no": "Verv", "en": "Voluntary" },
+        "date": { "no": "Sep 2026 – Nåværende", "en": "Sep 2026 – Present" },
+        "desc": {
+          "no": "Studentorganisasjon som utvikler autonome maritime fartøy, og medlem av Ocean Autonomy Cluster. Jobber med autonomistacken, med hovedvekt på guidance og navigasjon for et autonomt overflatefartøy.",
+          "en": "Student organization developing autonomous maritime vessels and a member of the Ocean Autonomy Cluster. Works on the autonomy stack, focusing on guidance and navigation for an autonomous surface vessel."
+        }
       }
-    }
-  ]
+    ]
+  },
+  {
+    "company": {
+      "no": "Kongsberg Defence & Aerospace",
+      "en": "Kongsberg Defence & Aerospace"
+    },
+    "location": { "no": "Kongsberg, Norge", "en": "Kongsberg, Norway" },
+    "positions": [
+      {
+        "title": {
+          "no": "Sommerintern – Software, Lone Wolf",
+          "en": "Summer Intern – Software, Lone Wolf"
+        },
+        "tag": { "no": "Fulltid", "en": "Full-time" },
+        "date": { "no": "Jun 2026 – Aug 2026", "en": "Jun 2026 – Aug 2026" },
+        "desc": {
+          "no": "Bidro til utviklingen av en ny UGV-plattform (ubemannet landgående farkost) for Lone Wolf-prosjektet, inkludert design og integrasjon av et nytt plattformkonsept. Etablerte kommunikasjon mellom sensorer, aktuatorer og operatørsystemer, og utviklet ICS-operatørpanelet og koblingen mellom panel og plattform. Utviklet, testet og verifiserte ROS 2-basert autonomiprogramvare i C++.",
+          "en": "Contributed to the development of a new unmanned ground vehicle (UGV) platform for the Lone Wolf project, including the design and integration of a new platform concept. Established communication between sensors, actuators, and operator systems, and developed the ICS operator panel and the panel–platform link. Developed, tested, and verified ROS 2-based autonomy software in C++."
+        }
+      }
+    ]
   },
   {
     "company": { "no": "NTNU", "en": "NTNU" },
@@ -35,32 +44,53 @@
     "positions": [
       {
         "title": {
-          "no": "Læringsassistent -  Kunstig intelligens for robotikk og automatisering AIST2102",
-          "en": "Teaching Assistant - Artificial intelligence for robotics and automation AIST2102"
+          "no": "Læringsassistent – Introduksjon til kunstig intelligens TDT4136",
+          "en": "Teaching Assistant – Introduction to Artificial Intelligence TDT4136"
         },
         "tag": { "no": "Deltid", "en": "Part-time" },
-        "date": {
-          "no": "Jan 2026 – Mai 2026",
-          "en": "Jan 2026 – May 2026"
-        },
+        "date": { "no": "Aug 2026 – Nåværende", "en": "Aug 2026 – Present" },
         "desc": {
-          "no": "Studass i det nye emnet Kunstig intelligens for robotikk og automatisering våren 2026, der jeg veileder studenter og gir faglig støtte i AI-relaterte oppgaver.",
-          "en": "Teaching assistant in the new course Artificial Intelligence for Robotics and Automation spring 2026, guiding students and providing academic support in AI-related tasks."
+          "no": "Veileder studenter gjennom øvinger og labarbeid, gir faglig oppfølging og bistår emnestaben i gjennomføringen av emnet.",
+          "en": "Guides students through problem sets and lab work, gives academic follow-up, and supports the course staff in running the course."
         }
       },
       {
         "title": {
-          "no": "Læringsassistent - Statistikk ISTT1002",
-          "en": "Teaching Assistant - Statistics ISTT1002"
+          "no": "Læringsassistent – Robotikk og maskinsyn IELET2107",
+          "en": "Teaching Assistant – Robotics & Machine Vision IELET2107"
+        },
+        "tag": { "no": "Deltid", "en": "Part-time" },
+        "date": { "no": "Aug 2026 – Nåværende", "en": "Aug 2026 – Present" },
+        "desc": {
+          "no": "Faglig veiledning i robotikk og maskinsyn, med oppfølging av studenter på øvinger og laboratorieoppgaver.",
+          "en": "Academic guidance in robotics and machine vision, following up students on problem sets and laboratory assignments."
+        }
+      },
+      {
+        "title": {
+          "no": "Læringsassistent – Kunstig intelligens for robotikk og automatisering AIST2102",
+          "en": "Teaching Assistant – AI for Robotics & Automation AIST2102"
+        },
+        "tag": { "no": "Deltid", "en": "Part-time" },
+        "date": { "no": "Jan 2026 – Mai 2026", "en": "Jan 2026 – May 2026" },
+        "desc": {
+          "no": "Studass i det nye emnet Kunstig intelligens for robotikk og automatisering, der jeg veiledet studenter og ga faglig støtte i AI-relaterte oppgaver.",
+          "en": "Teaching assistant in the new course AI for Robotics and Automation, guiding students and providing academic support in AI-related tasks."
+        }
+      },
+      {
+        "title": {
+          "no": "Læringsassistent – Statistikk ISTT1002",
+          "en": "Teaching Assistant – Statistics ISTT1002"
         },
         "tag": { "no": "Deltid", "en": "Part-time" },
         "date": {
-          "no": "Aug 2025 – Des 2025",
-          "en": "Aug 2025 – Dec 2025"
+          "no": "Aug 2025 – Des 2025, Aug 2026 – Nåværende",
+          "en": "Aug 2025 – Dec 2025, Aug 2026 – Present"
         },
         "desc": {
-          "no": "Bidro til undervisning og veiledning av studenter i statistikk for ingeniørfag. Hjalp til med faglig oppfølging, oppgaveløsning og utvikling av studentenes forståelse i emnet.",
-          "en": "Contributed to teaching and guidance of students in Statistics. Assisted with academic follow-up, problem solving, and development of students' understanding in the subject."
+          "no": "Bidrar til undervisning og veiledning av studenter i statistikk for ingeniørfag, med faglig oppfølging, oppgaveløsning og utvikling av studentenes forståelse i emnet.",
+          "en": "Contributes to teaching and guidance of students in engineering statistics, with academic follow-up, problem solving, and developing students' understanding of the subject."
         }
       }
     ]
@@ -77,8 +107,8 @@
           "en": "Aug 2023 – Present"
         },
         "desc": {
-          "no": "Ansvarlig for opplæring, drift og kundeservice i et tempofylt miljø. Bidro til forbedrede prosedyrer som økte effektiviteten i billett- og kiosksalg samtidig som den totale kundeopplevelsen ble forbedret.",
-          "en": "Responsible for training, operations, and customer service in a fast-paced environment. Contributed to improved procedures that increased efficiency in ticket and kiosk sales while enhancing the overall customer experience."
+          "no": "Ansvarlig for daglig drift, opplæring av ansatte og kundeservice i et tempofylt miljø. Innførte prosedyrer som økte effektiviteten i billett- og kiosksalg samtidig som den totale kundeopplevelsen ble forbedret.",
+          "en": "Responsible for daily operations, staff training, and customer service in a fast-paced environment. Introduced procedures that improved efficiency in ticket and kiosk sales while enhancing the overall customer experience."
         }
       },
       {
@@ -115,12 +145,21 @@
     "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
     "positions": [
       {
+        "title": { "no": "Revisor", "en": "Auditor" },
+        "tag": { "no": "Verv", "en": "Voluntary" },
+        "date": { "no": "Aug 2026 – Nåværende", "en": "Aug 2026 – Present" },
+        "desc": {
+          "no": "Gjennomgår linjeforeningens regnskap uavhengig av styret, avstemmer rapporterte tall mot bilag og signerer revisjonsberetningen som legges fram for generalforsamlingen.",
+          "en": "Reviews the association's accounts independently of the board, reconciles reported figures against source documents, and signs the audit report presented to the general assembly."
+        }
+      },
+      {
         "title": { "no": "Økonomisjef", "en": "Financial Manager" },
         "tag": { "no": "Verv", "en": "Voluntary" },
         "date": { "no": "Okt 2024 – Nov 2025", "en": "Oct 2024 – Nov 2025" },
         "desc": {
-          "no": "Studentforeningen for elektrostudenter ved NTNU. Ansvarlig for budsjett, regnskap og økonomisk planlegging for linjeforeningen med flere hundre medlemmer. Utarbeidet rutiner for økonomistyring som ga bedre kontroll og transparens.",
-          "en": "Student association for electrical engineering students at NTNU. Responsible for budget, accounting, and financial planning for the association with several hundred members. Developed routines for financial management that provided better control and transparency."
+          "no": "Studentforeningen for elektrostudenter ved NTNU. Ansvarlig for budsjett, regnskap og økonomisk planlegging for linjeforeningen med flere hundre medlemmer. Utarbeidet rutiner for økonomistyring som ga bedre kontroll og transparens, og gjorde overleveringen til neste styre enkel.",
+          "en": "Student association for electrical engineering students at NTNU. Responsible for budget, accounting, and financial planning for the association with several hundred members. Established routines for financial control that improved oversight and made handover to the next board straightforward."
         }
       },
       {
@@ -141,10 +180,32 @@
           "en": "Member, Event Committee"
         },
         "tag": { "no": "Verv", "en": "Voluntary" },
-        "date": { "no": "Aug 2023 – Nåværende", "en": "Aug 2023 – Present" },
+        "date": { "no": "Aug 2023 – Jun 2026", "en": "Aug 2023 – Jun 2026" },
         "desc": {
-          "no": "Medlem av Elektras arrangementskomité, hvor jeg bidrar til å planlegge og gjennomføre sosiale arrangementer for bedre samhold.",
-          "en": "Member of Elektra’s event committee, helping plan and organize social events to strengthen the student community."
+          "no": "Medlem av Elektras arrangementskomité, hvor jeg bidro til å planlegge og gjennomføre sosiale arrangementer for bedre samhold.",
+          "en": "Member of Elektra's event committee, helping plan and organize social events to strengthen the student community."
+        }
+      }
+    ]
+  },
+  {
+    "hidden": true,
+    "company": {
+      "no": "Linjeforeningen Omega",
+      "en": "Omega Student Association"
+    },
+    "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
+    "positions": [
+      {
+        "title": {
+          "no": "Medlem Hyttekomiteen – Heuttecommiteen",
+          "en": "Cabin Committee Member – Heuttecommiteen"
+        },
+        "tag": { "no": "Verv", "en": "Voluntary" },
+        "date": { "no": "Sep 2026 – Nåværende", "en": "Sep 2026 – Present" },
+        "desc": {
+          "no": "Ansvarlig for drift, vedlikehold, utleie og promotering av linjeforeningens hytte, inkludert dugnadshelger og praktisk vedlikehold av bygget.",
+          "en": "Responsible for operation, maintenance, booking, and promotion of the association's cabin, including hands-on maintenance weekends and practical upkeep of the building."
         }
       }
     ]
@@ -161,8 +222,8 @@
         "tag": { "no": "Fulltid", "en": "Full-time" },
         "date": { "no": "Aug 2022 - Jan 2024", "en": "Aug 2022 – Jan 2024" },
         "desc": {
-          "no": "Operativ erfaring med sambandssystemer i Luftvernbataljonen. Tjenestegjorde som del av NATO Response Force, som krevde presisjon, lagarbeid og beredskap. Bidro til sikker og effektiv kommunikasjon under krevende forhold.",
-          "en": "Operational experience with communication systems in the Air Defense Battalion. Served as part of the NATO Response Force, requiring precision, teamwork, and readiness. Contributed to secure and efficient communication under demanding conditions."
+          "no": "Operativ erfaring med sambandssystemer i Luftvernbataljonen. Tjenestegjorde som del av NATO Response Force, som krevde presisjon, lagarbeid og beredskap. Bidro til sikker og effektiv kommunikasjon mellom luftvernsystemene under krevende forhold.",
+          "en": "Operational experience with communication systems in the Air Defense Battalion. Served as part of the NATO Response Force, requiring precision, teamwork, and readiness. Ensured secure and efficient communication between GBAD systems under demanding conditions."
         }
       }
     ]
@@ -189,7 +250,7 @@
       {
         "title": { "no": "Leder og kasserer", "en": "Manager and Treasurer" },
         "tag": { "no": "Verv", "en": "Voluntary" },
-        "date": { "no": "Jun 2021 - Jun 2022", "en": "Jun 2021 – Jun 2022" },
+        "date": { "no": "Jun 2021 - Mai 2022", "en": "Jun 2021 – May 2022" },
         "desc": {
           "no": "Ledet en årlig skolerevy på Thora Storm videregående skole med over 150 deltakere. Ansvarlig for planlegging, øvinger og gjennomføring av produksjonen, samt budsjettering og økonomistyring, inkludert billettsalg og sponsorater.",
           "en": "Led an annual school revue at Thora Storm Upper Secondary School with over 150 participants. Responsible for planning, rehearsals, and execution of the production, as well as budgeting and financial management, including ticket sales and sponsorships."

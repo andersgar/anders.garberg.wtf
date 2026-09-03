@@ -7,6 +7,11 @@ interface LangText {
   en: string;
 }
 
+interface ExtraLink {
+  url: string;
+  label: LangText;
+}
+
 interface Project {
   title: LangText;
   description: LangText;
@@ -14,6 +19,8 @@ interface Project {
   mdPath?: string;
   image: string;
   link: string;
+  /** Optional secondary link, e.g. a publication record. */
+  extraLink?: ExtraLink;
 }
 
 export function Projects() {
@@ -59,36 +66,52 @@ export function Projects() {
               <div className="project-body">
                 <h3>{getText(project.title)}</h3>
                 <p className="small">{getText(project.description)}</p>
-                {project.mdPath ? (
-                  <button
-                    type="button"
-                    className="btn ghost project-link"
-                    onClick={() => setActiveProject(project)}
-                  >
-                    <span>
-                      {project.cta ? getText(project.cta) : t("readMore")}
-                    </span>
-                    <i
-                      className="fa-solid fa-arrow-up-right-from-square"
-                      aria-hidden="true"
-                    ></i>
-                  </button>
-                ) : (
-                  <a
-                    className="btn ghost project-link"
-                    href={project.link}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    <span>
-                      {project.cta ? getText(project.cta) : t("readMore")}
-                    </span>
-                    <i
-                      className="fa-solid fa-arrow-up-right-from-square"
-                      aria-hidden="true"
-                    ></i>
-                  </a>
-                )}
+                <div className="project-actions">
+                  {project.mdPath ? (
+                    <button
+                      type="button"
+                      className="btn ghost project-link"
+                      onClick={() => setActiveProject(project)}
+                    >
+                      <span>
+                        {project.cta ? getText(project.cta) : t("readMore")}
+                      </span>
+                      <i
+                        className="fa-solid fa-arrow-up-right-from-square"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
+                  ) : (
+                    <a
+                      className="btn ghost project-link"
+                      href={project.link}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      <span>
+                        {project.cta ? getText(project.cta) : t("readMore")}
+                      </span>
+                      <i
+                        className="fa-solid fa-arrow-up-right-from-square"
+                        aria-hidden="true"
+                      ></i>
+                    </a>
+                  )}
+                  {project.extraLink && (
+                    <a
+                      className="btn ghost project-link"
+                      href={project.extraLink.url}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      <span>{getText(project.extraLink.label)}</span>
+                      <i
+                        className="fa-solid fa-arrow-up-right-from-square"
+                        aria-hidden="true"
+                      ></i>
+                    </a>
+                  )}
+                </div>
               </div>
             </article>
           ))}

@@ -441,6 +441,14 @@ header.hero {
   font-size: 0.92rem;
 }
 
+.hero-pills {
+  margin-bottom: 0.75rem;
+}
+
+.hero-pills .pill {
+  margin: 0;
+}
+
 h2.section-title {
   font-size: clamp(22px, 3vw, 30px);
   margin: 10px 0 4px;
@@ -536,8 +544,15 @@ section {
   line-height: 1.5;
 }
 
-.project-link {
+.project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-top: auto;
+  padding-top: 0.4rem;
+}
+
+.project-link {
   width: fit-content;
   padding-inline: 0.9rem 1rem;
 }
