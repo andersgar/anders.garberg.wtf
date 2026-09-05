@@ -1,5 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, RefObject } from "react";
 import { useLanguage } from "../context/LanguageContext";
+
+function useExpandedHeight(
+  innerRef: RefObject<HTMLElement>,
+  isExpanded: boolean
+) {
+  const [maxHeight, setMaxHeight] = useState<string>();
+
+  useEffect(() => {
+    const inner = innerRef.current;
+    if (!isExpanded || !inner) {
+      setMaxHeight(undefined);
+      return;
+    }
+
+    const measure = () => setMaxHeight(`${inner.scrollHeight}px`);
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(inner);
+    return () => observer.disconnect();
+  }, [innerRef, isExpanded]);
+
+  return maxHeight;
+}
 
 interface LangText {
   no: string;
@@ -35,6 +59,16 @@ export function Experience() {
   const [institutions, setInstitutions] = useState<Institution[]>([]);
   const [isExperienceExpanded, setIsExperienceExpanded] = useState(false);
   const [isEducationExpanded, setIsEducationExpanded] = useState(false);
+  const experienceRef = useRef<HTMLDivElement>(null);
+  const educationRef = useRef<HTMLDivElement>(null);
+  const experienceMaxHeight = useExpandedHeight(
+    experienceRef,
+    isExperienceExpanded
+  );
+  const educationMaxHeight = useExpandedHeight(
+    educationRef,
+    isEducationExpanded
+  );
 
   useEffect(() => {
     fetch("/data/experience.json")
@@ -63,8 +97,9 @@ export function Experience() {
             className={`timeline-container ${
               isExperienceExpanded ? "expanded" : "collapsed"
             }`}
+            style={{ maxHeight: experienceMaxHeight }}
           >
-            <div className="timeline" id="timeline">
+            <div className="timeline" id="timeline" ref={experienceRef}>
               {companies.map((company, idx) => (
                 <div className="step" key={idx}>
                   <div className="dot" aria-hidden="true"></div>
@@ -116,8 +151,9 @@ export function Experience() {
             className={`timeline-container ${
               isEducationExpanded ? "expanded" : "collapsed"
             }`}
+            style={{ maxHeight: educationMaxHeight }}
           >
-            <div className="timeline" id="timeline-education">
+            <div className="timeline" id="timeline-education" ref={educationRef}>
               {institutions.map((institution, idx) => (
                 <div className="step" key={idx}>
                   <div className="dot" aria-hidden="true"></div>

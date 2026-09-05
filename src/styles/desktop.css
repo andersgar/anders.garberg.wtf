@@ -592,7 +592,7 @@ section {
 .timeline-container {
   position: relative;
   overflow-x: visible; /* Allow dots to extend horizontally */
-  overflow-y: hidden; /* Only clip vertically for collapse */
+  overflow-y: clip;
   transition: max-height 0.4s ease-in-out;
 }
 
@@ -601,7 +601,7 @@ section {
 }
 
 .timeline-container.expanded {
-  max-height: 3000px;
+  max-height: none;
 }
 
 .timeline-fade {

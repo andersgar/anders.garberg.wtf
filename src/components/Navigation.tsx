@@ -1091,19 +1091,28 @@ function MobileMenu({
 }: MobileMenuProps) {
   const { t } = useLanguage();
 
-  const handleMenuToggle = () => {
-    onCloseSheet?.();
-    document.getElementById("hamburger")?.classList.toggle("active");
-    document.getElementById("mobileMenu")?.classList.toggle("active");
-    document.getElementById("mobileOverlay")?.classList.toggle("active");
-    document.body.classList.toggle("mobile-menu-open");
-  };
-
   const closeMenu = () => {
     document.getElementById("hamburger")?.classList.remove("active");
     document.getElementById("mobileMenu")?.classList.remove("active");
     document.getElementById("mobileOverlay")?.classList.remove("active");
     document.body.classList.remove("mobile-menu-open");
+  };
+
+  useEffect(() => closeMenu, []);
+
+  const handleMenuToggle = () => {
+    onCloseSheet?.();
+    const isOpening = !document.body.classList.contains("mobile-menu-open");
+    document
+      .getElementById("hamburger")
+      ?.classList.toggle("active", isOpening);
+    document
+      .getElementById("mobileMenu")
+      ?.classList.toggle("active", isOpening);
+    document
+      .getElementById("mobileOverlay")
+      ?.classList.toggle("active", isOpening);
+    document.body.classList.toggle("mobile-menu-open", isOpening);
   };
 
   return (

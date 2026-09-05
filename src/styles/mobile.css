@@ -376,11 +376,11 @@
   visibility: visible;
 }
 
-/* Prevent body scroll when mobile menu is open */
 body.mobile-menu-open {
   overflow: hidden;
-  position: fixed;
-  width: 100%;
+}
+html:has(body.mobile-menu-open) {
+  overflow: hidden;
 }
 
 /* Tablet breakpoint */

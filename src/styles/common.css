@@ -168,10 +168,8 @@ body {
     sans-serif;
   background: var(--bg);
   color: var(--text);
-  overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
-  overscroll-behavior: none; /* Prevent overscroll bounce */
 }
 #root {
   width: 100%;
