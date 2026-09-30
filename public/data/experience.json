@@ -189,28 +189,6 @@
     ]
   },
   {
-    "hidden": true,
-    "company": {
-      "no": "Linjeforeningen Omega",
-      "en": "Omega Student Association"
-    },
-    "location": { "no": "Trondheim, Norge", "en": "Trondheim, Norway" },
-    "positions": [
-      {
-        "title": {
-          "no": "Medlem Hyttekomiteen – Heuttecommiteen",
-          "en": "Cabin Committee Member – Heuttecommiteen"
-        },
-        "tag": { "no": "Verv", "en": "Voluntary" },
-        "date": { "no": "Sep 2026 – Nåværende", "en": "Sep 2026 – Present" },
-        "desc": {
-          "no": "Ansvarlig for drift, vedlikehold, utleie og promotering av linjeforeningens hytte, inkludert dugnadshelger og praktisk vedlikehold av bygget.",
-          "en": "Responsible for operation, maintenance, booking, and promotion of the association's cabin, including hands-on maintenance weekends and practical upkeep of the building."
-        }
-      }
-    ]
-  },
-  {
     "company": { "no": "Forsvaret", "en": "Norwegian Armed Forces" },
     "location": { "no": "Ørland, Norge", "en": "Ørland, Norway" },
     "positions": [
