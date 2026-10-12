@@ -31,9 +31,18 @@ export const translations = {
     controlSystems: "Reguleringsteknikk",
     robotics: "Robotikk",
     autonomy: "Autonomi",
-    openToInternships: "\u00C5pen for sommerjobb \u00B7 2027",
+    openToInternships: "\u00C5pen for deltid og sommerjobb \u00B7\u00A02027",
     heroDescription:
-      "Masterstudent i kybernetikk og robotikk med lidenskap for autonomi, navigasjon og regulering. Erfaring med ROS 2, simulering i NVIDIA Isaac Sim og industriell programvareutvikling. S\u00F8ker sommerjobb i 2027 der jeg kan bidra til \u00E5 utvikle robuste, intelligente systemer.",
+      "Masterstudent i kybernetikk og robotikk med lidenskap for autonomi, navigasjon og regulering. Erfaring med ROS 2, simulering i NVIDIA Isaac Sim og industriell programvareutvikling. Tilgjengelig for deltidsjobb fra januar 2027 og sommerjobb i 2027, der jeg kan bidra til \u00E5 utvikle robuste, intelligente systemer.",
+    heroSubtext:
+      "Masterstudent i kybernetikk og robotikk ved NTNU. \u00C5pen for deltidsjobb fra januar 2027 og sommerjobb 2027.",
+    quickFacts: "Kort om meg",
+    onThisPage: "På denne siden",
+    themeToggle: "Bytt mellom lys og m\u00F8rk modus",
+    factStudy: "Studerer",
+    factAvailable: "Tilgjengelig",
+    factLinks: "Lenker",
+    factLocation: "Sted",
     downloadCV: "Last ned CV",
     emailMe: "Send meg en e-post",
     readMore: "Les mer",
@@ -52,7 +61,7 @@ export const translations = {
     // Contact Section
     letsStartSomething: "La oss starte noe bra",
     contactDesc:
-      "Send meg en e-post direkte eller bruk skjemaet. Jeg er \u00E5pen for sommerjobb 2027, prosjekter og samarbeid.",
+      "Send meg en e-post direkte eller bruk skjemaet. Jeg er \u00E5pen for deltidsjobb fra januar 2027, sommerjobb 2027, prosjekter og samarbeid.",
     name: "Navn",
     email: "E-post",
     message: "Melding",
@@ -63,7 +72,7 @@ export const translations = {
     // Meta
     metaDescription:
       "Portfolio og kontaktside for masterstudent i Kybernetikk og robotikk (NTNU). Prosjekter, erfaring og m\u00E5ter \u00E5 ta kontakt p\u00E5.",
-    metaTitle: "Anders Garberg \u2013 Kybernetikk og robotikk",
+    metaTitle: "Anders Garberg - Kybernetikk og robotikk",
 
     // CV Path
     cv: "/content/CV_AndersGarberg.pdf",
@@ -83,7 +92,7 @@ export const translations = {
     dashboardSubtitleLoggedIn: "Velkommen tilbake til dashbordet",
     dashboardSubtitleLoggedOut: "Logg inn for å tilpasse dashbordet",
     yourApps: "Dine apper",
-    recommendedApps: "Anbefalte apper",
+    recommendedApps: "Apper laget av meg",
     addApp: "Legg til app",
     loginToEdit: "Logg inn for å redigere og legge til apper",
     quickActions: "Hurtighandlinger",
@@ -300,9 +309,18 @@ export const translations = {
     controlSystems: "Control systems",
     robotics: "Robotics",
     autonomy: "Autonomy",
-    openToInternships: "Open to Internships \u00B7 2027",
+    openToInternships: "Open to part-time & internships \u00B7\u00A02027",
     heroDescription:
-      "M.Sc. student in Cybernetics and Robotics, passionate about autonomy, navigation, and control. Hands-on experience with ROS 2, simulation in NVIDIA Isaac Sim, and industrial software development. Looking for a 2027 summer internship where I can help build resilient, intelligent systems.",
+      "M.Sc. student in Cybernetics and Robotics, passionate about autonomy, navigation, and control. Hands-on experience with ROS 2, simulation in NVIDIA Isaac Sim, and industrial software development. Available part-time from January 2027 and for a 2027 summer internship, helping build resilient, intelligent systems.",
+    heroSubtext:
+      "M.Sc. student in Cybernetics and Robotics at NTNU. Open to part-time work from January 2027 and a 2027 summer internship.",
+    quickFacts: "Quick facts",
+    onThisPage: "On this page",
+    themeToggle: "Toggle light and dark mode",
+    factStudy: "Studying",
+    factAvailable: "Available",
+    factLinks: "Links",
+    factLocation: "Location",
     downloadCV: "Download CV",
     emailMe: "Email me",
     readMore: "Read more",
@@ -311,7 +329,7 @@ export const translations = {
     aboutText1:
       "M.Sc. student in Cybernetics and Robotics at NTNU, with a completed B.Sc. in Automation and Intelligent Systems. I work with robotics, autonomy, and control, with hands-on experience from ROS 2 systems, simulation in NVIDIA Isaac Sim, and industrial software development during my internship at KONGSBERG.",
     aboutText2:
-      "In my free time, I am involved in student organizations — among them Marinor NTNU, where I work on the autonomy stack for an autonomous surface vessel. I also spend time on personal projects such as building a home-lab and smart home setup, various coding projects, 3D printing and programming microcontrollers like the ESP family.",
+      "In my free time, I am involved in student organizations, among them Marinor NTNU, where I work on the autonomy stack for an autonomous surface vessel. I also spend time on personal projects such as building a home-lab and smart home setup, various coding projects, 3D printing and programming microcontrollers like the ESP family.",
     highlights: "Highlights",
     highlight1: "MSc student, Cybernetics & Robotics, NTNU",
     highlight2: "ROS 2 • NVIDIA Isaac Sim • Control",
@@ -321,7 +339,7 @@ export const translations = {
     // Contact Section
     letsStartSomething: "Let's start something great",
     contactDesc:
-      "Email me directly or use the form. I'm open to a 2027 summer internship, projects, and collaborations.",
+      "Email me directly or use the form. I'm open to part-time work from January 2027, a 2027 summer internship, projects, and collaborations.",
     name: "Name",
     email: "Email",
     message: "Message",
@@ -331,7 +349,7 @@ export const translations = {
     // Meta
     metaDescription:
       "Portfolio and contact page for an M.Sc. student in Cybernetics & Robotics (NTNU). Projects, experience, and ways to get in touch.",
-    metaTitle: "Anders Garberg \u2013 Cybernetics & Robotics",
+    metaTitle: "Anders Garberg - Cybernetics & Robotics",
 
     // CV Path
     cv: "/content/CV_AndersGarberg.pdf",
@@ -351,7 +369,7 @@ export const translations = {
     dashboardSubtitleLoggedIn: "Welcome back to your dashboard",
     dashboardSubtitleLoggedOut: "Log in to personalize your dashboard",
     yourApps: "Your Apps",
-    recommendedApps: "Recommended Apps",
+    recommendedApps: "Apps made by me",
     addApp: "Add App",
     loginToEdit: "Log in to edit and add apps",
     quickActions: "Quick Actions",
@@ -435,7 +453,7 @@ export const translations = {
     qrGeneratorTitle: "QR Code Generator",
     qrGeneratorInputLabel: "QR content",
     qrGeneratorPlaceholder: "https://garberg.wtf or a short message",
-    qrGeneratorHelper: "Link, text, WiFi password—anything you want to share",
+    qrGeneratorHelper: "Link, text, WiFi password, anything you want to share",
     qrGeneratorLiveHint: "Your QR updates as you type",
     qrGeneratorDownload: "Download QR as SVG",
     qrGeneratorPreviewTitle: "Preview",

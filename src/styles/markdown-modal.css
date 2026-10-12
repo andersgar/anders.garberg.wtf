@@ -2,7 +2,6 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,8 +14,8 @@
   max-height: 85vh;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 1rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border-radius: 0;
+  box-shadow: none;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -56,14 +55,14 @@
   background: transparent;
   border: 1px solid var(--border);
   color: var(--fg);
-  border-radius: 0.5rem;
+  border-radius: 0;
   width: 38px;
   height: 38px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .md-modal__close:hover {
@@ -89,7 +88,7 @@
 .md-modal__error {
   background: color-mix(in oklab, #ef4444 12%, transparent);
   border: 1px solid color-mix(in oklab, #ef4444 40%, transparent);
-  border-radius: 0.6rem;
+  border-radius: 0;
   color: #fecdd3;
   padding: 0.75rem 0.9rem;
   font-weight: 600;
@@ -159,13 +158,13 @@
   border-left: 3px solid var(--brand);
   background: color-mix(in oklab, var(--brand) 8%, transparent);
   color: var(--fg);
-  border-radius: 0.5rem;
+  border-radius: 0;
 }
 
 @media (max-width: 720px) {
   .md-modal {
     max-height: 90vh;
-    border-radius: 1rem;
+    border-radius: 0;
   }
 
   .md-modal__header {
@@ -175,4 +174,19 @@
   .md-modal__content {
     padding: 1rem;
   }
+}
+
+/* Loading skeleton: paragraph-shaped bars, no spinner. */
+.md-modal__loading {
+  display: grid;
+  gap: 10px;
+  padding: 4px 0;
+}
+.md-skeleton {
+  display: block;
+  height: 0.9em;
+  background: var(--surface-2);
+}
+.md-modal__eyebrow {
+  font-family: var(--font-mono);
 }

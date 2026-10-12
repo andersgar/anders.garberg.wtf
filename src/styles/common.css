@@ -1,156 +1,70 @@
+/* ---------------------------------------------------------------------------
+   Design tokens. Monochrome, two modes (dark default, light inverse).
+   Dark: black page, white-outlined rectangles, white text.
+   Light: the exact inverse. Zero radius, no shadows, no gradients.
+   --------------------------------------------------------------------------- */
 :root {
-  --bg: #0b1220;
-  --panel: #0f172a;
-  --card: rgba(15, 23, 42, 0.95);
-  --border: rgba(148, 163, 184, 0.2);
-  --fg: #e2e8f0;
-  --fg_grey: #475569;
-  --muted: #94a3b8;
-  --text: #e2e8f0;
-  --brand: #00bbf9;
-  --brand-2: #8338ec;
-  --brand-3: #ff006e;
-  --brand-4: #00f5d4;
-  --accent: #22c55e;
-  --ring: 0 0 0 3px rgba(0, 187, 249, 0.35);
-  --shadow: 0 10px 30px rgba(2, 8, 23, 0.45);
-  --radius: 16px;
+  color-scheme: dark;
+
+  --bg: #000000;
+  --surface: #000000;
+  --surface-2: #121212;
+  --line: #ffffff;
+  --line-soft: rgba(255, 255, 255, 0.3);
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.64);
+  --muted-2: rgba(255, 255, 255, 0.42);
+
+  /* "Accent" is the foreground colour: solid blocks invert to it. */
+  --accent: #ffffff;
+  --accent-hover: #d9d9d9;
+  --accent-fg: #000000;
+
+  /* Semantic only: never decorative. */
+  --danger: #ff5a5a;
+
+  --font-sans: "Geist Variable", system-ui, -apple-system, "Segoe UI", Roboto,
+    Arial, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo,
+    Consolas, monospace;
+
+  --radius: 0;
+  --shadow: none;
+  --ring: inset 0 0 0 1px var(--text);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 0.15s;
+
+  --z-nav: 50;
+  --z-dropdown: 1000;
+  --z-modal: 10001;
+
+  /* Legacy aliases so untouched surfaces (dashboard, auth, profile) inherit
+     the palette without edits. */
+  --panel: var(--surface);
+  --card: var(--surface);
+  --border: var(--line);
+  --fg: var(--text);
+  --fg_grey: var(--muted);
+  --brand: var(--accent);
+  --brand-2: var(--accent);
+  --brand-3: var(--accent);
+  --brand-4: var(--accent);
 }
 :root.light {
-  --bg: #f8fafc;
-  --panel: #ffffff;
-  --card: rgba(255, 255, 255, 0.9);
-  --border: rgba(15, 23, 42, 0.15);
-  --fg: #1e293b;
-  --fg_grey: #475569;
-  --muted: #475569;
-  --text: #0f172a;
-  --brand: #0077cc;
-  --brand-2: #6b21a8;
-  --brand-3: #db2777;
-  --brand-4: #00c4b4;
-  --accent: #16a34a;
-  --shadow: 0 6px 20px rgba(2, 8, 23, 0.08);
-}
-
-/* Color Themes - Aurora Pulse (default) */
-[data-color-theme="aurora"] {
-  --brand: #00bbf9;
-  --brand-2: #8338ec;
-  --brand-3: #ff006e;
-  --brand-4: #00f5d4;
-  --ring: 0 0 0 3px rgba(0, 187, 249, 0.35);
-}
-[data-color-theme="aurora"].light {
-  --brand: #0077cc;
-  --brand-2: #6b21a8;
-  --brand-3: #db2777;
-  --brand-4: #00c4b4;
-}
-
-/* Color Themes - Neon Cinema */
-[data-color-theme="cinema"] {
-  --brand: #2979ff;
-  --brand-2: #7c4dff;
-  --brand-3: #ff1744;
-  --brand-4: #00e5ff;
-  --ring: 0 0 0 3px rgba(41, 121, 255, 0.35);
-}
-[data-color-theme="cinema"].light {
-  --brand: #1565c0;
-  --brand-2: #651fff;
-  --brand-3: #d50000;
-  --brand-4: #00b8d4;
-}
-
-/* Color Themes - Sunset Drive */
-[data-color-theme="sunset"] {
-  --brand: #ff7a00;
-  --brand-2: #c200fb;
-  --brand-3: #ff3d77;
-  --brand-4: #6a00ff;
-  --ring: 0 0 0 3px rgba(255, 122, 0, 0.35);
-}
-[data-color-theme="sunset"].light {
-  --brand: #e65100;
-  --brand-2: #aa00ff;
-  --brand-3: #f50057;
-  --brand-4: #6200ea;
-}
-
-/* Color Themes - Cyber Mint */
-[data-color-theme="cyber"] {
-  --brand: #00ffa3;
-  --brand-2: #5e60ce;
-  --brand-3: #7400b8;
-  --brand-4: #00f5ff;
-  --ring: 0 0 0 3px rgba(0, 255, 163, 0.35);
-}
-[data-color-theme="cyber"].light {
-  --brand: #00c853;
-  --brand-2: #5c6bc0;
-  --brand-3: #6a1b9a;
-  --brand-4: #00bcd4;
-}
-
-/* Color Themes - Deep Space */
-[data-color-theme="space"] {
-  --brand: #4a00e0;
-  --brand-2: #00d1ff;
-  --brand-3: #b517ff;
-  --brand-4: #1f2a7c;
-  --ring: 0 0 0 3px rgba(74, 0, 224, 0.35);
-}
-[data-color-theme="space"].light {
-  --brand: #4527a0;
-  --brand-2: #0097a7;
-  --brand-3: #9c27b0;
-  --brand-4: #303f9f;
-}
-
-/* Color Themes - Volcanic Night */
-[data-color-theme="volcanic"] {
-  --brand: #ff5400;
-  --brand-2: #e10600;
-  --brand-3: #ffa400;
-  --brand-4: #1a1a2e;
-  --ring: 0 0 0 3px rgba(255, 84, 0, 0.35);
-}
-[data-color-theme="volcanic"].light {
-  --brand: #e64a19;
-  --brand-2: #c62828;
-  --brand-3: #ff8f00;
-  --brand-4: #37474f;
-}
-
-/* Color Themes - Ice Fire */
-[data-color-theme="icefire"] {
-  --brand: #00b2ff;
-  --brand-2: #ff2e2e;
-  --brand-3: #ff8a00;
-  --brand-4: #1e3aff;
-  --ring: 0 0 0 3px rgba(0, 178, 255, 0.35);
-}
-[data-color-theme="icefire"].light {
-  --brand: #0288d1;
-  --brand-2: #d32f2f;
-  --brand-3: #ef6c00;
-  --brand-4: #1a237e;
-}
-
-/* Color Themes - Cotton Candy */
-[data-color-theme="candy"] {
-  --brand: #ff5cc8;
-  --brand-2: #9b5cff;
-  --brand-3: #4dd6ff;
-  --brand-4: #ff8ae2;
-  --ring: 0 0 0 3px rgba(255, 92, 200, 0.35);
-}
-[data-color-theme="candy"].light {
-  --brand: #ec407a;
-  --brand-2: #7e57c2;
-  --brand-3: #29b6f6;
-  --brand-4: #f48fb1;
+  color-scheme: light;
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #efefef;
+  --line: #000000;
+  --line-soft: rgba(0, 0, 0, 0.28);
+  --text: #000000;
+  --muted: rgba(0, 0, 0, 0.62);
+  --muted-2: rgba(0, 0, 0, 0.42);
+  --accent: #000000;
+  --accent-hover: #2a2a2a;
+  --accent-fg: #ffffff;
+  --danger: #c62828;
 }
 
 * {
@@ -158,95 +72,175 @@
 }
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(64px + 40px); /* nav height + dev banner height */
+  scroll-padding-top: 80px;
   overflow-x: hidden;
-  overscroll-behavior: none; /* Prevent overscroll bounce */
+  overscroll-behavior: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 body {
   margin: 0;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
-    sans-serif;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
   background: var(--bg);
   color: var(--text);
   width: 100%;
   max-width: 100vw;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 #root {
   width: 100%;
   max-width: 100vw;
   overflow-x: hidden;
   background: var(--bg);
-  min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
   z-index: 1;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0;
+  text-wrap: balance;
+}
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+p + p {
+  margin-top: 0.9em;
 }
 a {
   color: inherit;
   text-decoration: none;
 }
+:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+::selection {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
 
 .container {
-  max-width: 1080px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
+}
+
+/* The rectangle. Everything on the page lives in one of these. */
+.box {
+  border: 1px solid var(--line);
+  background: var(--bg);
+  padding: 22px 24px;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  border: 1px solid color-mix(in oklab, var(--brand) 65%, transparent);
-  background: linear-gradient(135deg, var(--brand), var(--brand-2));
-  color: white;
-  padding: 0.85rem 1.1rem;
-  border-radius: calc(var(--radius) - 6px);
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.8rem 1.15rem;
+  background: var(--accent);
+  color: var(--accent-fg);
+  border: 1px solid var(--accent);
+  font: inherit;
   font-weight: 600;
-  box-shadow: var(--shadow);
-  transition: 0.2s transform;
+  font-size: 0.95rem;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease),
+    transform var(--t-fast) var(--ease);
 }
 .btn:hover {
-  transform: translateY(-2px);
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+.btn:active {
+  transform: translateY(1px);
 }
 .btn.ghost {
   background: transparent;
   color: var(--text);
-  border: 1px solid color-mix(in oklab, var(--text) 18%, transparent);
+  border-color: var(--line);
+}
+.btn.ghost:hover {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
+/* Square 40px icon button. Hover inverts. Class name kept for the dashboard. */
 .theme-toggle {
   background: transparent;
-  border: 1px solid color-mix(in oklab, var(--text) 14%, transparent);
+  border: 1px solid var(--line);
   color: var(--text);
-  padding: 0.625rem;
-  border-radius: 50%;
+  padding: 0;
   cursor: pointer;
-  font-size: 1.25rem;
-  transition: all 0.2s;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   line-height: 1;
+  transition:
+    background-color var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease),
+    transform var(--t-fast) var(--ease);
 }
-
-.apps-toggle i {
+.theme-toggle:hover,
+.theme-toggle.active,
+.user-toggle {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+.theme-toggle:active {
   transform: translateY(1px);
 }
 
 .card {
-  background: var(--panel);
-  border: 1px solid color-mix(in oklab, var(--text) 10%, transparent);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  background: var(--surface);
+  border: 1px solid var(--line);
 }
 .card.pad {
-  padding: 22px;
+  padding: 24px;
 }
 
 .grid {
   display: grid;
-  gap: 18px;
+  gap: 24px;
 }
 .grid.cols-3 {
   grid-template-columns: repeat(3, 1fr);
@@ -256,12 +250,16 @@ a {
 }
 
 .tag {
-  font-size: 0.78rem;
-  color: var(--muted);
-  background: color-mix(in oklab, var(--text) 8%, transparent);
-  padding: 0.28rem 0.55rem;
-  border-radius: 999px;
-  border: 1px solid color-mix(in oklab, var(--text) 14%, transparent);
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text);
+  padding: 0.3rem 0.45rem;
+  border: 1px solid var(--line);
+  white-space: nowrap;
 }
 
 .row {
@@ -279,16 +277,19 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  gap: 16px 32px;
   flex-wrap: wrap;
 }
 
 .link-button,
-.footer-link {
-  color: var(--brand);
+.footer-link,
+.link {
+  color: var(--text);
   text-decoration: underline;
+  text-decoration-color: var(--line-soft);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--t-fast) var(--ease);
 }
-
 .link-button {
   background: none;
   border: none;
@@ -296,10 +297,10 @@ a {
   padding: 0;
   font: inherit;
 }
-
 .link-button:hover,
-.footer-link:hover {
-  color: color-mix(in oklab, var(--brand) 75%, var(--text));
+.footer-link:hover,
+.link:hover {
+  text-decoration-color: var(--text);
 }
 
 .sr-only {
@@ -326,9 +327,9 @@ a {
 }
 
 .dev-banner {
-  background: #fee2e2;
-  border-bottom: 1px solid #fca5a5;
-  color: #dc2626;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
   text-align: center;
   padding: 8px 20px;
   font-size: 0.875rem;
@@ -336,28 +337,23 @@ a {
   position: relative;
   z-index: 40;
 }
-:root.light .dev-banner {
-  background: #fee2e2;
-  color: #dc2626;
-}
-:root:not(.light) .dev-banner {
-  background: #450a0a;
-  border-bottom-color: #7f1d1d;
-  color: #fca5a5;
-}
 
 input,
 textarea {
-  background: var(--panel);
-  border: 1px solid color-mix(in oklab, var(--text) 14%, transparent);
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--line);
   color: var(--text);
-  padding: 0.85rem 1rem;
-  border-radius: 12px;
+  padding: 0.8rem 0.9rem;
   font: inherit;
+  transition: box-shadow var(--t-fast) var(--ease);
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted-2);
 }
 input:focus,
-textarea:focus,
-.theme-toggle:focus {
+textarea:focus {
   outline: none;
   box-shadow: var(--ring);
 }
@@ -370,6 +366,11 @@ form .field {
   display: grid;
   gap: 0.4rem;
 }
+form .field label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
 
 .app-card {
   cursor: pointer;
@@ -377,8 +378,8 @@ form .field {
 }
 
 .app-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: none;
+  box-shadow: none;
   border-color: var(--brand);
 }
 
@@ -401,8 +402,8 @@ form .field {
   right: 0;
   background: var(--panel);
   border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
-  border-radius: var(--radius);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  box-shadow: none;
   min-width: 240px;
   z-index: 10000;
   animation: dropdownSlideIn 0.2s ease;
@@ -431,14 +432,14 @@ form .field {
 .user-avatar-small {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--brand);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.1rem;
   flex-shrink: 0;
-  color: white;
+  color: var(--accent-fg);
   overflow: hidden;
 }
 
@@ -487,7 +488,7 @@ form .field {
   font-family: inherit;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.15s;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
 }
 
 .user-dropdown-item:hover {
@@ -527,7 +528,6 @@ form .field {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
   z-index: 10001;
   display: flex;
   align-items: center;
@@ -538,8 +538,8 @@ form .field {
 .qr-popup {
   background: var(--panel);
   border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
-  border-radius: var(--radius);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border-radius: 0;
+  box-shadow: none;
   padding: 2rem;
   text-align: center;
   position: relative;
@@ -573,8 +573,8 @@ form .field {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  transition: all 0.2s;
+  border-radius: 0;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
 }
 
 .qr-popup-close:hover {
@@ -592,7 +592,7 @@ form .field {
 .qr-code-container {
   background: white;
   padding: 1rem;
-  border-radius: 12px;
+  border-radius: 0;
   display: inline-block;
 }
 
@@ -638,13 +638,13 @@ form .field {
   align-items: center;
   gap: 0.35rem;
   padding: 0.5rem 0.85rem;
-  border-radius: 999px;
+  border-radius: 0;
   border: 1px solid color-mix(in oklab, var(--text) 14%, transparent);
   background: transparent;
   color: var(--text);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
 }
 
 .nav-apps-btn:hover {
@@ -752,7 +752,6 @@ form .field {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
   z-index: 10001;
   display: flex;
   align-items: center;
@@ -763,8 +762,8 @@ form .field {
 .profile-settings {
   background: var(--panel);
   border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
-  border-radius: var(--radius);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border-radius: 0;
+  box-shadow: none;
   width: 100%;
   max-width: 420px;
   max-height: 90vh;
@@ -844,13 +843,13 @@ form .field {
 .profile-avatar-large {
   width: 100px;
   height: 100px;
-  border-radius: 50%;
+  border-radius: 0;
   background: var(--brand);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2.5rem;
-  color: white;
+  color: var(--accent-fg);
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -858,7 +857,7 @@ form .field {
 }
 
 .profile-avatar-large:hover {
-  transform: scale(1.05);
+  transform: none;
 }
 
 .profile-avatar-large img {
@@ -893,7 +892,7 @@ form .field {
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 0.8rem;
-  border-radius: 100px;
+  border-radius: 0;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -932,7 +931,7 @@ form .field {
   padding: 0.65rem 0.85rem;
   background: color-mix(in oklab, var(--text) 5%, transparent);
   border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
-  border-radius: calc(var(--radius) / 2);
+  border-radius: 0;
   color: var(--text);
   font-family: inherit;
   font-size: 0.9rem;
@@ -962,7 +961,7 @@ form .field {
   padding: 0.65rem 0.85rem;
   background: color-mix(in oklab, var(--text) 3%, transparent);
   border: 1px solid color-mix(in oklab, var(--text) 8%, transparent);
-  border-radius: calc(var(--radius) / 2);
+  border-radius: 0;
   color: var(--text);
   font-size: 0.9rem;
 }
@@ -984,7 +983,7 @@ form .field {
 .profile-btn-save {
   flex: 1;
   padding: 0.7rem 1rem;
-  border-radius: calc(var(--radius) / 2);
+  border-radius: 0;
   font-family: inherit;
   font-size: 0.875rem;
   font-weight: 500;
@@ -993,7 +992,7 @@ form .field {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: all 0.15s;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
 }
 
 .profile-btn-cancel {
@@ -1009,11 +1008,11 @@ form .field {
 .profile-btn-save {
   background: var(--brand);
   border: none;
-  color: white;
+  color: var(--accent-fg);
 }
 
 .profile-btn-save:hover {
-  filter: brightness(1.1);
+  background: var(--accent-hover);
 }
 
 .profile-btn-save:disabled {
@@ -1023,7 +1022,7 @@ form .field {
 
 .collapsible-section {
   border: 1px solid color-mix(in oklab, var(--text) 10%, transparent);
-  border-radius: 12px;
+  border-radius: 0;
   background: color-mix(in oklab, var(--text) 4%, transparent);
   overflow: hidden;
 }
@@ -1080,13 +1079,13 @@ form .field {
   gap: 0.5rem;
   justify-content: space-between;
   padding: 0.85rem 0.9rem;
-  border-radius: 12px;
+  border-radius: 0;
   border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
   background: color-mix(in oklab, var(--text) 4%, transparent);
   color: var(--text);
   font: inherit;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
 }
 
 .mobile-nav-option__icon-text {
@@ -1109,163 +1108,12 @@ form .field {
 .mobile-nav-option.active {
   border-color: color-mix(in oklab, var(--brand) 80%, var(--text));
   background: color-mix(in oklab, var(--brand) 14%, transparent);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: none;
 }
 
 .mobile-nav-option.active .mobile-nav-option__check {
   display: inline-flex;
 }
-
-.language-container {
-  position: relative;
-}
-
-.language-dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  width: 240px;
-  padding: 10px;
-  background: var(--panel);
-  border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
-  border-radius: 14px;
-  box-shadow: var(--shadow), 0 0 30px rgba(0, 0, 0, 0.25);
-  z-index: 1000;
-  animation: dropdownSlideIn 0.2s ease;
-  display: grid;
-  gap: 8px;
-}
-
-.language-dropdown-title {
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: color-mix(in oklab, var(--text) 70%, transparent);
-  text-align: center;
-}
-
-.language-pill {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 10px;
-  align-items: center;
-  padding: 8px 12px;
-  border-radius: 999px;
-  border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
-  background: color-mix(in oklab, var(--text) 4%, transparent);
-  color: var(--text);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.language-pill:hover {
-  border-color: color-mix(in oklab, var(--brand) 50%, var(--text));
-  background: color-mix(in oklab, var(--brand) 10%, transparent);
-  transform: translateY(-1px);
-}
-
-.language-pill.active {
-  border-color: color-mix(in oklab, var(--brand) 75%, var(--text));
-  background: color-mix(in oklab, var(--brand) 14%, transparent);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
-}
-
-.language-pill__icon {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: color-mix(in oklab, var(--text) 14%, transparent);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--brand);
-  font-size: 0.85rem;
-}
-
-.language-pill.active .language-pill__icon {
-  background: color-mix(in oklab, var(--brand) 16%, var(--text));
-}
-
-.language-pill__labels {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.language-pill__name {
-  font-weight: 700;
-  letter-spacing: 0.01em;
-}
-
-.language-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 0.75rem;
-}
-
-.language-option {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.7rem;
-  padding: 0.8rem 0.95rem;
-  background: color-mix(in oklab, var(--text) 4%, transparent);
-  border: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
-  border-radius: 14px;
-  color: var(--text);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.language-option:hover {
-  border-color: color-mix(in oklab, var(--brand) 60%, var(--text));
-  background: color-mix(in oklab, var(--brand) 10%, transparent);
-  transform: translateY(-1px);
-}
-
-.language-option.active {
-  border-color: color-mix(in oklab, var(--brand) 75%, var(--text));
-  background: color-mix(in oklab, var(--brand) 14%, transparent);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
-}
-
-.language-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  background: color-mix(in oklab, var(--brand) 35%, var(--text));
-  color: var(--bg);
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--text) 16%, transparent);
-}
-
-.language-labels {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  flex: 1;
-}
-
-.language-name {
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-.language-sub {
-  font-size: 0.85rem;
-  color: var(--muted);
-}
-
-.language-option i {
-  color: var(--brand);
-  font-size: 1rem;
-}
-
 
 /* Mobile app/user buttons tweaks */
 .apps-toggle--wide {
@@ -1277,4 +1125,35 @@ form .field {
 }
 .user-toggle {
   color: var(--brand);
+}
+
+/* Loading arc (see lib/icons Spinner). Static under reduced motion. */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation: none;
+  }
+}
+
+/* Language toggle: the 40px square shows the current code. */
+.lang-toggle {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.mobile-menu-action .lang-code {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  width: 20px;
+  text-align: center;
+  color: var(--muted);
 }
