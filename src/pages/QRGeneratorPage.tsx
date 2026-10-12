@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
+import { DownloadSimple, Link } from "@phosphor-icons/react";
 import { Navigation, NavSpacer } from "../components/Navigation";
 import { Footer } from "../components/Footer";
-import { BackgroundBlobs } from "../components/BackgroundBlobs";
 import { useLanguage } from "../context/LanguageContext";
 import { QRCodeSVG } from "qrcode.react";
 import "../styles/qr-generator.css";
@@ -32,7 +32,6 @@ export function QRGeneratorPage() {
 
   return (
     <>
-      <BackgroundBlobs />
       <Navigation />
       <NavSpacer />
       <main className="qr-generator">
@@ -58,7 +57,7 @@ export function QRGeneratorPage() {
                   focused ? "qr-generator__input--focused" : ""
                 }`}
               >
-                <i className="fa-solid fa-link"></i>
+                <Link aria-hidden="true" />
                 <input
                   id="qr-input"
                   value={input}
@@ -79,7 +78,7 @@ export function QRGeneratorPage() {
                   onClick={handleDownload}
                   disabled={!hasValue}
                 >
-                  <i className="fa-solid fa-download"></i>{" "}
+                  <DownloadSimple aria-hidden="true" />{" "}
                   {t("qrGeneratorDownload")}
                 </button>
               </div>

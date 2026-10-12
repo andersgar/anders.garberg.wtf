@@ -1,4 +1,14 @@
 import { useState, useRef } from "react";
+import {
+  CalendarBlank,
+  Camera,
+  Check,
+  EnvelopeSimple,
+  ShieldCheck,
+  User,
+  X,
+} from "@phosphor-icons/react";
+import { Spinner } from "../lib/icons";
 import { useProfile } from "../context/ProfileContext";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -20,7 +30,7 @@ export function ProfileSettings({ onClose }: ProfileSettingsProps) {
   if (loading || !profile) {
     return (
       <div className="profile-settings-loading">
-        <i className="fa-solid fa-spinner fa-spin"></i>
+        <Spinner />
       </div>
     );
   }
@@ -103,7 +113,7 @@ export function ProfileSettings({ onClose }: ProfileSettingsProps) {
       <div className="profile-settings-header">
         <h3>{t("profileSettings")}</h3>
         <button className="profile-settings-close" onClick={onClose}>
-          <i className="fa-solid fa-times"></i>
+          <X aria-hidden="true" />
         </button>
       </div>
 
@@ -117,14 +127,14 @@ export function ProfileSettings({ onClose }: ProfileSettingsProps) {
             tabIndex={0}
           >
             {isUploading ? (
-              <i className="fa-solid fa-spinner fa-spin"></i>
+              <Spinner />
             ) : profile.avatar_url ? (
               <img src={profile.avatar_url} alt="Avatar" />
             ) : (
-              <i className="fa-solid fa-user"></i>
+              <User aria-hidden="true" size={40} />
             )}
             <div className="profile-avatar-overlay">
-              <i className="fa-solid fa-camera"></i>
+              <Camera aria-hidden="true" size={24} />
             </div>
           </div>
           <input
@@ -148,7 +158,7 @@ export function ProfileSettings({ onClose }: ProfileSettingsProps) {
             borderColor: getAccessLevelColor(profile.access_level),
           }}
         >
-          <i className="fa-solid fa-shield"></i>
+          <ShieldCheck aria-hidden="true" />
           {getAccessLevelLabel(profile.access_level)}
         </div>
 
@@ -181,7 +191,7 @@ export function ProfileSettings({ onClose }: ProfileSettingsProps) {
           <div className="profile-form-group readonly">
             <label>{t("email")}</label>
             <div className="profile-readonly-value">
-              <i className="fa-solid fa-envelope"></i>
+              <EnvelopeSimple aria-hidden="true" />
               {profile.email}
             </div>
           </div>
@@ -189,7 +199,7 @@ export function ProfileSettings({ onClose }: ProfileSettingsProps) {
           <div className="profile-form-group readonly">
             <label>{t("memberSince")}</label>
             <div className="profile-readonly-value">
-              <i className="fa-solid fa-calendar"></i>
+              <CalendarBlank aria-hidden="true" />
               {new Date(profile.created_at).toLocaleDateString()}
             </div>
           </div>
@@ -207,12 +217,12 @@ export function ProfileSettings({ onClose }: ProfileSettingsProps) {
         >
           {isSaving ? (
             <>
-              <i className="fa-solid fa-spinner fa-spin"></i>
+              <Spinner />
               {t("saving")}
             </>
           ) : (
             <>
-              <i className="fa-solid fa-check"></i>
+              <Check aria-hidden="true" />
               {t("saveChanges")}
             </>
           )}

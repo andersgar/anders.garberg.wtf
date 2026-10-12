@@ -1,7 +1,24 @@
 import { useState, useEffect, useRef } from "react";
+import {
+  ArrowCounterClockwise,
+  ChartLine,
+  DownloadSimple,
+  EnvelopeSimple,
+  Eye,
+  EyeSlash,
+  FileArrowDown,
+  PencilSimple,
+  Plus,
+  ShieldCheck,
+  SquaresFour,
+  User,
+  Users,
+  WarningCircle,
+  X,
+} from "@phosphor-icons/react";
+import { AppIcon, Spinner } from "../lib/icons";
 import { Navigation, NavSpacer } from "../components/Navigation";
 import { Footer } from "../components/Footer";
-import { BackgroundBlobs } from "../components/BackgroundBlobs";
 import { Contact } from "../components/Contact";
 import { AppModal } from "../components/AppModal";
 import { useLanguage } from "../context/LanguageContext";
@@ -340,7 +357,6 @@ export function DashboardPage() {
 
   return (
     <>
-      <BackgroundBlobs />
       <Navigation />
       <NavSpacer />
       <main className="dashboard">
@@ -356,6 +372,7 @@ export function DashboardPage() {
                 : t("dashboardSubtitleLoggedOut")}
             </p>
           </header>
+          {isAuthenticated && (
           <section className="dashboard-section" id="apps">
             <div className="apps-header">
               <h2>{t("yourApps")}</h2>
@@ -368,7 +385,7 @@ export function DashboardPage() {
                   title={t("edit")}
                   disabled={!isAuthenticated}
                 >
-                  <i className="fa-solid fa-pen"></i>
+                  <PencilSimple aria-hidden="true" />
                 </button>
                 <button
                   type="button"
@@ -378,11 +395,11 @@ export function DashboardPage() {
                   title={showHidden ? t("hide") : t("showHidden")}
                   disabled={!isAuthenticated}
                 >
-                  <i
-                    className={`fa-solid ${
-                      showHidden ? "fa-eye" : "fa-eye-slash"
-                    }`}
-                  ></i>
+                  {showHidden ? (
+                    <Eye aria-hidden="true" />
+                  ) : (
+                    <EyeSlash aria-hidden="true" />
+                  )}
                 </button>
               </div>
             </div>
@@ -397,7 +414,7 @@ export function DashboardPage() {
                 </div>
               ) : displayedApps.length === 0 ? (
                 <div className="app-grid-empty">
-                  <i className="fa-solid fa-grid-2"></i>
+                  <SquaresFour aria-hidden="true" />
                   <p>{t("noAppsYet")}</p>
                   <span>{t("addApp")}</span>
                 </div>
@@ -425,11 +442,7 @@ export function DashboardPage() {
                         }}
                       >
                         <div className="app-tile-icon">
-                          {display.isImage ? (
-                            <img src={display.icon} alt={display.name} />
-                          ) : (
-                            <i className={display.icon}></i>
-                          )}
+                          <AppIcon icon={display.icon} alt={display.name} />
                         </div>
                         <span className="app-tile-name">{display.name}</span>
                       </button>
@@ -459,11 +472,7 @@ export function DashboardPage() {
                       }}
                     >
                       <div className="app-tile-icon">
-                        {display.isImage ? (
-                          <img src={display.icon} alt={display.name} />
-                        ) : (
-                          <i className={display.icon}></i>
-                        )}
+                        <AppIcon icon={display.icon} alt={display.name} />
                       </div>
                       <span className="app-tile-name">{display.name}</span>
                     </a>
@@ -479,15 +488,19 @@ export function DashboardPage() {
                   }
                 >
                   <div className="app-tile-icon">
-                    <i className="fa-solid fa-plus"></i>
+                    <Plus aria-hidden="true" />
                   </div>
                   <span className="app-tile-name">{t("addApp")}</span>
                 </button>
               )}
             </div>
           </section>
+          )}
           {recommendedApps.length > 0 && (
-            <section className="dashboard-section">
+            <section
+              className="dashboard-section"
+              id={isAuthenticated ? undefined : "apps"}
+            >
               <h2>{t("recommendedApps")}</h2>
               <div className="app-grid">
                 {recommendedApps.map((app) => {
@@ -503,7 +516,7 @@ export function DashboardPage() {
                         onClick={() => setShowQrModal(true)}
                       >
                         <div className="app-tile-icon">
-                          <i className={display.icon}></i>
+                          <AppIcon icon={display.icon} alt={display.name} />
                         </div>
                         <span className="app-tile-name">{t("qrAppName")}</span>
                         <span className="app-tile-desc">
@@ -527,11 +540,7 @@ export function DashboardPage() {
                         rel="noopener noreferrer"
                       >
                         <div className="app-tile-icon">
-                          {display.isImage ? (
-                            <img src={display.icon} alt={display.name} />
-                          ) : (
-                            <i className={display.icon}></i>
-                          )}
+                          <AppIcon icon={display.icon} alt={display.name} />
                         </div>
                         <span className="app-tile-name">
                           {t("vorslyName")}
@@ -557,11 +566,7 @@ export function DashboardPage() {
                         rel="noopener noreferrer"
                       >
                         <div className="app-tile-icon">
-                          {display.isImage ? (
-                            <img src={display.icon} alt={display.name} />
-                          ) : (
-                            <i className={display.icon}></i>
-                          )}
+                          <AppIcon icon={display.icon} alt={display.name} />
                         </div>
                         <span className="app-tile-name">
                           {t("infoScreensName")}
@@ -594,11 +599,7 @@ export function DashboardPage() {
                       }}
                     >
                       <div className="app-tile-icon">
-                        {display.isImage ? (
-                          <img src={display.icon} alt={display.name} />
-                        ) : (
-                          <i className={display.icon}></i>
-                        )}
+                        <AppIcon icon={display.icon} alt={display.name} />
                       </div>
                       <span className="app-tile-name">{display.name}</span>
                       <span className="app-tile-desc">
@@ -615,11 +616,11 @@ export function DashboardPage() {
             <h2>{t("quickActions")}</h2>
             <div className="quick-actions">
               <a href="/about" className="quick-action-card">
-                <i className="fa-solid fa-user"></i>
+                <User aria-hidden="true" />
                 <span>{t("viewAboutPage")}</span>
               </a>
               <a href="#contact" className="quick-action-card">
-                <i className="fa-solid fa-envelope"></i>
+                <EnvelopeSimple aria-hidden="true" />
                 <span>{t("contact")}</span>
               </a>
             </div>
@@ -629,7 +630,7 @@ export function DashboardPage() {
             <section className="dashboard-section admin-section">
               <div className="admin-section-header">
                 <h2>
-                  <i className="fa-solid fa-shield"></i> {t("adminDashboard")}
+                  <ShieldCheck aria-hidden="true" /> {t("adminDashboard")}
                 </h2>
                 <div className="admin-tabs">
                   <button
@@ -638,7 +639,7 @@ export function DashboardPage() {
                     }`}
                     onClick={() => setActiveAdminTab("stats")}
                   >
-                    <i className="fa-solid fa-chart-line"></i> {t("statistics")}
+                    <ChartLine aria-hidden="true" /> {t("statistics")}
                   </button>
                   <button
                     className={`admin-tab ${
@@ -646,7 +647,7 @@ export function DashboardPage() {
                     }`}
                     onClick={() => setActiveAdminTab("users")}
                   >
-                    <i className="fa-solid fa-users"></i> {t("users")} (
+                    <Users aria-hidden="true" /> {t("users")} (
                     {users.length})
                   </button>
                 </div>
@@ -654,7 +655,7 @@ export function DashboardPage() {
 
               {adminLoading ? (
                 <div className="admin-loading">
-                  <i className="fa-solid fa-spinner fa-spin"></i>
+                  <Spinner />
                   <span>{t("loading")}</span>
                 </div>
               ) : activeAdminTab === "stats" ? (
@@ -666,7 +667,7 @@ export function DashboardPage() {
                       onClick={() => setLogModal("visits")}
                     >
                       <div className="stat-icon">
-                        <i className="fa-solid fa-eye"></i>
+                        <Eye aria-hidden="true" />
                       </div>
                       <div className="stat-content">
                         <h3>{t("totalVisits")}</h3>
@@ -680,7 +681,7 @@ export function DashboardPage() {
                       onClick={() => setLogModal("contacts")}
                     >
                       <div className="stat-icon">
-                        <i className="fa-solid fa-envelope"></i>
+                        <EnvelopeSimple aria-hidden="true" />
                       </div>
                       <div className="stat-content">
                         <h3>{t("totalContacts")}</h3>
@@ -694,7 +695,7 @@ export function DashboardPage() {
                       onClick={() => setLogModal("downloads")}
                     >
                       <div className="stat-icon">
-                        <i className="fa-solid fa-file-arrow-down"></i>
+                        <FileArrowDown aria-hidden="true" />
                       </div>
                       <div className="stat-content">
                         <h3>{t("cvDownloads")}</h3>
@@ -704,7 +705,7 @@ export function DashboardPage() {
                   </div>
                 ) : (
                   <div className="error-message">
-                    <i className="fa-solid fa-circle-exclamation"></i>{" "}
+                    <WarningCircle aria-hidden="true" />{" "}
                     {t("statsError")}
                   </div>
                 )
@@ -731,7 +732,7 @@ export function DashboardPage() {
                               {u.avatar_url ? (
                                 <img src={u.avatar_url} alt="" />
                               ) : (
-                                <i className="fa-solid fa-user"></i>
+                                <User aria-hidden="true" />
                               )}
                             </div>
                             <span>{u.full_name || "—"}</span>
@@ -789,7 +790,7 @@ export function DashboardPage() {
                               onClick={() => handleEditUserApps(u)}
                               title={t("editUserApps")}
                             >
-                              <i className="fa-solid fa-grid-2"></i>
+                              <SquaresFour aria-hidden="true" />
                               <span>{(u.apps || []).length}</span>
                             </button>
                           </td>
@@ -830,7 +831,7 @@ export function DashboardPage() {
                 type="button"
                 aria-label="Close QR modal"
               >
-                <i className="fa-solid fa-xmark"></i>
+                <X aria-hidden="true" />
               </button>
             </div>
             <div
@@ -906,7 +907,7 @@ export function DashboardPage() {
                       className="qr-btn"
                       onClick={handleDownloadQr}
                     >
-                      <i className="fa-solid fa-download"></i>
+                      <DownloadSimple aria-hidden="true" />
                       {t("qrDownload")}
                     </button>
                     <button
@@ -914,7 +915,7 @@ export function DashboardPage() {
                       className="qr-btn ghost"
                       onClick={handleResetQr}
                     >
-                      <i className="fa-solid fa-rotate-left"></i>
+                      <ArrowCounterClockwise aria-hidden="true" />
                       {t("qrReset")}
                     </button>
                   </div>
@@ -977,7 +978,7 @@ export function DashboardPage() {
                 onClick={() => setLogModal(null)}
                 aria-label="Close"
               >
-                <i className="fa-solid fa-times"></i>
+                <X aria-hidden="true" />
               </button>
             </div>
             <div className="app-modal-content">

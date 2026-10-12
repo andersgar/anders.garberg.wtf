@@ -1,4 +1,6 @@
 import { useState, FormEvent, useEffect } from "react";
+import { EnvelopeOpen } from "@phosphor-icons/react";
+import { Spinner } from "../lib/icons";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useMarkdownModal } from "../components/useMarkdownModal";
 import { useAuth } from "../context/AuthContext";
@@ -110,13 +112,13 @@ export function RegisterPage() {
         appBranding={appBranding}
         headerBadge={
           <div className="success-icon">
-            <i className="fa-solid fa-envelope-circle-check"></i>
+            <EnvelopeOpen aria-hidden="true" size={40} />
           </div>
         }
         backLink={{
           to: loginPath,
           label: t("backToLogin"),
-          icon: "fa-solid fa-arrow-left",
+          icon: "arrow-left",
         }}
       >
         <div className="success-message">
@@ -136,7 +138,7 @@ export function RegisterPage() {
         backLink={{
           to: "/",
           label: t("backToHome"),
-          icon: "fa-solid fa-arrow-left",
+          icon: "arrow-left",
         }}
       >
         <form id="registerForm" onSubmit={handleSubmit}>
@@ -238,7 +240,7 @@ export function RegisterPage() {
           <button type="submit" className="btn login-btn" disabled={isLoading}>
             {isLoading ? (
               <>
-                <i className="fa-solid fa-spinner fa-spin"></i>{" "}
+                <Spinner />{" "}
                 {t("registering")}
               </>
             ) : (

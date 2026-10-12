@@ -27,10 +27,9 @@
 .qr-generator__panel {
   background: color-mix(in oklab, var(--bg) 80%, transparent);
   border: 1px solid color-mix(in oklab, var(--muted) 30%, transparent);
-  border-radius: 1rem;
+  border-radius: 0;
   padding: 1.5rem;
-  box-shadow: 0 25px 50px -12px color-mix(in oklab, var(--shadow) 35%, transparent);
-  backdrop-filter: blur(6px);
+  box-shadow: none;
 }
 
 .qr-generator__label {
@@ -46,13 +45,13 @@
   padding: 0.85rem 1rem;
   background: color-mix(in oklab, var(--bg) 60%, transparent);
   border: 1px solid color-mix(in oklab, var(--muted) 25%, transparent);
-  border-radius: 0.9rem;
+  border-radius: 0;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .qr-generator__input--focused {
   border-color: color-mix(in oklab, var(--brand) 60%, transparent);
-  box-shadow: 0 10px 25px -12px color-mix(in oklab, var(--brand) 55%, transparent);
+  box-shadow: none;
 }
 
 .qr-generator__input input {
@@ -97,7 +96,7 @@
   background: color-mix(in oklab, var(--brand) 12%, transparent);
   border: 1px solid color-mix(in oklab, var(--brand) 60%, transparent);
   color: color-mix(in oklab, var(--brand) 90%, var(--fg));
-  border-radius: 999px;
+  border-radius: 0;
   padding: 0.35rem 0.75rem;
   font-size: 0.9rem;
 }
@@ -107,15 +106,15 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  background: linear-gradient(135deg, color-mix(in oklab, var(--bg) 85%, transparent), color-mix(in oklab, var(--bg) 65%, transparent));
-  border-radius: 1rem;
+  background: var(--accent);
+  border-radius: 0;
 }
 
 .qr-generator__qr {
   background: #fff;
   padding: 1.25rem;
-  border-radius: 1rem;
-  box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.3);
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .qr-generator__caption {
