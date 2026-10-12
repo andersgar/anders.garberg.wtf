@@ -1,4 +1,5 @@
 import { useState, FormEvent, useEffect } from "react";
+import { Spinner } from "../lib/icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useLanguage } from "../context/LanguageContext";
@@ -127,7 +128,7 @@ export function ResetPasswordPage() {
       backLink={{
         to: "/login",
         label: t("backToLogin"),
-        icon: "fa-solid fa-arrow-left",
+        icon: "arrow-left",
       }}
     >
       {mode === "request" ? (
@@ -162,7 +163,7 @@ export function ResetPasswordPage() {
           <button type="submit" className="btn login-btn" disabled={isLoading}>
             {isLoading ? (
               <>
-                <i className="fa-solid fa-spinner fa-spin"></i> {t("sending")}
+                <Spinner /> {t("sending")}
               </>
             ) : (
               t("sendResetLink")
@@ -216,7 +217,7 @@ export function ResetPasswordPage() {
           <button type="submit" className="btn login-btn" disabled={isLoading}>
             {isLoading ? (
               <>
-                <i className="fa-solid fa-spinner fa-spin"></i> {t("updating")}
+                <Spinner /> {t("updating")}
               </>
             ) : (
               t("updatePassword")

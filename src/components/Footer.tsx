@@ -9,27 +9,30 @@ export function Footer() {
   return (
     <footer>
       <div className="container footer-inner">
-        <p className="small">
-          &copy; {currentYear} Anders Garberg &middot; {t("allRightsReserved")}{" "}
-          &middot;{" "}
-          <a
-            href="https://github.com/andersgar/anders.garberg.wtf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="footer-link"
-          >
-            {t("viewSource")}
-          </a>
+        <p className="small mono">
+          &copy; {currentYear} Anders Garberg. {t("allRightsReserved")}.
         </p>
-        <p className="small">
-          <button
-            type="button"
-            className="link-button"
-            onClick={termsModal.open}
-          >
-            {t("privacyTermsLink")}
-          </button>
-        </p>
+        <ul className="footer-links small">
+          <li>
+            <a
+              href="https://github.com/andersgar/anders.garberg.wtf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link"
+            >
+              {t("viewSource")}
+            </a>
+          </li>
+          <li>
+            <button
+              type="button"
+              className="link-button"
+              onClick={termsModal.open}
+            >
+              {t("privacyTermsLink")}
+            </button>
+          </li>
+        </ul>
       </div>
       {termsModal.modal}
     </footer>

@@ -5,20 +5,31 @@ export function About() {
 
   return (
     <section id="about">
-      <h2 className="section-title">{t("about")}</h2>
-      <div className="grid cols-2">
-        <div className="card pad">
-          <p>{t("aboutText1")}</p>
-          <p>{t("aboutText2")}</p>
-        </div>
-        <div className="card pad">
-          <h3 style={{ marginTop: 0 }}>{t("highlights")}</h3>
-          <ul>
-            <li>{t("highlight1")}</li>
-            <li>{t("highlight2")}</li>
-            <li>{t("highlight3")}</li>
-            <li>{t("highlight4")}</li>
-          </ul>
+      <div className="container">
+        <h2 className="section-title">{t("about")}</h2>
+        <div className="about-grid">
+          <div className="about-prose box">
+            <p>{t("aboutText1")}</p>
+            <p>{t("aboutText2")}</p>
+          </div>
+          <div className="about-facts box">
+            <h3>{t("highlights")}</h3>
+            <ul>
+              <li>{t("highlight1")}</li>
+              <li>{t("highlight2")}</li>
+              <li>{t("highlight3")}</li>
+              <li>{t("highlight4")}</li>
+            </ul>
+            <h3>{t("skills")}</h3>
+            <div className="row">
+              <span className="tag">{t("controlSystems")}</span>
+              <span className="tag">{t("robotics")}</span>
+              <span className="tag">{t("autonomy")}</span>
+              <span className="tag">C++</span>
+              <span className="tag">Python</span>
+              <span className="tag">ROS 2</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

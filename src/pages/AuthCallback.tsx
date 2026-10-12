@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Spinner } from "../lib/icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 
@@ -46,7 +47,7 @@ export function AuthCallback() {
 
   return (
     <div className="loading-container" style={{ minHeight: "100vh" }}>
-      <i className="fa-solid fa-spinner fa-spin fa-2x"></i>
+      <Spinner size={32} />
       <p>Authenticating...</p>
     </div>
   );

@@ -1,4 +1,5 @@
 import { Navigate, useLocation } from "react-router-dom";
+import { Spinner } from "../lib/icons";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
 import { DashboardPage } from "./DashboardPage";
@@ -20,10 +21,7 @@ export function HomePage() {
           height: "100vh",
         }}
       >
-        <i
-          className="fa-solid fa-spinner fa-spin"
-          style={{ fontSize: "2rem" }}
-        ></i>
+        <Spinner size={32} />
       </div>
     );
   }

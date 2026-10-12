@@ -1,71 +1,39 @@
 import { useState, useEffect, useRef, ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
+import {
+  CaretDown,
+  CaretUp,
+  ChartLine,
+  Check,
+  CheckCircle,
+  CircleHalf,
+  DotsThree,
+  Gear,
+  List,
+  Lock,
+  SignIn,
+  SignOut,
+  SquaresFour,
+  User,
+  UserCircle,
+  UserMinus,
+  WarningCircle,
+  X,
+} from "@phosphor-icons/react";
 import { useLanguage } from "../context/LanguageContext";
-import { useTheme, ColorTheme } from "../context/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 import { useProfile } from "../context/ProfileContext";
 import { ProfileSettings } from "./ProfileSettings";
 import { supabase } from "../lib/supabase";
 
-const colorThemes: { id: ColorTheme; gradient: string }[] = [
-  {
-    id: "aurora",
-    gradient:
-      "linear-gradient(135deg, #00F5D4 0%, #00BBF9 30%, #8338EC 65%, #FF006E 100%)",
-  },
-  {
-    id: "cinema",
-    gradient:
-      "linear-gradient(135deg, #00E5FF 0%, #2979FF 30%, #7C4DFF 65%, #FF1744 100%)",
-  },
-  {
-    id: "sunset",
-    gradient:
-      "linear-gradient(135deg, #FF7A00 0%, #FF3D77 35%, #C200FB 70%, #6A00FF 100%)",
-  },
-  {
-    id: "cyber",
-    gradient:
-      "linear-gradient(135deg, #00FFA3 0%, #00F5FF 30%, #00A6FB 60%, #7400B8 100%)",
-  },
-  {
-    id: "space",
-    gradient:
-      "linear-gradient(135deg, #0B1026 0%, #1F2A7C 30%, #4A00E0 60%, #B517FF 100%)",
-  },
-  {
-    id: "volcanic",
-    gradient:
-      "linear-gradient(135deg, #0B0B0F 0%, #E10600 35%, #FF5400 70%, #FFA400 100%)",
-  },
-  {
-    id: "icefire",
-    gradient:
-      "linear-gradient(135deg, #00F0FF 0%, #1E3AFF 50%, #FF2E2E 75%, #FF8A00 100%)",
-  },
-  {
-    id: "candy",
-    gradient:
-      "linear-gradient(135deg, #BFFBFF 0%, #4DD6FF 30%, #9B5CFF 65%, #FF8AE2 100%)",
-  },
-];
-
 export function Navigation() {
-  const { t, lang, setLang } = useLanguage();
+  const { t, lang, toggleLanguage } = useLanguage();
   const location = useLocation();
-  const {
-    theme,
-    setTheme,
-    colorTheme,
-    setColorTheme,
-    blobCount,
-    setBlobCount,
-  } = useTheme();
+  const { toggleTheme } = useTheme();
   const { user, isAuthenticated, logout } = useAuth();
   const { profile, hasAccess } = useProfile();
   const [showUserDropdown, setShowUserDropdown] = useState(false);
-  const [showColorDropdown, setShowColorDropdown] = useState(false);
-  const [showQrPopup, setShowQrPopup] = useState(false);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [showUserSettingsPopup, setShowUserSettingsPopup] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -87,21 +55,12 @@ export function Navigation() {
       "bottom"
   );
 
-  const toggleMobileSheet = (target: "theme" | "user" | "language") => {
+  const toggleMobileSheet = (target: "user") => {
     setMobileSheet((prev) => (prev === target ? null : target));
   };
-  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
-  const [mobileSheet, setMobileSheet] = useState<
-    "theme" | "user" | "language" | null
-  >(null);
-  const [navHidden, setNavHidden] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [mobileSheet, setMobileSheet] = useState<"user" | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const userButtonRef = useRef<HTMLButtonElement>(null);
-  const colorDropdownRef = useRef<HTMLDivElement>(null);
-  const colorButtonRef = useRef<HTMLButtonElement>(null);
-  const languageDropdownRef = useRef<HTMLDivElement>(null);
-  const languageButtonRef = useRef<HTMLButtonElement>(null);
 
   const isAboutPage =
     location.pathname === "/about" || location.pathname === "/om-meg";
@@ -109,46 +68,19 @@ export function Navigation() {
   const appsLink = isAuthenticated ? "/#apps" : "/?guest=1#apps";
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > 100) {
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-          setNavHidden(true);
-        } else if (currentScrollY < lastScrollY) {
-          setNavHidden(false);
-        }
-      } else {
-        setNavHidden(false);
-      }
-
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
-
-  useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setShowUserDropdown(false);
-        setShowColorDropdown(false);
-        setShowQrPopup(false);
         setShowProfilePopup(false);
         setShowUserSettingsPopup(false);
-        setShowLanguageDropdown(false);
         setMobileSheet(null);
       }
     };
 
     if (
       showUserDropdown ||
-      showQrPopup ||
-      showColorDropdown ||
       showProfilePopup ||
       showUserSettingsPopup ||
-      showLanguageDropdown ||
       mobileSheet
     ) {
       document.addEventListener("keydown", handleEscape);
@@ -157,11 +89,8 @@ export function Navigation() {
     return () => document.removeEventListener("keydown", handleEscape);
   }, [
     showUserDropdown,
-    showQrPopup,
-    showColorDropdown,
     showProfilePopup,
     showUserSettingsPopup,
-    showLanguageDropdown,
     mobileSheet,
   ]);
 
@@ -175,50 +104,18 @@ export function Navigation() {
       ) {
         setShowUserDropdown(false);
       }
-      if (
-        colorDropdownRef.current &&
-        !colorDropdownRef.current.contains(e.target as Node) &&
-        colorButtonRef.current &&
-        !colorButtonRef.current.contains(e.target as Node)
-      ) {
-        setShowColorDropdown(false);
-      }
-      if (
-        languageDropdownRef.current &&
-        !languageDropdownRef.current.contains(e.target as Node) &&
-        languageButtonRef.current &&
-        !languageButtonRef.current.contains(e.target as Node)
-      ) {
-        setShowLanguageDropdown(false);
-      }
     };
 
-    if (
-      showUserDropdown ||
-      showColorDropdown ||
-      showLanguageDropdown ||
-      mobileSheet
-    ) {
+    if (showUserDropdown || mobileSheet) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showUserDropdown, showColorDropdown, showLanguageDropdown, mobileSheet]);
+  }, [showUserDropdown, mobileSheet]);
 
   const handleLogout = async () => {
     await logout();
     setShowUserDropdown(false);
-    setMobileSheet(null);
-  };
-
-  const handleColorThemeChange = (theme: ColorTheme) => {
-    setColorTheme(theme);
-    setShowColorDropdown(false);
-  };
-
-  const handleLanguageSelect = (language: "no" | "en") => {
-    setLang(language);
-    setShowLanguageDropdown(false);
     setMobileSheet(null);
   };
 
@@ -358,16 +255,18 @@ export function Navigation() {
     setMobileSheet(null);
   };
 
-  const getThemeTranslation = (themeId: ColorTheme): string => {
-    const key = `theme${
-      themeId.charAt(0).toUpperCase() + themeId.slice(1)
-    }` as keyof typeof t;
-    return t(key as any);
-  };
+  const accessLabel =
+    profile?.access_level === "owner"
+      ? t("accessLevelOwner")
+      : profile?.access_level === "admin"
+      ? t("accessLevelAdmin")
+      : profile?.access_level === "moderator"
+      ? t("accessLevelMod")
+      : t("accessLevelUser");
 
   return (
     <>
-      <nav aria-label="Primary" className={navHidden ? "nav-hidden" : ""}>
+      <nav className="site-nav" aria-label="Primary">
         <div className="container nav-inner">
           <div className="brand">
             <div className="brand-badge" aria-hidden="true">
@@ -384,233 +283,105 @@ export function Navigation() {
               {t("contact")}
             </a>
 
-            <div className="color-theme-container">
-              <button
-                ref={colorButtonRef}
-                className="theme-toggle"
-                onClick={() => setShowColorDropdown(!showColorDropdown)}
-                aria-label={t("colorTheme")}
-                title={t("colorTheme")}
-              >
-                <i className="fa-solid fa-palette"></i>
-              </button>
+            <button
+              className="theme-toggle lang-toggle"
+              onClick={toggleLanguage}
+              aria-label={t("language")}
+              title={t("language")}
+            >
+              {lang.toUpperCase()}
+            </button>
 
-              {showColorDropdown && (
-                <div className="color-theme-dropdown" ref={colorDropdownRef}>
-                  <div className="color-theme-header">{t("colorTheme")}</div>
-                  <div className="color-theme-grid">
-                    {colorThemes.map((theme) => (
-                      <button
-                        key={theme.id}
-                        className={`color-theme-tile ${
-                          colorTheme === theme.id ? "active" : ""
-                        }`}
-                        onClick={() => handleColorThemeChange(theme.id)}
-                        title={getThemeTranslation(theme.id)}
-                      >
-                        <div
-                          className="color-theme-gradient"
-                          style={{ background: theme.gradient }}
-                        />
-                        {colorTheme === theme.id && (
-                          <div className="color-theme-active-indicator">
-                            <i className="fa-solid fa-check"></i>
-                          </div>
-                        )}
-                      </button>
-                    ))}
-                  </div>
+            <button
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={t("themeToggle")}
+              title={t("themeToggle")}
+            >
+              <CircleHalf aria-hidden="true" />
+            </button>
 
-                  <div className="theme-mode-toggle">
-                    <button
-                      className={`theme-mode-btn ${
-                        theme === "light" ? "active" : ""
-                      }`}
-                      onClick={() => setTheme("light")}
-                      aria-label="Light mode"
-                    >
-                      <i className="fa-solid fa-sun"></i>
-                    </button>
-                    <button
-                      className={`theme-mode-btn ${
-                        theme === "dark" ? "active" : ""
-                      }`}
-                      onClick={() => setTheme("dark")}
-                      aria-label="Dark mode"
-                    >
-                      <i className="fa-solid fa-moon"></i>
-                    </button>
-                    <div
-                      className={`theme-mode-slider ${
-                        theme === "dark" ? "dark" : "light"
-                      }`}
-                    />
-                  </div>
-
-                  <div className="blob-count-section">
-                    <div className="blob-count-header">{t("blobs")}</div>
-                    <div className="blob-count-control">
-                      <button
-                        className="blob-count-btn"
-                        onClick={() => setBlobCount(blobCount - 1)}
-                        disabled={blobCount <= 0}
-                        aria-label="Decrease blobs"
-                      >
-                        <i className="fa-solid fa-minus"></i>
-                      </button>
-                      <span className="blob-count-value">{blobCount}</span>
-                      <button
-                        className="blob-count-btn"
-                        onClick={() => setBlobCount(blobCount + 1)}
-                        disabled={blobCount >= 10}
-                        aria-label="Increase blobs"
-                      >
-                        <i className="fa-solid fa-plus"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="language-container">
-              <button
-                ref={languageButtonRef}
-                className="theme-toggle"
-                onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
-                aria-label={t("language")}
-                title={t("language")}
-              >
-                <i className="fa-solid fa-language"></i>
-              </button>
-
-              {showLanguageDropdown && (
-                <div
-                  className="language-dropdown"
-                  ref={languageDropdownRef}
-                  role="menu"
-                  aria-label={t("language")}
-                >
-                  <div className="language-dropdown-title">{t("language")}</div>
-                  <button
-                    className={`language-pill ${lang === "no" ? "active" : ""}`}
-                    onClick={() => handleLanguageSelect("no")}
-                  >
-                    <span className="language-pill__icon">
-                      {lang === "no" && <i className="fa-solid fa-check"></i>}
-                    </span>
-                    <div className="language-pill__labels">
-                      <span className="language-pill__name">Norsk</span>
-                    </div>
-                  </button>
-                  <button
-                    className={`language-pill ${lang === "en" ? "active" : ""}`}
-                    onClick={() => handleLanguageSelect("en")}
-                  >
-                    <span className="language-pill__icon">
-                      {lang === "en" && <i className="fa-solid fa-check"></i>}
-                    </span>
-                    <div className="language-pill__labels">
-                      <span className="language-pill__name">English</span>
-                    </div>
-                  </button>
-                </div>
-              )}
-            </div>
             <Link
               to={appsLink}
               className="nav-apps-btn"
               aria-label={t("apps")}
               title={t("apps")}
             >
-              <i className="fa-solid fa-grip"></i>
+              <SquaresFour aria-hidden="true" />
               <span>{t("apps")}</span>
             </Link>
 
             {isAuthenticated ? (
-              <>
-                <div className="user-menu-container">
-                  <button
-                    ref={userButtonRef}
-                    className="theme-toggle user-button active"
-                    onClick={() => setShowUserDropdown(!showUserDropdown)}
-                    aria-label="User menu"
-                    style={{ color: "var(--brand)" }}
-                  >
-                    <i className="fa-solid fa-user"></i>
-                  </button>
+              <div className="user-menu-container">
+                <button
+                  ref={userButtonRef}
+                  className="theme-toggle active"
+                  onClick={() => setShowUserDropdown(!showUserDropdown)}
+                  aria-label="User menu"
+                  aria-expanded={showUserDropdown}
+                >
+                  <User aria-hidden="true" />
+                </button>
 
-                  {showUserDropdown && (
-                    <div className="user-dropdown" ref={dropdownRef}>
-                      <div className="user-dropdown-header">
-                        <div className="user-avatar-small">
-                          {profile?.avatar_url ? (
-                            <img src={profile.avatar_url} alt="Avatar" />
-                          ) : (
-                            <i className="fa-solid fa-user"></i>
-                          )}
-                        </div>
-                        <div className="user-dropdown-info">
-                          <span className="user-email">
-                            {profile?.full_name ||
-                              profile?.full_name ||
-                              user?.email ||
-                              "Loading..."}
-                          </span>
-                          <span className="user-role">
-                            {profile?.access_level === "owner"
-                              ? t("accessLevelOwner")
-                              : profile?.access_level === "admin"
-                              ? t("accessLevelAdmin")
-                              : profile?.access_level === "moderator"
-                              ? t("accessLevelMod")
-                              : t("accessLevelUser")}
-                          </span>
-                        </div>
+                {showUserDropdown && (
+                  <div className="user-dropdown" ref={dropdownRef}>
+                    <div className="user-dropdown-header">
+                      <div className="user-avatar-small">
+                        {profile?.avatar_url ? (
+                          <img src={profile.avatar_url} alt="Avatar" />
+                        ) : (
+                          <User aria-hidden="true" />
+                        )}
                       </div>
-                      <div className="user-dropdown-divider"></div>
-                      <button
-                        className="user-dropdown-item"
-                        onClick={() => {
-                          setShowUserDropdown(false);
-                          setShowProfilePopup(true);
-                        }}
-                      >
-                        <i className="fa-solid fa-user-pen"></i>
-                        {t("profile")}
-                      </button>
-                      <button
-                        className="user-dropdown-item"
-                        onClick={() => {
-                          setShowUserDropdown(false);
-                          setShowUserSettingsPopup(true);
-                        }}
-                      >
-                        <i className="fa-solid fa-gear"></i>
-                        {t("userSettings")}
-                      </button>
-                      {hasAccess("admin") && (
-                        <Link
-                          to="/#admin"
-                          className="user-dropdown-item"
-                          onClick={() => setShowUserDropdown(false)}
-                        >
-                          <i className="fa-solid fa-chart-line"></i>
-                          {t("adminDashboard")}
-                        </Link>
-                      )}
-                      <div className="user-dropdown-divider"></div>
-                      <button
-                        className="user-dropdown-item logout"
-                        onClick={handleLogout}
-                      >
-                        <i className="fa-solid fa-right-from-bracket"></i>
-                        {t("logout")}
-                      </button>
+                      <div className="user-dropdown-info">
+                        <span className="user-email">
+                          {profile?.full_name || user?.email || "Loading..."}
+                        </span>
+                        <span className="user-role">{accessLabel}</span>
+                      </div>
                     </div>
-                  )}
-                </div>
-              </>
+                    <div className="user-dropdown-divider"></div>
+                    <button
+                      className="user-dropdown-item"
+                      onClick={() => {
+                        setShowUserDropdown(false);
+                        setShowProfilePopup(true);
+                      }}
+                    >
+                      <UserCircle aria-hidden="true" />
+                      {t("profile")}
+                    </button>
+                    <button
+                      className="user-dropdown-item"
+                      onClick={() => {
+                        setShowUserDropdown(false);
+                        setShowUserSettingsPopup(true);
+                      }}
+                    >
+                      <Gear aria-hidden="true" />
+                      {t("userSettings")}
+                    </button>
+                    {hasAccess("admin") && (
+                      <Link
+                        to="/#admin"
+                        className="user-dropdown-item"
+                        onClick={() => setShowUserDropdown(false)}
+                      >
+                        <ChartLine aria-hidden="true" />
+                        {t("adminDashboard")}
+                      </Link>
+                    )}
+                    <div className="user-dropdown-divider"></div>
+                    <button
+                      className="user-dropdown-item logout"
+                      onClick={handleLogout}
+                    >
+                      <SignOut aria-hidden="true" />
+                      {t("logout")}
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <Link
                 to="/login"
@@ -618,7 +389,7 @@ export function Navigation() {
                 aria-label="Login"
                 title="Login"
               >
-                <i className="fa-solid fa-right-to-bracket"></i>
+                <SignIn aria-hidden="true" />
               </Link>
             )}
           </div>
@@ -630,8 +401,8 @@ export function Navigation() {
               aboutPath={aboutPath}
               appsLink={appsLink}
               onOpenUserMenu={() => toggleMobileSheet("user")}
-              onOpenLanguageMenu={() => toggleMobileSheet("language")}
-              onOpenThemeMenu={() => toggleMobileSheet("theme")}
+              onToggleLanguage={toggleLanguage}
+              onToggleTheme={toggleTheme}
               onCloseSheet={() => setMobileSheet(null)}
             />
           )}
@@ -645,125 +416,11 @@ export function Navigation() {
           aboutPath={aboutPath}
           appsLink={appsLink}
           onOpenUserMenu={() => toggleMobileSheet("user")}
-          onOpenLanguageMenu={() => toggleMobileSheet("language")}
-          onOpenThemeMenu={() => toggleMobileSheet("theme")}
+          onToggleLanguage={toggleLanguage}
+          onToggleTheme={toggleTheme}
           onCloseSheet={() => setMobileSheet(null)}
         />
       )}
-
-      <MobileSheet
-        isOpen={mobileSheet === "theme"}
-        title={lang === "no" ? "Tema" : "Theme"}
-        onClose={() => setMobileSheet(null)}
-        offsetBottomBar={mobileNavType === "bottom"}
-      >
-        <div className="sheet-section">
-          <div className="sheet-subtitle">{t("colorTheme")}</div>
-          <div className="color-theme-grid">
-            {colorThemes.map((themeItem) => (
-              <button
-                key={themeItem.id}
-                className={`color-theme-tile ${
-                  colorTheme === themeItem.id ? "active" : ""
-                }`}
-                onClick={() => handleColorThemeChange(themeItem.id)}
-                title={getThemeTranslation(themeItem.id)}
-              >
-                <div
-                  className="color-theme-gradient"
-                  style={{ background: themeItem.gradient }}
-                />
-                {colorTheme === themeItem.id && (
-                  <div className="color-theme-active-indicator">
-                    <i className="fa-solid fa-check"></i>
-                  </div>
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="sheet-section">
-          <div className="sheet-subtitle">Mode</div>
-          <div className="theme-mode-toggle sheet-mode-toggle">
-            <button
-              className={`theme-mode-btn ${theme === "light" ? "active" : ""}`}
-              onClick={() => setTheme("light")}
-              aria-label="Light mode"
-            >
-              <i className="fa-solid fa-sun"></i>
-            </button>
-            <button
-              className={`theme-mode-btn ${theme === "dark" ? "active" : ""}`}
-              onClick={() => setTheme("dark")}
-              aria-label="Dark mode"
-            >
-              <i className="fa-solid fa-moon"></i>
-            </button>
-            <div
-              className={`theme-mode-slider ${
-                theme === "dark" ? "dark" : "light"
-              }`}
-            />
-          </div>
-        </div>
-
-        <div className="sheet-section">
-          <div className="sheet-subtitle">{t("blobs")}</div>
-          <div className="blob-count-control sheet-blob-control">
-            <button
-              className="blob-count-btn"
-              onClick={() => setBlobCount(blobCount - 1)}
-              disabled={blobCount <= 0}
-              aria-label="Decrease blobs"
-            >
-              <i className="fa-solid fa-minus"></i>
-            </button>
-            <span className="blob-count-value">{blobCount}</span>
-            <button
-              className="blob-count-btn"
-              onClick={() => setBlobCount(blobCount + 1)}
-              disabled={blobCount >= 10}
-              aria-label="Increase blobs"
-            >
-              <i className="fa-solid fa-plus"></i>
-            </button>
-          </div>
-        </div>
-      </MobileSheet>
-
-      <MobileSheet
-        isOpen={mobileSheet === "language"}
-        title={t("language")}
-        onClose={() => setMobileSheet(null)}
-        offsetBottomBar={mobileNavType === "bottom"}
-      >
-        <div className="sheet-section">
-          <div className="sheet-subtitle">{t("chooseLanguage")}</div>
-          <div className="language-grid">
-            <button
-              className={`language-option ${lang === "no" ? "active" : ""}`}
-              onClick={() => handleLanguageSelect("no")}
-            >
-              <div className="language-badge">NO</div>
-              <div className="language-labels">
-                <span className="language-name">Norsk</span>
-              </div>
-              {lang === "no" && <i className="fa-solid fa-check"></i>}
-            </button>
-            <button
-              className={`language-option ${lang === "en" ? "active" : ""}`}
-              onClick={() => handleLanguageSelect("en")}
-            >
-              <div className="language-badge">EN</div>
-              <div className="language-labels">
-                <span className="language-name">English</span>
-              </div>
-              {lang === "en" && <i className="fa-solid fa-check"></i>}
-            </button>
-          </div>
-        </div>
-      </MobileSheet>
 
       <MobileSheet
         isOpen={mobileSheet === "user"}
@@ -776,22 +433,14 @@ export function Navigation() {
             {profile?.avatar_url ? (
               <img src={profile.avatar_url} alt="Avatar" />
             ) : (
-              <i className="fa-solid fa-user"></i>
+              <User aria-hidden="true" />
             )}
           </div>
           <div className="sheet-user-meta">
             <span className="user-email">
               {profile?.full_name || user?.email}
             </span>
-            <span className="user-role">
-              {profile?.access_level === "owner"
-                ? t("accessLevelOwner")
-                : profile?.access_level === "admin"
-                ? t("accessLevelAdmin")
-                : profile?.access_level === "moderator"
-                ? t("accessLevelMod")
-                : t("accessLevelUser")}
-            </span>
+            <span className="user-role">{accessLabel}</span>
           </div>
         </div>
 
@@ -802,7 +451,7 @@ export function Navigation() {
             setMobileSheet(null);
           }}
         >
-          <i className="fa-solid fa-user-pen"></i>
+          <UserCircle aria-hidden="true" />
           {t("profile")}
         </button>
         <button
@@ -812,7 +461,7 @@ export function Navigation() {
             setMobileSheet(null);
           }}
         >
-          <i className="fa-solid fa-gear"></i>
+          <Gear aria-hidden="true" />
           {t("userSettings")}
         </button>
         {hasAccess("admin") && (
@@ -821,12 +470,12 @@ export function Navigation() {
             className="sheet-action"
             onClick={() => setMobileSheet(null)}
           >
-            <i className="fa-solid fa-chart-line"></i>
+            <ChartLine aria-hidden="true" />
             {t("adminDashboard")}
           </Link>
         )}
         <button className="sheet-action logout" onClick={handleLogout}>
-          <i className="fa-solid fa-right-from-bracket"></i>
+          <SignOut aria-hidden="true" />
           {t("logout")}
         </button>
       </MobileSheet>
@@ -861,7 +510,7 @@ export function Navigation() {
                 aria-label="Close"
                 onClick={() => setShowUserSettingsPopup(false)}
               >
-                <i className="fa-solid fa-times"></i>
+                <X aria-hidden="true" />
               </button>
             </div>
             <div className="profile-settings-content">
@@ -877,12 +526,12 @@ export function Navigation() {
                       onClick={() => handleMobileNavChange("hamburger")}
                     >
                       <span className="mobile-nav-option__icon-text">
-                        <i className="fa-solid fa-bars"></i>
+                        <List aria-hidden="true" />
                         {t("mobileNavHamburger")}
                       </span>
                       {mobileNavType === "hamburger" && (
                         <span className="mobile-nav-option__check">
-                          <i className="fa-solid fa-check"></i>
+                          <Check aria-hidden="true" />
                         </span>
                       )}
                     </button>
@@ -894,12 +543,12 @@ export function Navigation() {
                       onClick={() => handleMobileNavChange("bottom")}
                     >
                       <span className="mobile-nav-option__icon-text">
-                        <i className="fa-solid fa-ellipsis"></i>
+                        <DotsThree aria-hidden="true" />
                         {t("mobileNavBottom")}
                       </span>
                       {mobileNavType === "bottom" && (
                         <span className="mobile-nav-option__check">
-                          <i className="fa-solid fa-check"></i>
+                          <Check aria-hidden="true" />
                         </span>
                       )}
                     </button>
@@ -913,15 +562,16 @@ export function Navigation() {
                     type="button"
                     className="collapsible-header"
                     onClick={() => setShowPasswordSection(!showPasswordSection)}
+                    aria-expanded={showPasswordSection}
                   >
                     <span>
-                      <i className="fa-solid fa-lock"></i> {t("updatePassword")}
+                      <Lock aria-hidden="true" /> {t("updatePassword")}
                     </span>
-                    <i
-                      className={`fa-solid fa-chevron-${
-                        showPasswordSection ? "up" : "down"
-                      }`}
-                    ></i>
+                    {showPasswordSection ? (
+                      <CaretUp aria-hidden="true" />
+                    ) : (
+                      <CaretDown aria-hidden="true" />
+                    )}
                   </button>
                   {showPasswordSection && (
                     <form
@@ -933,6 +583,7 @@ export function Navigation() {
                         value={currentPassword}
                         onChange={(e) => setCurrentPassword(e.target.value)}
                         placeholder={t("currentPassword")}
+                        aria-label={t("currentPassword")}
                         required
                       />
                       <input
@@ -940,6 +591,7 @@ export function Navigation() {
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                         placeholder={t("newPassword")}
+                        aria-label={t("newPassword")}
                         required
                       />
                       <input
@@ -947,6 +599,7 @@ export function Navigation() {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         placeholder={t("confirmPassword")}
+                        aria-label={t("confirmPassword")}
                         required
                       />
                       <button
@@ -961,19 +614,14 @@ export function Navigation() {
                       {passwordError && (
                         <div
                           className="profile-readonly-value"
-                          style={{ color: "#ef4444" }}
+                          style={{ color: "var(--danger)" }}
                         >
-                          <i className="fa-solid fa-circle-exclamation"></i>{" "}
-                          {passwordError}
+                          <WarningCircle aria-hidden="true" /> {passwordError}
                         </div>
                       )}
                       {passwordSuccess && (
-                        <div
-                          className="profile-readonly-value"
-                          style={{ color: "var(--accent)" }}
-                        >
-                          <i className="fa-solid fa-circle-check"></i>{" "}
-                          {passwordSuccess}
+                        <div className="profile-readonly-value">
+                          <CheckCircle aria-hidden="true" /> {passwordSuccess}
                         </div>
                       )}
                       <button
@@ -993,16 +641,16 @@ export function Navigation() {
                     type="button"
                     className="collapsible-header danger"
                     onClick={() => setShowDeleteSection(!showDeleteSection)}
+                    aria-expanded={showDeleteSection}
                   >
                     <span>
-                      <i className="fa-solid fa-user-slash"></i>{" "}
-                      {t("deleteAccount")}
+                      <UserMinus aria-hidden="true" /> {t("deleteAccount")}
                     </span>
-                    <i
-                      className={`fa-solid fa-chevron-${
-                        showDeleteSection ? "up" : "down"
-                      }`}
-                    ></i>
+                    {showDeleteSection ? (
+                      <CaretUp aria-hidden="true" />
+                    ) : (
+                      <CaretDown aria-hidden="true" />
+                    )}
                   </button>
                   {showDeleteSection && (
                     <form
@@ -1014,31 +662,32 @@ export function Navigation() {
                         value={deletePassword}
                         onChange={(e) => setDeletePassword(e.target.value)}
                         placeholder={t("currentPassword")}
+                        aria-label={t("currentPassword")}
                         required
                       />
                       {deleteError && (
                         <div
                           className="profile-readonly-value"
-                          style={{ color: "#ef4444" }}
+                          style={{ color: "var(--danger)" }}
                         >
-                          <i className="fa-solid fa-circle-exclamation"></i>{" "}
-                          {deleteError}
+                          <WarningCircle aria-hidden="true" /> {deleteError}
                         </div>
                       )}
                       {deleteSuccess && (
-                        <div
-                          className="profile-readonly-value"
-                          style={{ color: "var(--accent)" }}
-                        >
-                          <i className="fa-solid fa-circle-check"></i>{" "}
-                          {deleteSuccess}
+                        <div className="profile-readonly-value">
+                          <CheckCircle aria-hidden="true" /> {deleteSuccess}
                         </div>
                       )}
                       <button
                         className="profile-btn-save"
                         type="submit"
                         disabled={deleteLoading}
-                        style={{ width: "100%", background: "#ef4444" }}
+                        style={{
+                          width: "100%",
+                          background: "var(--danger)",
+                          borderColor: "var(--danger)",
+                          color: "var(--text)",
+                        }}
                       >
                         {deleteLoading
                           ? t("deletingAccount")
@@ -1074,8 +723,8 @@ type MobileMenuProps = {
   aboutPath: string;
   appsLink: string;
   onOpenUserMenu: () => void;
-  onOpenThemeMenu: () => void;
-  onOpenLanguageMenu: () => void;
+  onToggleLanguage: () => void;
+  onToggleTheme: () => void;
   onCloseSheet?: () => void;
 };
 
@@ -1085,11 +734,11 @@ function MobileMenu({
   aboutPath,
   appsLink,
   onOpenUserMenu,
-  onOpenThemeMenu,
-  onOpenLanguageMenu,
+  onToggleLanguage,
+  onToggleTheme,
   onCloseSheet,
 }: MobileMenuProps) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   const closeMenu = () => {
     document.getElementById("hamburger")?.classList.remove("active");
@@ -1098,6 +747,9 @@ function MobileMenu({
     document.body.classList.remove("mobile-menu-open");
   };
 
+  // The menu is driven by DOM classes rather than React state, so if this
+  // component unmounts while the menu is open (e.g. switching to the bottom
+  // bar from inside it) the scroll lock would be left on body forever.
   useEffect(() => closeMenu, []);
 
   const handleMenuToggle = () => {
@@ -1117,16 +769,18 @@ function MobileMenu({
 
   return (
     <>
-      <div
+      <button
+        type="button"
         className="hamburger"
         id="hamburger"
         onClick={handleMenuToggle}
         aria-label="Åpne meny"
+        aria-controls="mobileMenu"
       >
         <span></span>
         <span></span>
         <span></span>
-      </div>
+      </button>
 
       <div
         className="mobile-overlay"
@@ -1176,28 +830,18 @@ function MobileMenu({
             className="mobile-menu-action apps-highlight"
             onClick={closeMenu}
           >
-            <i className="fa-solid fa-grip"></i>
+            <SquaresFour aria-hidden="true" />
             <span>{t("apps")}</span>
           </Link>
-          <button
-            className="mobile-menu-action"
-            onClick={() => {
-              onOpenThemeMenu();
-              closeMenu();
-            }}
-          >
-            <i className="fa-solid fa-palette"></i>
-            <span>{t("colorTheme")}</span>
-          </button>
-          <button
-            className="mobile-menu-action"
-            onClick={() => {
-              onOpenLanguageMenu();
-              closeMenu();
-            }}
-          >
-            <i className="fa-solid fa-language"></i>
+          <button className="mobile-menu-action" onClick={onToggleLanguage}>
+            <span className="mono lang-code" aria-hidden="true">
+              {lang.toUpperCase()}
+            </span>
             <span>{t("language")}</span>
+          </button>
+          <button className="mobile-menu-action" onClick={onToggleTheme}>
+            <CircleHalf aria-hidden="true" />
+            <span>{t("themeToggle")}</span>
           </button>
           {isAuthenticated ? (
             <button
@@ -1207,7 +851,7 @@ function MobileMenu({
                 closeMenu();
               }}
             >
-              <i className="fa-solid fa-user"></i>
+              <User aria-hidden="true" />
               <span>{t("profile")}</span>
             </button>
           ) : (
@@ -1216,7 +860,7 @@ function MobileMenu({
               className="mobile-menu-action"
               onClick={closeMenu}
             >
-              <i className="fa-solid fa-right-to-bracket"></i>
+              <SignIn aria-hidden="true" />
               <span>{t("login")}</span>
             </Link>
           )}
@@ -1261,7 +905,7 @@ function MobileSheet({
         <div className="mobile-sheet__header">
           <span className="mobile-sheet__title">{title}</span>
           <button className="theme-toggle" aria-label="Close" onClick={onClose}>
-            <i className="fa-solid fa-xmark"></i>
+            <X aria-hidden="true" />
           </button>
         </div>
         <div className="mobile-sheet__content">{children}</div>
@@ -1276,8 +920,8 @@ type MobileBottomBarProps = {
   aboutPath: string;
   appsLink: string;
   onOpenUserMenu: () => void;
-  onOpenThemeMenu: () => void;
-  onOpenLanguageMenu: () => void;
+  onToggleLanguage: () => void;
+  onToggleTheme: () => void;
   onCloseSheet: () => void;
 };
 
@@ -1287,11 +931,11 @@ function MobileBottomBar({
   aboutPath,
   appsLink,
   onOpenUserMenu,
-  onOpenThemeMenu,
-  onOpenLanguageMenu,
+  onToggleLanguage,
+  onToggleTheme,
   onCloseSheet,
 }: MobileBottomBarProps) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -1313,18 +957,18 @@ function MobileBottomBar({
       <div className="mobile-bottom-bar">
         <div className="bottom-bar-section left">
           <button
-            className="theme-toggle"
-            onClick={() => onOpenThemeMenu()}
-            aria-label="Bytt tema"
+            className="theme-toggle lang-toggle"
+            onClick={onToggleLanguage}
+            aria-label={t("language")}
           >
-            <i className="fa-solid fa-palette"></i>
+            {lang.toUpperCase()}
           </button>
           <button
             className="theme-toggle"
-            onClick={() => onOpenLanguageMenu()}
-            aria-label={t("language")}
+            onClick={onToggleTheme}
+            aria-label={t("themeToggle")}
           >
-            <i className="fa-solid fa-language"></i>
+            <CircleHalf aria-hidden="true" />
           </button>
         </div>
         <div className="bottom-bar-section center">
@@ -1335,8 +979,9 @@ function MobileBottomBar({
               onCloseSheet();
             }}
             aria-label="Åpne meny"
+            aria-expanded={open}
           >
-            <i className="fa-solid fa-bars"></i>
+            <List aria-hidden="true" />
           </button>
         </div>
         <div className="bottom-bar-section right">
@@ -1346,13 +991,12 @@ function MobileBottomBar({
               onClick={() => onOpenUserMenu()}
               aria-label={t("profile")}
               title={t("profile")}
-              style={{ color: "var(--brand)" }}
             >
-              <i className="fa-solid fa-user"></i>
+              <User aria-hidden="true" />
             </button>
           ) : (
-            <Link to="/login" className="theme-toggle">
-              <i className="fa-solid fa-right-to-bracket"></i>
+            <Link to="/login" className="theme-toggle" aria-label="Login">
+              <SignIn aria-hidden="true" />
             </Link>
           )}
         </div>
@@ -1369,6 +1013,9 @@ function MobileBottomBar({
             <>
               <a href="#experience" onClick={() => setOpen(false)}>
                 {t("experience")}
+              </a>
+              <a href="#projects" onClick={() => setOpen(false)}>
+                {t("projects")}
               </a>
               <a href="#about" onClick={() => setOpen(false)}>
                 {t("about")}
@@ -1391,7 +1038,7 @@ function MobileBottomBar({
             onClick={() => setOpen(false)}
             className="mobile-menu-apps-link"
           >
-            <i className="fa-solid fa-grip"></i>
+            <SquaresFour aria-hidden="true" />
             <span>{t("apps")}</span>
           </Link>
         </div>

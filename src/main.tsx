@@ -1,5 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { IconContext } from "@phosphor-icons/react";
 import App from "./App";
 import { LanguageProvider } from "./context/LanguageContext";
 import { ThemeProvider } from "./context/ThemeContext";
@@ -9,6 +10,7 @@ import "./styles/index.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    <IconContext.Provider value={{ size: 18, weight: "regular" }}>
     <ThemeProvider>
       <LanguageProvider>
         <AuthProvider>
@@ -18,5 +20,6 @@ createRoot(document.getElementById("root")!).render(
         </AuthProvider>
       </LanguageProvider>
     </ThemeProvider>
+    </IconContext.Provider>
   </StrictMode>
 );

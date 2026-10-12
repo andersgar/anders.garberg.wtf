@@ -5,16 +5,16 @@ import { Projects } from "../components/Projects";
 import { About } from "../components/About";
 import { Contact } from "../components/Contact";
 import { Footer } from "../components/Footer";
-import { BackgroundBlobs } from "../components/BackgroundBlobs";
+import { SectionRail } from "../components/SectionRail";
 
 export function AboutPage() {
   return (
     <>
-      <BackgroundBlobs />
       <Navigation />
       <NavSpacer />
       <Hero />
-      <main id="main" className="container" aria-live="polite">
+      <SectionRail />
+      <main id="main" aria-live="polite">
         <div id="publicSections">
           <Experience />
           <Projects />

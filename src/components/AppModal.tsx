@@ -1,4 +1,17 @@
 import { useState, useEffect } from "react";
+import {
+  ArrowDown,
+  ArrowLeft,
+  ArrowUp,
+  Check,
+  PencilSimple,
+  Plus,
+  SquaresFour,
+  Trash,
+  UserGear,
+  X,
+} from "@phosphor-icons/react";
+import { AppIcon } from "../lib/icons";
 import { useLanguage } from "../context/LanguageContext";
 import {
   APP_LIBRARY,
@@ -263,7 +276,7 @@ export function AppModal({
           {(view === "configure" ||
             (adminEditingUser && view === "library")) && (
             <button className="app-modal-back" onClick={handleBack}>
-              <i className="fa-solid fa-arrow-left"></i>
+              <ArrowLeft aria-hidden="true" />
             </button>
           )}
           <div className="app-modal-title">
@@ -278,12 +291,12 @@ export function AppModal({
             </h2>
             {adminEditingUser && (
               <span className="app-modal-admin-badge">
-                <i className="fa-solid fa-user-pen"></i> {adminEditingUser}
+                <UserGear aria-hidden="true" /> {adminEditingUser}
               </span>
             )}
           </div>
           <button className="app-modal-close" onClick={onClose}>
-            <i className="fa-solid fa-times"></i>
+            <X aria-hidden="true" />
           </button>
         </div>
 
@@ -293,12 +306,12 @@ export function AppModal({
               <div className="user-apps-header">
                 <p className="app-modal-subtitle">{t("currentApps")}</p>
                 <button className="user-apps-add-btn" onClick={handleAddNewApp}>
-                  <i className="fa-solid fa-plus"></i> {t("addApp")}
+                  <Plus aria-hidden="true" /> {t("addApp")}
                 </button>
               </div>
               {adminUserApps.length === 0 ? (
                 <div className="user-apps-empty">
-                  <i className="fa-solid fa-grid-2"></i>
+                  <SquaresFour aria-hidden="true" />
                   <p>{t("noAppsYet")}</p>
                 </div>
               ) : (
@@ -317,11 +330,7 @@ export function AppModal({
                         }
                       >
                         <div className="user-app-icon">
-                          {display.isImage ? (
-                            <img src={display.icon} alt={display.name} />
-                          ) : (
-                            <i className={display.icon}></i>
-                          )}
+                          <AppIcon icon={display.icon} alt={display.name} />
                         </div>
                         <div className="user-app-info">
                           <span className="user-app-name">{display.name}</span>
@@ -335,7 +344,7 @@ export function AppModal({
                             disabled={index === 0}
                             aria-label="Move up"
                           >
-                            <i className="fa-solid fa-arrow-up"></i>
+                            <ArrowUp aria-hidden="true" />
                           </button>
                           <button
                             className="user-app-move"
@@ -344,21 +353,21 @@ export function AppModal({
                             disabled={index === adminUserApps.length - 1}
                             aria-label="Move down"
                           >
-                            <i className="fa-solid fa-arrow-down"></i>
+                            <ArrowDown aria-hidden="true" />
                           </button>
                           <button
                             className="user-app-edit"
                             onClick={() => handleEditUserApp(app)}
                             title={t("editApp")}
                           >
-                            <i className="fa-solid fa-pen"></i>
+                            <PencilSimple aria-hidden="true" />
                           </button>
                           <button
                             className="user-app-delete"
                             onClick={() => onDelete?.(app.id)}
                             title={t("delete")}
                           >
-                            <i className="fa-solid fa-trash"></i>
+                            <Trash aria-hidden="true" />
                           </button>
                         </div>
                       </div>
@@ -381,8 +390,6 @@ export function AppModal({
                   <div className="app-modal-section-title">Recommended</div>
                   <div className="app-library-grid">
                     {featuredApps.map((app) => {
-                      const isFontIcon =
-                        app.icon.includes("fa-") || app.icon.startsWith("fa");
                       return (
                         <button
                           key={app.id}
@@ -395,11 +402,7 @@ export function AppModal({
                           }
                         >
                           <div className="app-library-icon">
-                            {isFontIcon ? (
-                              <i className={app.icon}></i>
-                            ) : (
-                              <img src={app.icon} alt={app.name} />
-                            )}
+                            <AppIcon icon={app.icon} alt={app.name} />
                           </div>
                           <span className="app-library-name">{app.name}</span>
                           <span className="app-library-desc">
@@ -418,8 +421,6 @@ export function AppModal({
                   <div className="app-modal-section-title">NTNU</div>
                   <div className="app-library-grid">
                     {ntnuApps.map((app) => {
-                      const isFontIcon =
-                        app.icon.includes("fa-") || app.icon.startsWith("fa");
                       return (
                         <button
                           key={app.id}
@@ -432,11 +433,7 @@ export function AppModal({
                           }
                         >
                           <div className="app-library-icon">
-                            {isFontIcon ? (
-                              <i className={app.icon}></i>
-                            ) : (
-                              <img src={app.icon} alt={app.name} />
-                            )}
+                            <AppIcon icon={app.icon} alt={app.name} />
                           </div>
                           <span className="app-library-name">{app.name}</span>
                           <span className="app-library-desc">
@@ -453,8 +450,6 @@ export function AppModal({
               <div className="app-modal-section-title">Homelab</div>
               <div className="app-library-grid">
                 {homelabApps.map((app) => {
-                  const isFontIcon =
-                    app.icon.includes("fa-") || app.icon.startsWith("fa");
                   return (
                     <button
                       key={app.id}
@@ -465,11 +460,7 @@ export function AppModal({
                       }
                     >
                       <div className="app-library-icon">
-                        {isFontIcon ? (
-                          <i className={app.icon}></i>
-                        ) : (
-                          <img src={app.icon} alt={app.name} />
-                        )}
+                        <AppIcon icon={app.icon} alt={app.name} />
                       </div>
                       <span className="app-library-name">{app.name}</span>
                       <span className="app-library-desc">
@@ -495,7 +486,7 @@ export function AppModal({
                       }
                     >
                       <div className="app-library-icon">
-                        <i className={app.icon}></i>
+                        <AppIcon icon={app.icon} alt={app.name} />
                       </div>
                       <span className="app-library-name">{app.name}</span>
                       <span className="app-library-desc">
@@ -509,12 +500,7 @@ export function AppModal({
             selectedApp && (
               <div className="app-configure">
                 <div className="app-configure-preview">
-                  {(() => {
-                    const isFontIcon =
-                      selectedApp.icon.includes("fa-") ||
-                      selectedApp.icon.startsWith("fa");
-                    return (
-                      <div
+                  <div
                         className="app-preview-icon"
                         style={
                           {
@@ -522,14 +508,11 @@ export function AppModal({
                           } as React.CSSProperties
                         }
                       >
-                        {selectedApp.isCustom || isFontIcon ? (
-                          <i className={selectedApp.isCustom ? customIcon : selectedApp.icon}></i>
-                        ) : (
-                          <img src={selectedApp.icon} alt={selectedApp.name} />
-                        )}
-                      </div>
-                    );
-                  })()}
+                        <AppIcon
+                      icon={selectedApp.isCustom ? customIcon : selectedApp.icon}
+                      alt={selectedApp.name}
+                    />
+                  </div>
                   <span className="app-preview-name">
                     {selectedApp.isCustom
                       ? customName || "Custom Link"
@@ -600,7 +583,7 @@ export function AppModal({
           <div className="app-modal-footer">
             {(internalEditingApp || editingApp) && onDelete && (
               <button className="app-btn-delete" onClick={handleDelete}>
-                <i className="fa-solid fa-trash"></i>
+                <Trash aria-hidden="true" />
                 {t("delete")}
               </button>
             )}
@@ -616,7 +599,7 @@ export function AppModal({
                   !!urlError
                 }
               >
-                <i className="fa-solid fa-check"></i>
+                <Check aria-hidden="true" />
                 {t("save")}
               </button>
             </div>

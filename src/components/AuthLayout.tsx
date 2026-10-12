@@ -1,4 +1,6 @@
 import { ReactNode } from "react";
+import { ArrowLeft } from "@phosphor-icons/react";
+import { Spinner } from "../lib/icons";
 import { Link } from "react-router-dom";
 
 type BackLink =
@@ -59,7 +61,7 @@ export function AuthLayout({
     if (!backLink) return null;
     const content = (
       <>
-        {backLink.icon && <i className={backLink.icon}></i>} {backLink.label}
+        {backLink.icon && <ArrowLeft aria-hidden="true" />} {backLink.label}
       </>
     );
 
@@ -109,7 +111,7 @@ export function AuthLoading({ message }: { message?: string }) {
       <div className="login-container">
         <div className="login-card">
           <div className="loading-spinner">
-            <i className="fa-solid fa-spinner fa-spin fa-2x"></i>
+            <Spinner size={32} />
           </div>
           {message && <p className="login-subtitle">{message}</p>}
         </div>

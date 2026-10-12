@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ArrowUpRight } from "@phosphor-icons/react";
 import { useLanguage } from "../context/LanguageContext";
 import { MarkdownModal } from "./MarkdownModal";
 
@@ -40,50 +41,45 @@ export function Projects() {
 
   return (
     <section id="projects">
-      <div className="section-header">
+      <div className="container">
         <h2 className="section-title">{t("projects")}</h2>
-      </div>
 
-      <div
-        className="card pad projects-scroller"
-        role="list"
-        aria-label={t("projects")}
-      >
-        <div className="projects-strip">
-          {projects.map((project) => (
+        <div className="projects-grid" role="list" aria-label={t("projects")}>
+          {projects.map((project, index) => (
             <article
-              className="project-card"
+              className={`project-card ${index < 2 ? "featured" : ""}`}
               key={project.link}
               role="listitem"
             >
-              <div className="project-image">
+              <div
+                className={`project-image ${
+                  project.image.endsWith(".svg") ? "is-logo" : ""
+                }`}
+              >
                 <img
                   src={project.image}
                   alt={getText(project.title)}
-                  loading="lazy"
+                  loading={index === 0 ? "eager" : "lazy"}
                 />
               </div>
               <div className="project-body">
                 <h3>{getText(project.title)}</h3>
-                <p className="small">{getText(project.description)}</p>
+                <p>{getText(project.description)}</p>
                 <div className="project-actions">
                   {project.mdPath ? (
                     <button
                       type="button"
-                      className="btn ghost project-link"
+                      className="project-link"
                       onClick={() => setActiveProject(project)}
                     >
                       <span>
                         {project.cta ? getText(project.cta) : t("readMore")}
                       </span>
-                      <i
-                        className="fa-solid fa-arrow-up-right-from-square"
-                        aria-hidden="true"
-                      ></i>
+                      <ArrowUpRight aria-hidden="true" />
                     </button>
                   ) : (
                     <a
-                      className="btn ghost project-link"
+                      className="project-link"
                       href={project.link}
                       target="_blank"
                       rel="noreferrer noopener"
@@ -91,24 +87,18 @@ export function Projects() {
                       <span>
                         {project.cta ? getText(project.cta) : t("readMore")}
                       </span>
-                      <i
-                        className="fa-solid fa-arrow-up-right-from-square"
-                        aria-hidden="true"
-                      ></i>
+                      <ArrowUpRight aria-hidden="true" />
                     </a>
                   )}
                   {project.extraLink && (
                     <a
-                      className="btn ghost project-link"
+                      className="project-link"
                       href={project.extraLink.url}
                       target="_blank"
                       rel="noreferrer noopener"
                     >
                       <span>{getText(project.extraLink.label)}</span>
-                      <i
-                        className="fa-solid fa-arrow-up-right-from-square"
-                        aria-hidden="true"
-                      ></i>
+                      <ArrowUpRight aria-hidden="true" />
                     </a>
                   )}
                 </div>

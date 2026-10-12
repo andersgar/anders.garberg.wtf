@@ -1,4 +1,5 @@
 import ReactMarkdown from "react-markdown";
+import { X } from "@phosphor-icons/react";
 import { useMarkdownFile } from "../lib/useMarkdownFile";
 import "../styles/markdown-modal.css";
 
@@ -41,15 +42,19 @@ export function MarkdownModal({
             onClick={onClose}
             aria-label="Close"
           >
-            <i className="fa-solid fa-xmark" aria-hidden="true"></i>
+            <X aria-hidden="true" />
           </button>
         </div>
 
         <div className="md-modal__content" id="markdownModalBody">
           {isLoading ? (
-            <div className="md-modal__loading">
-              <i className="fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
-              <span>Loading...</span>
+            // Skeleton shaped like the paragraphs it is standing in for.
+            <div className="md-modal__loading" aria-busy="true">
+              <span className="md-skeleton" style={{ width: "92%" }} />
+              <span className="md-skeleton" style={{ width: "100%" }} />
+              <span className="md-skeleton" style={{ width: "78%" }} />
+              <span className="md-skeleton" style={{ width: "96%" }} />
+              <span className="md-skeleton" style={{ width: "60%" }} />
             </div>
           ) : error ? (
             <div className="md-modal__error">{error}</div>

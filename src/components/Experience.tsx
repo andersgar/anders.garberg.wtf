@@ -1,29 +1,6 @@
-import { useState, useEffect, useRef, RefObject } from "react";
+import { useState, useEffect } from "react";
+import { CaretDown, CaretUp } from "@phosphor-icons/react";
 import { useLanguage } from "../context/LanguageContext";
-
-function useExpandedHeight(
-  innerRef: RefObject<HTMLElement>,
-  isExpanded: boolean
-) {
-  const [maxHeight, setMaxHeight] = useState<string>();
-
-  useEffect(() => {
-    const inner = innerRef.current;
-    if (!isExpanded || !inner) {
-      setMaxHeight(undefined);
-      return;
-    }
-
-    const measure = () => setMaxHeight(`${inner.scrollHeight}px`);
-    measure();
-
-    const observer = new ResizeObserver(measure);
-    observer.observe(inner);
-    return () => observer.disconnect();
-  }, [innerRef, isExpanded]);
-
-  return maxHeight;
-}
 
 interface LangText {
   no: string;
@@ -53,22 +30,20 @@ interface Institution {
   hidden?: boolean;
 }
 
+/** How many entries each list shows before "Show more". Whole boxes only:
+ *  collapsing by count means a rectangle is never cut mid-way. */
+const EXPERIENCE_PREVIEW = 2;
+const EDUCATION_PREVIEW = 1;
+
+/** Date ranges in the data use en-dashes; the design uses a plain hyphen. */
+const formatDate = (value: string) => value.replace(/\s*[–—]\s*/g, " - ");
+
 export function Experience() {
   const { t, lang } = useLanguage();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [institutions, setInstitutions] = useState<Institution[]>([]);
   const [isExperienceExpanded, setIsExperienceExpanded] = useState(false);
   const [isEducationExpanded, setIsEducationExpanded] = useState(false);
-  const experienceRef = useRef<HTMLDivElement>(null);
-  const educationRef = useRef<HTMLDivElement>(null);
-  const experienceMaxHeight = useExpandedHeight(
-    experienceRef,
-    isExperienceExpanded
-  );
-  const educationMaxHeight = useExpandedHeight(
-    educationRef,
-    isEducationExpanded
-  );
 
   useEffect(() => {
     fetch("/data/experience.json")
@@ -88,122 +63,101 @@ export function Experience() {
     return lang === "en" ? obj.en : obj.no;
   };
 
+  const visibleCompanies = isExperienceExpanded
+    ? companies
+    : companies.slice(0, EXPERIENCE_PREVIEW);
+  const visibleInstitutions = isEducationExpanded
+    ? institutions
+    : institutions.slice(0, EDUCATION_PREVIEW);
+
+  const renderPosition = (pos: Position, key: number) => (
+    <div className={`position ${pos.planned ? "planned" : ""}`} key={key}>
+      <div className="date">{formatDate(getText(pos.date))}</div>
+      <div className="position-title">
+        <h4>{getText(pos.title)}</h4>
+        <span className="tag">{getText(pos.tag)}</span>
+      </div>
+      <div className="desc">{getText(pos.desc)}</div>
+    </div>
+  );
+
+  const renderToggle = (
+    expanded: boolean,
+    onToggle: () => void,
+    controls: string,
+    moreKey: "showMoreExperience" | "showMoreEducation",
+    lessKey: "showLessExperience" | "showLessEducation"
+  ) => (
+    <button
+      className="timeline-toggle"
+      onClick={onToggle}
+      aria-expanded={expanded}
+      aria-controls={controls}
+    >
+      {expanded ? (
+        <CaretUp aria-hidden="true" />
+      ) : (
+        <CaretDown aria-hidden="true" />
+      )}
+      <span>{expanded ? t(lessKey) : t(moreKey)}</span>
+    </button>
+  );
+
   return (
-    <>
+    <div className="container background-grid">
       <section id="experience">
         <h2 className="section-title">{t("experience")}</h2>
-        <div className="card pad">
-          <div
-            className={`timeline-container ${
-              isExperienceExpanded ? "expanded" : "collapsed"
-            }`}
-            style={{ maxHeight: experienceMaxHeight }}
-          >
-            <div className="timeline" id="timeline" ref={experienceRef}>
-              {companies.map((company, idx) => (
-                <div className="step" key={idx}>
-                  <div className="dot" aria-hidden="true"></div>
-                  <div>
-                    <span className="company">{getText(company.company)}</span>
-                    <p className="small">{getText(company.location)}</p>
-                    <div className="nested-positions">
-                      {company.positions.map((pos, posIdx) => (
-                        <div className="position" key={posIdx}>
-                          <span className="position-title">
-                            <h4>{getText(pos.title)}</h4>
-                            <span className="tag">{getText(pos.tag)}</span>
-                          </span>
-                          <div className="date">{getText(pos.date)}</div>
-                          <div className="desc">{getText(pos.desc)}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+        <div className="timeline-container">
+          <ol className="cv" id="timeline">
+            {visibleCompanies.map((company, idx) => (
+              <li className="cv-entry" key={idx}>
+                <div className="cv-head">
+                  <h3 className="company">{getText(company.company)}</h3>
+                  <span className="cv-where">{getText(company.location)}</span>
                 </div>
-              ))}
-            </div>
-            {!isExperienceExpanded && <div className="timeline-fade" />}
-          </div>
-          <button
-            className="timeline-toggle"
-            onClick={() => setIsExperienceExpanded(!isExperienceExpanded)}
-            aria-expanded={isExperienceExpanded}
-          >
-            <span>
-              {isExperienceExpanded
-                ? t("showLessExperience")
-                : t("showMoreExperience")}
-            </span>
-            <i
-              className={`fa-solid fa-chevron-${
-                isExperienceExpanded ? "up" : "down"
-              }`}
-              aria-hidden="true"
-            />
-          </button>
+                {company.positions.map(renderPosition)}
+              </li>
+            ))}
+          </ol>
         </div>
+        {companies.length > EXPERIENCE_PREVIEW &&
+          renderToggle(
+            isExperienceExpanded,
+            () => setIsExperienceExpanded(!isExperienceExpanded),
+            "timeline",
+            "showMoreExperience",
+            "showLessExperience"
+          )}
       </section>
 
       <section id="education">
         <h2 className="section-title">{t("education")}</h2>
-        <div className="card pad">
-          <div
-            className={`timeline-container ${
-              isEducationExpanded ? "expanded" : "collapsed"
-            }`}
-            style={{ maxHeight: educationMaxHeight }}
-          >
-            <div className="timeline" id="timeline-education" ref={educationRef}>
-              {institutions.map((institution, idx) => (
-                <div className="step" key={idx}>
-                  <div className="dot" aria-hidden="true"></div>
-                  <div>
-                    <span className="company">
-                      {getText(institution.institution)}
-                    </span>
-                    <p className="small">{getText(institution.location)}</p>
-                    <div className="nested-positions">
-                      {institution.degrees.map((degree, degIdx) => (
-                        <div
-                          className={`position ${
-                            degree.planned ? "planned" : ""
-                          }`}
-                          key={degIdx}
-                        >
-                          <span className="position-title">
-                            <h4>{getText(degree.title)}</h4>
-                            <span className="tag">{getText(degree.tag)}</span>
-                          </span>
-                          <div className="date">{getText(degree.date)}</div>
-                          <div className="desc">{getText(degree.desc)}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+        <div className="timeline-container">
+          <ol className="cv" id="timeline-education">
+            {visibleInstitutions.map((institution, idx) => (
+              <li className="cv-entry" key={idx}>
+                <div className="cv-head">
+                  <h3 className="company">
+                    {getText(institution.institution)}
+                  </h3>
+                  <span className="cv-where">
+                    {getText(institution.location)}
+                  </span>
                 </div>
-              ))}
-            </div>
-            {!isEducationExpanded && <div className="timeline-fade" />}
-          </div>
-          <button
-            className="timeline-toggle"
-            onClick={() => setIsEducationExpanded(!isEducationExpanded)}
-            aria-expanded={isEducationExpanded}
-          >
-            <span>
-              {isEducationExpanded
-                ? t("showLessEducation")
-                : t("showMoreEducation")}
-            </span>
-            <i
-              className={`fa-solid fa-chevron-${
-                isEducationExpanded ? "up" : "down"
-              }`}
-              aria-hidden="true"
-            />
-          </button>
+                {institution.degrees.map(renderPosition)}
+              </li>
+            ))}
+          </ol>
         </div>
+        {institutions.length > EDUCATION_PREVIEW &&
+          renderToggle(
+            isEducationExpanded,
+            () => setIsEducationExpanded(!isEducationExpanded),
+            "timeline-education",
+            "showMoreEducation",
+            "showLessEducation"
+          )}
       </section>
-    </>
+    </div>
   );
 }

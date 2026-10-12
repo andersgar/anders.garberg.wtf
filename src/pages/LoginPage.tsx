@@ -1,4 +1,5 @@
 import { useState, FormEvent, useEffect } from "react";
+import { Spinner } from "../lib/icons";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
@@ -69,7 +70,7 @@ export function LoginPage() {
       backLink={{
         to: "/",
         label: t("backToHome"),
-        icon: "fa-solid fa-arrow-left",
+        icon: "arrow-left",
       }}
     >
       <form id="loginForm" onSubmit={handleSubmit}>
@@ -110,7 +111,7 @@ export function LoginPage() {
         <button type="submit" className="btn login-btn" disabled={isLoading}>
           {isLoading ? (
             <>
-              <i className="fa-solid fa-spinner fa-spin"></i> {t("loggingIn")}
+              <Spinner /> {t("loggingIn")}
             </>
           ) : (
             t("loginButton")
