@@ -1,6 +1,30 @@
 [
   {
     "title": {
+      "no": "Lone Wolf 2026: operatørpanel og kjøretøylink (KONGSBERG)",
+      "en": "Lone Wolf 2026: operator panel and vehicle link (KONGSBERG)"
+    },
+    "description": {
+      "no": "Sommerjobb hos KONGSBERG, jun-aug 2026, i et internteam på åtte som utviklet en ubemannet landplattform. Bygget operatørpanelet (ICS) i C++/Qt med native video, og linken mellom panel og kjøretøy: et lite, kuratert API over en peer-to-peer meldingsbuss med automatisk oppdagelse, deny-by-default-tillatelser, kontrollarbitrering og en fjernstopp som aldri kan oppheve en fysisk stopp.",
+      "en": "Summer intern at KONGSBERG, Jun-Aug 2026, in an eight-person team developing an unmanned ground vehicle. Built the operator panel (ICS) in C++/Qt with native video, and the panel-to-vehicle link: a small curated API over a peer-to-peer message bus with automatic discovery, deny-by-default permissions, control arbitration and a remote stop that can never clear a physical one."
+    },
+    "cta": {
+      "no": "Les om prosjektet",
+      "en": "Read about the project"
+    },
+    "image": "/assets/projects/lone_wolf_2026.jpg",
+    "mdPath": "/assets/projects/lone_wolf_2026.md",
+    "link": "https://www.kongsberg.com/careers/summer-interns/lone-wolf/",
+    "extraLink": {
+      "url": "https://www.kongsberg.com/careers/summer-interns/lone-wolf/",
+      "label": {
+        "no": "Lone Wolf hos KONGSBERG",
+        "en": "Lone Wolf at KONGSBERG"
+      }
+    }
+  },
+  {
+    "title": {
       "no": "BSc-oppgave: Lone Wolf simulering og syntetisk testmiljø",
       "en": "BSc Thesis: Lone Wolf simulation and synthetic test environment"
     },
@@ -52,7 +76,7 @@
       "no": "Se kildekode",
       "en": "See source code"
     },
-    "image": "/assets/projects/garberg_wtf.png",
+    "image": "/assets/projects/garberg_wtf.jpg",
     "link": "https://github.com/andersgar/anders.garberg.wtf"
   },
   {
@@ -68,7 +92,7 @@
       "no": "Se oppsettet",
       "en": "View setup"
     },
-    "image": "/assets/projects/homelab.svg",
+    "image": "/assets/projects/homelab.jpg",
     "link": "https://garberg.wtf/homelab"
   },
   {
@@ -84,7 +108,7 @@
       "no": "Les om oppgaven",
       "en": "Read about the project"
     },
-    "image": "/assets/projects/autoprosjekt-v25.svg",
+    "image": "/assets/projects/autoprosjekt-v25.jpg",
     "mdPath": "/assets/projects/autoprosjekt-v25.md",
     "link": "https://garberg.wtf/content/AutoprosjektV25.pdf"
   }
