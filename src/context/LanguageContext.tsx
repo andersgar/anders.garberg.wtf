@@ -24,6 +24,13 @@ function getLanguageFromURL(): Language | null {
   return null;
 }
 
+function getLanguageFromPath(): Language | null {
+  const path = window.location.pathname;
+  if (path === "/about") return "en";
+  if (path === "/om-meg") return "no";
+  return null;
+}
+
 function isExternalApp(): boolean {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.has("app") || urlParams.has("redirect");
@@ -39,6 +46,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Language>(() => {
     return (
       getLanguageFromURL() ||
+      getLanguageFromPath() ||
       (isExternalApp() ? "en" : null) ||
       (localStorage.getItem("language") as Language) ||
       "no"
