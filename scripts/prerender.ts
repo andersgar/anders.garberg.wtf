@@ -10,6 +10,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type { Plugin } from "vite";
 import { translations, type Language } from "../src/i18n/translations";
+import { SKILL_GROUPS } from "../src/data/skills";
 
 const SITE = "https://garberg.wtf";
 
@@ -253,9 +254,12 @@ function renderBody(
     })
     .join("\n");
 
-  const skills = [t.controlSystems, t.robotics, t.autonomy, "C++", "Python", "ROS 2"]
-    .map((s) => `<span class="tag">${escape(s)}</span>`)
-    .join("");
+  const skills = SKILL_GROUPS.map(
+    (group) =>
+      `<div class="skill-group"><p class="skill-label">${escape(group.label[lang])}</p><div class="row">${group.items
+        .map((item) => `<span class="tag">${escape(item[lang])}</span>`)
+        .join("")}</div></div>`
+  ).join("\n");
 
   return `
 <header id="home" class="hero"><div class="container hero-wrap">
@@ -282,7 +286,8 @@ ${projectCards}
 <section id="about"><div class="container"><h2 class="section-title">${escape(t.about)}</h2><div class="about-grid">
 <div class="about-prose box"><p>${escape(t.aboutText1)}</p><p>${escape(t.aboutText2)}</p></div>
 <div class="about-facts box"><h3>${escape(t.highlights)}</h3><ul><li>${escape(t.highlight1)}</li><li>${escape(t.highlight2)}</li><li>${escape(t.highlight3)}</li><li>${escape(t.highlight4)}</li></ul>
-<h3>${escape(t.skills)}</h3><div class="row">${skills}</div></div>
+<h3>${escape(t.skills)}</h3>
+${skills}</div>
 </div></div></section>
 <section id="contact"><div class="container"><h2 class="section-title">${escape(t.contact)}</h2>
 <p class="contact-intro">${escape(t.contactDesc)}</p>
