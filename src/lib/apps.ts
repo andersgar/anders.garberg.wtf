@@ -48,7 +48,7 @@ export const APP_LIBRARY: AppDefinition[] = [
     id: "vorsly",
     name: "Vorsly",
     icon: "/assets/apps/vorsly.svg",
-    color: "#FF4D6D",
+    color: "#d63a2f",
     description: "Drinking game mini-apps",
     featured: true,
     requiresUrl: false,
