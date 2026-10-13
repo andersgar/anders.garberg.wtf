@@ -27,7 +27,9 @@ export function Hero() {
             <span className="greeting">
               {isAnders ? t("greetingEasterEgg") : t("greeting")}
             </span>{" "}
-            <span className="name">Anders Garberg</span>
+            <span className="name">
+              Anders<span className="not-phone"> Garberg</span>
+            </span>
           </h1>
           <p className="hero-sub">{t("heroSubtext")}</p>
           <div className="hero-cta">
@@ -37,7 +39,10 @@ export function Hero() {
               onClick={() => setShowCv(true)}
             >
               <FileText aria-hidden="true" />
-              {t("viewCV")}
+              <span className="not-phone">{t("viewCV")}</span>
+              <span className="phone-only" aria-hidden="true">
+                CV
+              </span>
             </button>
             <a className="btn ghost" href="#about">
               {t("about")}

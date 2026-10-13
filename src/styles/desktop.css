@@ -685,8 +685,48 @@ footer {
     transform: none;
   }
 }
+/* Below the desktop breakpoint the rail turns into a strip under the nav:
+   the same four items in a row, the active square filled. It slides in once
+   the hero has scrolled away, like the side rail. */
 @media (max-width: 1023px) {
   .section-rail {
+    left: 0;
+    right: 0;
+    top: 64px;
+    height: 32px;
+    padding: 0 20px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    transform: translateY(-8px);
+  }
+  .section-rail.is-visible {
+    transform: none;
+  }
+  .section-rail ol {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 32px;
+  }
+  .section-rail li {
+    height: auto;
+  }
+  .section-rail a {
+    flex-direction: row-reverse;
+    gap: 8px;
+    height: 32px;
+  }
+  .section-rail__label {
+    opacity: 1;
+    transform: none;
+    padding: 0;
+    font-size: 0.68rem;
+  }
+  .section-rail a.is-active .section-rail__square {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .section-rail__marker {
     display: none;
   }
 }

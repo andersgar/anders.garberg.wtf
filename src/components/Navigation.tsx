@@ -12,6 +12,7 @@ import {
   List,
   Lock,
   SignIn,
+  QrCode,
   SignOut,
   SquaresFour,
   User,
@@ -25,6 +26,7 @@ import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 import { useProfile } from "../context/ProfileContext";
 import { ProfileSettings } from "./ProfileSettings";
+import { SiteQrModal } from "./SiteQrModal";
 import { supabase } from "../lib/supabase";
 
 export function Navigation() {
@@ -937,6 +939,7 @@ function MobileBottomBar({
 }: MobileBottomBarProps) {
   const { t, lang } = useLanguage();
   const [open, setOpen] = useState(false);
+  const [showQr, setShowQr] = useState(false);
 
   useEffect(() => {
     const close = (e: MouseEvent) => {
@@ -985,6 +988,17 @@ function MobileBottomBar({
           </button>
         </div>
         <div className="bottom-bar-section right">
+          <button
+            className="theme-toggle"
+            onClick={() => {
+              setOpen(false);
+              setShowQr(true);
+            }}
+            aria-label={t("siteQr")}
+            title={t("siteQr")}
+          >
+            <QrCode aria-hidden="true" />
+          </button>
           {isAuthenticated ? (
             <button
               className="theme-toggle user-toggle"
@@ -1001,6 +1015,7 @@ function MobileBottomBar({
           )}
         </div>
       </div>
+      {showQr && <SiteQrModal onClose={() => setShowQr(false)} />}
 
       {open && (
         <div className="mobile-bottom-menu">

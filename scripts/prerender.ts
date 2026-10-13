@@ -265,9 +265,9 @@ function renderBody(
 <header id="home" class="hero"><div class="container hero-wrap">
 <div class="hero-main">
 <p class="eyebrow">${escape(t.roleTitle)}</p>
-<h1><span class="greeting">${escape(t.greeting)}</span> <span class="name">${PERSON.name}</span></h1>
+<h1><span class="greeting">${escape(t.greeting)}</span> <span class="name">${PERSON.givenName}<span class="not-phone"> ${PERSON.familyName}</span></span></h1>
 <p class="hero-sub">${escape(t.heroSubtext)}</p>
-<div class="hero-cta"><a class="btn" href="${escape(t.cv)}">${escape(t.viewCV)}</a><a class="btn ghost" href="#about">${escape(t.about)}</a><a class="btn ghost" href="#contact">${escape(t.contact)}</a></div>
+<div class="hero-cta"><a class="btn" href="${escape(t.cv)}"><span class="not-phone">${escape(t.viewCV)}</span><span class="phone-only" aria-hidden="true">CV</span></a><a class="btn ghost" href="#about">${escape(t.about)}</a><a class="btn ghost" href="#contact">${escape(t.contact)}</a></div>
 </div>
 <figure class="hero-portrait"><img src="/assets/portrait.jpg" alt="${PERSON.name}" width="800" height="800" /></figure>
 </div></header>
