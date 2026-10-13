@@ -73,8 +73,8 @@ export const translations = {
 
     // Meta
     metaDescription:
-      "Portfolio og kontaktside for masterstudent i Kybernetikk og robotikk (NTNU). Prosjekter, erfaring og m\u00E5ter \u00E5 ta kontakt p\u00E5.",
-    metaTitle: "Anders Garberg - Kybernetikk og robotikk",
+      "Anders Garberg er robotikkingeni\u00F8r og masterstudent i kybernetikk og robotikk ved NTNU i Trondheim. Erfaring med ROS 2, NVIDIA Isaac Sim og C++ fra KONGSBERG og Marinor NTNU. Prosjekter, CV og kontakt.",
+    metaTitle: "Anders Garberg - Robotikkingeni\u00F8r, NTNU Trondheim",
 
     // CV Path
     cv: "/content/CV_AndersGarberg_NOR.pdf",
@@ -352,8 +352,8 @@ export const translations = {
 
     // Meta
     metaDescription:
-      "Portfolio and contact page for an M.Sc. student in Cybernetics & Robotics (NTNU). Projects, experience, and ways to get in touch.",
-    metaTitle: "Anders Garberg - Cybernetics & Robotics",
+      "Anders Garberg is a robotics engineer and M.Sc. student in Cybernetics and Robotics at NTNU, Trondheim. Experience with ROS 2, NVIDIA Isaac Sim and C++ from KONGSBERG and Marinor NTNU. Projects, CV and contact.",
+    metaTitle: "Anders Garberg - Robotics Engineer, NTNU Trondheim",
 
     // CV Path
     cv: "/content/CV_AndersGarberg_ENG.pdf",
