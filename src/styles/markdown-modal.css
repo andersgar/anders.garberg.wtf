@@ -143,6 +143,37 @@
   border-radius: 0;
 }
 
+/* Site QR dialog: the code on a white square, the address under it. */
+.site-qr {
+  width: min(360px, 100%);
+}
+.site-qr__content {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding-block: 24px 28px;
+}
+.site-qr__code {
+  padding: 16px;
+  background: #fff;
+  line-height: 0;
+}
+.site-qr__code svg {
+  display: block;
+  width: min(256px, 70vw);
+  height: auto;
+}
+.site-qr__url {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.site-qr__thanks {
+  margin: 0;
+  font-size: 1rem;
+  text-align: center;
+}
+
 /* Phones: the modal is a full-screen sheet instead of a centred card. */
 @media (max-width: 720px) {
   .md-modal-overlay {
@@ -154,6 +185,11 @@
     height: 100dvh;
     max-height: none;
     border: 0;
+  }
+  .md-modal.site-qr {
+    width: min(360px, 100% - 32px);
+    height: auto;
+    border: 1px solid var(--border);
   }
 
   .md-modal__header {
