@@ -450,6 +450,16 @@ h2.section-title {
 .about-facts .row {
   gap: 6px;
 }
+.skill-group + .skill-group {
+  margin-top: 14px;
+}
+.skill-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 0 0 6px;
+}
 
 /* ---- Contact -------------------------------------------------------------- */
 

@@ -11,8 +11,8 @@
         "tag": { "no": "Master", "en": "Master" },
         "date": { "no": "Aug 2026 – Jun 2028", "en": "Aug 2026 – Jun 2028" },
         "desc": {
-          "no": "Toårig mastergrad med spesialisering i robotikk og fartøysstyring. Fokus på avansert reguleringsteknikk, autonome systemer, maskinlæring og robotikk, inkludert design av intelligente styresystemer og autonome farkoster.",
-          "en": "Two-year master's degree with a specialization in Robotics and Vehicle Control. Focused on advanced control engineering, autonomous systems, machine learning, and robotics, including the design of intelligent control systems and autonomous vehicles."
+          "no": "Toårig master, studieretning roboter og fartøystyring. Emner i reguleringsteknikk, autonome systemer, maskinlæring og robotikk.",
+          "en": "Two-year master's, specialisation in robots and vehicle control. Courses in control engineering, autonomous systems, machine learning and robotics."
         }
       },
       {
@@ -23,8 +23,8 @@
         "tag": { "no": "Bachelor", "en": "Bachelor" },
         "date": { "no": "Aug 2023 – Jun 2026", "en": "Aug 2023 – Jun 2026" },
         "desc": {
-          "no": "Treårig bachelorgrad med fokus på reguleringsteknikk, robotikk, autonomi og intelligente systemer. Relevant kursarbeid inkluderer fysikk, matematikk, programmering og systemmodellering. Fullført med karakter A.",
-          "en": "Three-year bachelor's degree focusing on control engineering, robotics, autonomy, and intelligent systems. Relevant coursework includes physics, mathematics, programming, and system modeling. Graduated with grade A."
+          "no": "Treårig ingeniørutdanning i reguleringsteknikk, robotikk og autonomi, med matematikk, fysikk, programmering og systemmodellering i bunn. Snitt 4,5 av 5 (A), bacheloroppgave A.",
+          "en": "Three-year engineering degree in control engineering, robotics and autonomy, with mathematics, physics, programming and system modelling underneath. Grade average 4.5/5 (A), thesis grade A."
         }
       }
     ]
@@ -44,8 +44,8 @@
         "tag": { "no": "VGS", "en": "Secondary School" },
         "date": { "no": "Aug 2019 – Jun 2022", "en": "Aug 2019 – Jun 2022" },
         "desc": {
-          "no": "Studiespesialisering med fordypning i realfag, inkludert matematikk R1 og R2, fysikk 1 og 2, og teknologi og forskningslære.",
-          "en": "General studies specialization with focus on natural sciences, including Mathematics R1 and R2, Physics 1 and 2, and Technology and Research Studies."
+          "no": "Realfag: matematikk R1 og R2, fysikk 1 og 2 samt teknologi og forskningslære.",
+          "en": "Sciences: Mathematics R1 and R2, Physics 1 and 2, and Technology and Research Studies."
         }
       }
     ]

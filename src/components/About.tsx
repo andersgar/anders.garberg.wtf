@@ -1,7 +1,8 @@
 import { useLanguage } from "../context/LanguageContext";
+import { SKILL_GROUPS } from "../data/skills";
 
 export function About() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   return (
     <section id="about">
@@ -21,14 +22,18 @@ export function About() {
               <li>{t("highlight4")}</li>
             </ul>
             <h3>{t("skills")}</h3>
-            <div className="row">
-              <span className="tag">{t("controlSystems")}</span>
-              <span className="tag">{t("robotics")}</span>
-              <span className="tag">{t("autonomy")}</span>
-              <span className="tag">C++</span>
-              <span className="tag">Python</span>
-              <span className="tag">ROS 2</span>
-            </div>
+            {SKILL_GROUPS.map((group) => (
+              <div className="skill-group" key={group.label.en}>
+                <p className="skill-label">{group.label[lang]}</p>
+                <div className="row">
+                  {group.items.map((item) => (
+                    <span className="tag" key={item.en}>
+                      {item[lang]}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
