@@ -33,7 +33,7 @@ export const translations = {
     autonomy: "Autonomi",
     openToInternships: "\u00C5pen for deltid og sommerjobb \u00B7\u00A02027",
     heroDescription:
-      "Masterstudent i kybernetikk og robotikk med lidenskap for autonomi, navigasjon og regulering. Erfaring med ROS 2, simulering i NVIDIA Isaac Sim og industriell programvareutvikling. Tilgjengelig for deltidsjobb fra januar 2027 og sommerjobb i 2027, der jeg kan bidra til \u00E5 utvikle robuste, intelligente systemer.",
+      "Masterstudent i kybernetikk og robotikk. Jobber med autonomi, navigasjon og regulering. Erfaring med ROS 2, NVIDIA Isaac Sim og programvareutvikling i industrien. Ledig for deltidsjobb fra januar 2027 og sommerjobb i 2027.",
     heroSubtext:
       "Masterstudent i kybernetikk og robotikk ved NTNU. \u00C5pen for deltidsjobb fra januar 2027 og sommerjobb 2027.",
     quickFacts: "Kort om meg",
@@ -51,19 +51,19 @@ export const translations = {
 
     // About Section
     aboutText1:
-      "Masterstudent i Kybernetikk og robotikk ved NTNU, med fullf\u00F8rt bachelor i Automatisering og intelligente systemer. Jeg jobber med robotikk, autonomi og regulering, og har praktisk erfaring fra ROS 2-systemer, simulering i NVIDIA Isaac Sim og industriell programvareutvikling fra sommerjobb hos KONGSBERG.",
+      "Jeg er ingeniør innen robotikk og autonomi (B.Sc.) og tar nå master i kybernetikk og robotikk ved NTNU, studieretning roboter og fartøystyring. Jeg skriver programvare for autonome kjøretøy i C++ og ROS 2, fra sensorer og kommunikasjon om bord til operatørpanelet. Sommeren 2026 var jeg på KONGSBERGs Lone Wolf-prosjekt, der jeg laget operatørpanelet og lenken mellom panel og kjøretøy. Bacheloroppgaven min var et testmiljø for det samme kjøretøyet i NVIDIA Isaac Sim, som sommerteamet brukte.",
     aboutText2:
-      "P\u00E5 fritiden engasjerer jeg meg i studentfrivilligheten, blant annet i Marinor NTNU der jeg jobber med autonomistacken til et autonomt overflatefart\u00F8y. Jeg liker ogs\u00E5 \u00E5 utforske egne prosjekter, blant annet innen smarthus og home-lab, sm\u00E5 kodeprosjekter, 3D-printing og programmering av mikrokontrollere som ESP-familien.",
+      "Nå jobber jeg med ruteplanlegging og guidance for Marinor NTNUs autonome overflatefartøy Proteus. Jeg jobber smidig og testdrevet med Git, code review og CI. Det jeg liker best er å få hele systemet til å kjøre på ekte maskinvare. Hjemme har jeg en homelab og et smarthus som stadig får nye funksjoner. Ellers fikler jeg gjerne med 3D-printing og ESP-mikrokontrollere.",
     highlights: "Høydepunkter",
-    highlight1: "MSc-student i Kybernetikk og robotikk, NTNU",
-    highlight2: "ROS 2 • NVIDIA Isaac Sim • Regulering",
-    highlight3: "C/C++ • Python • MATLAB • PLS",
-    highlight4: "Ledelse + studentengasjement",
+    highlight1: "Master i kybernetikk og robotikk, NTNU, 2026-2028",
+    highlight2: "Sommerjobb hos KONGSBERG 2026: operatørpanelet til Lone Wolf",
+    highlight3: "Bacheloroppgave med KONGSBERG, karakter A.",
+    highlight4: "Autonomy Engineer i Marinor NTNU, fartøyet Proteus",
 
     // Contact Section
     letsStartSomething: "La oss starte noe bra",
     contactDesc:
-      "Send meg en e-post direkte eller bruk skjemaet. Jeg er \u00E5pen for deltidsjobb fra januar 2027, sommerjobb 2027, prosjekter og samarbeid.",
+      "Send meg en e-post eller bruk skjemaet. Jeg ser etter deltidsjobb fra januar 2027 og sommerjobb i 2027. Prosjekter og samarbeid hører jeg også gjerne om.",
     name: "Navn",
     email: "E-post",
     message: "Melding",
@@ -313,7 +313,7 @@ export const translations = {
     autonomy: "Autonomy",
     openToInternships: "Open to part-time & internships \u00B7\u00A02027",
     heroDescription:
-      "M.Sc. student in Cybernetics and Robotics, passionate about autonomy, navigation, and control. Hands-on experience with ROS 2, simulation in NVIDIA Isaac Sim, and industrial software development. Available part-time from January 2027 and for a 2027 summer internship, helping build resilient, intelligent systems.",
+      "M.Sc. student in Cybernetics and Robotics. I work on autonomy, navigation and control, with experience in ROS 2, NVIDIA Isaac Sim and industrial software development. Available part-time from January 2027 and for a summer internship in 2027.",
     heroSubtext:
       "M.Sc. student in Cybernetics and Robotics at NTNU. Open to part-time work from January 2027 and a 2027 summer internship.",
     quickFacts: "Quick facts",
@@ -331,19 +331,19 @@ export const translations = {
 
     // About Section
     aboutText1:
-      "M.Sc. student in Cybernetics and Robotics at NTNU, with a completed B.Sc. in Automation and Intelligent Systems. I work with robotics, autonomy, and control, with hands-on experience from ROS 2 systems, simulation in NVIDIA Isaac Sim, and industrial software development during my internship at KONGSBERG.",
+      "I'm a robotics and autonomy engineer (B.Sc.) now doing an M.Sc. in Cybernetics and Robotics at NTNU, specialising in robots and vehicle control. I write software for autonomous vehicles in C++ and ROS 2, from sensors and communication on board to the operator panel. In summer 2026 I worked on KONGSBERG's Lone Wolf project, where I built the operator panel and the link between panel and vehicle. My bachelor's thesis was a test environment for the same vehicle in NVIDIA Isaac Sim, which the summer team used.",
     aboutText2:
-      "In my free time, I am involved in student organizations, among them Marinor NTNU, where I work on the autonomy stack for an autonomous surface vessel. I also spend time on personal projects such as building a home-lab and smart home setup, various coding projects, 3D printing and programming microcontrollers like the ESP family.",
+      "I now work on route planning and guidance for Marinor NTNU's autonomous surface vessel Proteus. I work agile and test-driven with Git, code review and CI, and what I enjoy most is getting the whole system to run on real hardware. At home I run a homelab and a smart home that keep growing new features, and I like tinkering with 3D printing and ESP microcontrollers.",
     highlights: "Highlights",
-    highlight1: "MSc student, Cybernetics & Robotics, NTNU",
-    highlight2: "ROS 2 • NVIDIA Isaac Sim • Control",
-    highlight3: "C/C++ • Python • MATLAB • PLC",
-    highlight4: "Leadership + student involvement",
+    highlight1: "M.Sc. in Cybernetics and Robotics, NTNU, 2026-2028",
+    highlight2: "Summer intern at KONGSBERG 2026: the Lone Wolf operator panel",
+    highlight3: "Bachelor's thesis with KONGSBERG, grade A.",
+    highlight4: "Autonomy Engineer at Marinor NTNU, the vessel Proteus",
 
     // Contact Section
     letsStartSomething: "Let's start something great",
     contactDesc:
-      "Email me directly or use the form. I'm open to part-time work from January 2027, a 2027 summer internship, projects, and collaborations.",
+      "Send me an email, or use the form. I'm looking for part-time work from January 2027 and a summer internship in 2027, and I'm happy to hear about projects and collaborations.",
     name: "Name",
     email: "Email",
     message: "Message",
