@@ -75,7 +75,7 @@ export const translations = {
     metaTitle: "Anders Garberg - Kybernetikk og robotikk",
 
     // CV Path
-    cv: "/content/CV_AndersGarberg.pdf",
+    cv: "/content/CV_AndersGarberg_NOR.pdf",
 
     // Auth & Admin
     password: "Passord",
@@ -352,7 +352,7 @@ export const translations = {
     metaTitle: "Anders Garberg - Cybernetics & Robotics",
 
     // CV Path
-    cv: "/content/CV_AndersGarberg.pdf",
+    cv: "/content/CV_AndersGarberg_ENG.pdf",
 
     // Auth & Admin
     password: "Password",
