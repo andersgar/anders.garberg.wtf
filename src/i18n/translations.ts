@@ -170,7 +170,7 @@ export const translations = {
     infoScreensName: "Informize",
     infoScreensDescription: "Lag og administrer infoskjermer",
     vorslyName: "Vorsly",
-    vorslyDescription: "Drikkelekene til gjengen: Hesteveddeløp, Sinna onkel, Spin the berg, Vorskort og Terning.",
+    vorslyDescription: "Drikkelekene til gjengen",
     qrGeneratorName: "QR-generator",
     qrGeneratorDescription: "Lag og last ned QR-koder for lenker eller tekst.",
     qrGeneratorDescriptionShort: "Skriv tekst og få en nedlastbar QR-kode.",
@@ -452,7 +452,7 @@ export const translations = {
     infoScreensName: "Informize",
     infoScreensDescription: "Create and manage info screens",
     vorslyName: "Vorsly",
-    vorslyDescription: "The crew's drinking games: Hesteveddeløp, Sinna onkel, Spin the berg, Vorskort and Terning.",
+    vorslyDescription: "The crew's drinking games",
     qrGeneratorName: "QR Generator",
     qrGeneratorDescription:
       "Generate and download QR codes for any link or text.",
