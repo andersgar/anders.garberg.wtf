@@ -5,8 +5,8 @@
       "en": "Lone Wolf 2026: operator panel and vehicle link (KONGSBERG)"
     },
     "description": {
-      "no": "Sommerjobb hos KONGSBERG, jun-aug 2026, i et internteam på åtte som utviklet en ubemannet landplattform. Bygget operatørpanelet (ICS) i C++/Qt med native video, og linken mellom panel og kjøretøy: et lite, kuratert API over en peer-to-peer meldingsbuss med automatisk oppdagelse, deny-by-default-tillatelser, kontrollarbitrering og en fjernstopp som aldri kan oppheve en fysisk stopp.",
-      "en": "Summer intern at KONGSBERG, Jun-Aug 2026, in an eight-person team developing an unmanned ground vehicle. Built the operator panel (ICS) in C++/Qt with native video, and the panel-to-vehicle link: a small curated API over a peer-to-peer message bus with automatic discovery, deny-by-default permissions, control arbitration and a remote stop that can never clear a physical one."
+      "no": "Sommerjobb hos KONGSBERG, juni til august 2026, i et team på åtte studenter. Jeg var en av to på ICS-teamet og hadde hovedansvaret for backend på begge sider av lenken: en ROS 2-node i C++ på kjøretøyet med et avgrenset API over ZeroMQ og operatørpanelet i C++/Qt 6. Peer-to-peer over Tailscale, video som H.264 gjennom GStreamer og nødstopp som håndheves på kjøretøyet. Demonstrert for ledelsen fra en laptop på 5G.",
+      "en": "Summer internship at KONGSBERG, June to August 2026, in a team of eight students. I was one of two on the ICS team and had the main responsibility for the backend on both sides of the link: a ROS 2 node in C++ on the vehicle with a narrow API over ZeroMQ, and the operator panel in C++/Qt 6. Peer-to-peer over Tailscale, video as H.264 through GStreamer, and an emergency stop enforced on the vehicle. Demonstrated to management from a laptop on 5G."
     },
     "cta": {
       "no": "Les om prosjektet",
@@ -29,15 +29,15 @@
       "en": "BSc Thesis: Lone Wolf simulation and synthetic test environment"
     },
     "description": {
-      "no": "Bacheloroppgave levert våren 2026: bygget et modulært og konfigurerbart syntetisk testmiljø i NVIDIA Isaac Sim for Lone Wolf-UGVen, med ROS 2-konsistente grensesnitt (/clock, TF, topics), repeterbare scenarier og lukket-sløyfe-testing som reduserte avhengigheten av fysisk maskinvare. Utført i team på fire.",
-      "en": "BSc thesis delivered spring 2026: built a modular, configurable synthetic test environment in NVIDIA Isaac Sim for the Lone Wolf UGV, with consistent ROS 2 interfaces (/clock, TF, topics), repeatable scenario execution, and closed-loop testing that reduced dependency on physical hardware. Team of four."
+      "no": "Bacheloroppgave våren 2026, i gruppe på fire, karakter A: et testmiljø i NVIDIA Isaac Sim for Lone Wolf med de samme ROS 2-grensesnittene som den fysiske roboten, så scenarier kan kjøres om igjen uten tilgang til kjøretøyet. Min del var Isaac Sim-utvidelsen i Python som laster robotmodellen, setter opp sensorene og lar brukeren velge scenario. Validert mot målinger på roboten og brukt av sommerteamet 2026.",
+      "en": "Bachelor's thesis, spring 2026, in a group of four, grade A: a test environment in NVIDIA Isaac Sim for Lone Wolf with the same ROS 2 interfaces as the physical robot, so scenarios can be run again without access to the vehicle. My part was the Isaac Sim extension in Python that loads the robot model, sets up the sensors and lets the user pick a scenario. Validated against measurements on the robot and used by the 2026 summer team."
     },
     "cta": {
       "no": "Les om oppgaven",
       "en": "Read about the thesis"
     },
     "image": "/assets/projects/panther_i_isaac.png",
-    "mdPath":"/assets/projects/lone_wolf.md",
+    "mdPath": "/assets/projects/lone_wolf.md",
     "link": "https://garberg.wtf/lone-wolf",
     "extraLink": {
       "url": "https://nva.sikt.no/registration/019fdbfa5b5b-f2a75d0c-5d47-4efa-a779-18a72d807721",
@@ -53,8 +53,8 @@
       "en": "Informize (digital information screens)"
     },
     "description": {
-      "no": "Fullstack webapp for å lage og kjøre informasjonsskjermer (digital signage) med stabil skjermspiller, innholdstyper og tilgangsstyring. Bygget i React/Vite med Supabase (auth/DB) og strukturert domenemodell for å kunne utvide med nye widgets uten å skrive om avspilleren.",
-      "en": "Full-stack web app for building and running digital signage/public screens with a stable screen player, extendable content types, and access control. Built with React/Vite and Supabase (auth/DB), structured around a clean domain model so new widgets can be added without rewriting the player."
+      "no": "Webapp for å sette opp og kjøre informasjonsskjermer: en avspiller som skal stå på døgnet rundt, et redigeringsgrensesnitt og tilgangsstyring. React/Vite og Supabase. Nye widgets kan legges til uten å røre avspilleren.",
+      "en": "Web app for setting up and running information screens: a player that has to stay on around the clock, an editor and access control. React/Vite and Supabase. New widgets can be added without touching the player."
     },
     "cta": {
       "no": "Bruk appen",
@@ -69,8 +69,8 @@
       "en": "Personal website (garberg.wtf)"
     },
     "description": {
-      "no": "Oppdatert personlig nettside med portefølje, små verktøy og analytics. Bygget i React/Vite med Supabase for innlogging og statistikk, med fokus på rask navigasjon og enkel utvidelse av innhold.",
-      "en": "Refreshed personal site with portfolio, small tools, and analytics. Built in React/Vite with Supabase for authentication and stats, focused on fast navigation and easy content expansion."
+      "no": "Denne siden: portefølje, en app-portal og litt statistikk. React/Vite med Supabase for innlogging, bygget og publisert via GitHub Actions og Cloudflare Pages.",
+      "en": "This site: portfolio, an app portal and some statistics. React/Vite with Supabase for login, built and deployed through GitHub Actions and Cloudflare Pages."
     },
     "cta": {
       "no": "Se kildekode",
@@ -81,19 +81,20 @@
   },
   {
     "title": {
-      "no": "HomeLab på Raspberry Pi 5",
-      "en": "Homelab on Raspberry Pi 5"
+      "no": "Homelab og smarthus",
+      "en": "Homelab and smart home"
     },
     "description": {
-      "no": "Selvhostet lab på Pi 5 med Docker Compose, reverse proxy og monitoring. Kjører media- og nettverkstjenester, og brukes som sandkasse for infrastruktur, automasjon og drift.",
-      "en": "Self-hosted lab on a Pi 5 with Docker Compose, reverse proxying, and monitoring. Runs media/network services and doubles as a sandbox for infrastructure, automation, and ops."
+      "no": "To Raspberry Pi 5 og en NAS på Tailscale, med rundt tretti containere i Docker Compose: bildeserver, media, DNS, backup og Home Assistant. Smarthuset har egne integrasjoner, et dashbord for veggnettbrettet samt buss- og sparkesykkelkort som nå er publisert som HACS-kort.",
+      "en": "Two Raspberry Pi 5s and a NAS on Tailscale, with around thirty containers in Docker Compose: photo server, media, DNS, backups and Home Assistant. The smart home has custom integrations, a dashboard for a wall tablet, and bus and scooter cards that are now published as HACS cards."
     },
     "cta": {
-      "no": "Se oppsettet",
-      "en": "View setup"
+      "no": "Les om oppsettet",
+      "en": "Read about the setup"
     },
     "image": "/assets/projects/homelab.jpg",
-    "link": "https://garberg.wtf/homelab"
+    "mdPath": "/assets/projects/homelab.md",
+    "link": "https://github.com/andersgar/bus-board-card"
   },
   {
     "title": {
@@ -101,8 +102,8 @@
       "en": "Automation Project: Water Tank Control"
     },
     "description": {
-      "no": "Vanntank-rigg med sensorsett, regulatorer og simulering for tuning før fysisk implementasjon. Implementerte diskret PID/PI-D i PLS (ST) med tracking/anti-windup, derivatfilter og lead-lag foroverkobling; bygde lukket sløyfe med PLS + Simulink via OPC og modellering i MATLAB.",
-      "en": "Water-tank rig with sensors, controllers, and simulation for tuning before physical deployment. Implemented discrete PID/PI-D in PLC (Structured Text) with tracking/anti-windup, derivative filtering, and lead-lag feedforward; built a closed loop with PLC + Simulink via OPC and modelling in MATLAB."
+      "no": "Nivåregulering av en vanntank. Diskret PID i PLS (Structured Text) med anti-windup, derivatfilter og foroverkobling, simulert i lukket sløyfe mot Simulink via OPC og tunet med modeller fra MATLAB System Identification.",
+      "en": "Level control of a water tank. Discrete PID in a PLC (Structured Text) with anti-windup, a filtered derivative and feedforward, simulated in closed loop against Simulink over OPC and tuned with models from MATLAB System Identification."
     },
     "cta": {
       "no": "Les om oppgaven",

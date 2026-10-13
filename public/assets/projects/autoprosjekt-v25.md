@@ -1,7 +1,15 @@
-# Automation Project — Water Tank Control (Autoprosjekt V25)
+# Automation project: water tank control (Autoprosjekt V25)
 
-This project implements and validates closed-loop control for a laboratory water-tank rig, combining practical PLC control with simulation and data-driven modelling. The control system is implemented in a PLC using Structured Text, centered around a discrete-time PID/PI-D design with key robustness features such as tracking/bumpless transfer, anti-windup, derivative filtering, and lead–lag feedforward for disturbance compensation.
+Group project in 2025, part of a lab course in the bachelor's programme. The task was level control of a laboratory water tank rig, and the point was to do the whole chain properly: controller, simulation, model and report.
 
-To tune and evaluate controller performance before deployment, the project also establishes a simulation and test workflow by coupling PLC execution with Simulink through OPC communication. In parallel, system behaviour is modelled in MATLAB using system identification methods (including NLARX), supporting comparison between model predictions and measured response.
+## The controller
 
-The final result is a documented controller architecture, a verified closed-loop setup, and a report that covers design choices, signal flow, tuning approach, safety considerations, and reflections from integration testing.
+The controller runs in a PLC, written in Structured Text: a discrete-time PID/PI-D with tracking and bumpless transfer between manual and automatic, anti-windup, a filtered derivative and lead-lag feedforward to compensate for disturbances.
+
+## Simulation and modelling
+
+To tune the controller before touching the rig, we connected the PLC to Simulink over OPC and ran the loop closed in simulation, with the tank modelled in Simulink. In parallel we modelled the tank in MATLAB with system identification (including NLARX) from measured data, and compared the model's predictions with the measured response.
+
+## Delivery
+
+The controller, a verified closed-loop setup and a report covering the design choices, signal flow, tuning, safety considerations and what we learned from integration testing.
