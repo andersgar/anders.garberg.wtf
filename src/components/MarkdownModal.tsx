@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import ReactMarkdown from "react-markdown";
 import { X } from "@phosphor-icons/react";
 import { useMarkdownFile } from "../lib/useMarkdownFile";
@@ -21,7 +22,7 @@ export function MarkdownModal({
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className="md-modal-overlay" role="presentation" onClick={onClose}>
       <div
         className="md-modal"
@@ -38,7 +39,7 @@ export function MarkdownModal({
           </div>
           <button
             type="button"
-            className="md-modal__close"
+            className="theme-toggle"
             onClick={onClose}
             aria-label="Close"
           >
@@ -75,6 +76,7 @@ export function MarkdownModal({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

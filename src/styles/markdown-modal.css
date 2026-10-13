@@ -35,6 +35,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
+  min-width: 0;
 }
 
 .md-modal__eyebrow {
@@ -49,25 +50,6 @@
   margin: 0;
   font-size: 1.2rem;
   color: var(--fg);
-}
-
-.md-modal__close {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--fg);
-  border-radius: 0;
-  width: 38px;
-  height: 38px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
-}
-
-.md-modal__close:hover {
-  border-color: var(--brand);
-  color: var(--brand);
 }
 
 .md-modal__content {
@@ -161,10 +143,17 @@
   border-radius: 0;
 }
 
+/* Phones: the modal is a full-screen sheet instead of a centred card. */
 @media (max-width: 720px) {
+  .md-modal-overlay {
+    padding: 0;
+  }
+
   .md-modal {
-    max-height: 90vh;
-    border-radius: 0;
+    width: 100%;
+    height: 100dvh;
+    max-height: none;
+    border: 0;
   }
 
   .md-modal__header {
@@ -172,7 +161,8 @@
   }
 
   .md-modal__content {
-    padding: 1rem;
+    flex: 1;
+    padding: 1rem 1rem calc(1.5rem + env(safe-area-inset-bottom, 0));
   }
 }
 

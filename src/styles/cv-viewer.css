@@ -1,0 +1,120 @@
+/* Full-screen CV viewer: a bar with the actions, pages below. */
+.cv-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.cv-viewer__bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.cv-viewer__title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cv-viewer__title h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.cv-viewer__file {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cv-viewer__actions {
+  flex: none;
+  display: flex;
+  gap: 8px;
+}
+
+.cv-viewer__actions .btn {
+  height: 40px;
+  padding: 0 14px;
+}
+
+.cv-viewer__pages {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cv-viewer .react-pdf__Document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* A page is always white paper; the hairline keeps it visible in light mode. */
+.cv-viewer__page {
+  background: #fff;
+  outline: 1px solid var(--line);
+}
+
+.cv-viewer__skeleton {
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 1 / 1.414;
+  background: var(--surface-2);
+}
+
+.cv-viewer__error {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+  max-width: 420px;
+}
+
+.cv-viewer__error p {
+  margin: 0;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .cv-viewer__bar {
+    padding: 10px 16px;
+  }
+  .cv-viewer__pages,
+  .cv-viewer .react-pdf__Document {
+    padding: 16px;
+    gap: 16px;
+  }
+  .cv-viewer .react-pdf__Document {
+    padding: 0;
+  }
+  .cv-viewer__label {
+    display: none;
+  }
+  .cv-viewer__actions .btn {
+    width: 40px;
+    padding: 0;
+  }
+}
