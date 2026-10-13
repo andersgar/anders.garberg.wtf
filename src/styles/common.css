@@ -202,6 +202,11 @@ a {
   cursor: not-allowed;
 }
 
+/* Phone-only and everything-but-phone spans (hero labels). */
+.phone-only {
+  display: none;
+}
+
 /* Clamped descriptions: the arrow sits inline at the end of the cut line. */
 .clamp {
   margin: 0;
