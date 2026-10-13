@@ -20,7 +20,7 @@ const PERSON = {
   email: "anders@garberg.wtf",
   image: `${SITE}/assets/portrait.jpg`,
   ogImage: `${SITE}/assets/og.png`,
-  linkedin: "https://www.linkedin.com/in/anders-garberg-4214ba383",
+  linkedin: "https://www.linkedin.com/in/anders-garberg",
   github: "https://github.com/andersgar",
   thesis:
     "https://nva.sikt.no/registration/019fdbfa5b5b-f2a75d0c-5d47-4efa-a779-18a72d807721",
