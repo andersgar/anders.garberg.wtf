@@ -22,28 +22,37 @@ export function SectionRail() {
   const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
-    const sections = SECTIONS.map((s) => document.getElementById(s.id)).filter(
-      (el): el is HTMLElement => el !== null
-    );
+    const sections = SECTIONS.flatMap((s) => {
+      const el = document.getElementById(s.id);
+      return el ? [{ id: s.id as string, el }] : [];
+    });
     if (sections.length === 0) return;
 
-    // A section is "in band" while it crosses 35-45% down the viewport. When
-    // several are (side-by-side layouts), the first in document order wins.
-    const inBand = new Set<string>();
-    const spy = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) inBand.add(entry.target.id);
-          else inBand.delete(entry.target.id);
-        }
-        const first = SECTIONS.find((s) => inBand.has(s.id));
-        setActive(first ? first.id : null);
-      },
-      { rootMargin: "-35% 0px -55% 0px", threshold: 0 }
-    );
-    sections.forEach((el) => spy.observe(el));
-
-    return () => spy.disconnect();
+    // The active section is the last one whose top has passed a line 40% down
+    // the viewport. Unlike an "in view" test this never goes empty between
+    // sections, so the rail does not blink when something unlisted (education,
+    // a toggle, a gap) sits at that line.
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const line = window.innerHeight * 0.4;
+      let current: string | null = null;
+      for (const s of sections) {
+        if (s.el.getBoundingClientRect().top <= line) current = s.id;
+      }
+      setActive(current);
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   const activeIndex = SECTIONS.findIndex((s) => s.id === active);
