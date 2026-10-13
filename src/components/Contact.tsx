@@ -74,7 +74,7 @@ export function Contact() {
               <dt>LinkedIn</dt>
               <dd>
                 <a
-                  href="https://www.linkedin.com/in/anders-garberg-4214ba383"
+                  href="https://www.linkedin.com/in/anders-garberg"
                   target="_blank"
                   rel="noreferrer noopener"
                 >
