@@ -1,12 +1,19 @@
-import { DownloadSimple } from "@phosphor-icons/react";
+import { lazy, Suspense, useCallback, useState } from "react";
+import { FileText } from "@phosphor-icons/react";
 import { useLanguage } from "../context/LanguageContext";
 import { useProfile } from "../context/ProfileContext";
 import { translations } from "../i18n/translations";
-import { trackCVDownload } from "../lib/analytics";
+
+// pdf.js is only loaded once someone opens the CV.
+const CvViewer = lazy(() =>
+  import("./CvViewer").then((m) => ({ default: m.CvViewer }))
+);
 
 export function Hero() {
   const { t, lang } = useLanguage();
   const { profile } = useProfile();
+  const [showCv, setShowCv] = useState(false);
+  const closeCv = useCallback(() => setShowCv(false), []);
 
   // Easter egg: Check if the logged-in user is Anders Garberg
   const isAnders = profile?.email?.toLowerCase() === "anders@garberg.wtf";
@@ -24,15 +31,14 @@ export function Hero() {
           </h1>
           <p className="hero-sub">{t("heroSubtext")}</p>
           <div className="hero-cta">
-            <a
+            <button
+              type="button"
               className="btn"
-              href={translations[lang].cv}
-              download
-              onClick={() => trackCVDownload()}
+              onClick={() => setShowCv(true)}
             >
-              <DownloadSimple aria-hidden="true" />
-              {t("downloadCV")}
-            </a>
+              <FileText aria-hidden="true" />
+              {t("viewCV")}
+            </button>
             <a className="btn ghost" href="#contact">
               {t("contact")}
             </a>
@@ -50,6 +56,12 @@ export function Hero() {
           />
         </figure>
       </div>
+
+      {showCv && (
+        <Suspense fallback={<div className="cv-viewer" aria-busy="true" />}>
+          <CvViewer src={translations[lang].cv} onClose={closeCv} />
+        </Suspense>
+      )}
     </header>
   );
 }

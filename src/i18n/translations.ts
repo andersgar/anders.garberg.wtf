@@ -44,6 +44,8 @@ export const translations = {
     factLinks: "Lenker",
     factLocation: "Sted",
     downloadCV: "Last ned CV",
+    viewCV: "Se CV",
+    cvLoadError: "Kunne ikke vise CV-en her. Last den ned i stedet.",
     emailMe: "Send meg en e-post",
     readMore: "Les mer",
 
@@ -322,6 +324,8 @@ export const translations = {
     factLinks: "Links",
     factLocation: "Location",
     downloadCV: "Download CV",
+    viewCV: "View CV",
+    cvLoadError: "The CV could not be shown here. Download it instead.",
     emailMe: "Email me",
     readMore: "Read more",
 
