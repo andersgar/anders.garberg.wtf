@@ -39,7 +39,7 @@ export function MarkdownModal({
           </div>
           <button
             type="button"
-            className="md-modal__close"
+            className="theme-toggle"
             onClick={onClose}
             aria-label="Close"
           >

@@ -35,6 +35,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
+  min-width: 0;
 }
 
 .md-modal__eyebrow {
@@ -49,25 +50,6 @@
   margin: 0;
   font-size: 1.2rem;
   color: var(--fg);
-}
-
-.md-modal__close {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--fg);
-  border-radius: 0;
-  width: 38px;
-  height: 38px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
-}
-
-.md-modal__close:hover {
-  border-color: var(--brand);
-  color: var(--brand);
 }
 
 .md-modal__content {
