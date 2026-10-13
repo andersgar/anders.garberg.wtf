@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Document, Page, pdfjs } from "react-pdf";
 import { DownloadSimple, X } from "@phosphor-icons/react";
 import { useLanguage } from "../context/LanguageContext";
@@ -71,7 +72,7 @@ export function CvViewer({ src, onClose }: CvViewerProps) {
     />
   );
 
-  return (
+  return createPortal(
     <div
       className="cv-viewer"
       role="dialog"
@@ -134,6 +135,7 @@ export function CvViewer({ src, onClose }: CvViewerProps) {
           </Document>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

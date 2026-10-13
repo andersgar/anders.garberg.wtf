@@ -161,10 +161,17 @@
   border-radius: 0;
 }
 
+/* Phones: the modal is a full-screen sheet instead of a centred card. */
 @media (max-width: 720px) {
+  .md-modal-overlay {
+    padding: 0;
+  }
+
   .md-modal {
-    max-height: 90vh;
-    border-radius: 0;
+    width: 100%;
+    height: 100dvh;
+    max-height: none;
+    border: 0;
   }
 
   .md-modal__header {
@@ -172,7 +179,8 @@
   }
 
   .md-modal__content {
-    padding: 1rem;
+    flex: 1;
+    padding: 1rem 1rem calc(1.5rem + env(safe-area-inset-bottom, 0));
   }
 }
 
