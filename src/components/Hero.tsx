@@ -39,6 +39,9 @@ export function Hero() {
               <FileText aria-hidden="true" />
               {t("viewCV")}
             </button>
+            <a className="btn ghost" href="#about">
+              {t("about")}
+            </a>
             <a className="btn ghost" href="#contact">
               {t("contact")}
             </a>
