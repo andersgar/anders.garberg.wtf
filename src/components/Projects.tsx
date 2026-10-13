@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight } from "@phosphor-icons/react";
 import { useLanguage } from "../context/LanguageContext";
 import { MarkdownModal } from "./MarkdownModal";
+import { ClampText } from "./ClampText";
 
 interface LangText {
   no: string;
@@ -64,7 +65,7 @@ export function Projects() {
               </div>
               <div className="project-body">
                 <h3>{getText(project.title)}</h3>
-                <p>{getText(project.description)}</p>
+                <ClampText text={getText(project.description)} lines={4} />
                 <div className="project-actions">
                   {project.mdPath ? (
                     <button

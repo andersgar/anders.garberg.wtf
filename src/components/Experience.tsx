@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { CaretDown, CaretUp } from "@phosphor-icons/react";
 import { useLanguage } from "../context/LanguageContext";
+import { ClampText } from "./ClampText";
 
 interface LangText {
   no: string;
@@ -77,7 +78,7 @@ export function Experience() {
         <h4>{getText(pos.title)}</h4>
         <span className="tag">{getText(pos.tag)}</span>
       </div>
-      <div className="desc">{getText(pos.desc)}</div>
+      <ClampText className="desc" text={getText(pos.desc)} />
     </div>
   );
 

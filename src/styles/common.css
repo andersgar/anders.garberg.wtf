@@ -202,6 +202,35 @@ a {
   cursor: not-allowed;
 }
 
+/* Clamped descriptions: the arrow sits inline at the end of the cut line. */
+.clamp {
+  margin: 0;
+}
+.clamp-toggle {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.1em;
+  vertical-align: baseline;
+  margin-left: 0.15em;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+/* The icon's drawn arrow ends above its box, so it is pulled down until its
+   tip sits on the same line as the dots. */
+.clamp-toggle svg {
+  font-size: 1.5em;
+  transform: translateY(0.06em);
+}
+.clamp-toggle[hidden] {
+  display: none;
+}
+
 /* Square 40px icon button. Hover inverts. Class name kept for the dashboard. */
 .theme-toggle {
   background: transparent;
