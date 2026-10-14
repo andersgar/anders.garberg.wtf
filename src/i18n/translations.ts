@@ -33,9 +33,9 @@ export const translations = {
     autonomy: "Autonomi",
     openToInternships: "\u00C5pen for deltid og sommerjobb \u00B7\u00A02027",
     heroDescription:
-      "Masterstudent i kybernetikk og robotikk. Jobber med autonomi, navigasjon og regulering. Erfaring med ROS 2, NVIDIA Isaac Sim og programvareutvikling i industrien. Ledig for deltidsjobb fra januar 2027 og sommerjobb i 2027.",
+      "Masterstudent i kybernetikk og robotikk. Jobber med autonomi, navigasjon og regulering. Erfaring med ROS 2, NVIDIA Isaac Sim og programvareutvikling i industrien. Ledig for deltidsjobb fortløpende og sommerjobb i 2027.",
     heroSubtext:
-      "Masterstudent i kybernetikk og robotikk ved NTNU. \u00C5pen for deltidsjobb fra januar 2027 og sommerjobb 2027.",
+      "Masterstudent i kybernetikk og robotikk ved NTNU. \u00C5pen for deltidsjobb ved siden av studiene og sommerjobb 2027.",
     quickFacts: "Kort om meg",
     onThisPage: "På denne siden",
     themeToggle: "Bytt mellom lys og m\u00F8rk modus",
@@ -63,7 +63,7 @@ export const translations = {
     // Contact Section
     letsStartSomething: "La oss starte noe bra",
     contactDesc:
-      "Send meg en e-post eller bruk skjemaet. Jeg ser etter deltidsjobb fra januar 2027 og sommerjobb i 2027. Prosjekter og samarbeid hører jeg også gjerne om.",
+      "Send meg en e-post eller bruk skjemaet. Jeg ser etter deltidsjobb ved siden av studiet og sommerjobb i 2027. Gjerne ta kontakt om prosjekter og samarbeid, jeg hører gjerne fra deg.",
     name: "Navn",
     email: "E-post",
     message: "Melding",
@@ -317,9 +317,9 @@ export const translations = {
     autonomy: "Autonomy",
     openToInternships: "Open to part-time & internships \u00B7\u00A02027",
     heroDescription:
-      "M.Sc. student in Cybernetics and Robotics. I work on autonomy, navigation and control, with experience in ROS 2, NVIDIA Isaac Sim and industrial software development. Available part-time from January 2027 and for a summer internship in 2027.",
+      "M.Sc. student in Cybernetics and Robotics. I work on autonomy, navigation and control, with experience in ROS 2, NVIDIA Isaac Sim and industrial software development. Available part-time and for a summer internship in 2027.",
     heroSubtext:
-      "M.Sc. student in Cybernetics and Robotics at NTNU. Open to part-time work from January 2027 and a 2027 summer internship.",
+      "M.Sc. student in Cybernetics and Robotics at NTNU. Open to part-time work on the side and a 2027 summer internship.",
     quickFacts: "Quick facts",
     onThisPage: "On this page",
     themeToggle: "Toggle light and dark mode",
@@ -347,7 +347,7 @@ export const translations = {
     // Contact Section
     letsStartSomething: "Let's start something great",
     contactDesc:
-      "Send me an email, or use the form. I'm looking for part-time work from January 2027 and a summer internship in 2027, and I'm happy to hear about projects and collaborations.",
+      "Send me an email, or use the form. I'm looking for part-time work besides my studies and a summer internship in 2027, and I'm happy to hear about projects and collaborations.",
     name: "Name",
     email: "Email",
     message: "Message",
