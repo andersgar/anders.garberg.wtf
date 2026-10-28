@@ -5,12 +5,8 @@ import {
   DownloadSimple,
   EnvelopeSimple,
   Eye,
-  EyeSlash,
   FileArrowDown,
-  PencilSimple,
-  Plus,
   ShieldCheck,
-  SquaresFour,
   User,
   Users,
   WarningCircle,
@@ -20,7 +16,7 @@ import { AppIcon, Spinner } from "../lib/icons";
 import { Navigation, NavSpacer } from "../components/Navigation";
 import { Footer } from "../components/Footer";
 import { Contact } from "../components/Contact";
-import { AppModal } from "../components/AppModal";
+import { Homelab } from "../components/Homelab";
 import { useLanguage } from "../context/LanguageContext";
 import { useProfile } from "../context/ProfileContext";
 import { useAuth } from "../context/AuthContext";
@@ -28,12 +24,11 @@ import { getAnalytics, AnalyticsStats } from "../lib/analytics";
 import {
   getAllProfiles,
   updateAccessLevel,
-  updateApps,
-  updateUserApps,
   Profile,
   AccessLevel,
 } from "../lib/profiles";
 import { UserApp, getAppById, ensureProtocol } from "../lib/apps";
+import "../styles/app-modal.css";
 import "../styles/dashboard.css";
 import { QRCodeSVG } from "qrcode.react";
 
@@ -45,20 +40,9 @@ export function DashboardPage() {
   const [qrBgColor, setQrBgColor] = useState("#ffffff");
   const [qrSize, setQrSize] = useState(192);
   const qrRef = useRef<SVGSVGElement | null>(null);
-  const [showHidden, setShowHidden] = useState(false);
-  const [manageOwnApps, setManageOwnApps] = useState(false);
   const { t } = useLanguage();
-  const { profile, refreshProfile, hasAccess } = useProfile();
+  const { profile, hasAccess } = useProfile();
   const { user, isAuthenticated } = useAuth();
-
-  // App modal state
-  const [isAppModalOpen, setIsAppModalOpen] = useState(false);
-  const [editingApp, setEditingApp] = useState<UserApp | null>(null);
-
-  // Admin user app editing state
-  const [editingUserId, setEditingUserId] = useState<string | null>(null);
-  const [editingUserApps, setEditingUserApps] = useState<UserApp[]>([]);
-  const [editingUserName, setEditingUserName] = useState<string>("");
 
   // Admin state
   const [stats, setStats] = useState<AnalyticsStats | null>(null);
@@ -72,6 +56,8 @@ export function DashboardPage() {
   >(null);
 
   const isAdmin = hasAccess("admin");
+  // Only the owner gets the homelab dashboard (it only loads on the tailnet anyway).
+  const isOwner = hasAccess("owner");
   const handleDownloadQr = () => {
     if (!qrRef.current) return;
     const serializer = new XMLSerializer();
@@ -157,15 +143,6 @@ export function DashboardPage() {
     return colors[level];
   };
 
-  // App management functions
-  const userApps = profile?.apps || [];
-  const visibleApps = userApps
-    .filter((app) => app.visible)
-    .sort((a, b) => a.order - b.order);
-  const displayedApps = (showHidden ? userApps : visibleApps).sort(
-    (a, b) => a.order - b.order
-  );
-
   // Recommended Apps: all custom apps (appId === 'custom')
   // Add QR generator app to recommended apps
   const qrApp = {
@@ -197,130 +174,6 @@ export function DashboardPage() {
   };
   // Recommended apps are explicitly curated.
   const recommendedApps = [infoScreensApp, vorslyApp, qrApp];
-
-  const handleOpenAddApp = () => {
-    if (!isAuthenticated) return;
-    setEditingApp(null);
-    setIsAppModalOpen(true);
-  };
-
-  const handleOpenManageOwnApps = () => {
-    setManageOwnApps(true);
-    setEditingApp(null);
-    setIsAppModalOpen(true);
-  };
-
-  const handleEditApp = (app: UserApp) => {
-    setEditingApp(app);
-    setIsAppModalOpen(true);
-  };
-
-  const handleSaveApp = async (app: UserApp) => {
-    const existingIndex = userApps.findIndex((a) => a.id === app.id);
-    let newApps: UserApp[];
-
-    if (existingIndex >= 0) {
-      // Update existing app
-      newApps = userApps.map((a) => (a.id === app.id ? app : a));
-    } else {
-      // Add new app with order at end
-      newApps = [...userApps, { ...app, order: userApps.length }];
-    }
-
-    const success = await updateApps(newApps);
-    if (success) {
-      refreshProfile();
-    }
-  };
-
-  const handleDeleteApp = async (appId: string) => {
-    const newApps = userApps
-      .filter((a) => a.id !== appId)
-      .map((app, index) => ({ ...app, order: index })); // Reorder
-
-    const success = await updateApps(newApps);
-    if (success) {
-      refreshProfile();
-    }
-  };
-
-  const handleReorderOwnApps = async (apps: UserApp[]) => {
-    const reIndexed = apps.map((app, index) => ({ ...app, order: index }));
-    const success = await updateApps(reIndexed);
-    if (success) {
-      refreshProfile();
-    }
-  };
-
-  // Admin user app editing functions
-  const handleEditUserApps = (targetUser: Profile) => {
-    setEditingUserId(targetUser.id);
-    setEditingUserApps(targetUser.apps || []);
-    setEditingUserName(targetUser.full_name || targetUser.email || "User");
-    setEditingApp(null);
-    setIsAppModalOpen(true);
-  };
-
-  const handleSaveUserApp = async (app: UserApp) => {
-    if (!editingUserId) return;
-
-    const existingIndex = editingUserApps.findIndex((a) => a.id === app.id);
-    let newApps: UserApp[];
-
-    if (existingIndex >= 0) {
-      newApps = editingUserApps.map((a) => (a.id === app.id ? app : a));
-    } else {
-      newApps = [...editingUserApps, { ...app, order: editingUserApps.length }];
-    }
-
-    const success = await updateUserApps(editingUserId, newApps);
-    if (success) {
-      setEditingUserApps(newApps);
-      // Update local users state
-      setUsers(
-        users.map((u) => (u.id === editingUserId ? { ...u, apps: newApps } : u))
-      );
-    }
-  };
-
-  const handleDeleteUserApp = async (appId: string) => {
-    if (!editingUserId) return;
-
-    const newApps = editingUserApps
-      .filter((a) => a.id !== appId)
-      .map((app, index) => ({ ...app, order: index }));
-
-    const success = await updateUserApps(editingUserId, newApps);
-    if (success) {
-      setEditingUserApps(newApps);
-      setUsers(
-        users.map((u) => (u.id === editingUserId ? { ...u, apps: newApps } : u))
-      );
-    }
-  };
-
-  const handleReorderUserApps = async (apps: UserApp[]) => {
-    if (!editingUserId) return;
-    const reIndexed = apps.map((app, index) => ({ ...app, order: index }));
-    const success = await updateUserApps(editingUserId, reIndexed);
-    if (success) {
-      setEditingUserApps(reIndexed);
-      setUsers(
-        users.map((u) =>
-          u.id === editingUserId ? { ...u, apps: reIndexed } : u
-        )
-      );
-    }
-  };
-
-  const handleCloseModal = () => {
-    setIsAppModalOpen(false);
-    setEditingUserId(null);
-    setEditingUserApps([]);
-    setEditingUserName("");
-    setEditingApp(null);
-    setManageOwnApps(false);
-  };
 
   const getAppDisplay = (app: UserApp) => {
     const appDef = getAppById(app.appId);
@@ -372,134 +225,11 @@ export function DashboardPage() {
                 : t("dashboardSubtitleLoggedOut")}
             </p>
           </header>
-          {isAuthenticated && (
-          <section className="dashboard-section" id="apps">
-            <div className="apps-header">
-              <h2>{t("yourApps")}</h2>
-              <div className="apps-actions">
-                <button
-                  type="button"
-                  className="apps-action-btn"
-                  onClick={handleOpenManageOwnApps}
-                  aria-label={t("edit")}
-                  title={t("edit")}
-                  disabled={!isAuthenticated}
-                >
-                  <PencilSimple aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  className={`apps-action-btn ${showHidden ? "active" : ""}`}
-                  onClick={() => setShowHidden((v) => !v)}
-                  aria-label={showHidden ? t("hide") : t("showHidden")}
-                  title={showHidden ? t("hide") : t("showHidden")}
-                  disabled={!isAuthenticated}
-                >
-                  {showHidden ? (
-                    <Eye aria-hidden="true" />
-                  ) : (
-                    <EyeSlash aria-hidden="true" />
-                  )}
-                </button>
-              </div>
-            </div>
-            <div className="app-grid">
-              {!isAuthenticated && displayedApps.length === 0 ? (
-                <div className="app-tile app-placeholder" aria-hidden="true">
-                  <div className="app-placeholder-text">
-                    <span className="app-placeholder-sub">
-                      {t("loginToEdit")}
-                    </span>
-                  </div>
-                </div>
-              ) : displayedApps.length === 0 ? (
-                <div className="app-grid-empty">
-                  <SquaresFour aria-hidden="true" />
-                  <p>{t("noAppsYet")}</p>
-                  <span>{t("addApp")}</span>
-                </div>
-              ) : (
-                displayedApps.map((app) => {
-                  const display = getAppDisplay(app);
-                  const isHidden = !app.visible;
-                  if (app.appId === "qr_app") {
-                    return (
-                      <button
-                        key={app.id}
-                        className={`app-tile ${
-                          isHidden ? "app-tile-hidden" : ""
-                        }`}
-                        style={
-                          {
-                            "--app-color": display.color,
-                          } as React.CSSProperties
-                        }
-                        onClick={() => setShowQrModal(true)}
-                        onContextMenu={(e) => {
-                          if (!isAuthenticated) return;
-                          e.preventDefault();
-                          handleEditApp(app);
-                        }}
-                      >
-                        <div className="app-tile-icon">
-                          <AppIcon icon={display.icon} alt={display.name} />
-                        </div>
-                        <span className="app-tile-name">{display.name}</span>
-                      </button>
-                    );
-                  }
-                  return (
-                    <a
-                      key={app.id}
-                      href={ensureProtocol(app.url)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="app-tile"
-                      style={
-                        { "--app-color": display.color } as React.CSSProperties
-                      }
-                      onClick={(e) => {
-                        if (!isAuthenticated) return;
-                        if (e.ctrlKey || e.metaKey) {
-                          e.preventDefault();
-                          handleEditApp(app);
-                        }
-                      }}
-                      onContextMenu={(e) => {
-                        if (!isAuthenticated) return;
-                        e.preventDefault();
-                        handleEditApp(app);
-                      }}
-                    >
-                      <div className="app-tile-icon">
-                        <AppIcon icon={display.icon} alt={display.name} />
-                      </div>
-                      <span className="app-tile-name">{display.name}</span>
-                    </a>
-                  );
-                })
-              )}
-              {isAuthenticated && (
-                <button
-                  className="app-tile app-tile-add"
-                  onClick={handleOpenAddApp}
-                  style={
-                    { "--app-color": "var(--muted)" } as React.CSSProperties
-                  }
-                >
-                  <div className="app-tile-icon">
-                    <Plus aria-hidden="true" />
-                  </div>
-                  <span className="app-tile-name">{t("addApp")}</span>
-                </button>
-              )}
-            </div>
-          </section>
-          )}
+          {isOwner && <Homelab />}
           {recommendedApps.length > 0 && (
             <section
               className="dashboard-section"
-              id={isAuthenticated ? undefined : "apps"}
+              id={isOwner ? undefined : "apps"}
             >
               <h2>{t("recommendedApps")}</h2>
               <div className="app-grid">
@@ -587,16 +317,6 @@ export function DashboardPage() {
                       style={
                         { "--app-color": display.color } as React.CSSProperties
                       }
-                      onClick={(e) => {
-                        if (e.ctrlKey || e.metaKey) {
-                          e.preventDefault();
-                          handleEditApp(app);
-                        }
-                      }}
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        handleEditApp(app);
-                      }}
                     >
                       <div className="app-tile-icon">
                         <AppIcon icon={display.icon} alt={display.name} />
@@ -718,7 +438,6 @@ export function DashboardPage() {
                         <th>{t("email")}</th>
                         <th>{t("accessLevel")}</th>
                         <th>{t("memberSince")}</th>
-                        <th>{t("actions")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -784,16 +503,6 @@ export function DashboardPage() {
                             )}
                           </td>
                           <td>{new Date(u.created_at).toLocaleDateString()}</td>
-                          <td>
-                            <button
-                              className="admin-action-btn"
-                              onClick={() => handleEditUserApps(u)}
-                              title={t("editUserApps")}
-                            >
-                              <SquaresFour aria-hidden="true" />
-                              <span>{(u.apps || []).length}</span>
-                            </button>
-                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -925,34 +634,6 @@ export function DashboardPage() {
           </div>
         </div>
       )}
-
-      <AppModal
-        isOpen={isAppModalOpen}
-        onClose={handleCloseModal}
-        onSave={editingUserId ? handleSaveUserApp : handleSaveApp}
-        onDelete={editingUserId ? handleDeleteUserApp : handleDeleteApp}
-        editingApp={editingApp}
-        existingAppIds={(editingUserId ? editingUserApps : userApps).map(
-          (a) => a.appId
-        )}
-        adminEditingUser={
-          editingUserId
-            ? editingUserName
-            : manageOwnApps
-            ? displayName || t("yourApps")
-            : undefined
-        }
-        adminUserApps={
-          editingUserId ? editingUserApps : manageOwnApps ? userApps : undefined
-        }
-        onReorderUserApps={
-          editingUserId
-            ? handleReorderUserApps
-            : manageOwnApps
-            ? handleReorderOwnApps
-            : undefined
-        }
-      />
 
       {logModal && (
         <div className="app-modal-overlay" onClick={() => setLogModal(null)}>
