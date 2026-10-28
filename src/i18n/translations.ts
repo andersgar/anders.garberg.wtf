@@ -94,6 +94,10 @@ export const translations = {
     dashboardSubtitleLoggedIn: "Velkommen tilbake til dashbordet",
     dashboardSubtitleLoggedOut: "Logg inn for å tilpasse dashbordet",
     recommendedApps: "Apper laget av meg",
+    homelab: "Homelab",
+    homelabTailnetOnly: "Bare tilgjengelig på tailnettet.",
+    homelabBlocked:
+      "Nettleseren hindrer siden i å nå tailnettet. Tillat lokal nettverkstilgang for garberg.wtf i nettstedsinnstillingene (hengelåsen ved adressefeltet).",
     quickActions: "Hurtighandlinger",
     viewAboutPage: "Se om meg-siden",
     aboutMe: "Om meg",
@@ -354,6 +358,10 @@ export const translations = {
     dashboardSubtitleLoggedIn: "Welcome back to your dashboard",
     dashboardSubtitleLoggedOut: "Log in to personalize your dashboard",
     recommendedApps: "Apps made by me",
+    homelab: "Homelab",
+    homelabTailnetOnly: "Only available on the tailnet.",
+    homelabBlocked:
+      "Your browser is stopping this site from reaching the tailnet. Allow local network access for garberg.wtf in the site settings (the lock next to the address bar).",
     quickActions: "Quick Actions",
     viewAboutPage: "View About Page",
     aboutMe: "About Me",

@@ -16,6 +16,7 @@ import { AppIcon, Spinner } from "../lib/icons";
 import { Navigation, NavSpacer } from "../components/Navigation";
 import { Footer } from "../components/Footer";
 import { Contact } from "../components/Contact";
+import { Homelab } from "../components/Homelab";
 import { useLanguage } from "../context/LanguageContext";
 import { useProfile } from "../context/ProfileContext";
 import { useAuth } from "../context/AuthContext";
@@ -55,6 +56,8 @@ export function DashboardPage() {
   >(null);
 
   const isAdmin = hasAccess("admin");
+  // Only the owner gets the homelab dashboard (it only loads on the tailnet anyway).
+  const isOwner = hasAccess("owner");
   const handleDownloadQr = () => {
     if (!qrRef.current) return;
     const serializer = new XMLSerializer();
@@ -222,10 +225,11 @@ export function DashboardPage() {
                 : t("dashboardSubtitleLoggedOut")}
             </p>
           </header>
+          {isOwner && <Homelab />}
           {recommendedApps.length > 0 && (
             <section
               className="dashboard-section"
-              id="apps"
+              id={isOwner ? undefined : "apps"}
             >
               <h2>{t("recommendedApps")}</h2>
               <div className="app-grid">
