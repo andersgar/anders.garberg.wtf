@@ -8,7 +8,7 @@ import "../styles/qr-generator.css";
 
 export function QRGeneratorPage() {
   const { t } = useLanguage();
-  const [input, setInput] = useState("https://garberg.wtf");
+  const [input, setInput] = useState("https://garberg.tech");
   const [focused, setFocused] = useState(false);
   const qrRef = useRef<SVGSVGElement | null>(null);
 

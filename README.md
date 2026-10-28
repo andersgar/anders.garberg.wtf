@@ -2,7 +2,7 @@
 
 # anders.garberg.wtf
 
-Portfolio and app dashboard for Anders Garberg. Live at [garberg.wtf](https://garberg.wtf).
+Portfolio and app dashboard for Anders Garberg. Live at [garberg.tech](https://garberg.tech).
 
 React 18, TypeScript, Vite 6. Supabase for auth, profiles and analytics. Netlify for hosting.
 

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /auth/
 
-Sitemap: https://garberg.wtf/sitemap.xml
+Sitemap: https://garberg.tech/sitemap.xml

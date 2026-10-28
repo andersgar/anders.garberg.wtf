@@ -12,7 +12,7 @@ import type { Plugin } from "vite";
 import { translations, type Language } from "../src/i18n/translations";
 import { SKILL_GROUPS } from "../src/data/skills";
 
-const SITE = "https://garberg.wtf";
+const SITE = "https://garberg.tech";
 
 const PERSON = {
   name: "Anders Garberg",

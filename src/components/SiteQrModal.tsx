@@ -5,7 +5,7 @@ import { X } from "@phosphor-icons/react";
 import { useLanguage } from "../context/LanguageContext";
 import "../styles/markdown-modal.css";
 
-const SITE_URL = "https://garberg.wtf";
+const SITE_URL = "https://garberg.tech";
 
 interface SiteQrModalProps {
   onClose: () => void;
@@ -41,7 +41,7 @@ export function SiteQrModal({ onClose }: SiteQrModalProps) {
       >
         <div className="md-modal__header">
           <div className="md-modal__title">
-            <p className="md-modal__eyebrow">garberg.wtf</p>
+            <p className="md-modal__eyebrow">garberg.tech</p>
             <h2 id="siteQrTitle">{t("siteQr")}</h2>
           </div>
           <button

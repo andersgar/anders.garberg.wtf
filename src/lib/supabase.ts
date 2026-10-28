@@ -11,11 +11,26 @@ type AuthStorage = {
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const cookieDomain = import.meta.env.VITE_AUTH_COOKIE_DOMAIN?.trim();
 
 if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error("Missing Supabase environment variables");
 }
+
+const isBrowser = typeof window !== "undefined" && typeof document !== "undefined";
+
+// VITE_AUTH_COOKIE_DOMAIN may list several domains (".garberg.tech,.garberg.wtf"). The browser drops a cookie whose
+// Domain doesn't cover the current host, so use the one this page is served under, or a host-only cookie if none fits.
+const cookieDomain = (() => {
+  if (!isBrowser) return undefined;
+  const host = window.location.hostname;
+  return (import.meta.env.VITE_AUTH_COOKIE_DOMAIN ?? "")
+    .split(",")
+    .map((domain: string) => domain.trim())
+    .find((domain: string) => {
+      const bare = domain.replace(/^\./, "");
+      return bare !== "" && (host === bare || host.endsWith(`.${bare}`));
+    });
+})();
 
 const authStorageKey = (() => {
   try {
@@ -27,7 +42,6 @@ const authStorageKey = (() => {
   }
 })();
 
-const isBrowser = typeof window !== "undefined" && typeof document !== "undefined";
 const shouldUseSecureCookie = () =>
   isBrowser && window.location.protocol === "https:";
 

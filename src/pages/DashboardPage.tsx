@@ -35,7 +35,7 @@ import { QRCodeSVG } from "qrcode.react";
 export function DashboardPage() {
   // QR modal state
   const [showQrModal, setShowQrModal] = useState(false);
-  const [qrValue, setQrValue] = useState("https://garberg.wtf");
+  const [qrValue, setQrValue] = useState("https://garberg.tech");
   const [qrFgColor, setQrFgColor] = useState("#000000");
   const [qrBgColor, setQrBgColor] = useState("#ffffff");
   const [qrSize, setQrSize] = useState(192);
@@ -87,7 +87,7 @@ export function DashboardPage() {
   };
 
   const handleResetQr = () => {
-    setQrValue("https://garberg.wtf");
+    setQrValue("https://garberg.tech");
     setQrFgColor("#000000");
     setQrBgColor("#ffffff");
     setQrSize(192);

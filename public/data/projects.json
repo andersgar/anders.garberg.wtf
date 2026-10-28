@@ -38,7 +38,7 @@
     },
     "image": "/assets/projects/lone_wolf_isaac.jpg",
     "mdPath": "/assets/projects/lone_wolf.md",
-    "link": "https://garberg.wtf/lone-wolf",
+    "link": "https://garberg.tech/lone-wolf",
     "extraLink": {
       "url": "https://nva.sikt.no/registration/019fdbfa5b5b-f2a75d0c-5d47-4efa-a779-18a72d807721",
       "label": {
@@ -65,8 +65,8 @@
   },
   {
     "title": {
-      "no": "Personlig nettside (garberg.wtf)",
-      "en": "Personal website (garberg.wtf)"
+      "no": "Personlig nettside (garberg.tech)",
+      "en": "Personal website (garberg.tech)"
     },
     "description": {
       "no": "Denne siden: portefølje, en app-portal og litt statistikk. React/Vite med Supabase for innlogging, bygget og publisert via GitHub Actions og Cloudflare Pages.",
@@ -111,6 +111,6 @@
     },
     "image": "/assets/projects/autoprosjekt-v25.jpg",
     "mdPath": "/assets/projects/autoprosjekt-v25.md",
-    "link": "https://garberg.wtf/content/AutoprosjektV25.pdf"
+    "link": "https://garberg.tech/content/AutoprosjektV25.pdf"
   }
 ]
