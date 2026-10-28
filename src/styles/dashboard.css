@@ -28,8 +28,7 @@
   margin-bottom: 48px;
   padding: 0; /* the portfolio's global section padding must not apply here */
 }
-.dashboard-section > h2,
-.apps-header h2 {
+.dashboard-section > h2 {
   font-size: 1.25rem;
   letter-spacing: -0.02em;
   margin: 0 0 16px;
@@ -108,92 +107,10 @@
   overflow: hidden;
 }
 
-.app-tile-hidden {
-  opacity: 0.45;
-}
-
-.app-tile-add {
-  border-style: dashed;
-  color: var(--muted);
-}
-.app-tile-add .app-tile-icon {
-  color: var(--muted);
-}
-.app-tile-add:hover {
-  color: var(--text);
-}
-.app-tile-add:hover .app-tile-icon {
-  color: var(--text);
-}
-
 .app-tile-disabled,
 .app-tile:disabled {
   cursor: not-allowed;
   opacity: 0.5;
-}
-
-/* Empty state for a logged-in user with no apps yet. */
-.app-grid-empty {
-  grid-column: 1 / -1;
-  display: grid;
-  gap: 6px;
-  justify-items: start;
-  padding: 24px;
-  border: 1px dashed var(--line);
-  color: var(--muted);
-}
-.app-grid-empty svg {
-  width: 28px;
-  height: 28px;
-  margin-bottom: 6px;
-}
-.app-grid-empty p {
-  font-weight: 600;
-  color: var(--text);
-}
-.app-grid-empty span {
-  font-size: 0.9rem;
-}
-
-/* "Your apps" header with edit / show-hidden controls. */
-.apps-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-.apps-header h2 {
-  margin: 0;
-}
-.apps-actions {
-  display: flex;
-  gap: 6px;
-  margin-left: auto;
-}
-.apps-action-btn {
-  width: 36px;
-  height: 36px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--line);
-  background: transparent;
-  color: var(--text);
-  cursor: pointer;
-  transition:
-    background-color var(--t-fast) var(--ease),
-    color var(--t-fast) var(--ease);
-}
-.apps-action-btn:hover,
-.apps-action-btn.active {
-  background: var(--accent);
-  color: var(--accent-fg);
-}
-.apps-action-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  background: transparent;
-  color: var(--text);
 }
 
 /* ---- Quick actions ------------------------------------------------------- */
