@@ -11,8 +11,8 @@
         "tag": { "no": "Verv", "en": "Voluntary" },
         "date": { "no": "Sep 2026 – Nåværende", "en": "Sep 2026 – Present" },
         "desc": {
-          "no": "Marinor er et tverrfaglig studentteam som bygger det autonome overflatefartøyet Proteus, først til Njord 2027 og senere RoboBoat. Teamet er medlem av Ocean Autonomy Cluster. Vi er fem på autonomiteamet. Jeg har ansvar for transit: ruteplanlegging over lengre avstander, som mates inn i fartøyets LOS-guidance. ROS 2 i C++ og Python, Docker og RViz.",
-          "en": "Marinor is an interdisciplinary student team building the autonomous surface vessel Proteus, first for Njord 2027 and later RoboBoat, and a member of the Ocean Autonomy Cluster. We are five on the autonomy team. I'm responsible for transit: route planning over longer distances, which feeds the vessel's LOS guidance. ROS 2 in C++ and Python, Docker and RViz."
+          "no": "Marinor er et tverrfaglig studentteam som bygger den autonome overflatefarkosten Proteus, først til Njord 2027 og senere RoboBoat. Teamet er medlem av Ocean Autonomy Cluster. Jeg er på autonomiteamet og har hovedansvaret for tilstandsmaskinen til båten: den styrer tilstandene fra transit til docking og oppdragene båten skal utføre. ROS 2 i C++ og Python.",
+          "en": "Marinor is an interdisciplinary student team building the autonomous surface vessel Proteus, first for Njord 2027 and later RoboBoat, and a member of the Ocean Autonomy Cluster. I'm on the autonomy team and have the main responsibility for the boat's state machine: it governs the states from transit to docking and the missions the boat carries out. ROS 2 in C++ and Python."
         }
       }
     ]
